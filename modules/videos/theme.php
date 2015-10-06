@@ -642,6 +642,11 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		
 	}
 	
+	if($news_contents['playlist_id'] > 0)
+	{
+		$xtpl->parse( 'main.jwplayer.playlist' );
+	}
+
 	if( $news_contents['vid_type'] == 4) //is Facebook video
 	{
 		$xtpl->parse( 'main.vid_facebook_content' );

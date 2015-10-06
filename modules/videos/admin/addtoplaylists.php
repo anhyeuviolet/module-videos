@@ -15,16 +15,16 @@ $page_title = $lang_module['addtoplaylists'];
 $id_array = array();
 $listid = $nv_Request->get_string( 'listid', 'get,post', '' );
 
-if( $nv_Request->isset_request( 'playlistsid', 'post' ) )
+if( $nv_Request->isset_request( 'playlist_id', 'post' ) )
 {
 	nv_insert_logs( NV_LANG_DATA, $module_name, 'log_add_playlist', 'listid ' . $listid, $admin_info['userid'] );
 
-	$playlistsid = $nv_Request->get_int( 'playlistsid', 'post' );
+	$playlist_id = $nv_Request->get_int( 'playlist_id', 'post' );
 	$listid = array_filter( array_unique( array_map( 'trim', explode( ',', $listid ) ) ) );
 
 	foreach( $listid as $_id )
 	{
-		$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET playlist_id=' . $playlistsid . ' WHERE id=' . $_id );
+		$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET playlist_id=' . $playlist_id . ' WHERE id=' . $_id );
 
 		$result = $db->query( 'SELECT listcatid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE id=' . $_id );
 		list( $listcatid ) = $result->fetch( 3 );
@@ -32,7 +32,7 @@ if( $nv_Request->isset_request( 'playlistsid', 'post' ) )
 
 		foreach( $listcatid as $catid )
 		{
-			$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' SET playlist_id=' . $playlistsid . ' WHERE id=' . $_id );
+			$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' SET playlist_id=' . $playlist_id . ' WHERE id=' . $_id );
 		}
 	}
 
@@ -75,8 +75,8 @@ while( list( $id, $title ) = $result->fetch( 3 ) )
 $result = $db->query( 'SELECT playlist_id, title FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists ORDER BY weight ASC' );
 while( $row = $result->fetch() )
 {
-	$xtpl->assign( 'playlistSID', array( 'key' => $row['playlist_id'], 'title' => $row['title'] ) );
-	$xtpl->parse( 'main.playlistsid' );
+	$xtpl->assign( 'PLAYLIST_ID', array( 'key' => $row['playlist_id'], 'title' => $row['title'] ) );
+	$xtpl->parse( 'main.playlist_id' );
 }
 
 $xtpl->parse( 'main' );

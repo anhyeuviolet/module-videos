@@ -219,7 +219,6 @@ playerInstance.setup({
 		file: "{HREF_VID.link_mp4}",
 		label: "{HREF_VID.quality}",
 <!-- END: vid_multi_source -->
-
 <!-- BEGIN: vid_source -->
 		file: "{HREF_VID.link}",
 		label: "{HREF_VID.quality}",
@@ -228,7 +227,9 @@ playerInstance.setup({
 	image: "{DETAIL.image.src}",
 	autostart: false,
 	aspectratio: "16:9",
+	<!-- BEGIN: playlist -->
 	playlist : "{NV_BASE_SITEURL}{MODULE_NAME}/playlistsrss/{DETAIL.playlist_id}/",
+	<!-- END: playlist -->
 	controls: true,
 	displaydescription: true,
 	displaytitle: true,

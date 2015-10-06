@@ -17,12 +17,12 @@
 					<tr>
 						<td class="text-center"><input name="checkall" type="checkbox"/></td>
 						<td>
-						<select class="form-control" name="topicsid">
-							<!-- BEGIN: topicsid -->
-							<option value="{TOPICSID.key}">{TOPICSID.title}</option>
-							<!-- END: topicsid -->
+						<select class="form-control" name="playlist_id">
+							<!-- BEGIN: playlist_id -->
+							<option value="{PLAYLIST_ID.key}">{PLAYLIST_ID.title}</option>
+							<!-- END: playlist_id -->
 						</select> 
-						<input class="btn btn-primary" name="update" id="update-topic" type="button" value="{LANG.save}" /></td>
+						<input class="btn btn-primary" name="update" id="update-playlist" type="button" value="{LANG.save}" /></td>
 					</tr>
 				</tfoot>
 				<tbody>
@@ -39,7 +39,7 @@
 </div>
 <script type="text/javascript">
 var LANG = [];
-LANG.topic_nocheck = '{LANG.topic_nocheck}';
+LANG.playlist_nocheck = '{LANG.playlist_nocheck}';
 $(function() {
     $('input[name=checkall]').one("click", checkallfirst);
 });

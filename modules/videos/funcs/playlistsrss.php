@@ -80,10 +80,9 @@ if($pid_alias > 0)
 	}
 	
 	
-	//$result->closeCursor();
 	$contents = '';
-	$contents .='<?xml version="1.0" encoding="UTF-8"?>';
-	$contents.='<rss version="2.0" xmlns:jwplayer="http://rss.jwpcdn.com/">';
+	$contents .='<?xml version="1.0" encoding="utf-8"?>';
+	$contents.='<rss version="2.0" xmlns:jwplayer="http://rss.jwpcdn.com/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">';
 	$contents .='<channel>';
 	$contents .='<title>'.$channel['title'].'</title>';
 	$contents .='<description>'.$channel['description'].'</description>';
@@ -99,7 +98,7 @@ if($pid_alias > 0)
 		{
 			foreach ($items['href'] as $source_file_i)
 			{
-				$contents .= '<jwplayer:source file="'.$source_file_i.'" />';
+				$contents .= '<jwplayer:source file="'.htmlentities($source_file_i['link_mp4']).'" label="'.$source_file_i['quality'].'" />';
 			}
 		}
 		else
