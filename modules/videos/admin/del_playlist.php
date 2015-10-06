@@ -10,53 +10,53 @@
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
 
-$topicid = $nv_Request->get_int( 'topicid', 'post', 0 );
+$playlist_id = $nv_Request->get_int( 'playlist_id', 'post', 0 );
 $checkss = $nv_Request->get_string( 'checkss', 'post' );
 
-$contents = 'NO_' . $topicid;
+$contents = 'NO_' . $playlist_id;
 
-list( $topicid, $image ) = $db->query( 'SELECT topicid, image FROM ' . NV_PREFIXLANG . '_' . $module_data . '_topics WHERE topicid=' . intval( $topicid ) )->fetch( 3 );
-if( $topicid > 0 )
+list( $playlist_id, $image ) = $db->query( 'SELECT playlist_id, image FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists WHERE playlist_id=' . intval( $playlist_id ) )->fetch( 3 );
+if( $playlist_id > 0 )
 {
-	nv_insert_logs( NV_LANG_DATA, $module_name, 'log_del_topic', 'topicid ' . $topicid, $admin_info['userid'] );
-	$check_del_topicid = false;
+	nv_insert_logs( NV_LANG_DATA, $module_name, 'log_del_playlist', 'playlist_id ' . $playlist_id, $admin_info['userid'] );
+	$check_del_playlist_id = false;
 
-	$query = $db->query( 'SELECT id, listcatid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE topicid = ' . $topicid );
+	$query = $db->query( 'SELECT id, listcatid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE playlist_id = ' . $playlist_id );
 	$_rows = $query->fetchAll();
 	$check_rows = sizeof( $_rows );
 
-	if( $check_rows > 0 and $checkss == md5( $topicid . session_id() . $global_config['sitekey'] ) )
+	if( $check_rows > 0 and $checkss == md5( $playlist_id . session_id() . $global_config['sitekey'] ) )
 	{
 		foreach ($_rows as $row )
 		{
 			$arr_catid = explode( ',', $row['listcatid'] );
 			foreach( $arr_catid as $catid_i )
 			{
-				$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid_i . ' SET topicid = 0 WHERE id =' . $row['id'] );
+				$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid_i . ' SET playlist_id = 0 WHERE id =' . $row['id'] );
 			}
-			$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET topicid = 0 WHERE id =' . $row['id'] );
+			$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET playlist_id = 0 WHERE id =' . $row['id'] );
 		}
-		$check_del_topicid = true;
+		$check_del_playlist_id = true;
 	}
 	elseif( $check_rows > 0 )
 	{
-		$contents = 'ERR_ROWS_' . $topicid . '_' . md5( $topicid . session_id() . $global_config['sitekey'] ) . '_' . sprintf( $lang_module['deltopic_msg_rows'], $check_rows );
+		$contents = 'ERR_ROWS_' . $playlist_id . '_' . md5( $playlist_id . session_id() . $global_config['sitekey'] ) . '_' . sprintf( $lang_module['delplaylist_msg_rows'], $check_rows );
 	}
 	else
 	{
-		$check_del_topicid = true;
+		$check_del_playlist_id = true;
 	}
-	if( $check_del_topicid )
+	if( $check_del_playlist_id )
 	{
-		$query = 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_topics WHERE topicid=' . $topicid;
+		$query = 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists WHERE playlist_id=' . $playlist_id;
 		if( $db->exec( $query ) )
 		{
-			nv_fix_topic();
-			if( is_file( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_upload . '/topics/' . $image ) )
+			nv_fix_playlist();
+			if( is_file( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_upload . '/playlists/' . $image ) )
 			{
-				nv_deletefile( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_upload . '/topics/' . $image );
+				nv_deletefile( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_upload . '/playlists/' . $image );
 			}
-			$contents = 'OK_' . $topicid;
+			$contents = 'OK_' . $playlist_id;
 		}
 	}
 	nv_del_moduleCache( $module_name );

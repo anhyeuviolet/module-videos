@@ -11,20 +11,20 @@
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
 if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
 
-$topicid = $nv_Request->get_int( 'topicid', 'post', 0 );
+$playlist_id = $nv_Request->get_int( 'playlist_id', 'post', 0 );
 $mod = $nv_Request->get_string( 'mod', 'post', '' );
 $new_vid = $nv_Request->get_int( 'new_vid', 'post', 0 );
 
-if( empty( $topicid ) ) die( 'NO_' . $topicid );
-$content = 'NO_' . $topicid;
+if( empty( $playlist_id ) ) die( 'NO_' . $playlist_id );
+$content = 'NO_' . $playlist_id;
 
 if( $mod == 'weight' and $new_vid > 0 )
 {
-	$sql = 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_topics WHERE topicid=' . $topicid;
+	$sql = 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists WHERE playlist_id=' . $playlist_id;
 	$numrows = $db->query( $sql )->fetchColumn();
-	if( $numrows != 1 ) die( 'NO_' . $topicid );
+	if( $numrows != 1 ) die( 'NO_' . $playlist_id );
 
-	$sql = 'SELECT topicid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_topics WHERE topicid!=' . $topicid . ' ORDER BY weight ASC';
+	$sql = 'SELECT playlist_id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists WHERE playlist_id!=' . $playlist_id . ' ORDER BY weight ASC';
 	$result = $db->query( $sql );
 
 	$weight = 0;
@@ -32,14 +32,14 @@ if( $mod == 'weight' and $new_vid > 0 )
 	{
 		++$weight;
 		if( $weight == $new_vid ) ++$weight;
-		$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_topics SET weight=' . $weight . ' WHERE topicid=' . $row['topicid'];
+		$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_playlists SET weight=' . $weight . ' WHERE playlist_id=' . $row['playlist_id'];
 		$db->query( $sql );
 	}
 
-	$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_topics SET weight=' . $new_vid . ' WHERE topicid=' . $topicid;
+	$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_playlists SET weight=' . $new_vid . ' WHERE playlist_id=' . $playlist_id;
 	$db->query( $sql );
 
-	$content = 'OK_' . $topicid;
+	$content = 'OK_' . $playlist_id;
 	nv_del_moduleCache( $module_name );
 }
 
