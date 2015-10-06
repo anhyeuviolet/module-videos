@@ -600,7 +600,7 @@ function viewcat_two_column( $array_content, $array_catpage )
 	return $xtpl->text( 'main' );
 }
 
-function detail_theme( $news_contents, $array_keyword, $related_new_array, $related_array, $topic_array, $content_comment )
+function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_array, $related_array, $playlist_array, $content_comment )
 {
 	global $global_config, $module_info, $lang_module, $module_name, $module_file, $module_config, $lang_global, $user_info, $admin_info, $client_info;
 
@@ -624,7 +624,35 @@ function detail_theme( $news_contents, $array_keyword, $related_new_array, $rela
 		$xtpl->assign( 'URL_SENDMAIL', $news_contents['url_sendmail'] );
 		$xtpl->parse( 'main.allowed_send' );
 	}
-
+	if(!empty($href_vid)){
+		// Explode video link (if there is Picasa link)
+		if( $news_contents['vid_type'] == 3)
+		{
+			foreach($href_vid as $href_vid_i)
+			{
+				$xtpl->assign( 'HREF_VID', $href_vid_i );
+				$xtpl->parse( 'main.jwplayer.vid_multi_source' );
+			}
+		}
+		else // if not
+		{
+			$xtpl->assign( 'HREF_VID', $href_vid );
+			$xtpl->parse( 'main.jwplayer.vid_source' );
+		}
+		
+	}
+	
+	if( $news_contents['vid_type'] == 4) //is Facebook video
+	{
+		$xtpl->parse( 'main.vid_facebook_content' );
+	}
+	else
+	{
+		$xtpl->parse( 'main.jwplayer' );
+		$xtpl->parse( 'main.vid_jw_content' );
+	}
+	
+	
 	if( $news_contents['allowed_print'] == 1 )
 	{
 		$xtpl->assign( 'URL_PRINT', $news_contents['url_print'] );
@@ -743,7 +771,7 @@ function detail_theme( $news_contents, $array_keyword, $related_new_array, $rela
 		$xtpl->parse( 'main.socialbutton' );
 	}
 
-	if( ! empty( $related_new_array ) or ! empty( $related_array ) or ! empty( $topic_array ) )
+	if( ! empty( $related_new_array ) or ! empty( $related_array ) or ! empty( $playlist_array ) )
 	{
 		if( ! empty( $related_new_array ) )
 		{
@@ -782,22 +810,22 @@ function detail_theme( $news_contents, $array_keyword, $related_new_array, $rela
 			$xtpl->parse( 'main.others.related' );
 		}
 
-		if( ! empty( $topic_array ) )
+		if( ! empty( $playlist_array ) )
 		{
-			foreach( $topic_array as $key => $topic_array_i )
+			foreach( $playlist_array as $key => $playlist_array_i )
 			{
-				$topic_array_i['hometext'] = nv_clean60( $topic_array_i['hometext'], $module_config[$module_name]['tooltip_length'], true );
-				$newday = $topic_array_i['time'] + ( 86400 * $topic_array_i['newday'] );
+				$playlist_array_i['hometext'] = nv_clean60( $playlist_array_i['hometext'], $module_config[$module_name]['tooltip_length'], true );
+				$newday = $playlist_array_i['time'] + ( 86400 * $playlist_array_i['newday'] );
 				if( $newday >= NV_CURRENTTIME )
 				{
-					$xtpl->parse( 'main.others.topic.loop.newday' );
+					$xtpl->parse( 'main.others.playlist.loop.newday' );
 				}
-				$topic_array_i['time'] = nv_date( 'd/m/Y', $topic_array_i['time'] );
-				$xtpl->assign( 'TOPIC', $topic_array_i );
-				if( ! empty( $module_config[$module_name]['showtooltip'] ) ) $xtpl->parse( 'main.others.topic.loop.tooltip' );
-				$xtpl->parse( 'main.others.topic.loop' );
+				$playlist_array_i['time'] = nv_date( 'd/m/Y', $playlist_array_i['time'] );
+				$xtpl->assign( 'playlist', $playlist_array_i );
+				if( ! empty( $module_config[$module_name]['showtooltip'] ) ) $xtpl->parse( 'main.others.playlist.loop.tooltip' );
+				$xtpl->parse( 'main.others.playlist.loop' );
 			}
-			$xtpl->parse( 'main.others.topic' );
+			$xtpl->parse( 'main.others.playlist' );
 		}
         
         $xtpl->parse( 'main.others' );
@@ -829,54 +857,54 @@ function no_permission()
 	return $xtpl->text( 'no_permission' );
 }
 
-function topic_theme( $topic_array, $topic_other_array, $generate_page, $page_title, $description, $topic_image )
+function playlist_theme( $playlist_array, $playlist_other_array, $generate_page, $page_title, $description, $playlist_image )
 {
-	global $lang_module, $module_info, $module_name, $module_file, $topicalias, $module_config;
+	global $lang_module, $module_info, $module_name, $module_file, $playlistalias, $module_config;
 
-	$xtpl = new XTemplate( 'topic.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
+	$xtpl = new XTemplate( 'playlist.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
-	$xtpl->assign( 'TOPPIC_TITLE', $page_title );
+	$xtpl->assign( 'PLAYLIST_TITLE', $page_title );
 	$xtpl->assign( 'IMGWIDTH1', $module_config[$module_name]['homewidth'] );
 	if( ! empty( $description ) )
 	{
-		$xtpl->assign( 'TOPPIC_DESCRIPTION', $description );
-		if( ! empty( $topic_image ) )
+		$xtpl->assign( 'PLAYLIST_DESCRIPTION', $description );
+		if( ! empty( $playlist_image ) )
 		{
-			$xtpl->assign( 'HOMEIMG1', $topic_image );
-			$xtpl->parse( 'main.topicdescription.image' );
+			$xtpl->assign( 'HOMEIMG1', $playlist_image );
+			$xtpl->parse( 'main.playlistdescription.image' );
 		}
-		$xtpl->parse( 'main.topicdescription' );
+		$xtpl->parse( 'main.playlistdescription' );
 	}
-	if( ! empty( $topic_array ) )
+	if( ! empty( $playlist_array ) )
 	{
-		foreach( $topic_array as $topic_array_i )
+		foreach( $playlist_array as $playlist_array_i )
 		{
-			$xtpl->assign( 'TOPIC', $topic_array_i );
-			$xtpl->assign( 'TIME', date( 'H:i', $topic_array_i['publtime'] ) );
-			$xtpl->assign( 'DATE', date( 'd/m/Y', $topic_array_i['publtime'] ) );
+			$xtpl->assign( 'PLAYLIST', $playlist_array_i );
+			$xtpl->assign( 'TIME', date( 'H:i', $playlist_array_i['publtime'] ) );
+			$xtpl->assign( 'DATE', date( 'd/m/Y', $playlist_array_i['publtime'] ) );
 
-			if( ! empty( $topic_array_i['src'] ) )
+			if( ! empty( $playlist_array_i['src'] ) )
 			{
-				$xtpl->parse( 'main.topic.homethumb' );
+				$xtpl->parse( 'main.playlist.homethumb' );
 			}
 
 			if( defined( 'NV_IS_MODADMIN' ) )
 			{
-				$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $topic_array_i['id'] ) . ' ' . nv_link_delete_page( $topic_array_i['id'] ) );
-				$xtpl->parse( 'main.topic.adminlink' );
+				$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $playlist_array_i['id'] ) . ' ' . nv_link_delete_page( $playlist_array_i['id'] ) );
+				$xtpl->parse( 'main.playlist.adminlink' );
 			}
 
-			$xtpl->parse( 'main.topic' );
+			$xtpl->parse( 'main.playlist' );
 		}
 	}
 
-	if( ! empty( $topic_other_array ) )
+	if( ! empty( $playlist_other_array ) )
 	{
-		foreach( $topic_other_array as $topic_other_array_i )
+		foreach( $playlist_other_array as $playlist_other_array_i )
 		{
-			$topic_other_array_i['publtime'] = nv_date( 'H:i d/m/Y', $topic_other_array_i['publtime'] );
+			$playlist_other_array_i['publtime'] = nv_date( 'H:i d/m/Y', $playlist_other_array_i['publtime'] );
 
-			$xtpl->assign( 'TOPIC_OTHER', $topic_other_array_i );
+			$xtpl->assign( 'PLAYLIST_OTHER', $playlist_other_array_i );
 			$xtpl->parse( 'main.other.loop' );
 		}
 

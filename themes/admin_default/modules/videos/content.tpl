@@ -28,16 +28,16 @@
 			<table class="table table-striped table-bordered table-hover">
 				<tbody>
 					<tr>
-						<td class="top"><strong>{LANG.content_topic}</strong></td>
+						<td class="top"><strong>{LANG.content_playlist}</strong></td>
 					</tr>
 					<tr>
 						<td>
-						<select class="form-control w300" name="topicid">
-							<!-- BEGIN: rowstopic -->
-							<option value="{topicid}" {sl}>{topic_title}</option>
-							<!-- END: rowstopic -->
+						<select class="form-control w300" name="playlist_id">
+							<!-- BEGIN: rowsplaylist -->
+							<option value="{playlist_id}" {sl}>{playlist_title}</option>
+							<!-- END: rowsplaylist -->
 						</select>
-						<input class="form-control w200" type="text" maxlength="255" id="AjaxTopicText" value="{rowcontent.topictext}" name="topictext"/></td>
+						<input class="form-control w200" type="text" maxlength="255" id="AjaxplaylistText" value="{rowcontent.playlisttext}" name="playlisttext"/></td>
 					</tr>
 				</tbody>
 			</table>
@@ -76,16 +76,17 @@
 						<td><strong>{LANG.content_hometext}</strong> <i>{LANG.content_notehome}.</i> {GLANG.length_characters}: <span id="descriptionlength" class="red">0</span>. {GLANG.description_suggest_max} </td>
 					</tr>
 					<tr>
-						<td><textarea id="description" name="hometext" rows="5" cols="75" style="font-size:14px; width: 100%; height:100px;" class="form-control">{rowcontent.hometext}</textarea></td>
+						<td><textarea id="description" name="hometext" rows="5" cols="75" style="font-size:14px; width: 100%; height:150px;" class="form-control">{rowcontent.hometext}</textarea></td>
 					</tr>
 					<tr>
-						<td><strong>{LANG.content_bodytext}</strong> <sup class="required">(∗)</sup> <i>{LANG.content_bodytext_note}</i></td>
+						<td><strong>{LANG.content_bodytext}</strong><i>{LANG.content_bodytext_note}</i></td>
 					</tr>
 					<tr>
 						<td>
-						<div style="padding:2px; background:#CCCCCC; margin:0; display:block; position:relative">
-							{edit_bodytext}
-						</div></td>
+							<div style="padding:2px; background:#CCCCCC; margin:0; display:block; position:relative">
+								{edit_bodytext}
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td><strong>{LANG.content_sourceid}</strong></td>
@@ -111,7 +112,7 @@
 									<tbody>
 										<!-- BEGIN: catid -->
 										<tr>
-											<td><input style="margin-left: {CATS.space}px;" type="checkbox" value="{CATS.catid}" name="catids[]" class="news_checkbox" {CATS.checked} {CATS.disabled}> {CATS.title} </td>
+											<td><input style="margin-left: {CATS.space}px;" type="radio" value="{CATS.catid}" name="catids[]" class="news_checkbox" {CATS.checked} {CATS.disabled}> {CATS.title} </td>
 											<td><input id="catright_{CATS.catid}" style="{CATS.catiddisplay}" type="radio" name="catid" title="{LANG.content_checkcat}" value="{CATS.catid}" {CATS.catidchecked}/></td>
 										</tr>
 										<!-- END: catid -->

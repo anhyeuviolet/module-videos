@@ -2,7 +2,7 @@
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.pack.js"></script>
 <script src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.MetaData.js" type="text/javascript"></script>
 <link href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.css" type="text/css" rel="stylesheet"/>
-<div class="news_column panel panel-default">
+<div class="panel panel-default">
 	<div class="panel-body">
 		<h3 class="title margin-bottom-lg">{DETAIL.title}</h3>
 		<div class="row margin-bottom-lg">
@@ -10,13 +10,22 @@
                 <span class="h5">{DETAIL.publtime}</span>
             </div>
         </div>
-
-		<div class="message" id="mesHide"></div>
-		<div class="detailContent clearfix">
+		<div class="detail_video">
 			<div class="videoplayer">
-				<div class="cont"><div id="videoCont"></div></div>
+				<!-- BEGIN: vid_jw_content -->
+				<div id="videoCont"></div>
+				<!-- END: vid_jw_content -->
+				
+				<!-- BEGIN: vid_facebook_content -->
+				<div class="fb-video" data-href="{DETAIL.vid_path}" data-width="auto" data-allowfullscreen="true"></div>				
+				<!-- END: vid_facebook_content -->
 			</div>
 			<div class="clearfix"></div>
+			<div class="socialicon clearfix margin-bottom-lg margin-top-lg">
+				<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">&nbsp;</div>
+				<div class="g-plusone" data-size="medium"></div>
+				<a href="http://twitter.com/share" class="twitter-share-button">Tweet</a>
+			</div>
 		</div>
 		
 		<!-- BEGIN: no_public -->
@@ -26,27 +35,6 @@
 		<!-- END: no_public -->
 		<!-- BEGIN: showhometext -->
 		<div class="clearfix margin-bottom-lg">
-			<!-- BEGIN: imgthumb -->
-            <!-- BEGIN: note -->
-			<figure class="article left pointer" onclick="modalShowByObj('#imgpreview');">
-                <div id="imgpreview" style="width:{DETAIL.image.width}px;">
-                    <p class="text-center"><img alt="{DETAIL.image.alt}" src="{DETAIL.homeimgfile}" alt="{DETAIL.image.note}" class="img-thumbnail"/></p>
-                    <figcaption>{DETAIL.image.note}</figcaption>
-                </div>
-            </figure>
-            <!-- END: note -->
-            <!-- BEGIN: empty -->
-            <figure class="article left noncaption pointer" style="width:{DETAIL.image.width}px;" onclick="modalShowByObj(this);">
-                    <p class="text-center"><img alt="{DETAIL.image.alt}" src="{DETAIL.homeimgfile}" alt="{DETAIL.image.note}" class="img-thumbnail"/></p>
-            </figure>
-            <!-- END: empty -->
-			<!-- END: imgthumb -->
-    		<!-- BEGIN: imgfull -->
-    		<figure class="article center">
-    			<img alt="{DETAIL.image.alt}" src="{DETAIL.image.src}" width="{DETAIL.image.width}" class="img-thumbnail" />
-    			<!-- BEGIN: note --><figcaption>{DETAIL.image.note}</figcaption><!-- END: note -->
-    		</figure>
-    		<!-- END: imgfull -->
             <div class="hometext">{DETAIL.hometext}</div>
 		</div>
 		<!-- END: showhometext -->
@@ -156,18 +144,18 @@ $(function() {
 <!-- END: comment -->
 
 <!-- BEGIN: others -->
-<div class="news_column panel panel-default">
+<div class="panel panel-default">
 	<div class="panel-body other-news">
-    	<!-- BEGIN: topic -->
+    	<!-- BEGIN: playlist -->
         <div class="clearfix">
-        	<p class="h3"><strong>{LANG.topic}</strong></p>
+        	<p class="h3"><strong>{LANG.playlist}</strong></p>
             <div class="clearfix">
             	<ul class="related">
             		<!-- BEGIN: loop -->
             		<li>
             			<em class="fa fa-angle-right">&nbsp;</em>
-            			<a href="{TOPIC.link}"<!-- BEGIN: tooltip --> data-placement="{TOOLTIP_POSITION}" data-content="{TOPIC.hometext}" data-img="{TOPIC.imghome}" data-rel="tooltip"<!-- END: tooltip --> title="{TOPIC.title}">{TOPIC.title}</a>
-            			<em>({TOPIC.time})</em>
+            			<a href="{playlist.link}"<!-- BEGIN: tooltip --> data-placement="{TOOLTIP_POSITION}" data-content="{playlist.hometext}" data-img="{playlist.imghome}" data-rel="tooltip"<!-- END: tooltip --> title="{playlist.title}">{playlist.title}</a>
+            			<em>({playlist.time})</em>
             			<!-- BEGIN: newday -->
             			<span class="icon_new">&nbsp;</span>
             			<!-- END: newday -->
@@ -176,10 +164,10 @@ $(function() {
             	</ul>
             </div>
         	<p class="text-right">
-        		<a title="{TOPIC.topictitle}" href="{TOPIC.topiclink}">{LANG.more}</a>
+        		<a title="{playlist.playlisttitle}" href="{playlist.playlistlink}">{LANG.more}</a>
         	</p>
         </div>
-    	<!-- END: topic -->
+    	<!-- END: playlist -->
         
     	<!-- BEGIN: related_new -->
     	<p class="h3"><strong>{LANG.related_new}</strong></p>
@@ -219,30 +207,44 @@ $(function() {
     </div>
 </div>
 <!-- END: others -->
+
+<!-- BEGIN: jwplayer -->
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.js"></script>
 <script type="text/javascript">jwplayer.key="NqPyv5C3s2LTybLMlqx3nfOJTvmRqu9cuQPTrQ==";</script>
 <script type="text/javascript">
 var playerInstance = jwplayer("videoCont");
 playerInstance.setup({
-	file: "{DETAIL.vid_path}",
-	autostart: true,
+	sources: [{
+<!-- BEGIN: vid_multi_source -->
+		file: "{HREF_VID.link_mp4}",
+		label: "{HREF_VID.quality}",
+<!-- END: vid_multi_source -->
+
+<!-- BEGIN: vid_source -->
+		file: "{HREF_VID.link}",
+		label: "{HREF_VID.quality}",
+<!-- END: vid_source -->
+	}],
+	image: "{DETAIL.image.src}",
+	autostart: false,
 	aspectratio: "16:9",
+	playlist : "{NV_BASE_SITEURL}{MODULE_NAME}/playlistsrss/{DETAIL.playlist_id}/",
 	controls: true,
 	displaydescription: true,
 	displaytitle: true,
 	flashplayer: "{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.flash.swf",
-	ga: {"idstring": "title"},
 	primary: "html5",
 	repeat: false,
 	skin: {"name": "stormtrooper"},
 	stagevideo: false,
 	stretching: "uniform",
-	visualplaylist: false,
+	visualplaylist: true,
 	width: "100%"
   });
-</script>		
-
+</script>
+<!-- END: jwplayer -->
 <!-- END: main -->
+
 <!-- BEGIN: no_permission -->
 <div class="alert alert-info">
 	{NO_PERMISSION}

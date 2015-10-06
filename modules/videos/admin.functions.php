@@ -116,20 +116,20 @@ function nv_fix_cat_order( $parentid = 0, $order = 0, $lev = 0 )
 }
 
 /**
- * nv_fix_topic()
+ * nv_fix_playlist()
  *
  * @return
  */
-function nv_fix_topic()
+function nv_fix_playlist()
 {
 	global $db, $module_data;
-	$sql = 'SELECT topicid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_topics ORDER BY weight ASC';
+	$sql = 'SELECT playlist_id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists ORDER BY weight ASC';
 	$result = $db->query( $sql );
 	$weight = 0;
 	while( $row = $result->fetch() )
 	{
 		++$weight;
-		$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_topics SET weight=' . $weight . ' WHERE topicid=' . intval( $row['topicid'] );
+		$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_playlists SET weight=' . $weight . ' WHERE playlist_id=' . intval( $row['playlist_id'] );
 		$db->query( $sql );
 	}
 	$result->closeCursor();
@@ -432,35 +432,35 @@ function nv_show_cat_list( $parentid = 0 )
 }
 
 /**
- * nv_show_topics_list()
+ * nv_show_playlists_list()
  *
  * @return
  */
-function nv_show_topics_list()
+function nv_show_playlists_list()
 {
 	global $db, $lang_module, $lang_global, $module_name, $module_data, $global_config, $module_file, $module_info;
 
-	$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_topics ORDER BY weight ASC';
-	$_array_topic = $db->query( $sql )->fetchAll();
-	$num = sizeof( $_array_topic );
+	$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists ORDER BY weight ASC';
+	$_array_playlist = $db->query( $sql )->fetchAll();
+	$num = sizeof( $_array_playlist );
 
 	if( $num > 0 )
 	{
-		$xtpl = new XTemplate( 'topics_list.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+		$xtpl = new XTemplate( 'playlists_list.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 		$xtpl->assign( 'LANG', $lang_module );
 		$xtpl->assign( 'GLANG', $lang_global );
-		foreach ( $_array_topic as $row )
+		foreach ( $_array_playlist as $row )
 		{
-			$numnews = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows where topicid=' . $row['topicid'] )->fetchColumn();
+			$numnews = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows where playlist_id=' . $row['playlist_id'] )->fetchColumn();
 
 			$xtpl->assign( 'ROW', array(
-				'topicid' => $row['topicid'],
+				'playlist_id' => $row['playlist_id'],
 				'description' => $row['description'],
 				'title' => $row['title'],
-				'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=topicsnews&amp;topicid=' . $row['topicid'],
-				'linksite' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['topic'] . '/' . $row['alias'],
+				'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=playlistsnews&amp;playlist_id=' . $row['playlist_id'],
+				'linksite' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '/' . $row['alias'],
 				'numnews' => $numnews,
-				'url_edit' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=topics&amp;topicid=' . $row['topicid'] . '#edit'
+				'url_edit' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=playlists&amp;playlist_id=' . $row['playlist_id'] . '#edit'
 			) );
 
 			for( $i = 1; $i <= $num; ++$i )

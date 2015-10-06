@@ -66,44 +66,44 @@ function nv_del_cat_result(res) {
 	return false;
 }
 
-function nv_chang_topic(topicid, mod) {
-	var nv_timer = nv_settimeout_disable('id_' + mod + '_' + topicid, 5000);
-	var new_vid = $('#id_' + mod + '_' + topicid).val();
-	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=change_topic&nocache=' + new Date().getTime(), 'topicid=' + topicid + '&mod=' + mod + '&new_vid=' + new_vid, function(res) {
+function nv_chang_playlist(playlist_id, mod) {
+	var nv_timer = nv_settimeout_disable('id_' + mod + '_' + playlist_id, 5000);
+	var new_vid = $('#id_' + mod + '_' + playlist_id).val();
+	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=change_playlist&nocache=' + new Date().getTime(), 'playlist_id=' + playlist_id + '&mod=' + mod + '&new_vid=' + new_vid, function(res) {
 		var r_split = res.split('_');
 		if (r_split[0] != 'OK') {
 			alert(nv_is_change_act_confirm[2]);
 		}
 		clearTimeout(nv_timer);
-		nv_show_list_topic();
+		nv_show_list_playlist();
 	});
 	return;
 }
 
-function nv_show_list_topic() {
+function nv_show_list_playlist() {
 	if (document.getElementById('module_show_list')) {
-		$('#module_show_list').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_topic&nocache=' + new Date().getTime());
+		$('#module_show_list').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&nocache=' + new Date().getTime());
 	}
 	return;
 }
 
-function nv_del_topic(topicid) {
-	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=del_topic&nocache=' + new Date().getTime(), 'topicid=' + topicid, function(res) {
-		nv_del_topic_result(res);
+function nv_del_playlist(playlist_id) {
+	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=del_playlist&nocache=' + new Date().getTime(), 'playlist_id=' + playlist_id, function(res) {
+		nv_del_playlist_result(res);
 	});
 }
 
-function nv_del_topic_result(res) {
+function nv_del_playlist_result(res) {
 	var r_split = res.split('_');
 	if (r_split[0] == 'OK') {
-		nv_show_list_topic();
+		nv_show_list_playlist();
 	} else if (r_split[0] == 'ERR') {
 		if (r_split[1] == 'ROWS') {
 			if (confirm(r_split[4])) {
-				var topicid = r_split[2];
+				var playlist_id = r_split[2];
 				var checkss = r_split[3];
-				$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=del_topic&nocache=' + new Date().getTime(), 'topicid=' + topicid + '&checkss=' + checkss, function(res) {
-					nv_del_topic_result(res);
+				$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=del_playlist&nocache=' + new Date().getTime(), 'playlist_id=' + playlist_id + '&checkss=' + checkss, function(res) {
+					nv_del_playlist_result(res);
 				});
 			}
 		} else {
@@ -412,32 +412,32 @@ $(document).ready(function(){
 		});
 	});
 	
-	// Topic
-	$('#delete-topic').click(function() {
+	// playlist
+	$('#delete-playlist').click(function() {
 		var list = [];
 		$('input[name=newsid]:checked').each(function() {
 			list.push($(this).val());
 		});
 		if (list.length < 1) {
-			alert(LANG.topic_nocheck);
+			alert(LANG.playlist_nocheck);
 			return false;
 		}
-		if (confirm(LANG.topic_delete_confirm)) {
+		if (confirm(LANG.playlist_delete_confirm)) {
 			$.ajax({
 				type : 'POST',
-				url : 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=topicdelnews',
+				url : 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=playlistdelnews',
 				data : 'list=' + list,
 				success : function(data) {
 					alert(data);
-					window.location = 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=topicsnews&topicid=' + CFG.topicid;
+					window.location = 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=playlistsnews&playlist_id=' + CFG.playlist_id;
 				}
 			});
 		}
 		return false;
 	});
 
-	// Topics
-	$("#select-img-topic").click(function() {
+	// playlists
+	$("#select-img-playlist").click(function() {
 		var area = "homeimg";
 		var path = CFG.upload_dir;
 		var currentpath = CFG.upload_dir;
@@ -512,24 +512,24 @@ $(document).ready(function(){
 		}
 	});
 
-	// Add to topic
-	$('#update-topic').click(function() {
+	// Add to playlist
+	$('#update-playlist').click(function() {
 		var listid = [];
 		$('input[name=idcheck]:checked').each(function() {
 			listid.push($(this).val());
 		});
 		if (listid.length < 1) {
-			alert(LANG.topic_nocheck);
+			alert(LANG.playlist_nocheck);
 			return false;
 		}
-		var topic = $('select[name=topicsid]').val();
+		var playlist = $('select[name=playlist_id]').val();
 		$.ajax({
 			type : 'POST',
-			url : 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=addtotopics',
-			data : 'listid=' + listid + '&topicsid=' + topic,
+			url : 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=addtoplaylists',
+			data : 'listid=' + listid + '&playlist_id=' + playlist,
 			success : function(data) {
 				alert(data);
-				window.location = 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=topicsnews&topicid=' + topic;
+				window.location = 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=playlistsnews&playlist_id=' + playlist;
 			}
 		});
 		return false;
