@@ -62,18 +62,18 @@ $(document).ready(function() {
 		buttonImageOnly : true
 	});
 
-	var cachetopic = {};
-	$("#AjaxTopicText").autocomplete({
+	var cacheplaylist = {};
+	$("#AjaxplaylistText").autocomplete({
 		minLength : 2,
 		delay : 500,
 		source : function(request, response) {
 			var term = request.term;
-			if ( term in cachetopic) {
-				response(cachetopic[term]);
+			if ( term in cacheplaylist) {
+				response(cacheplaylist[term]);
 				return;
 			}
-			$.getJSON(script_name + "?" + nv_name_variable + "=" + nv_module_name + "&" + nv_fc_variable + "=topicajax", request, function(data, status, xhr) {
-				cachetopic[term] = data;
+			$.getJSON(script_name + "?" + nv_name_variable + "=" + nv_module_name + "&" + nv_fc_variable + "=playlistajax", request, function(data, status, xhr) {
+				cacheplaylist[term] = data;
 				response(data);
 			});
 		}

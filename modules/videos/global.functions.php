@@ -250,3 +250,91 @@ function get_youtube_id($url){
 preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $url, $matches);
 	return $matches[1];
 }
+
+// Check URL is Youtube
+function is_youtube($url){
+	if(strlen(get_youtube_id($url)) > 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+// Check URL is FaceBook
+function is_facebook($url){
+	$pattern = '/facebook.com/';
+	if( preg_match( $pattern, $url ) == 1 ) {
+	   return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+// Check URL is Picasa
+function is_picasa($url){
+	$pattern = '/picasaweb.google.com/';
+	if( preg_match( $pattern, $url ) == 1 ) {
+	   return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+// Get link Picasa
+function get_link_redirector_picasa($link_picasa){
+	$data = file_get_contents($link_picasa);
+	$a = explode('"media":{"content":[', $data);
+	$a = explode('],"', $a[1]);
+	$datar = explode('},', $a[0]);
+	$links = array();
+	foreach ($datar as $key => $value)
+	{
+		$value = str_replace("}}", "}", $value . "}");  
+		$links[] = json_decode($value, true);  
+	}  
+	return $links;
+}
+
+
+function getDirectLink($url){
+	$urlInfo = parse_url($url);  
+	$out  = "GET  {$url} HTTP/1.1\r\n";  
+	$out .= "Host: {$urlInfo['host']}\r\n";  
+	$out .= "User-Agent: {$_SERVER['HTTP_USER_AGENT']}\r\n";  
+	$out .= "Connection: Close\r\n\r\n";      
+	$con = @fsockopen('ssl://'. $urlInfo['host'], 443, $errno, $errstr, 10);  
+	if (!$con)
+	{
+		return $errstr." ".$errno;   
+	}  
+	fwrite($con,$out);  
+	$data = '';  
+	while (!feof($con))
+	{  
+		$data .= fgets($con, 512);  
+	}  
+	fclose($con);  
+	preg_match("!\r\n(?:Location|URI): *(.*?) *\r\n!", $data, $matches);  
+	$url = $matches[1];  
+	return trim($url);  
+}
+
+// Output MP4 direct link
+function get_link_mp4_picasa($link_picasa){
+	$links= get_link_redirector_picasa($link_picasa);  
+	$links_mp4= array();  
+	for ($i = 1; $i < count($links); $i++){  
+		$mp4 = array('link_mp4'=>'', 'quality'=>'');  
+		$mp4['link_mp4']= getDirectLink($links[$i]['url']).'&format=getlink/video.mp4'; //get link mp4, must have &format... to embed in JWPlayer 
+		$mp4['quality'] = $links[$i]['height']; //get quality  
+		$links_mp4[] = $mp4;
+	}  
+	return $links_mp4;  
+}

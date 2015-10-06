@@ -74,7 +74,7 @@ else
 	}
 }
 
-$allow_func = array( 'main', 'view', 'stop', 'publtime', 'waiting', 'declined', 're-published', 'content', 'rpc', 'del_content', 'alias', 'topicajax', 'sourceajax', 'tagsajax' );
+$allow_func = array( 'main', 'view', 'stop', 'publtime', 'waiting', 'declined', 're-published', 'content', 'rpc', 'del_content', 'alias', 'playlistajax', 'sourceajax', 'tagsajax' );
 
 if( ! isset( $site_mods['cms'] ) )
 {
@@ -86,7 +86,7 @@ if( $NV_IS_ADMIN_MODULE )
 	$submenu['cat'] = $lang_module['categories'];
 	$submenu['tags'] = $lang_module['tags'];
 	$submenu['groups'] = $lang_module['block'];
-	$submenu['topics'] = $lang_module['topics'];
+	$submenu['playlists'] = $lang_module['playlists'];
 	$submenu['sources'] = $lang_module['sources'];
 	$submenu['admins'] = $lang_module['admin'];
 	$submenu['setting'] = $lang_module['setting'];
@@ -97,13 +97,13 @@ if( $NV_IS_ADMIN_MODULE )
 	$allow_func[] = 'del_cat';
 
 	$allow_func[] = 'admins';
-	$allow_func[] = 'topicsnews';
-	$allow_func[] = 'topics';
-	$allow_func[] = 'topicdelnews';
-	$allow_func[] = 'addtotopics';
-	$allow_func[] = 'change_topic';
-	$allow_func[] = 'list_topic';
-	$allow_func[] = 'del_topic';
+	$allow_func[] = 'playlistsnews';
+	$allow_func[] = 'playlists';
+	$allow_func[] = 'playlistdelnews';
+	$allow_func[] = 'addtoplaylists';
+	$allow_func[] = 'change_playlist';
+	$allow_func[] = 'list_playlist';
+	$allow_func[] = 'del_playlist';
 
 	$allow_func[] = 'sources';
 	$allow_func[] = 'change_source';

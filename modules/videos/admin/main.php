@@ -160,7 +160,7 @@ if( defined( 'NV_IS_ADMIN_MODULE' ) )
 {
 	$array_list_action['declined'] = $lang_module['declined'];
 	$array_list_action['block'] = $lang_module['addtoblock'];
-	$array_list_action['addtotopics'] = $lang_module['addtotopics'];
+	$array_list_action['addtoplaylists'] = $lang_module['addtoplaylists'];
 	$array_list_action['move'] = $lang_module['move'];
 }
 elseif( $check_declined ) //Neu co quyen duyet bai thi
