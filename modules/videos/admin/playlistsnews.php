@@ -29,7 +29,7 @@ while( list( $catid_i, $alias_i ) = $result->fetch( 3 ) )
 	$global_array_cat[$catid_i] = array( 'alias' => $alias_i );
 }
 
-$sql = 'SELECT id, catid, alias, title FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE playlist_id=' . $playlist_id . ' ORDER BY id ASC';
+$sql = 'SELECT id, catid, alias, title, playlist_id, playlist_sort FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE playlist_id=' . $playlist_id . ' ORDER BY playlist_sort ASC';
 $result = $db->query( $sql );
 
 $xtpl = new XTemplate( 'playlistsnews.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
@@ -37,14 +37,26 @@ $xtpl->assign( 'LANG', $lang_module );
 $xtpl->assign( 'GLANG', $lang_global );
 $xtpl->assign( 'playlist_id', $playlist_id );
 
+$_rows_playlist = $db->query( $sql )->fetchAll();
+$num = sizeof( $_rows_playlist );
+
 $i = 0;
-while( $row = $result->fetch() )
+foreach( $_rows_playlist as $row)
 {
 	++$i;
 	$row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$row['catid']]['alias'] . '/' . $row['alias'] . '-' . $row['id'] . $global_config['rewrite_exturl'];
 	$row['delete'] = nv_link_edit_page( $row['id'] );
-
 	$xtpl->assign( 'ROW', $row );
+	for( $a = 1; $a <= $num; ++$a )
+	{
+		$xtpl->assign( 'PLAYLIST_SORT', array(
+			'key' => $a,
+			'title' => $a,
+			'selected' => $a == $row['playlist_sort'] ? ' selected="selected"' : ''
+		) );
+		$xtpl->parse( 'main.data.loop.playlist_sort' );
+	}
+
 	$xtpl->parse( 'main.data.loop' );
 }
 $result->closeCursor();

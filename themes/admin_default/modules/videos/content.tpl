@@ -113,7 +113,6 @@
 										<!-- BEGIN: catid -->
 										<tr>
 											<td><input style="margin-left: {CATS.space}px;" type="radio" value="{CATS.catid}" name="catids[]" class="news_checkbox" {CATS.checked} {CATS.disabled}> {CATS.title} </td>
-											<td><input id="catright_{CATS.catid}" style="{CATS.catiddisplay}" type="radio" name="catid" title="{LANG.content_checkcat}" value="{CATS.catid}" {CATS.catidchecked}/></td>
 										</tr>
 										<!-- END: catid -->
 									</tbody>

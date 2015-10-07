@@ -129,6 +129,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 catid smallint(5) unsigned NOT NULL default '0',
 	 listcatid varchar(255) NOT NULL default '',
 	 playlist_id smallint(5) unsigned NOT NULL default '0',
+	 playlist_sort int(11) unsigned NOT NULL DEFAULT '0',
 	 admin_id mediumint(8) unsigned NOT NULL default '0',
 	 author varchar(255) default '',
 	 sourceid mediumint(8) NOT NULL default '0',

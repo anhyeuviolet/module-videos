@@ -21,11 +21,13 @@
 				<!-- END: vid_facebook_content -->
 			</div>
 			<div class="clearfix"></div>
+			<!-- BEGIN: socialbutton -->
 			<div class="socialicon clearfix margin-bottom-lg margin-top-lg">
 				<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">&nbsp;</div>
 				<div class="g-plusone" data-size="medium"></div>
 				<a href="http://twitter.com/share" class="twitter-share-button">Tweet</a>
 			</div>
+			<!-- END: socialbutton -->
 		</div>
 		
 		<!-- BEGIN: no_public -->
@@ -123,18 +125,6 @@ $(function() {
 </div>
 <!-- END: allowed_rating -->
 
-<!-- BEGIN: socialbutton -->
-<div class="news_column panel panel-default">
-	<div class="panel-body">
-        <div class="socialicon clearfix margin-bottom-lg">
-        	<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">&nbsp;</div>
-	        <div class="g-plusone" data-size="medium"></div>
-	        <a href="http://twitter.com/share" class="twitter-share-button">Tweet</a>
-	    </div>
-     </div>
-</div>
-<!-- END: socialbutton -->
-
 <!-- BEGIN: comment -->
 <div class="news_column panel panel-default">
 	<div class="panel-body">
@@ -154,8 +144,8 @@ $(function() {
             		<!-- BEGIN: loop -->
             		<li>
             			<em class="fa fa-angle-right">&nbsp;</em>
-            			<a href="{playlist.link}"<!-- BEGIN: tooltip --> data-placement="{TOOLTIP_POSITION}" data-content="{playlist.hometext}" data-img="{playlist.imghome}" data-rel="tooltip"<!-- END: tooltip --> title="{playlist.title}">{playlist.title}</a>
-            			<em>({playlist.time})</em>
+            			<a href="{PLAYLIST.link}"<!-- BEGIN: tooltip --> data-placement="{TOOLTIP_POSITION}" data-content="{PLAYLIST.hometext}" data-img="{PLAYLIST.imghome}" data-rel="tooltip"<!-- END: tooltip --> title="{PLAYLIST.title}">{PLAYLIST.title}</a>
+            			<em>({PLAYLIST.time})</em>
             			<!-- BEGIN: newday -->
             			<span class="icon_new">&nbsp;</span>
             			<!-- END: newday -->
@@ -164,7 +154,7 @@ $(function() {
             	</ul>
             </div>
         	<p class="text-right">
-        		<a title="{playlist.playlisttitle}" href="{playlist.playlistlink}">{LANG.more}</a>
+        		<a title="{PLAYLIST.playlisttitle}" href="{PLAYLIST.playlistlink}">{LANG.more}</a>
         	</p>
         </div>
     	<!-- END: playlist -->
@@ -217,7 +207,7 @@ playerInstance.setup({
 	sources: [{
 <!-- BEGIN: vid_multi_source -->
 		file: "{HREF_VID.link_mp4}",
-		label: "{HREF_VID.quality}",
+		label: "{HREF_VID.label}",
 <!-- END: vid_multi_source -->
 <!-- BEGIN: vid_source -->
 		file: "{HREF_VID.link}",
@@ -227,9 +217,6 @@ playerInstance.setup({
 	image: "{DETAIL.image.src}",
 	autostart: false,
 	aspectratio: "16:9",
-	<!-- BEGIN: playlist -->
-	playlist : "{NV_BASE_SITEURL}{MODULE_NAME}/playlistsrss/{DETAIL.playlist_id}/",
-	<!-- END: playlist -->
 	controls: true,
 	displaydescription: true,
 	displaytitle: true,

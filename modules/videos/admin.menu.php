@@ -104,6 +104,7 @@ if( $NV_IS_ADMIN_MODULE )
 	$allow_func[] = 'change_playlist';
 	$allow_func[] = 'list_playlist';
 	$allow_func[] = 'del_playlist';
+	$allow_func[] = 'change_playlist_sort';
 
 	$allow_func[] = 'sources';
 	$allow_func[] = 'change_source';

@@ -1,6 +1,6 @@
 <!-- BEGIN: main -->
 <div id="module_show_list">
-	{playlist_LIST}
+	{PLAYLIST_LIST}
 </div>
 <br />
 <a id="edit"></a>

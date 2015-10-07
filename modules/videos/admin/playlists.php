@@ -120,7 +120,7 @@ $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'OP', $op );
 $xtpl->assign( 'UPLOADS_DIR', NV_UPLOADS_DIR . '/' . $module_upload . '/playlists' );
 $xtpl->assign( 'DATA', $array );
-$xtpl->assign( 'playlist_LIST', nv_show_playlists_list() );
+$xtpl->assign( 'PLAYLIST_LIST', nv_show_playlists_list() );
 
 if( ! empty( $error ) )
 {

@@ -71,11 +71,11 @@ if( !empty( $alias ) )
 		{
 			if( $item['homeimgthumb'] == 1 )//image thumb
 			{
-				$item['src'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $item['homeimgfile'];
+				$item['src'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
 			}
 			elseif( $item['homeimgthumb'] == 2 )//image file
 			{
-				$item['src'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $item['homeimgfile'];
+				$item['src'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
 			}
 			elseif( $item['homeimgthumb'] == 3 )//image url
 			{
@@ -121,12 +121,8 @@ if( !empty( $alias ) )
 
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 
-		if( ! empty( $playlist_image ) )
-		{
-			$playlist_image = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/playlists/' . $playlist_image;
-		}
-
-		$contents = playlist_theme( $playlist_array, $playlist_other_array, $generate_page, $page_title, $description, $playlist_image );
+		$pl_ss = md5( $playlist_id . session_id() . $global_config['sitekey'] );
+		$contents = playlist_theme( $playlist_array, $playlist_other_array, $generate_page, $page_title, $description, $playlist_id, $pl_ss );
 	}
 	else
 	{
@@ -168,7 +164,7 @@ else
 	unset( $result, $row );
 
 	$playlist_other_array = array();
-	$contents = playlist_theme( $playlist_array, $playlist_other_array, '', $page_title, $description, '' );
+	$contents = playlist_theme( $playlist_array, $playlist_other_array, '', $page_title, $description, '','' );
 }
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme( $contents );

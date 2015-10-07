@@ -549,12 +549,26 @@ $(document).ready(function(){
 	// Select Video
 	$("#select-video").click(function() {
 		var area = "vid_path";
-		var alt = "homeimgalt";
 		var path = CFG.uploads_dir_user;
 		var currentpath = CFG.upload_file;
 		var type = "all";
-		nv_open_browse(script_name + "?" + nv_name_variable + "=upload&popup=1&area=" + area + "&alt=" + alt + "&path=" + path + "&type=" + type + "&currentpath=" + currentpath, "NVImg", 850, 420, "resizable=no,scrollbars=no,toolbar=no,location=no,status=no");
+		nv_open_browse(script_name + "?" + nv_name_variable + "=upload&popup=1&area=" + area + "&path=" + path + "&type=" + type + "&currentpath=" + currentpath, "NVImg", 850, 420, "resizable=no,scrollbars=no,toolbar=no,location=no,status=no");
 		return false;
 	});
 	
 });
+
+
+function nv_change_playlist_sort(playlist_id, news_id, mod) {
+	var nv_timer = nv_settimeout_disable('id_' + mod + '_' + news_id, 5000);
+	var new_vid = $('#id_' + mod + '_' + news_id).val();
+	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=change_playlist_sort&nocache=' + new Date().getTime(), 'playlist_id=' + playlist_id + '&mod=' + mod + '&news_id=' + news_id + '&new_vid=' + new_vid, function(res) {
+		var r_split = res.split('_');
+		if (r_split[0] != 'OK') {
+			alert(nv_is_change_act_confirm[2]);
+		}
+		clearTimeout(nv_timer);
+		window.location = 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=playlistsnews&playlist_id=' + playlist_id;
+	});
+	return;
+}

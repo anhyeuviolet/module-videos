@@ -5,9 +5,10 @@
 		<table class="table table-striped table-bordered table-hover">
 			<thead>
 				<tr>
-					<td class="w20">&nbsp;</th>
+					<th class="w20">&nbsp;</th>
+					<th class="w100">{LANG.weight}</th>
 					<th>{LANG.name}</th>
-					<td class="w100">&nbsp;</th>
+					<th class="w100">&nbsp;</th>
 				</tr>
 			</thead>
 			<tfoot>
@@ -19,6 +20,13 @@
 				<!-- BEGIN: loop -->
 				<tr>
 					<td><input type="checkbox" name="newsid" value="{ROW.id}"/></td>
+					<td class="text-center">
+					<select class="form-control" id="id_playlist_sort_{ROW.id}" onchange="nv_change_playlist_sort('{ROW.playlist_id}','{ROW.id}','playlist_sort');">
+						<!-- BEGIN: playlist_sort -->
+						<option value="{PLAYLIST_SORT.key}"{PLAYLIST_SORT.selected}>{PLAYLIST_SORT.title}</option>
+						<!-- END: playlist_sort -->
+					</select>
+					</td>
 					<td class="text-left"><a target="_blank" href="{ROW.link}">{ROW.title}</a></td>
 					<td class="text-center">{ROW.delete}</td>
 				</tr>

@@ -184,6 +184,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	unset( $sql, $result );
 
 	$news_contents['newscheckss'] = md5( $news_contents['id'] . session_id() . $global_config['sitekey'] );
+	
 	if( $module_config[$module_name]['config_source'] == 0 ) $news_contents['source'] = $sourcetext;
 	elseif( $module_config[$module_name]['config_source'] == 1 ) $news_contents['source'] = $source_link;
 	elseif( $module_config[$module_name]['config_source'] == 2 && ! empty( $source_logo ) ) $news_contents['source'] = '<img width="100px" src="' . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/source/' . $source_logo . '">';
@@ -289,7 +290,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	{
 		list( $playlist_title, $playlist_alias ) = $db->query( 'SELECT title, alias FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists WHERE playlist_id = ' . $news_contents['playlist_id'] )->fetch( 3 );
 
-		$playlistlink = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlist'] . '/' . $playlist_alias;
+		$playlistlink = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '/' . $playlist_alias;
 
 		$db->sqlreset()
 			->select( 'id, catid, title, alias, publtime, homeimgfile, homeimgthumb, hometext' )
