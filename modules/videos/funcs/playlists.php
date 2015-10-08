@@ -60,7 +60,7 @@ if( !empty( $alias ) )
 		$num_items = $db->query( $db->sql() )->fetchColumn();
 
 		$db->select( 'id, catid, playlist_id, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
-			->order( 'publtime DESC' )
+			->order( 'playlist_sort ASC' )
 			->limit( $per_page )
 			->offset( ( $page - 1 ) * $per_page );
 
