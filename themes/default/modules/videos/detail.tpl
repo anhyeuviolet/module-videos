@@ -13,7 +13,9 @@
 		<div class="detail_video">
 			<div class="videoplayer">
 				<!-- BEGIN: vid_jw_content -->
-				<div id="videoCont"></div>
+				<div id="videoCont">
+					<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_NAME}/loading.gif" class="center-block mar_rgt_auto" alt="Loading player" />
+				</div>
 				<!-- END: vid_jw_content -->
 				
 				<!-- BEGIN: vid_facebook_content -->
@@ -204,21 +206,12 @@ $(function() {
 <script type="text/javascript">
 var playerInstance = jwplayer("videoCont");
 playerInstance.setup({
-	sources: [{
-<!-- BEGIN: vid_multi_source -->
-		file: "{HREF_VID.link_mp4}",
-		label: "{HREF_VID.label}",
-<!-- END: vid_multi_source -->
-<!-- BEGIN: vid_source -->
-		file: "{HREF_VID.link}",
-		label: "{HREF_VID.quality}",
-<!-- END: vid_source -->
-	}],
 	image: "{DETAIL.image.src}",
 	autostart: false,
 	aspectratio: "16:9",
 	controls: true,
 	displaydescription: true,
+	playlist: "{NV_BASE_SITEURL}{MODULE_NAME}/player/{RAND_SS}{DETAIL.fake_pl_id}-{DETAIL.newscheckss}-{RAND_SS}{DETAIL.id}/",
 	displaytitle: true,
 	flashplayer: "{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.flash.swf",
 	primary: "html5",

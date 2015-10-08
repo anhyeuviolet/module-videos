@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @Project VIDEOS 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Website tradacongnghe.com
  * @License GNU/GPL version 2 or any later version
- * @Createdate 3-6-2010 0:14
+ * @Createdate Oct 08, 2015 10:47:41 AM
  */
 
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
@@ -107,7 +107,7 @@ if( !empty( $alias ) )
 				->select( 'id, catid, addtime, edittime, publtime, title, alias, hitstotal' )
 				->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
 				->where( 'status=1 AND playlist_id = ' . $playlist_id . ' AND publtime < ' . $end_publtime )
-				->order( 'publtime DESC' )
+				->order( 'playlist_sort ASC' )
 				->limit( $st_links );
 
 			$result = $db->query( $db->sql() );
@@ -158,6 +158,7 @@ else
 		$item['width'] = $module_config[$module_name]['homewidth'];
 
 		$item['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '/' . $item['alias'];
+		$item['fake_id'] = 0;
 		$playlist_array[] = $item;
 	}
 	$result->closeCursor();

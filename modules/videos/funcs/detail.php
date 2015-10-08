@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @Project VIDEOS 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Website tradacongnghe.com
  * @License GNU/GPL version 2 or any later version
- * @Createdate 3-6-2010 0:14
+ * @Createdate Oct 08, 2015 10:47:41 AM
  */
 
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
@@ -184,6 +184,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	unset( $sql, $result );
 
 	$news_contents['newscheckss'] = md5( $news_contents['id'] . session_id() . $global_config['sitekey'] );
+	$news_contents['fake_pl_id'] = 0;
 	
 	if( $module_config[$module_name]['config_source'] == 0 ) $news_contents['source'] = $sourcetext;
 	elseif( $module_config[$module_name]['config_source'] == 1 ) $news_contents['source'] = $source_link;

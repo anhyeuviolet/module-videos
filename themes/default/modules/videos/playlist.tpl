@@ -7,11 +7,12 @@
 	</div>
 </div>
 <!-- END: playlistdescription -->
-
 <!-- BEGIN: player -->
-<div class="detail_video">
+<div class="detail_video margin-bottom-lg margin-top-lg">
 	<div class="videoplayer">
-		<div id="videoCont"></div>
+		<div id="videoCont">
+			<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_NAME}/loading.gif" class="center-block" alt="Loading player" />
+		</div>
 	</div>
 </div>
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.js"></script>
@@ -22,7 +23,7 @@ playerInstance.setup({
 	image: "{PLAYLIST_IMAGE}",
 	autostart: false,
 	aspectratio: "16:9",
-	playlist : "{NV_BASE_SITEURL}{MODULE_NAME}/playlistsrss/{RAND_SS}{PLAYLIST_ID}-{PLIST_CHECKSS}/",
+	playlist : "{NV_BASE_SITEURL}{MODULE_NAME}/player/{RAND_SS}{PLAYLIST_ID}-{PLIST_CHECKSS}-{RAND_SS}{FAKE_ID}/",
 	controls: true,
 	displaydescription: true,
 	displaytitle: true,

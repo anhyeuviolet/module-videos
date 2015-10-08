@@ -1,17 +1,19 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @Project VIDEOS 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Website tradacongnghe.com
  * @License GNU/GPL version 2 or any later version
- * @Createdate 12/31/2009 0:51
+ * @Createdate Oct 08, 2015 10:47:41 AM
  */
-if( ! defined( 'NV_SYSTEM' ) ) die( 'Stop!!!' );
+
+ if( ! defined( 'NV_SYSTEM' ) ) die( 'Stop!!!' );
 if( ! in_array( $op, array( 'viewcat', 'detail' ) ) )
 {
 	define( 'NV_IS_MOD_VIDEOS', true );
 }
+
 require_once NV_ROOTDIR . '/modules/' . $module_file . '/global.functions.php';
 
 global $global_array_cat;

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @Project VIDEOS 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Website tradacongnghe.com
  * @License GNU/GPL version 2 or any later version
- * @Createdate 12/31/2009 0:51
+ * @Createdate Oct 08, 2015 10:47:41 AM
  */
 
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
@@ -613,7 +613,7 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	$xtpl->assign( 'TOOLTIP_POSITION', $module_config[$module_name]['showtooltip'] ? $module_config[$module_name]['tooltip_position'] : '' );
 
 	$news_contents['addtime'] = nv_date( 'd/m/Y h:i:s', $news_contents['addtime'] );
-
+	$xtpl->assign( 'RAND_SS', rand(1000,9999) );
 	$xtpl->assign( 'NEWSID', $news_contents['id'] );
 	$xtpl->assign( 'NEWSCHECKSS', $news_contents['newscheckss'] );
 	$xtpl->assign( 'DETAIL', $news_contents );
@@ -881,6 +881,7 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 	$xtpl->assign( 'RAND_SS', rand(1000,9999) );
 	$xtpl->assign( 'MODULE_NAME', $module_name );
 	$xtpl->assign( 'PLAYLIST_ID', $playlist_id );
+	$xtpl->assign( 'FAKE_ID', 0 );
 	$xtpl->assign( 'PLIST_CHECKSS', $pl_ss);
 	$xtpl->assign( 'IMGWIDTH1', $module_config[$module_name]['homewidth'] );
 	if( ! empty( $description ) )
