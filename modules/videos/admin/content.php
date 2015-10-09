@@ -1105,8 +1105,8 @@ foreach( $global_array_cat as $catid_i => $array_value )
 			'space' => $space,
 			'title' => $array_value['title'],
 			'disabled' => ( ! in_array( $catid_i, $array_cat_check_content ) ) ? ' disabled="disabled"' : '',
-			'checked' => ( in_array( $catid_i, $array_catid_in_row ) ) ? ' checked="checked"' : '',
-			'catidchecked' => ( $catid_i == $rowcontent['catid'] ) ? ' checked="checked"' : '',
+			'selected' => ( in_array( $catid_i, $array_catid_in_row ) ) ? ' selected="selected"' : '',
+			'catidchecked' => ( $catid_i == $rowcontent['catid'] ) ? ' selected="selected"' : '',
 			'catiddisplay' => $catiddisplay );
 		$xtpl->assign( 'CATS', $temp );
 		$xtpl->parse( 'main.catid' );

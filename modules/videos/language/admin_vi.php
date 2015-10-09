@@ -18,10 +18,17 @@ $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_module';
 
 $lang_module['categories'] = 'Quản lý chuyên mục';
+$lang_module['select_category'] = 'Chọn chuyên mục';
 $lang_module['playlists'] = 'Playlist';
 $lang_module['playlists_error_title'] = 'Lỗi: Bạn chưa nhập tiêu đề Playlist';
+$lang_module['main_content'] = 'Thông tin cơ bản';
+$lang_module['additional_content'] = 'Thông tin mở rộng';
 $lang_module['sources'] = 'Nguồn tin';
+$lang_module['videos_sources'] = 'Nguồn Videos';
+$lang_module['videos_info'] = 'Đăng Videos';
+$lang_module['videos_sources_placeholder'] = 'Youtube, Picasa, Facebook hoặc Upload';
 $lang_module['save'] = 'Lưu thay đổi';
+$lang_module['browse_server'] = 'Duyệt tìm';
 $lang_module['action'] = 'Thực hiện';
 $lang_module['move'] = 'Di chuyển bài viết';
 $lang_module['save_temp'] = 'Lưu tạm';

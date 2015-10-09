@@ -9,8 +9,12 @@
 <link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.datepicker.css" rel="stylesheet" />
 
 <form class="form-inline m-bottom confirm-reload" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" enctype="multipart/form-data" method="post">
-	<div class="row">
-		<div class="col-sm-24 col-md-18">
+	<ul class="nav nav-tabs">
+	  <li class="active"><a data-toggle="tab" href="#main_content">{LANG.main_content}</a></li>
+	  <li><a data-toggle="tab" href="#additional_content">{LANG.additional_content}</a></li>
+	</ul>
+	<div class="row tab-content">
+		<div id="main_content" class="col-sm-24 col-md-24 tab-pane fade in active">
 			<table class="table table-striped table-bordered">
 				<col class="w200" />
 				<col />
@@ -23,21 +27,55 @@
 						<td><strong>{LANG.alias}: </strong></td>
 						<td><input class="form-control" name="alias" id="idalias" type="text" value="{rowcontent.alias}" maxlength="255"  style="width:350px"/>&nbsp; <em class="fa fa-refresh fa-lg fa-pointer" onclick="get_alias();">&nbsp;</em></td>
 					</tr>
-				</tbody>
-			</table>
-			<table class="table table-striped table-bordered table-hover">
-				<tbody>
 					<tr>
-						<td class="top"><strong>{LANG.content_playlist}</strong></td>
+						<td class="message_head">
+							<cite>{LANG.content_cat}:</cite> <sup class="required">(∗)</sup>
+						</td>
+						<td class="message_body">
+							<select class="form-control w200" name="catids[]" id="catid">
+								<option value="">{LANG.select_category}</option>
+								<!-- BEGIN: catid -->
+								<option value="{CATS.catid}" {CATS.selected}>{CATS.title}</option>
+								<!-- END: catid -->
+							</select>
+						</td>
 					</tr>
 					<tr>
+						<td class="top"><strong>{LANG.content_playlist}</strong></td>
 						<td>
-						<select class="form-control w300" name="playlist_id">
-							<!-- BEGIN: rowsplaylist -->
-							<option value="{playlist_id}" {sl}>{playlist_title}</option>
-							<!-- END: rowsplaylist -->
-						</select>
-						<input class="form-control w200" type="text" maxlength="255" id="AjaxplaylistText" value="{rowcontent.playlisttext}" name="playlisttext"/></td>
+							<select class="form-control w300" name="playlist_id">
+								<!-- BEGIN: rowsplaylist -->
+								<option value="{playlist_id}" {sl}>{playlist_title}</option>
+								<!-- END: rowsplaylist -->
+							</select>
+							<input class="form-control w200" type="text" maxlength="255" id="AjaxplaylistText" value="{rowcontent.playlisttext}" name="playlisttext"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="message_head">
+							<cite>{LANG.content_tag}:</cite>
+						</td>
+						<td class="message_body" style="overflow: auto">
+							<div class="clearfix uiTokenizer uiInlineTokenizer">
+								<div id="keywords" class="tokenarea">
+									<!-- BEGIN: keywords -->
+									<span class="uiToken removable" title="{KEYWORDS}" ondblclick="$(this).remove();">
+										{KEYWORDS}
+										<input type="hidden" autocomplete="off" name="keywords[]" value="{KEYWORDS}" />
+										<a onclick="$(this).parent().remove();" class="remove uiCloseButton uiCloseButtonSmall" href="javascript:void(0);"></a>
+									</span>
+									<!-- END: keywords -->
+								</div>
+								<div class="uiTypeahead">
+									<div class="wrap">
+										<input type="hidden" class="hiddenInput" autocomplete="off" value="" />
+										<div class="innerWrap">
+											<input id="keywords-search" type="text" placeholder="{LANG.input_keyword_tags}" class="form-control textInput" style="width: 100%;" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -45,15 +83,16 @@
 				<col class="w200" />
 				<col />
 				<tbody>
-				
 					<tr>
-						<td><strong>Video</strong></td>
-						<td><input class="form-control" style="width:380px" type="text" name="vid_path" id="vid_path" value="{rowcontent.vid_path}"/> <input id="select-video" type="button" value="Browse server" name="selectvid" class="btn btn-info" /></td>
+						<td><strong>{LANG.videos_info}</strong></td>
+						<td>
+							<input class="form-control" style="width:380px" type="text" name="vid_path" id="vid_path" placeholder="{LANG.videos_sources_placeholder}" value="{rowcontent.vid_path}"/>
+							<input id="select-video" type="button" value="{LANG.browse_server}" name="selectvid" class="btn btn-info" />
+						</td>
 					</tr>
-					
 					<tr>
 						<td><strong>{LANG.content_homeimg}</strong></td>
-						<td><input class="form-control" style="width:380px" type="text" name="homeimg" id="homeimg" value="{rowcontent.homeimgfile}"/> <input id="select-img-post" type="button" value="Browse server" name="selectimg" class="btn btn-info" /></td>
+						<td><input class="form-control" style="width:380px" type="text" name="homeimg" id="homeimg" value="{rowcontent.homeimgfile}"/> <input id="select-img-post" type="button" value="{LANG.browse_server}" name="selectimg" class="btn btn-info" /></td>
 					</tr>
 					<tr>
 						<td>{LANG.content_homeimgalt}</td>
@@ -71,56 +110,49 @@
 				</tbody>
 			</table>
 			<table class="table table-striped table-bordered table-hover">
-				<tbody>
-					<tr>
-						<td><strong>{LANG.content_hometext}</strong> <i>{LANG.content_notehome}.</i> {GLANG.length_characters}: <span id="descriptionlength" class="red">0</span>. {GLANG.description_suggest_max} </td>
-					</tr>
-					<tr>
-						<td><textarea id="description" name="hometext" rows="5" cols="75" style="font-size:14px; width: 100%; height:150px;" class="form-control">{rowcontent.hometext}</textarea></td>
-					</tr>
-					<tr>
-						<td><strong>{LANG.content_bodytext}</strong><i>{LANG.content_bodytext_note}</i></td>
-					</tr>
-					<tr>
-						<td>
-							<div style="padding:2px; background:#CCCCCC; margin:0; display:block; position:relative">
-								{edit_bodytext}
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td><strong>{LANG.content_sourceid}</strong></td>
-					</tr>
-					<tr>
-						<td>
-							<input class="form-control" type="text" maxlength="255" value="{rowcontent.sourcetext}" name="sourcetext" id="AjaxSourceText" style="width:100%"/>
-						</td>
-					</tr>
-				</tbody>
+				<div id="content_hometext" >
+				<strong>{LANG.content_hometext}</strong>
+					<i>{LANG.content_notehome}.</i> {GLANG.length_characters}: <span id="descriptionlength" class="red">0</span>. {GLANG.description_suggest_max} 
+					<textarea id="description" name="hometext" rows="5" cols="75" style="font-size:14px; width: 100%; height:150px;" class="form-control">{rowcontent.hometext}</textarea>
+				</div>
+				<div id="content_bodytext" >
+				<strong>{LANG.content_bodytext}</strong>
+					<div style="padding:2px; background:#CCCCCC; margin:0; display:block; position:relative">
+						{edit_bodytext}
+					</div>
+					<strong>{LANG.content_sourceid}</strong>
+					<input class="form-control" type="text" maxlength="255" value="{rowcontent.sourcetext}" name="sourcetext" id="AjaxSourceText" style="width:100%"/>
+				</div>
 			</table>
 		</div>
-		<div class="col-sm-24 col-md-6">
+		<div id="additional_content" class="col-sm-24 col-md-24 tab-pane fade">
 			<div class="row">
-				<div class="col-sm-12 col-md-24">
-					<ul style="padding-left:4px; margin:0">
-						<li>
+				<div class="col-sm-24 col-md-24">
+					<div class="col-md-8">
+						<div class="col-md-24">
 							<p class="message_head">
-								<cite>{LANG.content_cat}:</cite> <sup class="required">(∗)</sup>
+								<cite>{LANG.content_author}:</cite>
 							</p>
-							<div class="message_body" style="height:260px; overflow: auto">
-								<table class="table table-striped table-bordered table-hover">
-									<tbody>
-										<!-- BEGIN: catid -->
-										<tr>
-											<td><input style="margin-left: {CATS.space}px;" type="radio" value="{CATS.catid}" name="catids[]" class="news_checkbox" {CATS.checked} {CATS.disabled}> {CATS.title} </td>
-										</tr>
-										<!-- END: catid -->
-									</tbody>
-								</table>
+							<div class="message_body">
+								<input class="form-control" type="text" maxlength="255" value="{rowcontent.author}" name="author" style="width:100%" />
 							</div>
-						</li>
+						</div>	
+						<!-- BEGIN: googleplus -->
+						<div class="col-md-24">
+							<p class="message_head">
+								<cite>{LANG.googleplus}:</cite>
+							</p>
+							<div class="message_body">
+								<select class="form-control" name="gid">
+									<!-- BEGIN: gid -->
+									<option value="{GOOGLEPLUS.gid}"{GOOGLEPLUS.selected}>{GOOGLEPLUS.title}</option>
+									<!-- END: gid -->
+								</select>
+							</div>
+						</div>	
+						<!-- END: googleplus -->
 						<!-- BEGIN:block_cat -->
-						<li>
+						<div class="col-md-24">
 							<p class="message_head">
 								<cite>{LANG.content_block}:</cite>
 							</p>
@@ -131,35 +163,11 @@
 									</div>
                                 <!-- END: loop -->
 							</div>
-						</li>
+						</div>
 						<!-- END:block_cat -->
-						<li>
-							<p class="message_head">
-								<cite>{LANG.content_tag}:</cite>
-							</p>
-							<div class="message_body" style="overflow: auto">
-								<div class="clearfix uiTokenizer uiInlineTokenizer">
-		                            <div id="keywords" class="tokenarea">
-		                                <!-- BEGIN: keywords -->
-		                                <span class="uiToken removable" title="{KEYWORDS}" ondblclick="$(this).remove();">
-		                                    {KEYWORDS}
-		                                    <input type="hidden" autocomplete="off" name="keywords[]" value="{KEYWORDS}" />
-		                                    <a onclick="$(this).parent().remove();" class="remove uiCloseButton uiCloseButtonSmall" href="javascript:void(0);"></a>
-		                                </span>
-		                                <!-- END: keywords -->
-		                            </div>
-		                            <div class="uiTypeahead">
-		                                <div class="wrap">
-		                                    <input type="hidden" class="hiddenInput" autocomplete="off" value="" />
-		                                    <div class="innerWrap">
-		                                        <input id="keywords-search" type="text" placeholder="{LANG.input_keyword_tags}" class="form-control textInput" style="width: 100%;" />
-		                                    </div>
-		                                </div>
-		                            </div>
-		                        </div>
-		                	</div>
-						</li>
-						<li>
+					</div>
+					<div class="col-md-8">
+						<div class="col-md-24">
 							<p class="message_head">
 								<cite>{LANG.content_publ_date}</cite><span class="timestamp">{LANG.content_notetime}</span>
 							</p>
@@ -173,8 +181,8 @@
 									{pmin}
 								</select>
 							</div>
-						</li>
-						<li>
+						</div>
+						<div class="col-md-24">
 							<p class="message_head">
 								<cite>{LANG.content_exp_date}:</cite><span class="timestamp">{LANG.content_notetime}</span>
 							</p>
@@ -192,12 +200,10 @@
 									<label> {LANG.content_archive} </label>
 								</div>
 							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="col-sm-12 col-md-24">
-					<ul style="padding:4px; margin:0">
-						<li>
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="col-md-24">
 							<p class="message_head">
 								<cite>{LANG.content_allowed_comm}:</cite>
 							</p>
@@ -211,61 +217,39 @@
 								<div class="alert alert-info">{LANG.content_note_comm}</div>
 								<!-- END: content_note_comm -->
 							</div>
-						</li>
-						<li>
-							<p class="message_head">
-								<cite>{LANG.content_extra}:</cite>
-							</p>
-							<div class="message_body">
-								<div style="margin-bottom: 2px;">
-									<input type="checkbox" value="1" name="inhome" {inhome_checked}/>
-									<label> {LANG.content_inhome} </label>
-								</div>
-								<div style="margin-bottom: 2px;">
-									<input type="checkbox" value="1" name="allowed_rating" {allowed_rating_checked}/>
-									<label> {LANG.content_allowed_rating} </label>
-								</div>
-								<div style="margin-bottom: 2px;">
-									<input type="checkbox" value="1" name="allowed_send" {allowed_send_checked}/>
-									<label> {LANG.content_allowed_send} </label>
-								</div>
-								<div style="margin-bottom: 2px;">
-									<input type="checkbox" value="1" name="allowed_print" {allowed_print_checked} />
-									<label> {LANG.content_allowed_print} </label>
-								</div>
-								<div style="margin-bottom: 2px;">
-									<input type="checkbox" value="1" name="allowed_save" {allowed_save_checked} />
-									<label> {LANG.content_allowed_save} </label>
-								</div>
-								<div style="margin-bottom: 2px;">
-								<input type="checkbox" value="1" name="copyright"{checkcop}/>
-									<label> {LANG.content_copyright} </label>
-								</div>
+						</div>
+					</div>
+					<div class="col-md-24">
+						<p class="message_head">
+							<cite>{LANG.content_extra}:</cite>
+						</p>
+						<div class="message_body">
+							<div style="margin-bottom: 2px;display: inline-block;">
+								<input type="checkbox" value="1" name="inhome" {inhome_checked}/>
+								<label> {LANG.content_inhome} </label>
 							</div>
-						</li>
-						<li>
-							<p class="message_head">
-								<cite>{LANG.content_author}:</cite>
-							</p>
-							<div class="message_body">
-								<input class="form-control" type="text" maxlength="255" value="{rowcontent.author}" name="author" style="width:100%" />
+							<div style="margin-bottom: 2px;display: inline-block;">
+								<input type="checkbox" value="1" name="allowed_rating" {allowed_rating_checked}/>
+								<label> {LANG.content_allowed_rating} </label>
 							</div>
-						</li>
-						<!-- BEGIN: googleplus -->
-						<li>
-							<p class="message_head">
-								<cite>{LANG.googleplus}:</cite>
-							</p>
-							<div class="message_body">
-								<select class="form-control" name="gid">
-									<!-- BEGIN: gid -->
-									<option value="{GOOGLEPLUS.gid}"{GOOGLEPLUS.selected}>{GOOGLEPLUS.title}</option>
-									<!-- END: gid -->
-								</select>
+							<div style="margin-bottom: 2px;display: inline-block;">
+								<input type="checkbox" value="1" name="allowed_send" {allowed_send_checked}/>
+								<label> {LANG.content_allowed_send} </label>
 							</div>
-						</li>
-						<!-- END: googleplus -->
-					</ul>
+							<div style="margin-bottom: 2px;display: inline-block;">
+								<input type="checkbox" value="1" name="allowed_print" {allowed_print_checked} />
+								<label> {LANG.content_allowed_print} </label>
+							</div>
+							<div style="margin-bottom: 2px;display: inline-block;">
+								<input type="checkbox" value="1" name="allowed_save" {allowed_save_checked} />
+								<label> {LANG.content_allowed_save} </label>
+							</div>
+							<div style="margin-bottom: 2px;display: inline-block;">
+							<input type="checkbox" value="1" name="copyright"{checkcop}/>
+								<label> {LANG.content_copyright} </label>
+							</div>
+						</div>
+					</div>	
 				</div>
 			</div>
 		</div>
