@@ -626,46 +626,9 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	}
 	if(!empty($href_vid))
 	{
-		// Explode video link (if there is Picasa link)
-		if( $news_contents['vid_type'] == 3)
-		{
-			foreach($href_vid as $href_vid_i)
-			{
-				if($href_vid_i['quality'] == 360 )
-				{
-					$href_vid_i['label'] = '360p SD';
-				}
-				elseif($href_vid_i['quality'] == 720 )
-				{
-					$href_vid_i['label'] = '720p HD';
-				}
-				elseif($href_vid_i['quality'] == 1080 )
-				{
-					$href_vid_i['label'] = '1080p FHD';
-				}
-				
-				$xtpl->assign( 'HREF_VID', $href_vid_i );
-				$xtpl->parse( 'main.jwplayer.vid_multi_source' );
-			}
-		}
-		else // if not
-		{
-			$xtpl->assign( 'HREF_VID', $href_vid );
-			$xtpl->parse( 'main.jwplayer.vid_source' );
-		}
-		
-	}
-	
-	if( $news_contents['vid_type'] == 4) //is Facebook video
-	{
-		$xtpl->parse( 'main.vid_facebook_content' );
-	}
-	else
-	{
 		$xtpl->parse( 'main.jwplayer' );
 		$xtpl->parse( 'main.vid_jw_content' );
 	}
-	
 	
 	if( $news_contents['allowed_print'] == 1 )
 	{

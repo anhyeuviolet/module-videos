@@ -245,6 +245,26 @@ function nv_news_get_bodytext( $bodytext )
  * @return
  */
 
+ function curl($url) {
+	$ch = @curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	$head[] = "Connection: keep-alive";
+	$head[] = "Keep-Alive: 300";
+	$head[] = "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7";
+	$head[] = "Accept-Language: en-us,en;q=0.5";
+	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36');
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $head);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
+	$page = curl_exec($ch);
+	curl_close($ch);
+	return $page;
+}
 
 function get_youtube_id($url){
 preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $url, $matches);
@@ -274,6 +294,54 @@ function is_facebook($url){
 		return false;
 	}
 }
+// Get Facebook video id
+function get_facebook_id($fb_url)
+{
+	preg_match("~/videos/(?:(t|vb)\.\d+/)?(\d+)~i", $fb_url, $fb_vid);
+	return $fb_vid[2];
+}
+
+// Get direct link MP$ Facebook
+function get_facebook_mp4($fb_url)
+{
+	$id = get_facebook_id($fb_url);
+	$embed = 'https://www.facebook.com/video/embed?video_id='.$id;
+	$get = curl($embed);
+	$data = explode('[["params","', $get);
+	$data = explode('"],["', $data[1]);
+	$data = str_replace(
+		array('\u00257B', '\u002522', '\u00253A', '\u00252C', '\u00255B', '\u00255C\u00252F', '\u00252F', '\u00253F', '\u00253D', '\u002526'),
+		array('{', '"', ':', ',', '[', '\/', '/', '?', '=', '&'),
+		$data[0]
+	);
+	$fbvid_mp4 = array();
+	$mp4 = array(
+		'link_mp4'=>'',
+		'quality'=>''
+	 );
+	//Link HD
+	$HD = explode('[{"hd_src":"', $data);
+	$HD = explode('","', $HD[1]);
+	$HD = str_replace('\/', '/', $HD[0]);
+	$mp4 = array(
+		'link_mp4'=>$HD,
+		'quality'=>'720p HD'
+	 );  
+	$fbvid_mp4[] = $mp4;
+	
+	 //Link SD
+	$SD = explode('"sd_src":"', $data);
+	$SD = explode('","', $SD[1]);
+	$SD = str_replace('\/', '/', $SD[0]);
+	$mp4 = array(
+		'link_mp4'=>$SD,
+		'quality'=>'360p'
+	 );  
+	$fbvid_mp4[] = $mp4;
+	
+	return $fbvid_mp4;  
+}
+
 
 // Check URL is Picasa
 function is_picasa($url){

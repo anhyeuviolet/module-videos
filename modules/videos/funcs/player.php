@@ -93,7 +93,12 @@ if( empty( $contents ) )
 				$data['href'] = array();
 				$data['href'] = get_link_mp4_picasa($data['vid_path']);
 			}
-			elseif( $data['vid_type'] == 4 || $data['vid_type'] == 5 )
+			elseif( $data['vid_type'] == 4 )
+			{
+				$data['href'] = array();
+				$data['href'] = get_facebook_mp4($data['vid_path']);
+			}
+			elseif( $data['vid_type'] == 5 )
 			{
 				$data['href'] = $data['vid_path'];
 				$data['quality'] = '';
@@ -115,16 +120,16 @@ if( empty( $contents ) )
 		$contents .='<description>'.$items['hometext'].'</description>';
 		$contents .='<guid>'.$items['playlist_id'].$items['playlist_sort'].'</guid>';
 		$contents .='<jwplayer:image>'.$items['rss_img'].'</jwplayer:image>';
-		if( $items['vid_type'] == 3)
+		if( $items['vid_type'] == 3 || $items['vid_type'] == 4 )
 		{
 			foreach ($items['href'] as $source_file_i)
 			{
-				$contents .= '<jwplayer:source file="'.htmlentities($source_file_i['link_mp4']).'" label="'.$source_file_i['quality'].'" />';
+				$contents .= '<jwplayer:source file="'.htmlentities($source_file_i['link_mp4']).'" label="'.$source_file_i['quality'].'" type="mp4" />';
 			}
 		}
 		else
 		{
-			$contents .= '<jwplayer:source file="'.$items['href'].'" />';
+			$contents .= '<jwplayer:source file="'.htmlentities($items['href']).'" />';
 		}
 		$contents .='</item>';	
 	}

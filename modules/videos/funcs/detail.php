@@ -126,7 +126,11 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 				{
 					$href_vid = get_link_mp4_picasa($news_contents['vid_path']);
 				}
-				elseif( $news_contents['vid_type'] == 4 || $news_contents['vid_type'] == 5 )
+				elseif( $news_contents['vid_type'] == 4 )
+				{
+					$href_vid = get_facebook_mp4($news_contents['vid_path']);
+				}
+				elseif( $news_contents['vid_type'] == 5 )
 				{
 					$href_vid['link'] = $news_contents['vid_path'];
 					$href_vid['quality'] = '';
