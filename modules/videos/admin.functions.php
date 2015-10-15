@@ -116,23 +116,60 @@ function nv_fix_cat_order( $parentid = 0, $order = 0, $lev = 0 )
 }
 
 /**
- * nv_fix_playlist()
+ * nv_fix_playlist_cat()
  *
  * @return
  */
-function nv_fix_playlist()
+function nv_fix_playlist_cat()
 {
 	global $db, $module_data;
-	$sql = 'SELECT playlist_id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists ORDER BY weight ASC';
+	$sql = 'SELECT playlist_id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat ORDER BY weight ASC';
 	$result = $db->query( $sql );
 	$weight = 0;
 	while( $row = $result->fetch() )
 	{
 		++$weight;
-		$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_playlists SET weight=' . $weight . ' WHERE playlist_id=' . intval( $row['playlist_id'] );
+		$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat SET weight=' . $weight . ' WHERE playlist_id=' . intval( $row['playlist_id'] );
 		$db->query( $sql );
 	}
 	$result->closeCursor();
+}
+
+/**
+ * nv_fix_playlist()
+ *
+ * @param mixed $playlist_id
+ * @param bool $repairtable
+ * @return
+ */
+function nv_fix_playlist( $playlist_id, $repairtable = true )
+{
+	global $db, $module_data;
+	$playlist_id = intval( $playlist_id );
+	if( $playlist_id > 0 )
+	{
+		$sql = 'SELECT id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist where playlist_id=' . $playlist_id . ' ORDER BY playlist_sort ASC';
+		$result = $db->query( $sql );
+		$playlist_sort = 0;
+		while( $row = $result->fetch() )
+		{
+			++$playlist_sort;
+			if( $playlist_sort <= 100 )
+			{
+				$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_playlist SET playlist_sort=' . $playlist_sort . ' WHERE playlist_id=' . $playlist_id . ' AND id=' . $row['id'];
+			}
+			else
+			{
+				$sql = 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist WHERE playlist_id=' . $playlist_id . ' AND id=' . $row['id'];
+			}
+			$db->query( $sql );
+		}
+		$result->closeCursor();
+		if( $repairtable )
+		{
+			$db->query( 'OPTIMIZE TABLE ' . NV_PREFIXLANG . '_' . $module_data . '_playlist' );
+		}
+	}
 }
 
 /**
@@ -175,6 +212,42 @@ function nv_fix_source()
 	$result->closeCursor();
 }
 
+/**
+ * nv_news_fix_playlist()
+ *
+ * @param mixed $playlist_id
+ * @param bool $repairtable
+ * @return
+ */
+function nv_news_fix_playlist( $playlist_id, $repairtable = true )
+{
+	global $db, $module_data;
+	$playlist_id = intval( $playlist_id );
+	if( $playlist_id > 0 )
+	{
+		$sql = 'SELECT id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist where playlist_id=' . $playlist_id . ' ORDER BY playlist_sort ASC';
+		$result = $db->query( $sql );
+		$playlist_sort = 0;
+		while( $row = $result->fetch() )
+		{
+			++$playlist_sort;
+			if( $playlist_sort <= 100 )
+			{
+				$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_playlist SET playlist_sort=' . $playlist_sort . ' WHERE playlist_id=' . $playlist_id . ' AND id=' . $row['id'];
+			}
+			else
+			{
+				$sql = 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist WHERE playlist_id=' . $playlist_id . ' AND id=' . $row['id'];
+			}
+			$db->query( $sql );
+		}
+		$result->closeCursor();
+		if( $repairtable )
+		{
+			$db->query( 'OPTIMIZE TABLE ' . NV_PREFIXLANG . '_' . $module_data . '_playlist' );
+		}
+	}
+}
 /**
  * nv_news_fix_block()
  *
@@ -432,35 +505,39 @@ function nv_show_cat_list( $parentid = 0 )
 }
 
 /**
- * nv_show_playlists_list()
+ * nv_show_playlist_list()
  *
+ * @param mixed $playlist_id
  * @return
  */
-function nv_show_playlists_list()
+function nv_show_playlist_list( $playlist_id )
 {
-	global $db, $lang_module, $lang_global, $module_name, $module_data, $global_config, $module_file, $module_info;
+	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $global_array_cat, $module_file, $global_config;
 
-	$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists ORDER BY weight ASC';
-	$_array_playlist = $db->query( $sql )->fetchAll();
-	$num = sizeof( $_array_playlist );
+	$xtpl = new XTemplate( 'playlist_list.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'GLANG', $lang_global );
+	$xtpl->assign( 'NV_BASE_ADMINURL', NV_BASE_ADMINURL );
+	$xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
+	$xtpl->assign( 'NV_OP_VARIABLE', NV_OP_VARIABLE );
+	$xtpl->assign( 'MODULE_NAME', $module_name );
+	$xtpl->assign( 'OP', $op );
+	$xtpl->assign( 'PLAYLIST_ID', $playlist_id );
 
+	$global_array_cat[0] = array( 'alias' => 'Other' );
+
+	$sql = 'SELECT t1.id, t1.catid, t1.title, t1.alias, t2.playlist_sort FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows t1 INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_playlist t2 ON t1.id = t2.id WHERE t2.playlist_id= ' . $playlist_id . ' AND t1.status=1 ORDER BY t2.playlist_sort ASC';
+	$array_block = $db->query( $sql )->fetchAll();
+
+	$num = sizeof( $array_block );
 	if( $num > 0 )
 	{
-		$xtpl = new XTemplate( 'playlists_list.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
-		$xtpl->assign( 'LANG', $lang_module );
-		$xtpl->assign( 'GLANG', $lang_global );
-		foreach ( $_array_playlist as $row )
+		foreach ($array_block as $row)
 		{
-			$numnews = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows where playlist_id=' . $row['playlist_id'] )->fetchColumn();
-
 			$xtpl->assign( 'ROW', array(
-				'playlist_id' => $row['playlist_id'],
-				'description' => $row['description'],
-				'title' => $row['title'],
-				'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=playlistsnews&amp;playlist_id=' . $row['playlist_id'],
-				'linksite' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '/' . $row['alias'],
-				'numnews' => $numnews,
-				'url_edit' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=playlists&amp;playlist_id=' . $row['playlist_id'] . '#edit'
+				'id' => $row['id'],
+				'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$row['catid']]['alias'] . '/' . $row['alias'] . '-' . $row['id'] . $global_config['rewrite_exturl'],
+				'title' => $row['title']
 			) );
 
 			for( $i = 1; $i <= $num; ++$i )
@@ -468,9 +545,9 @@ function nv_show_playlists_list()
 				$xtpl->assign( 'WEIGHT', array(
 					'key' => $i,
 					'title' => $i,
-					'selected' => $i == $row['weight'] ? ' selected="selected"' : ''
+					'selected' => $i == $row['playlist_sort'] ? ' selected="selected"' : ''
 				) );
-				$xtpl->parse( 'main.loop.weight' );
+				$xtpl->parse( 'main.loop.playlist_sort' );
 			}
 
 			$xtpl->parse( 'main.loop' );
@@ -483,6 +560,102 @@ function nv_show_playlists_list()
 	{
 		$contents = '&nbsp;';
 	}
+	return $contents;
+}
+
+
+/**
+ * nv_show_playlist_cat_list()
+ *
+ * @return
+ */
+function nv_show_playlist_cat_list()
+{
+	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $module_file, $global_config, $module_info;
+
+	$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat ORDER BY weight ASC';
+	$_array_block_cat = $db->query( $sql )->fetchAll();
+	$num = sizeof( $_array_block_cat );
+
+	if( $num > 0 )
+	{
+		$array_status = array(
+			$lang_global['no'],
+			$lang_global['yes']
+		);
+		
+		$array_share_mode = array(
+			$lang_module['playlist_share_off'],
+			$lang_module['playlist_share_on']
+		);
+		$xtpl = new XTemplate( 'playlistcat_lists.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+		$xtpl->assign( 'LANG', $lang_module );
+		$xtpl->assign( 'GLANG', $lang_global );
+
+		foreach ( $_array_block_cat as $row)
+		{
+			$numnews = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist where playlist_id=' . $row['playlist_id'] )->fetchColumn();
+
+			$xtpl->assign( 'ROW', array(
+				'playlist_id' => $row['playlist_id'],
+				'title' => $row['title'],
+				'numnews' => $numnews,
+				'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=playlist&amp;playlist_id=' . $row['playlist_id'],
+				'linksite' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '/' . $row['alias'],
+				'url_edit' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;playlist_id=' . $row['playlist_id'] . '#edit'
+			) );
+
+			for( $i = 1; $i <= $num; ++$i )
+			{
+				$xtpl->assign( 'WEIGHT', array(
+					'key' => $i,
+					'title' => $i,
+					'selected' => $i == $row['weight'] ? ' selected="selected"' : ''
+				) );
+				$xtpl->parse( 'main.loop.weight' );
+			}
+
+			foreach( $array_share_mode as $key => $val )
+			{
+				$xtpl->assign( 'PRIVATE_MODE', array(
+					'key' => $key,
+					'title' => $val,
+					'selected' => $key == $row['private_mode'] ? ' selected="selected"' : ''
+				) );
+				$xtpl->parse( 'main.loop.private_mode' );
+			}
+			
+			foreach( $array_status as $key => $val )
+			{
+				$xtpl->assign( 'STATUS', array(
+					'key' => $key,
+					'title' => $val,
+					'selected' => $key == $row['status'] ? ' selected="selected"' : ''
+				) );
+				$xtpl->parse( 'main.loop.status' );
+			}
+
+			for( $i = 1; $i <= 30; ++$i )
+			{
+				$xtpl->assign( 'NUMBER', array(
+					'key' => $i,
+					'title' => $i,
+					'selected' => $i == $row['numbers'] ? ' selected="selected"' : ''
+				) );
+				$xtpl->parse( 'main.loop.number' );
+			}
+
+			$xtpl->parse( 'main.loop' );
+		}
+
+		$xtpl->parse( 'main' );
+		$contents = $xtpl->text( 'main' );
+	}
+	else
+	{
+		$contents = '&nbsp;';
+	}
+
 	return $contents;
 }
 

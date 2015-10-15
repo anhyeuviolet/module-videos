@@ -25,11 +25,11 @@ if( !empty( $alias ) )
 {
 	$page = ( isset( $array_op[2] ) and substr( $array_op[2], 0, 5 ) == 'page-' ) ? intval( substr( $array_op[2], 5 ) ) : 1;
 
-	$sth = $db->prepare( 'SELECT playlist_id, title, alias, image, description, keywords FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists WHERE alias= :alias' );
-	$sth->bindParam( ':alias', $alias, PDO::PARAM_STR );
-	$sth->execute();
+	$stmt = $db->prepare( 'SELECT playlist_id, title, alias, image, description, keywords FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE alias= :alias' );
+	$stmt->bindParam( ':alias', $alias, PDO::PARAM_STR );
+	$stmt->execute();
 
-	list( $playlist_id, $page_title, $alias, $playlist_image, $description, $key_words ) = $sth->fetch( 3 );
+	list( $playlist_id, $page_title, $alias, $playlist_image, $description, $key_words ) = $stmt->fetch( 3 );
 
 	if( $playlist_id > 0 )
 	{
@@ -52,17 +52,21 @@ if( !empty( $alias ) )
 			'link' => $base_url
 		);
 
+		$item_array = array();
+		$end_weight = 0;
+
 		$db->sqlreset()
 			->select( 'COUNT(*)' )
-			->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
-			->where( 'status=1 AND playlist_id = ' . $playlist_id );
+			->from( NV_PREFIXLANG . '_' . $module_data . '_rows t1' )
+			->join( 'INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_playlist t2 ON t1.id = t2.id' )
+			->where( 't2.playlist_id= ' . $playlist_id . ' AND t1.status= 1' );
 
 		$num_items = $db->query( $db->sql() )->fetchColumn();
 
-		$db->select( 'id, catid, playlist_id, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
-			->order( 'playlist_sort ASC' )
+		$db->select( 't1.id, t1.catid, t1.admin_id, t1.author, t1.sourceid, t1.addtime, t1.edittime, t1.publtime, t1.title, t1.alias, t1.hometext, t1.homeimgfile, t1.homeimgalt, t1.homeimgthumb, t1.allowed_rating, t1.hitstotal, t1.hitscm, t1.total_rating, t1.click_rating, t2.playlist_sort' )
+			->order( 't2.playlist_sort ASC' )
 			->limit( $per_page )
-			->offset( ( $page - 1 ) * $per_page );
+			->offset( ($page - 1) * $per_page );
 
 		$end_publtime = 0;
 
@@ -106,8 +110,8 @@ if( !empty( $alias ) )
 			$db->sqlreset()
 				->select( 'id, catid, addtime, edittime, publtime, title, alias, hitstotal' )
 				->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
-				->where( 'status=1 AND playlist_id = ' . $playlist_id . ' AND publtime < ' . $end_publtime )
-				->order( 'playlist_sort ASC' )
+				->where( 'status=1 AND publtime < ' . $end_publtime )
+				->order( 'publtime ASC' )
 				->limit( $st_links );
 
 			$result = $db->query( $db->sql() );
@@ -135,7 +139,7 @@ else
 	$page_title = $module_info['custom_title'];
 	$key_words = $module_info['keywords'];
 
-	$result = $db->query( 'SELECT playlist_id as id, title, alias, image, description as hometext, keywords, add_time as publtime FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists ORDER BY weight ASC' );
+	$result = $db->query( 'SELECT playlist_id as id, title, alias, image, description as hometext, keywords, add_time as publtime FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE status=1 AND private_mode=1 ORDER BY weight ASC' );
 	while( $item = $result->fetch() )
 	{
 		if( ! empty( $item['image'] ) AND file_exists( NV_ROOTDIR. '/' . NV_FILES_DIR . '/' . $module_upload . '/playlists/' . $item['image'] ) )//image thumb

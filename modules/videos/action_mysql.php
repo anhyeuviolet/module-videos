@@ -15,14 +15,15 @@ $array_table = array(
 	'admins',
 	'block',
 	'block_cat',
+	'playlist',
+	'playlist_cat',
 	'bodytext',
 	'cat',
 	'config_post',
 	'rows',
 	'sources',
 	'tags',
-	'tags_id',
-	'playlists'
+	'tags_id'
 );
 $table = $db_config['prefix'] . '_' . $lang . '_' . $module_data;
 $result = $db->query( 'SHOW TABLE STATUS LIKE ' . $db->quote( $table . '_%' ) );
@@ -85,14 +86,19 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 UNIQUE KEY title (title)
 	) ENGINE=MyISAM";
 
-$sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_playlists (
+$sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_playlist_cat (
 	 playlist_id smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+	 userid smallint(5) unsigned NOT NULL ,
+	 status smallint(5) unsigned NOT NULL DEFAULT '1',
+	 private_mode smallint(5) unsigned NOT NULL DEFAULT '1',
+	 numbers smallint(5) NOT NULL DEFAULT '10',
 	 title varchar(255) NOT NULL DEFAULT '',
 	 alias varchar(255) NOT NULL DEFAULT '',
 	 image varchar(255) DEFAULT '',
 	 description varchar(255) DEFAULT '',
 	 weight smallint(5) NOT NULL DEFAULT '0',
 	 keywords text,
+	 hitstotal mediumint(8) unsigned NOT NULL default '0',
 	 add_time int(11) NOT NULL DEFAULT '0',
 	 edit_time int(11) NOT NULL DEFAULT '0',
 	 PRIMARY KEY (playlist_id),
@@ -100,6 +106,13 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 UNIQUE KEY alias (alias)
 	) ENGINE=MyISAM";
 
+$sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_playlist (
+	 playlist_id smallint(5) unsigned NOT NULL,
+	 id int(11) unsigned NOT NULL,
+	 playlist_sort int(11) unsigned NOT NULL,
+	 UNIQUE KEY playlist_id (playlist_id,id)
+	) ENGINE=MyISAM";
+	
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_block_cat (
 	 bid smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 	 adddefault tinyint(4) NOT NULL DEFAULT '0',
@@ -128,8 +141,6 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 id int(11) unsigned NOT NULL auto_increment,
 	 catid smallint(5) unsigned NOT NULL default '0',
 	 listcatid varchar(255) NOT NULL default '',
-	 playlist_id smallint(5) unsigned NOT NULL default '0',
-	 playlist_sort int(11) unsigned NOT NULL DEFAULT '0',
 	 admin_id mediumint(8) unsigned NOT NULL default '0',
 	 author varchar(255) default '',
 	 sourceid mediumint(8) NOT NULL default '0',
@@ -156,7 +167,6 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 click_rating int(11) NOT NULL default '0',
 	 PRIMARY KEY (id),
 	 KEY catid (catid),
-	 KEY playlist_id (playlist_id),
 	 KEY admin_id (admin_id),
 	 KEY author (author),
 	 KEY title (title),

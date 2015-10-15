@@ -97,14 +97,6 @@ if( $NV_IS_ADMIN_MODULE )
 	$allow_func[] = 'del_cat';
 
 	$allow_func[] = 'admins';
-	$allow_func[] = 'playlistsnews';
-	$allow_func[] = 'playlists';
-	$allow_func[] = 'playlistdelnews';
-	$allow_func[] = 'addtoplaylists';
-	$allow_func[] = 'change_playlist';
-	$allow_func[] = 'list_playlist';
-	$allow_func[] = 'del_playlist';
-	$allow_func[] = 'change_playlist_sort';
 
 	$allow_func[] = 'sources';
 	$allow_func[] = 'change_source';
@@ -118,6 +110,14 @@ if( $NV_IS_ADMIN_MODULE )
 	$allow_func[] = 'chang_block_cat';
 	$allow_func[] = 'change_block';
 	$allow_func[] = 'list_block';
+	
+	$allow_func[] = 'playlist';
+	$allow_func[] = 'playlists';
+	$allow_func[] = 'del_playlist_cat';
+	$allow_func[] = 'list_playlist_cat';
+	$allow_func[] = 'change_playlist_cat';
+	$allow_func[] = 'change_playlist';
+	$allow_func[] = 'list_playlist';
 
 	$allow_func[] = 'tags';
 	$allow_func[] = 'setting';

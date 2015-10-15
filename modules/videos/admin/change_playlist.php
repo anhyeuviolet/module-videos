@@ -9,37 +9,63 @@
  */
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
-if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
 
+$id = $nv_Request->get_int( 'id', 'post', 0 );
 $playlist_id = $nv_Request->get_int( 'playlist_id', 'post', 0 );
 $mod = $nv_Request->get_string( 'mod', 'post', '' );
 $new_vid = $nv_Request->get_int( 'new_vid', 'post', 0 );
+$del_list = $nv_Request->get_string( 'del_list', 'post', '' );
+$content = "NO_" . $playlist_id;
 
-if( empty( $playlist_id ) ) die( 'NO_' . $playlist_id );
-$content = 'NO_' . $playlist_id;
-
-if( $mod == 'weight' and $new_vid > 0 )
+if( $playlist_id > 0 )
 {
-	$sql = 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists WHERE playlist_id=' . $playlist_id;
-	$numrows = $db->query( $sql )->fetchColumn();
-	if( $numrows != 1 ) die( 'NO_' . $playlist_id );
-
-	$sql = 'SELECT playlist_id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists WHERE playlist_id!=' . $playlist_id . ' ORDER BY weight ASC';
-	$result = $db->query( $sql );
-
-	$weight = 0;
-	while( $row = $result->fetch() )
+	if( $del_list != '' )
 	{
-		++$weight;
-		if( $weight == $new_vid ) ++$weight;
-		$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_playlists SET weight=' . $weight . ' WHERE playlist_id=' . $row['playlist_id'];
-		$db->query( $sql );
+		$array_id = array_map( "intval", explode( ',', $del_list ) );
+		foreach( $array_id as $id )
+		{
+			if( $id > 0 )
+			{
+				$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist WHERE playlist_id=" . $playlist_id . " AND id=" . $id );
+			}
+		}
+		nv_news_fix_playlist( $playlist_id );
+		$content = "OK_" . $playlist_id;
+	}
+	elseif( $id > 0 )
+	{
+		list( $playlist_id, $id ) = $db->query( "SELECT playlist_id, id FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist WHERE playlist_id=" . intval( $playlist_id ) . " AND id=" . intval( $id ) )->fetch( 3 );
+		if( $playlist_id > 0 and $id > 0 )
+		{
+			if( $mod == "playlist_sort" and $new_vid > 0 )
+			{
+				$query = "SELECT id FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist WHERE playlist_id=" . $playlist_id . " AND id!=" . $id . " ORDER BY playlist_sort ASC";
+				$result = $db->query( $query );
+
+				$playlist_sort = 0;
+				while( $row = $result->fetch() )
+				{
+					++$playlist_sort;
+					if( $playlist_sort == $new_vid ) ++$playlist_sort;
+					$sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_playlist SET playlist_sort=" . $playlist_sort . " WHERE playlist_id=" . $playlist_id . " AND id=" . intval( $row['id'] );
+					$db->query( $sql );
+				}
+
+				$result->closeCursor();
+				$sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_playlist SET playlist_sort=" . $new_vid . " WHERE playlist_id=" . $playlist_id . " AND id=" . intval( $id );
+				$db->query( $sql );
+
+				$content = "OK_" . $playlist_id;
+			}
+			elseif( $mod == "delete" )
+			{
+				$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist WHERE playlist_id=" . $playlist_id . " AND id=" . intval( $id ) );
+				$content = "OK_" . $playlist_id;
+			}
+		}
 	}
 
-	$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_playlists SET weight=' . $new_vid . ' WHERE playlist_id=' . $playlist_id;
-	$db->query( $sql );
-
-	$content = 'OK_' . $playlist_id;
+	nv_news_fix_playlist( $playlist_id );
 	nv_del_moduleCache( $module_name );
 }
 

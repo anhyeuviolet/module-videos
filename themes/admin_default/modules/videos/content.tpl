@@ -41,15 +41,18 @@
 						</td>
 					</tr>
 					<tr>
+					
+						<!-- BEGIN:playlist_cat -->
 						<td class="top"><strong>{LANG.content_playlist}</strong></td>
-						<td>
-							<select class="form-control w300" name="playlist_id">
-								<!-- BEGIN: rowsplaylist -->
-								<option value="{playlist_id}" {sl}>{playlist_title}</option>
-								<!-- END: rowsplaylist -->
-							</select>
-							<input class="form-control w200" type="text" maxlength="255" id="AjaxplaylistText" value="{rowcontent.playlisttext}" name="playlisttext"/>
-						</td>
+							<td>
+                                <!-- BEGIN: loop -->
+									<div class="row">
+										<label><input type="checkbox" value="{PLAYLISTS.playlist_id}" name="playlists[]" {PLAYLISTS.checked}>{PLAYLISTS.title}</label>
+									</div>
+                                <!-- END: loop -->
+							</td>
+						
+						<!-- END:playlist_cat -->
 					</tr>
 					<tr>
 						<td class="message_head">

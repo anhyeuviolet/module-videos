@@ -151,6 +151,16 @@ while( list( $bid_i, $adddefault_i, $title_i ) = $result->fetch( 3 ) )
 	}
 }
 
+// playlist
+$array_playlist_cat_module = array();
+$id_playlist_content = array();
+$sql = 'SELECT playlist_id, title FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat ORDER BY weight ASC';
+$result = $db->query( $sql );
+while( list( $playlist_id,  $title_i ) = $result->fetch( 3 ) )
+{
+	$array_playlist_cat_module[$playlist_id] = $title_i;
+}
+
 $catid = $nv_Request->get_int( 'catid', 'get', 0 );
 $parentid = $nv_Request->get_int( 'parentid', 'get', 0 );
 $array_imgposition = array(
@@ -162,7 +172,6 @@ $rowcontent = array(
 	'id' => '',
 	'catid' => $catid,
 	'listcatid' => $catid . ',' . $parentid,
-	'playlist_id' => '',
 	'admin_id' => $admin_id,
 	'author' => '',
 	'sourceid' => 0,
@@ -199,7 +208,6 @@ $rowcontent = array(
 	'mode' => 'add'
 );
 
-$rowcontent['playlisttext'] = '';
 $page_title = $lang_module['content_add'];
 $error = array();
 $groups_list = nv_groups_list();
@@ -261,7 +269,6 @@ if( $rowcontent['id'] > 0 )
 	}
 
 	$page_title = $lang_module['content_edit'];
-	$rowcontent['playlisttext'] = '';
 
 	$body_contents = $db->query( 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $rowcontent['id'] / 2000 ) . ' where id=' . $rowcontent['id'] )->fetch();
 	$rowcontent = array_merge( $rowcontent, $body_contents );
@@ -281,6 +288,15 @@ if( $rowcontent['id'] > 0 )
 	while( list( $bid_i ) = $result->fetch( 3 ) )
 	{
 		$id_block_content[] = $bid_i;
+	}
+	
+	// Playlist
+	$id_playlist_content = array();
+	$sql = 'SELECT playlist_id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist where id=' . $rowcontent['id'];
+	$result = $db->query( $sql );
+	while( list( $playlist_id ) = $result->fetch( 3 ) )
+	{
+		$id_playlist_content[] = $playlist_id;
 	}
 }
 
@@ -345,6 +361,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 {
 	$catids = array_unique( $nv_Request->get_typed_array( 'catids', 'post', 'int', array() ) );
 	$id_block_content_post = array_unique( $nv_Request->get_typed_array( 'bids', 'post', 'int', array() ) );
+	$id_playlist_content_post = array_unique( $nv_Request->get_typed_array( 'playlists', 'post', 'int', array() ) );
 
 	$rowcontent['catid'] = $nv_Request->get_int( 'catid', 'post', 0 );
 
@@ -382,18 +399,6 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 		}
 	}
 
-	$rowcontent['playlist_id'] = $nv_Request->get_int( 'playlist_id', 'post', 0 );
-	if( $rowcontent['playlist_id'] == 0 )
-	{
-		$rowcontent['playlisttext'] = $nv_Request->get_title( 'playlisttext', 'post', '' );
-		if( ! empty( $rowcontent['playlisttext'] ) )
-		{
-			$stmt = $db->prepare( 'SELECT playlist_id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists WHERE title= :title' );
-			$stmt->bindParam( ':title', $rowcontent['playlisttext'], PDO::PARAM_STR );
-			$stmt->execute();
-			$rowcontent['playlist_id'] = $stmt->fetchColumn();
-		}
-	}
 	$rowcontent['author'] = $nv_Request->get_title( 'author', 'post', '', 1 );
 	$rowcontent['sourcetext'] = $nv_Request->get_title( 'sourcetext', 'post', '' );
 
@@ -544,20 +549,6 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 		$rowcontent['catid'] = in_array( $rowcontent['catid'], $catids ) ? $rowcontent['catid'] : $catids[0];
 		$rowcontent['bodytext'] = nv_news_get_bodytext( $rowcontent['bodyhtml'] );
 
-		if( ! empty( $rowcontent['playlisttext'] ) and empty( $rowcontent['playlist_id'] ) )
-		{
-			$weighplaylist = $db->query( 'SELECT max(weight) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists' )->fetchColumn();
-			$weighplaylist = intval( $weighplaylist ) + 1;
-			$aliasplaylist = change_alias( $rowcontent['playlisttext'] );
-			$_sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_playlists (title, alias, description, image, weight, keywords, add_time, edit_time) VALUES ( :title, :alias, :description, '', :weight, :keywords, " . NV_CURRENTTIME . ", " . NV_CURRENTTIME . ")";
-			$data_insert = array();
-			$data_insert['title'] = $rowcontent['playlisttext'];
-			$data_insert['alias'] = $aliasplaylist;
-			$data_insert['description'] = $rowcontent['playlisttext'];
-			$data_insert['weight'] = $weighplaylist;
-			$data_insert['keywords'] = $rowcontent['playlisttext'];
-			$rowcontent['playlist_id'] = $db->insert_id( $_sql, 'playlist_id', $data_insert );
-		}
 
 		$rowcontent['sourceid'] = 0;
 		if( ! empty( $rowcontent['sourcetext'] ) )
@@ -675,10 +666,9 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				$rowcontent['status'] = 2;
 			}
 			$sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows
-				(catid, listcatid, playlist_id, admin_id, author, sourceid, addtime, edittime, status, publtime, exptime, archive, title, alias, hometext, vid_path, vid_type, homeimgfile, homeimgalt, homeimgthumb, inhome, allowed_comm, allowed_rating, hitstotal, hitscm, total_rating, click_rating) VALUES
+				(catid, listcatid, admin_id, author, sourceid, addtime, edittime, status, publtime, exptime, archive, title, alias, hometext, vid_path, vid_type, homeimgfile, homeimgalt, homeimgthumb, inhome, allowed_comm, allowed_rating, hitstotal, hitscm, total_rating, click_rating) VALUES
 				 (' . intval( $rowcontent['catid'] ) . ',
 				 :listcatid,
-				 ' . $rowcontent['playlist_id'] . ',
 				 ' . intval( $rowcontent['admin_id'] ) . ',
 				 :author,
 				 ' . intval( $rowcontent['sourceid'] ) . ',
@@ -780,7 +770,6 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 			$sth = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET
 					 catid=' . intval( $rowcontent['catid'] ) . ',
 					 listcatid=:listcatid,
-					 playlist_id=' . $rowcontent['playlist_id'] . ',
 					 author=:author,
 					 sourceid=' . intval( $rowcontent['sourceid'] ) . ',
 					 status=' . intval( $rowcontent['status'] ) . ',
@@ -886,6 +875,29 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 			{
 				nv_news_fix_block( $bid_i, false );
 			}
+			//Playlist
+			
+			$id_playlist_content_new = $rowcontent['mode'] == 'edit' ? array_diff( $id_playlist_content_post, $id_playlist_content ) : $id_playlist_content_post;
+			$id_playlist_content_del = $rowcontent['mode'] == 'edit' ? array_diff( $id_playlist_content, $id_playlist_content_post ) : array();
+
+			$array_playlist_fix = array();
+			foreach( $id_playlist_content_new as $playlist_id_i )
+			{
+				$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_playlist (playlist_id, id, playlist_sort) VALUES (' . $playlist_id_i . ', ' . $rowcontent['id'] . ', 0)' );
+				$array_playlist_fix[] = $playlist_id_i;
+			}
+			foreach( $id_playlist_content_del as $playlist_id_i )
+			{
+				$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist WHERE id = ' . $rowcontent['id'] . ' AND playlist_id = ' . $playlist_id_i );
+				$array_playlist_fix[] = $playlist_id_i;
+			}
+
+			$array_playlist_fix = array_unique( $array_playlist_fix );
+			foreach( $array_playlist_fix as $playlist_id_i )
+			{
+				nv_news_fix_playlist( $playlist_id_i, false );
+			}
+			
 
 			if( $rowcontent['keywords'] != $rowcontent['keywords_old'] )
 			{
@@ -1005,20 +1017,7 @@ if( ! empty( $rowcontent['vid_path'] ) and file_exists( NV_UPLOADS_REAL_DIR . '/
 
 $array_catid_in_row = explode( ',', $rowcontent['listcatid'] );
 
-$db->sqlreset()
-  ->select( 'playlist_id, title' )
-  ->from( NV_PREFIXLANG . '_' . $module_data . '_playlists' )
-  ->order( 'weight ASC' )
-  ->limit( 100 );
-$result = $db->query( $db->sql() );
 
-$array_playlist_module = array();
-$array_playlist_module[0] = $lang_module['playlist_sl'];
-
-while( list( $playlist_id_i, $title_i ) = $result->fetch( 3 ) )
-{
-	$array_playlist_module[$playlist_id_i] = $title_i;
-}
 
 $sql = 'SELECT sourceid, title FROM ' . NV_PREFIXLANG . '_' . $module_data . '_sources ORDER BY weight ASC';
 $result = $db->query( $sql );
@@ -1117,15 +1116,6 @@ foreach( $global_array_cat as $catid_i => $array_value )
 $checkcop = ( $rowcontent['copyright'] ) ? ' checked="checked"' : '';
 $xtpl->assign( 'checkcop', $checkcop );
 
-// playlist
-while( list( $playlist_id_i, $title_i ) = each( $array_playlist_module ) )
-{
-	$sl = ( $playlist_id_i == $rowcontent['playlist_id'] ) ? ' selected="selected"' : '';
-	$xtpl->assign( 'playlist_id', $playlist_id_i );
-	$xtpl->assign( 'playlist_title', $title_i );
-	$xtpl->assign( 'sl', $sl );
-	$xtpl->parse( 'main.rowsplaylist' );
-}
 
 // position images
 while( list( $id_imgposition, $title_imgposition ) = each( $array_imgposition ) )
@@ -1211,6 +1201,18 @@ if( sizeof( $array_block_cat_module ) )
 	}
 	$xtpl->parse( 'main.block_cat' );
 }
+//Playlist
+if( sizeof( $array_playlist_cat_module ) )
+{
+	foreach( $array_playlist_cat_module as $playlist_id_i => $playlist_title )
+	{
+		$xtpl->assign( 'PLAYLISTS', array( 'title' => $playlist_title, 'playlist_id' => $playlist_id_i, 'checked' =>  in_array( $playlist_id_i, $id_playlist_content ) ? 'checked="checked"' : '' ) );
+		$xtpl->parse( 'main.playlist_cat.loop' );
+	}
+	$xtpl->parse( 'main.playlist_cat' );
+}
+
+
 if( ! empty( $rowcontent['keywords'] ) )
 {
 	$keywords_array = explode( ',', $rowcontent['keywords'] );

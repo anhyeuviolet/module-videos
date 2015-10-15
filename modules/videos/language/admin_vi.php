@@ -296,3 +296,11 @@ $lang_module['featured'] = 'Tin nổi bật';
 $lang_module['addtocat'] = 'Thêm bài viết nổi bật vào chuyên mục';
 $lang_module['delete_from_cat'] = 'Xóa bài viết khỏi chuyên mục';
 $lang_module['not_featured'] = 'Không có bài viết nào';
+
+$lang_module['playlist_share_off'] = 'Riêng tư';
+$lang_module['playlist_share_on'] = 'Công khai';
+
+$lang_module['playlist_public'] = 'Hiển thị';
+$lang_module['playlist_status'] = 'Hoạt động';
+$lang_module['playlist'] = 'Danh mục phát';
+

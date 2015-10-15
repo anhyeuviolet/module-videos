@@ -42,10 +42,15 @@ if( empty( $contents ) )
 	{
 		if($check_ss != (md5( $p_id . session_id() . $global_config['sitekey'] )))die("Wrong session!");
 		$db->sqlreset()
-			->select( '*' )
-			->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
-			->order( 'playlist_sort ASC' )
-			->where( 'status=1 AND inhome=1 AND playlist_id= ' . $p_id );
+			->select( 'COUNT(*)' )
+			->from( NV_PREFIXLANG . '_' . $module_data . '_rows t1' )
+			->join( 'INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_playlist t2 ON t1.id = t2.id' )
+			->where( 't2.playlist_id= ' . $p_id . ' AND t1.status= 1' );
+
+		$db->select( 't1.id, t1.catid, t1.admin_id, t1.author, t1.vid_path, t1.vid_type, t1.addtime, t1.edittime, t1.publtime, t1.title, t1.alias, t1.hometext, t1.homeimgfile, t1.homeimgalt, t1.homeimgthumb, t2.playlist_sort' )
+			->order( 't2.playlist_sort ASC' );
+			// ->limit( $per_page )
+			// ->offset( ($page - 1) * $per_page );
 	}
 	elseif( $vid_id > 0 )
 	{
