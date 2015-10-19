@@ -13,6 +13,9 @@
 		<div id="videoCont">
 			<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_NAME}/loading.gif" class="center-block" alt="Loading player" />
 		</div>
+		<div class="PlaylistCont margin-top-lg">
+			<div id="show-list"></div>
+		</div>
 	</div>
 </div>
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.js"></script>
@@ -36,6 +39,22 @@ playerInstance.setup({
 	visualplaylist: true,
 	width: "100%"
   });
+  
+var list = document.getElementById("show-list");
+var html = list.innerHTML;
+
+playerInstance.on('ready',function(){
+var playlist = playerInstance.getPlaylist();
+for (var index=0;index<playlist.length;index++){
+	var playindex = index +1;
+	html += "<li><span class='dropt' title='"+playlist[index].title+"'><a href='javascript:playThis("+index+")'><img height='75' width='120' src='" + playlist[index].image + "'</img></br>"+playlist[index].title+"</a></br></span></li>"
+	list.innerHTML = html;
+}
+
+});
+	function playThis(index) {
+		playerInstance.playlistItem(index);
+	}
 </script>
 <!-- END: player -->
 <div class="clearfix"></div>

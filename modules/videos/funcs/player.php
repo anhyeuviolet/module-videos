@@ -63,21 +63,28 @@ if( empty( $contents ) )
 	$result = $db->query( $db->sql() );
 	while( $data = $result->fetch( ) )
 	{
-		if( $data['homeimgthumb'] == 1 ) // image thumb
+		if( !empty($data['homeimgfile']) )
 		{
-			$data['rss_img'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $data['homeimgfile'];
+			if( $data['homeimgthumb'] == 1 ) // image thumb
+			{
+				$data['rss_img'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $data['homeimgfile'];
+			}
+			elseif( $data['homeimgthumb'] == 2 ) // image file
+			{
+				$data['rss_img'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $data['homeimgfile'];
+			}
+			elseif( $data['homeimgthumb'] == 3 ) // image url
+			{
+				$data['rss_img'] = $data['homeimgfile'];
+			}
+			else // no image
+			{
+				$data['rss_img'] = '';
+			}
 		}
-		elseif( $data['homeimgthumb'] == 2 ) // image file
+		elseif($data['vid_type'] != 2)
 		{
-			$data['rss_img'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $data['homeimgfile'];
-		}
-		elseif( $data['homeimgthumb'] == 3 ) // image url
-		{
-			$data['rss_img'] = $data['homeimgfile'];
-		}
-		else // no image
-		{
-			$data['rss_img'] = '';
+			$data['rss_img'] = NV_BASE_SITEURL . '/themes/default/images/' . $module_name . '/no_cover.jpg';
 		}
 
 		// Export video link
