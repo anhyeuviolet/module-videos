@@ -63,6 +63,7 @@ if( empty( $contents ) )
 	$result = $db->query( $db->sql() );
 	while( $data = $result->fetch( ) )
 	{
+		$data['link'] = NV_MY_DOMAIN . nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$data['catid']]['alias'] . '/' . $data['alias'] . '-' . $data['id'] . $global_config['rewrite_exturl'], true );
 		if( !empty($data['homeimgfile']) )
 		{
 			if( $data['homeimgthumb'] == 1 ) // image thumb
@@ -129,6 +130,7 @@ if( empty( $contents ) )
 	{
 		$contents .='<item>';
 		$contents .='<title>'.$items['title'].'</title>';
+		$contents .='<link>'.$items['link'].'</link>';
 		$contents .='<description>'.$items['hometext'].'</description>';
 		$contents .='<guid>'.$items['playlist_id'].$items['playlist_sort'].'</guid>';
 		$contents .='<jwplayer:image>'.$items['rss_img'].'</jwplayer:image>';

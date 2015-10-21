@@ -610,6 +610,7 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	$xtpl->assign( 'TEMPLATE', $global_config['module_theme'] );
 	$xtpl->assign( 'MODULE_NAME', $module_name );
 	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'JWPLAYER_LICENSE', $module_config[$module_name]['jwplayer_license'] ? $module_config[$module_name]['jwplayer_license'] : '' );
 	$xtpl->assign( 'TOOLTIP_POSITION', $module_config[$module_name]['showtooltip'] ? $module_config[$module_name]['tooltip_position'] : '' );
 
 	$news_contents['addtime'] = nv_date( 'd/m/Y h:i:s', $news_contents['addtime'] );
@@ -847,6 +848,8 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 	$xtpl->assign( 'FAKE_ID', 0 );
 	$xtpl->assign( 'PLIST_CHECKSS', $pl_ss);
 	$xtpl->assign( 'IMGWIDTH1', $module_config[$module_name]['homewidth'] );
+	$xtpl->assign( 'JWPLAYER_LICENSE', $module_config[$module_name]['jwplayer_license'] ? $module_config[$module_name]['jwplayer_license'] : '' );
+
 	if( ! empty( $description ) )
 	{
 		$xtpl->assign( 'PLAYLIST_DESCRIPTION', $description );
@@ -859,24 +862,26 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 		{
 			$xtpl->parse( 'main.player' );
 		}
-	foreach( $playlist_array as $playlist_array_i )
+		else
 		{
-			$xtpl->assign( 'PLAYLIST_LOOP', $playlist_array_i );
-			$xtpl->assign( 'TIME', date( 'H:i', $playlist_array_i['publtime'] ) );
-			$xtpl->assign( 'DATE', date( 'd/m/Y', $playlist_array_i['publtime'] ) );
-
-			if( ! empty( $playlist_array_i['src'] ) )
+			foreach( $playlist_array as $playlist_array_i )
 			{
-				$xtpl->parse( 'main.playlist_loop.homethumb' );
-			}
+				$xtpl->assign( 'PLAYLIST_LOOP', $playlist_array_i );
+				$xtpl->assign( 'TIME', date( 'H:i', $playlist_array_i['publtime'] ) );
+				$xtpl->assign( 'DATE', date( 'd/m/Y', $playlist_array_i['publtime'] ) );
 
-			if( defined( 'NV_IS_MODADMIN' ) )
-			{
-				$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $playlist_array_i['id'] ) . ' ' . nv_link_delete_page( $playlist_array_i['id'] ) );
-				$xtpl->parse( 'main.playlist_loop.adminlink' );
-			}
+				if( ! empty( $playlist_array_i['src'] ) )
+				{
+					$xtpl->parse( 'main.playlist_loop.homethumb' );
+				}
 
-			$xtpl->parse( 'main.playlist_loop' );
+				if( defined( 'NV_IS_MODADMIN' ) )
+				{
+					$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $playlist_array_i['id'] ) . ' ' . nv_link_delete_page( $playlist_array_i['id'] ) );
+					$xtpl->parse( 'main.playlist_loop.adminlink' );
+				}
+				$xtpl->parse( 'main.playlist_loop' );
+			}
 		}
 	}
 
@@ -889,7 +894,6 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 			$xtpl->assign( 'PLAYLIST_OTHER', $playlist_other_array_i );
 			$xtpl->parse( 'main.other.loop' );
 		}
-
 		$xtpl->parse( 'main.other' );
 	}
 

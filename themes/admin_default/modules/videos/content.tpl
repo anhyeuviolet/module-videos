@@ -7,6 +7,7 @@
 <link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.menu.css" rel="stylesheet" />
 <link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.autocomplete.css" rel="stylesheet" />
 <link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.datepicker.css" rel="stylesheet" />
+<link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.css">
 
 <form class="form-inline m-bottom confirm-reload" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" enctype="multipart/form-data" method="post">
 	<ul class="nav nav-tabs">
@@ -31,7 +32,7 @@
 						<td class="message_head">
 							<cite>{LANG.content_cat}:</cite> <sup class="required">(∗)</sup>
 						</td>
-						<td class="message_body">
+						<td>
 							<select class="form-control w200" name="catids[]" id="catid">
 								<option value="">{LANG.select_category}</option>
 								<!-- BEGIN: catid -->
@@ -41,24 +42,22 @@
 						</td>
 					</tr>
 					<tr>
-					
 						<!-- BEGIN:playlist_cat -->
 						<td class="top"><strong>{LANG.content_playlist}</strong></td>
-							<td>
-                                <!-- BEGIN: loop -->
-									<div class="row">
-										<label><input type="checkbox" value="{PLAYLISTS.playlist_id}" name="playlists[]" {PLAYLISTS.checked}>{PLAYLISTS.title}</label>
-									</div>
-                                <!-- END: loop -->
-							</td>
-						
+						<td>
+							<select name="playlists[]" id="playlists" class="form-control" style="width: 100%" multiple="multiple">
+								<!-- BEGIN: loop -->
+								<option value="{PLAYLISTS.playlist_id}" {PLAYLISTS.selected}>{PLAYLISTS.title}</option>
+								<!-- END: loop -->
+							</select>
+						</td>
 						<!-- END:playlist_cat -->
 					</tr>
 					<tr>
 						<td class="message_head">
 							<cite>{LANG.content_tag}:</cite>
 						</td>
-						<td class="message_body" style="overflow: auto">
+						<td style="overflow: auto">
 							<div class="clearfix uiTokenizer uiInlineTokenizer">
 								<div id="keywords" class="tokenarea">
 									<!-- BEGIN: keywords -->
@@ -289,6 +288,11 @@ CFG.upload_file = '{UPLOAD_FILE_PATH}';
 LANG.content_tags_empty = '{LANG.content_tags_empty}.<!-- BEGIN: auto_tags --> {LANG.content_tags_empty_auto}.<!-- END: auto_tags -->';
 LANG.alias_empty_notice = '{LANG.alias_empty_notice}';
 var content_checkcatmsg = "{LANG.content_checkcatmsg}";
+$(document).ready(function() {
+	$("#playlists").select2({
+	placeholder: "{LANG.content_block}"
+	});
+});
 <!-- BEGIN: getalias -->
 $("#idtitle").change(function() {
 	get_alias();
@@ -301,5 +305,7 @@ $("#idtitle").change(function() {
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.autocomplete.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.datepicker.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/language/jquery.ui.datepicker-{NV_LANG_INTERFACE}.js"></script>
-<script type="text/javascript" src="{NV_BASE_SITEURL}themes/admin_default/js/news_content.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}themes/admin_default/js/videos_content.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.js"></script>
+
 <!-- END:main -->

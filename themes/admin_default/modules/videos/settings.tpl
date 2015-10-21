@@ -5,6 +5,124 @@
 <form class="form-inline" role="form" action="{NV_BASE_ADMINURL}index.php" method="post">
 	<input type="hidden" name ="{NV_NAME_VARIABLE}" value="{MODULE_NAME}" />
 	<input type="hidden" name ="{NV_OP_VARIABLE}" value="{OP}" />
+	
+	<div class="table-responsive">
+		<table class="table table-striped table-bordered table-hover">
+			<caption><em class="fa fa-file-text-o">&nbsp;</em>{LANG.setting_player} Cấu hình trình phát</caption>
+			<tbody>
+				<tr>
+					<th>{LANG.setting_jwplayer_license}</th>
+					<td><input class="form-control" style="width:340px;" name="jwplayer_license" value="{DATA.jwplayer_license}" type="text"/><span class="text-middle">{LANG.jwplayer_license_note} Ghi chú</span></td>
+				</tr>
+				
+				<tr>
+					<th>{LANG.setting_jwplayer_autoplay}</th>
+					<td>
+						<select class="form-control" name="jwplayer_autoplay">
+							<!-- BEGIN: jwplayer_autoplay -->
+							<option value="{AUTO_PLAY.key}"{AUTO_PLAY.selected}>{AUTO_PLAY.title}</option>
+							<!-- END: jwplayer_autoplay -->
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>{LANG.setting_jwplayer_loop}</th>
+					<td>						
+						<select class="form-control" name="jwplayer_loop">
+							<!-- BEGIN: jwplayer_loop -->
+							<option value="{LOOP_PLAY.key}"{LOOP_PLAY.selected}>{LOOP_PLAY.title}</option>
+							<!-- END: jwplayer_loop -->
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>{LANG.setting_jwplayer_controlbar}</th>
+					<td>
+						<select class="form-control" name="jwplayer_controlbar">
+							<!-- BEGIN: jwplayer_controlbar -->
+							<option value="{CONTROL_BAR.key}"{CONTROL_BAR.selected}>{CONTROL_BAR.title}</option>
+							<!-- END: jwplayer_controlbar -->
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>{LANG.setting_jwplayer_mute}</th>
+					<td>
+						<select class="form-control" name="jwplayer_mute">
+							<!-- BEGIN: jwplayer_mute -->
+							<option value="{JW_MUTE.key}"{JW_MUTE.selected}>{JW_MUTE.title}</option>
+							<!-- END: jwplayer_mute -->
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>{LANG.setting_jwplayer_logo}</th>
+					<td>
+						<select class="form-control" name="jwplayer_logo">
+							<!-- BEGIN: jwplayer_logo -->
+							<option value="{JW_LOGO.key}"{JW_LOGO.selected}>{JW_LOGO.title}</option>
+							<!-- END: jwplayer_logo -->
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>{LANG.setting_jwplayer_logo_file}</th>
+					<td>
+						<input class="form-control" name="jwplayer_logo_file" id="jwplayer_logo_file" value="{JWPLAYER_LOGO_FILE}" style="width:340px;" type="text"/>
+						<input id="select-jw-logo-setting" value="{GLANG.browse_image}" name="selectimg" type="button" class="btn btn-info"/>
+					</td>
+				</tr>
+				
+			</tbody>
+			<tfoot>
+				<tr>
+					<td class="text-center" colspan="2">
+						<input class="btn btn-primary" type="submit" value="{LANG.save}" name="Submit1" />
+						<input type="hidden" value="1" name="savesetting" />
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	
+	<div class="table-responsive">
+		<table class="table table-striped table-bordered table-hover">
+			<caption><em class="fa fa-file-text-o">&nbsp;</em>{LANG.setting_playlist}</caption>
+			<tbody>
+				<tr>
+					<th>{LANG.setting_allow_user_plist}</th>
+					<td><input type="checkbox" value="1" name="allow_user_plist"{ALLOW_USER_PLIST}/></td>
+				</tr>
+				<tr>
+					<th>{LANG.setting_playlist_moderate}</th>
+					<td><input type="checkbox" value="1" name="playlist_moderate"{PLAYLIST_MODERATE}/></td>
+				</tr>
+				<tr>
+					<th>{LANG.setting_playlist_allow_detele}</th>
+					<td><input type="checkbox" value="1" name="playlist_allow_detele"{PLAYLIST_ALLOW_DETELE}/></td>
+				</tr>
+				<tr>
+					<th>{LANG.setting_playlist_max_items}</th>
+					<td>
+						<select name="playlist_max_items" class="form-control">
+							<!-- BEGIN: playlist_max_items -->
+							<option value="{MAX_PLISTS.key}"{MAX_PLISTS.selected}>{MAX_PLISTS.title}</option>
+							<!-- END: playlist_max_items -->
+						</select>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td class="text-center" colspan="2">
+						<input class="btn btn-primary" type="submit" value="{LANG.save}" name="Submit1" />
+						<input type="hidden" value="1" name="savesetting" />
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-hover">
 			<caption><em class="fa fa-file-text-o">&nbsp;</em>{LANG.setting_view}</caption>
@@ -12,11 +130,12 @@
 				<tr>
 					<th>{LANG.setting_indexfile}</th>
 					<td>
-					<select class="form-control" name="indexfile">
-						<!-- BEGIN: indexfile -->
-						<option value="{INDEXFILE.key}"{INDEXFILE.selected}>{INDEXFILE.title}</option>
-						<!-- END: indexfile -->
-					</select></td>
+						<select class="form-control" name="indexfile">
+							<!-- BEGIN: indexfile -->
+							<option value="{INDEXFILE.key}"{INDEXFILE.selected}>{INDEXFILE.title}</option>
+							<!-- END: indexfile -->
+						</select>
+					</td>
 				</tr>
 				<tr>
 					<th>{LANG.setting_homesite}</th>
@@ -100,6 +219,7 @@
 			</tbody>
 		</table>
 	</div>
+	
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-hover">
 			<caption><em class="fa fa-file-text-o">&nbsp;</em>{LANG.setting_post}</caption>

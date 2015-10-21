@@ -1206,7 +1206,7 @@ if( sizeof( $array_playlist_cat_module ) )
 {
 	foreach( $array_playlist_cat_module as $playlist_id_i => $playlist_title )
 	{
-		$xtpl->assign( 'PLAYLISTS', array( 'title' => $playlist_title, 'playlist_id' => $playlist_id_i, 'checked' =>  in_array( $playlist_id_i, $id_playlist_content ) ? 'checked="checked"' : '' ) );
+		$xtpl->assign( 'PLAYLISTS', array( 'title' => $playlist_title, 'playlist_id' => $playlist_id_i, 'selected' =>  in_array( $playlist_id_i, $id_playlist_content ) ? 'selected="selected"' : '' ) );
 		$xtpl->parse( 'main.playlist_cat.loop' );
 	}
 	$xtpl->parse( 'main.playlist_cat' );

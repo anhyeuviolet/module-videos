@@ -149,3 +149,18 @@ $lang_module['status_7'] = 'Đang duyệt bài';
 $lang_module['status_8'] = 'Chuyển đăng bài';
 $lang_module['status_9'] = 'Từ chối đăng bài';
 $lang_module['status_10'] = 'Đang kiểm tra để đăng';
+
+$lang_module['playlist_share_off'] = 'Riêng tư';
+$lang_module['playlist_share_on'] = 'Công khai';
+$lang_module['playlist_remove_videos'] = 'Bạn muốn xoá video này khỏi playlist';
+
+$lang_module['playlist_public'] = 'Hiển thị';
+$lang_module['playlist_status'] = 'Hoạt động';
+$lang_module['playlist'] = 'Danh mục phát';
+$lang_module['your_playlist'] = 'Playlist của bạn';
+$lang_module['add_playlist_cat'] = 'Thêm mới Playlist';
+$lang_module['edit_playlist_cat'] = 'Sửa Playlist';
+$lang_module['playlists'] = 'Playlist';
+$lang_module['playlist_sort'] = 'Thứ tự';
+$lang_module['description'] = 'Mô tả';
+$lang_module['error_name'] = 'Lỗi:Bạn cần nhập Tiêu đề';

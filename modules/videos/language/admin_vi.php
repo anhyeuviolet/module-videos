@@ -115,6 +115,20 @@ $lang_module['setting_auto_tags'] = 'Tự động tạo từ khóa cho bài vi�
 $lang_module['setting_tags_remind'] = 'Nhắc nhở các từ khóa không có mô tả';
 $lang_module['setting_alias_lower'] = 'Chuyển Liên kết tĩnh về chữ thường khi tạo mới';
 
+$lang_module['setting_playlist'] = 'Cấu hình Playlist ngoài trang chủ';
+$lang_module['setting_allow_user_plist'] = 'Cho phép người dùng tạo Playlist';
+$lang_module['setting_playlist_moderate'] = 'Kiểm duyệt Playlist';
+$lang_module['setting_playlist_allow_detele'] = 'Cho phép người dùng xoá Playlist';
+$lang_module['setting_playlist_max_items'] = 'Số video tối đa trong playlist';
+
+$lang_module['setting_jwplayer_license'] = 'License JWplayer';
+$lang_module['setting_jwplayer_autoplay'] = 'Tự động phát';
+$lang_module['setting_jwplayer_loop'] = ' Phát lặp lại';
+$lang_module['setting_jwplayer_controlbar'] = ' Hiện thanh điều khiển';
+$lang_module['setting_jwplayer_mute'] = ' Mặc định tắt âm thanh';
+$lang_module['setting_jwplayer_logo'] = 'Chèn Logo vào video';
+$lang_module['setting_jwplayer_logo_file'] = 'Đường dẫn Logo';
+
 $lang_module['viewcat_page'] = 'Cách thể hiện Chuyên mục';
 $lang_module['viewcat_page_new'] = 'danh sách, mới lên trên';
 $lang_module['viewcat_page_old'] = 'danh sách, cũ lên trên';
@@ -222,7 +236,7 @@ $lang_module['playlist_delete_success'] = 'Loại bỏ thành công !';
 $lang_module['playlist_nonews'] = 'Hiện tại không có bài viết nào thuộc nhóm tin liên quan này !';
 $lang_module['addtoplaylists'] = 'Thêm vào Playlist';
 $lang_module['playlist_update_success'] = 'Cập nhật thành công!';
-$lang_module['playlist_num_news'] = ' bài viết';
+$lang_module['playlist_num_news'] = ' video';
 
 $lang_module['siteinfo_publtime'] = 'Tổng số bài viết hiệu lực';
 $lang_module['siteinfo_users_send'] = 'Số bài viết thành viên gửi tới';

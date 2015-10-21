@@ -39,7 +39,7 @@ function nv_del_content(id, checkss, base_adminurl, detail) {
 function get_alias() {
 	var title = strip_tags(document.getElementById('idtitle').value);
 	if (title != '') {
-		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=content&nocache=' + new Date().getTime(), 'get_alias=' + encodeURIComponent(title), function(res) {
+		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'get_alias=' + encodeURIComponent(title), function(res) {
 			if (res != "") {
 				document.getElementById('idalias').value = res;
 			} else {
@@ -62,3 +62,77 @@ $(window).load(function(){
 		}
 	});
 });
+
+
+function nv_del_playlist_list(oForm, playlist_id) {
+	var del_list = '';
+	var fa = oForm['idcheck[]'];
+	if (fa.length) {
+		for (var i = 0; i < fa.length; i++) {
+			if (fa[i].checked) {
+				del_list = del_list + ',' + fa[i].value;
+			}
+		}
+	} else {
+		if (fa.checked) {
+			del_list = del_list + ',' + fa.value;
+		}
+	}
+
+	if (del_list != '') {
+		if (confirm(nv_is_del_confirm[0])) {
+			$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'del_list=' + del_list + '&ajax=1&playlist_id=' + playlist_id, function(res) {
+				nv_change_playlist_result(res);
+			});
+		}
+	}
+}
+
+function nv_change_playlist_cat(playlist_id, mod) {
+	var nv_timer = nv_settimeout_disable('id_' + mod + '_' + playlist_id, 1500);
+	var new_vid = $('#id_' + mod + '_' + playlist_id).val();
+	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'playlist_id=' + playlist_id + '&ajax=2&mod=' + mod + '&new_vid=' + new_vid, function(res) {
+		var r_split = res.split('_');
+		if (r_split[0] != 'OK') {
+			alert(nv_is_change_act_confirm[2]);
+		}
+		clearTimeout(nv_timer);
+		nv_show_list_playlist_cat();
+	});
+	return;
+}
+
+function nv_change_playlist(playlist_id, id, mod) {
+	if (mod == 'delete' && !confirm(nv_is_del_confirm[0])) {
+		return false;
+	}
+	var new_vid = $('#id_playlist_sort_' + id).val();
+	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'id=' + id + '&playlist_id=' + playlist_id + '&ajax=1&mod=' + mod + '&new_vid=' + new_vid, function(res) {
+		nv_change_playlist_result(res);
+	});
+	return;
+}
+
+function nv_change_playlist_result(res) {
+	var r_split = res.split('_');
+	if (r_split[0] != 'OK') {
+		alert(nv_is_change_act_confirm[2]);
+	}
+	var playlist_id = parseInt(r_split[1]);
+	nv_show_list_playlist(playlist_id);
+	return;
+}
+
+function nv_show_list_playlist(playlist_id) {
+	if (document.getElementById('module_show_list')) {
+		$('#module_show_list').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&playlist_id=' + playlist_id + '&nocache=' + new Date().getTime());
+	}
+	return;
+}
+
+function nv_show_list_playlist_cat() {
+	if (document.getElementById('module_show_playlist')) {
+		$('#module_show_playlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist_cat&nocache=' + new Date().getTime());
+	}
+	return;
+}

@@ -127,7 +127,7 @@ if( empty( $contents ) )
 
 		$key = 0;
 		$db->sqlreset()
-		->select('id, listcatid, playlist_id, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
+		->select('id, listcatid, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
 		->order( 'publtime DESC' );
 
 		foreach( $global_array_cat as $_catid => $array_cat_i )

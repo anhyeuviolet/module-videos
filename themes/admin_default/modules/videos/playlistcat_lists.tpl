@@ -29,7 +29,7 @@
 					<!-- END: weight -->
 				</select></td>
 				<td class="text-center"><strong>{ROW.playlist_id}</strong></td>
-				<td><a href="{ROW.link}">{ROW.title}</a> (<a href="{ROW.linksite}">{ROW.numnews} {LANG.topic_num_news}</a>)</td>
+				<td><a href="{ROW.link}">{ROW.title}</a> (<a href="{ROW.linksite}">{ROW.numnews} {LANG.playlist_num_news}</a>)</td>
 				<td class="text-center">
 					<select class="form-control" id="id_status_{ROW.playlist_id}" onchange="nv_change_playlist_cat('{ROW.playlist_id}','status');">
 						<!-- BEGIN: status -->

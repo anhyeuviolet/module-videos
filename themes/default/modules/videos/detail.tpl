@@ -202,7 +202,7 @@ $(function() {
 
 <!-- BEGIN: jwplayer -->
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.js"></script>
-<script type="text/javascript">jwplayer.key="NqPyv5C3s2LTybLMlqx3nfOJTvmRqu9cuQPTrQ==";</script>
+<script type="text/javascript">jwplayer.key="{JWPLAYER_LICENSE}";</script>
 <script type="text/javascript">
 var playerInstance = jwplayer("videoCont");
 playerInstance.setup({

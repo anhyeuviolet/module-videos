@@ -37,6 +37,19 @@ if( ! empty( $savesetting ) )
 	$array_config['tooltip_length'] = $nv_Request->get_int( 'tooltip_length', 'post', 0 );
 	$array_config['showhometext'] = $nv_Request->get_int( 'showhometext', 'post', 0 );
 
+	$array_config['allow_user_plist'] = $nv_Request->get_title( 'allow_user_plist', 'post', '' );
+	$array_config['playlist_moderate'] = $nv_Request->get_title( 'playlist_moderate', 'post', '' );
+	$array_config['playlist_allow_detele'] = $nv_Request->get_int( 'playlist_allow_detele', 'post', 0 );
+	$array_config['playlist_max_items'] = $nv_Request->get_title( 'playlist_max_items', 'post', '', 0 );
+	
+	$array_config['jwplayer_license'] = $nv_Request->get_title( 'jwplayer_license', 'post', '' );
+	$array_config['jwplayer_autoplay'] = $nv_Request->get_title( 'jwplayer_autoplay', 'post', 0 );
+	$array_config['jwplayer_loop'] = $nv_Request->get_title( 'jwplayer_loop', 'post', '', 0 );
+	$array_config['jwplayer_controlbar'] = $nv_Request->get_title( 'jwplayer_controlbar', 'post', '', 0 );
+	$array_config['jwplayer_mute'] = $nv_Request->get_title( 'jwplayer_mute', 'post', 0 );
+	$array_config['jwplayer_logo'] = $nv_Request->get_title( 'jwplayer_logo', 'post', 0 );
+	$array_config['jwplayer_logo_file'] = $nv_Request->get_title( 'jwplayer_logo_file', 'post', 0 );
+	
 	$array_config['facebookappid'] = $nv_Request->get_title( 'facebookappid', 'post', '' );
 	$array_config['socialbutton'] = $nv_Request->get_int( 'socialbutton', 'post', 0 );
 	$array_config['show_no_image'] = $nv_Request->get_title( 'show_no_image', 'post', '', 0 );
@@ -83,6 +96,11 @@ $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'OP', $op );
 $xtpl->assign( 'DATA', $module_config[$module_name] );
 
+$array_jw_js = array(
+	'true' =>$lang_global['yes'],
+	'false' => $lang_global['no']
+	);
+
 $array_tooltip_position = array(
 	'top' => $lang_module['showtooltip_position_top'],
 	'bottom' => $lang_module['showtooltip_position_bottom'],
@@ -109,6 +127,57 @@ foreach( $array_viewcat_full as $key => $val )
 		'selected' => $key == $module_config[$module_name]['indexfile'] ? ' selected="selected"' : ''
 	) );
 	$xtpl->parse( 'main.indexfile' );
+}
+
+// JW player
+foreach( $array_jw_js as $key => $val )
+{
+	$xtpl->assign( 'AUTO_PLAY', array(
+		'key' => $key,
+		'title' => $val,
+		'selected' => $key == $module_config[$module_name]['jwplayer_autoplay'] ? ' selected="selected"' : ''
+	) );
+	$xtpl->parse( 'main.jwplayer_autoplay' );
+}
+
+foreach( $array_jw_js as $key => $val )
+{
+	$xtpl->assign( 'LOOP_PLAY', array(
+		'key' => $key,
+		'title' => $val,
+		'selected' => $key == $module_config[$module_name]['jwplayer_loop'] ? ' selected="selected"' : ''
+	) );
+	$xtpl->parse( 'main.jwplayer_loop' );
+}
+
+foreach( $array_jw_js as $key => $val )
+{
+	$xtpl->assign( 'CONTROL_BAR', array(
+		'key' => $key,
+		'title' => $val,
+		'selected' => $key == $module_config[$module_name]['jwplayer_controlbar'] ? ' selected="selected"' : ''
+	) );
+	$xtpl->parse( 'main.jwplayer_controlbar' );
+}
+
+foreach( $array_jw_js as $key => $val )
+{
+	$xtpl->assign( 'JW_MUTE', array(
+		'key' => $key,
+		'title' => $val,
+		'selected' => $key == $module_config[$module_name]['jwplayer_mute'] ? ' selected="selected"' : ''
+	) );
+	$xtpl->parse( 'main.jwplayer_mute' );
+}
+
+foreach( $array_jw_js as $key => $val )
+{
+	$xtpl->assign( 'JW_LOGO', array(
+		'key' => $key,
+		'title' => $val,
+		'selected' => $key == $module_config[$module_name]['jwplayer_logo'] ? ' selected="selected"' : ''
+	) );
+	$xtpl->parse( 'main.jwplayer_logo' );
 }
 
 // So bai viet tren mot trang
@@ -144,14 +213,31 @@ for( $i = 0; $i <= 6; ++$i )
 	$xtpl->parse( 'main.allowed_rating_point' );
 }
 
+// So bai viet tren mot trang
+for( $i = 0; $i <= 30; ++$i )
+{
+	$xtpl->assign( 'MAX_PLISTS', array(
+		'key' => $i,
+		'title' => $i,
+		'selected' => $i == $module_config[$module_name]['playlist_max_items'] ? ' selected="selected"' : ''
+	) );
+	$xtpl->parse( 'main.playlist_max_items' );
+}
+
 $xtpl->assign( 'SHOWTOOLTIP', $module_config[$module_name]['showtooltip'] ? ' checked="checked"' : '' );
 $xtpl->assign( 'SHOWHOMETEXT', $module_config[$module_name]['showhometext'] ? ' checked="checked"' : '' );
 $xtpl->assign( 'SOCIALBUTTON', $module_config[$module_name]['socialbutton'] ? ' checked="checked"' : '' );
+
+$xtpl->assign( 'ALLOW_USER_PLIST', $module_config[$module_name]['allow_user_plist'] ? ' checked="checked"' : '' );
+$xtpl->assign( 'PLAYLIST_MODERATE', $module_config[$module_name]['playlist_moderate'] ? ' checked="checked"' : '' );
+$xtpl->assign( 'PLAYLIST_ALLOW_DETELE', $module_config[$module_name]['playlist_allow_detele'] ? ' checked="checked"' : '' );
+
 $xtpl->assign( 'TAGS_ALIAS', $module_config[$module_name]['tags_alias'] ? ' checked="checked"' : '' );
 $xtpl->assign( 'ALIAS_LOWER', $module_config[$module_name]['alias_lower'] ? ' checked="checked"' : '' );
 $xtpl->assign( 'AUTO_TAGS', $module_config[$module_name]['auto_tags'] ? ' checked="checked"' : '' );
 $xtpl->assign( 'TAGS_REMIND', $module_config[$module_name]['tags_remind'] ? ' checked="checked"' : '' );
 $xtpl->assign( 'SHOW_NO_IMAGE', ( !empty( $module_config[$module_name]['show_no_image'] ) ) ? NV_BASE_SITEURL . $module_config[$module_name]['show_no_image'] : '' );
+$xtpl->assign( 'JWPLAYER_LOGO_FILE', ( !empty( $module_config[$module_name]['jwplayer_logo_file'] ) ) ? NV_BASE_SITEURL . $module_config[$module_name]['jwplayer_logo_file'] : '' );
 
 $array_structure_image = array();
 $array_structure_image[''] = NV_UPLOADS_DIR . '/' . $module_upload;

@@ -441,6 +441,16 @@ $(document).ready(function(){
 		nv_open_browse(script_name + "?" + nv_name_variable + "=upload&popup=1&area=" + area + "&path=" + path + "&type=" + type + "&currentpath=" + currentpath, "NVImg", 850, 420, "resizable=no,scrollbars=no,toolbar=no,location=no,status=no");
 		return false;
 	});
+	
+	// Setting
+	$("#select-jw-logo-setting").click(function() {
+		var area = "jwplayer_logo_file";
+		var type = "image";
+		var path = CFG.path;
+		var currentpath = CFG.currentpath;
+		nv_open_browse(script_name + "?" + nv_name_variable + "=upload&popup=1&area=" + area + "&path=" + path + "&type=" + type + "&currentpath=" + currentpath, "NVImg", 850, 420, "resizable=no,scrollbars=no,toolbar=no,location=no,status=no");
+		return false;
+	});
 
 	// Groups
 	$("#select-img-group").click(function() {

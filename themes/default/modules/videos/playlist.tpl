@@ -19,7 +19,7 @@
 	</div>
 </div>
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.js"></script>
-<script type="text/javascript">jwplayer.key="NqPyv5C3s2LTybLMlqx3nfOJTvmRqu9cuQPTrQ==";</script>
+<script type="text/javascript">jwplayer.key="{JWPLAYER_LICENSE}";</script>
 <script type="text/javascript">
 var playerInstance = jwplayer("videoCont");
 playerInstance.setup({
@@ -42,15 +42,15 @@ playerInstance.setup({
   
 var list = document.getElementById("show-list");
 var html = list.innerHTML;
-
+html +="<ul class='list-group'>"
 playerInstance.on('ready',function(){
 var playlist = playerInstance.getPlaylist();
 for (var index=0;index<playlist.length;index++){
 	var playindex = index +1;
-	html += "<li><span class='dropt' title='"+playlist[index].title+"'><a href='javascript:playThis("+index+")'><img height='75' width='120' src='" + playlist[index].image + "'</img></br>"+playlist[index].title+"</a></br></span></li>"
+	html += "<li class='list-group-item'><span>"+playlist[index].title+"</span><span class='pull-right'><label onclick='javascript:playThis("+index+")' title='Phát "+playlist[index].title+"' class='btn btn-primary btn-xs mgr_10'><i class='fa fa-play'></i></label><a href='"+playlist[index].link+"' title='Xem ở cửa sổ mới' target='_blank'><label class='btn btn-default btn-xs'><i class='fa fa-external-link-square'></i></label></a></span></li>"
 	list.innerHTML = html;
 }
-
+html +="</ul>"
 });
 	function playThis(index) {
 		playerInstance.playlistItem(index);
@@ -58,14 +58,6 @@ for (var index=0;index<playlist.length;index++){
 </script>
 <!-- END: player -->
 <div class="clearfix"></div>
-<!-- BEGIN: socialbutton -->
-<div class="socialicon clearfix margin-bottom-lg margin-top-lg">
-	<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">&nbsp;</div>
-	<div class="g-plusone" data-size="medium"></div>
-	<a href="http://twitter.com/share" class="twitter-share-button">Tweet</a>
-</div>
-<!-- END: socialbutton -->
-
 <!-- BEGIN: playlist_loop -->
 <div class="news_column panel panel-default">
 	<div class="panel-body">
@@ -88,6 +80,13 @@ for (var index=0;index<playlist.length;index++){
 </div>
 <!-- END: playlist_loop -->
 
+<!-- BEGIN: socialbutton -->
+<div class="socialicon clearfix margin-bottom-lg margin-top-lg">
+	<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">&nbsp;</div>
+	<div class="g-plusone" data-size="medium"></div>
+	<a href="http://twitter.com/share" class="twitter-share-button">Tweet</a>
+</div>
+<!-- END: socialbutton -->
 
 <!-- BEGIN: other -->
 <ul class="related">
