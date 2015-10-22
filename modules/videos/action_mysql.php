@@ -99,6 +99,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 weight smallint(5) NOT NULL DEFAULT '0',
 	 keywords text,
 	 hitstotal mediumint(8) unsigned NOT NULL default '0',
+	 favorite mediumint(8) unsigned NOT NULL default '0',
 	 add_time int(11) NOT NULL DEFAULT '0',
 	 edit_time int(11) NOT NULL DEFAULT '0',
 	 PRIMARY KEY (playlist_id),

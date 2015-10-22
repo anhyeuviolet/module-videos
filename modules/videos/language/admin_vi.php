@@ -117,7 +117,7 @@ $lang_module['setting_alias_lower'] = 'Chuyển Liên kết tĩnh về chữ th�
 
 $lang_module['setting_playlist'] = 'Cấu hình Playlist ngoài trang chủ';
 $lang_module['setting_allow_user_plist'] = 'Cho phép người dùng tạo Playlist';
-$lang_module['setting_playlist_moderate'] = 'Kiểm duyệt Playlist';
+$lang_module['setting_playlist_moderate'] = 'Không cần kiểm duyệt Playlist';
 $lang_module['setting_playlist_allow_detele'] = 'Cho phép người dùng xoá Playlist';
 $lang_module['setting_playlist_max_items'] = 'Số video tối đa trong playlist';
 
@@ -230,6 +230,7 @@ $lang_module['adddefaultblock'] = 'Chọn mặc định khi tạo bài viết';
 $lang_module['source_logo'] = 'Logo nguồn tin';
 $lang_module['playlist_page'] = 'Tin tức thuộc nhóm tin liên quan';
 $lang_module['playlist_del'] = 'Xóa khỏi Playlist';
+$lang_module['playlist_waiting_approve'] = 'Chờ kiểm duyệt';
 $lang_module['playlist_nocheck'] = 'Hãy chọn ít nhất 1 bài viết để có thể thực hiện';
 $lang_module['playlist_delete_confirm'] = 'Bạn có chắc muốn xóa nhóm tin liên quan ra khỏi bài viết ?';
 $lang_module['playlist_delete_success'] = 'Loại bỏ thành công !';
@@ -317,4 +318,3 @@ $lang_module['playlist_share_on'] = 'Công khai';
 $lang_module['playlist_public'] = 'Hiển thị';
 $lang_module['playlist_status'] = 'Hoạt động';
 $lang_module['playlist'] = 'Danh mục phát';
-

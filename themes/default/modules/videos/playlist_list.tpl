@@ -39,5 +39,5 @@
 
 <!-- END: list_videos -->
 <!-- BEGIN: no_videos -->
-<div class="alert alert-info" role="alert">Playlist chưa có Video nào</div>
+<div class="alert alert-info" role="alert">{LANG.playlist_empty_video}</div>
 <!-- END: no_videos -->

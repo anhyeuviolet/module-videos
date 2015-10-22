@@ -102,6 +102,22 @@ function nv_change_playlist_cat(playlist_id, mod) {
 	return;
 }
 
+function nv_del_playlist_cat(playlist_id) {
+	if (confirm(nv_is_del_confirm[0])) {
+		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), '&ajax=4&playlist_id=' + playlist_id, function(res) {
+			var r_split = res.split('_');
+			if (r_split[0] == 'OK') {
+				nv_show_list_playlist_cat();
+			} else if (r_split[0] == 'ERR') {
+				alert(r_split[1]);
+			} else {
+				alert(nv_is_del_confirm[2]);
+			}
+		});
+	}
+	return false;
+}
+
 function nv_change_playlist(playlist_id, id, mod) {
 	if (mod == 'delete' && !confirm(nv_is_del_confirm[0])) {
 		return false;
@@ -134,5 +150,16 @@ function nv_show_list_playlist_cat() {
 	if (document.getElementById('module_show_playlist')) {
 		$('#module_show_playlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist_cat&nocache=' + new Date().getTime());
 	}
+	return;
+}
+
+function nv_add_user_playlist(id, mod) {
+	if (mod != 'add_user_playlist') {
+		return false;
+	}
+	var user_playlist = $('#add_user_playlist').val();
+	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'id=' + id + '&playlist_id=' + user_playlist + '&ajax=3&mod=' + mod, function(res) {
+	alert(res);
+	});
 	return;
 }

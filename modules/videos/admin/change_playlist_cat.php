@@ -43,7 +43,7 @@ if( $mod == 'weight' and $new_vid > 0 )
 }
 elseif( $mod == 'status' and $playlist_id > 0 )
 {
-	$new_vid = ( intval( $new_vid ) == 1 ) ? 1 : 0;
+	$new_vid = ( intval( $new_vid ) );
 	$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat SET status=' . $new_vid . ' WHERE playlist_id=' . $playlist_id;
 	$db->query( $sql );
 	$content = 'OK_' . $playlist_id;

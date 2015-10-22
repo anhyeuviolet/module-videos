@@ -70,6 +70,16 @@ if( ! empty( $savesetting ) )
 	{
 		$array_config['show_no_image'] = '';
 	}
+	
+	if( ! nv_is_url( $array_config['jwplayer_logo_file'] ) and file_exists( NV_DOCUMENT_ROOT . $array_config['jwplayer_logo_file'] ) )
+	{
+		$lu = strlen( NV_BASE_SITEURL );
+		$array_config['jwplayer_logo_file'] = substr( $array_config['jwplayer_logo_file'], $lu );
+	}
+	else
+	{
+		$array_config['jwplayer_logo_file'] = '';
+	}
 
 	$sth = $db->prepare( "UPDATE " . NV_CONFIG_GLOBALTABLE . " SET config_value = :config_value WHERE lang = '" . NV_LANG_DATA . "' AND module = :module_name AND config_name = :config_name" );
 	$sth->bindParam( ':module_name', $module_name, PDO::PARAM_STR );

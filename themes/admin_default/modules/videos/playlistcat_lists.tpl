@@ -2,16 +2,15 @@
 <div class="table-responsive">
 	<table class="table table-striped table-bordered table-hover">
 		<colgroup>
-			<col class="w100">
-			<col class="w50">
-			<col class="w250">
+			<col class="w80">
+			<col class="w350">
+			<col class="w120">
 			<col class="w90">
 			<col class="w90">
 		</colgroup>
 		<thead>
 			<tr>
 				<th>{LANG.weight}</th>
-				<td class="text-center">ID</th>
 				<th>{LANG.name}</th>
 				<td class="text-center">{LANG.playlist_status}</th>
 				<td class="text-center">{LANG.playlist_public}</th>
@@ -28,8 +27,7 @@
 					<option value="{WEIGHT.key}"{WEIGHT.selected}>{WEIGHT.title}</option>
 					<!-- END: weight -->
 				</select></td>
-				<td class="text-center"><strong>{ROW.playlist_id}</strong></td>
-				<td><a href="{ROW.link}">{ROW.title}</a> (<a href="{ROW.linksite}">{ROW.numnews} {LANG.playlist_num_news}</a>)</td>
+				<td><a href="{ROW.link}">{ROW.title}</a> (<a href="{ROW.linksite}" target="_blank">{ROW.numnews}&nbsp;{LANG.playlist_num_news}&nbsp;<i class="fa fa-external-link"></i></a>)</td>
 				<td class="text-center">
 					<select class="form-control" id="id_status_{ROW.playlist_id}" onchange="nv_change_playlist_cat('{ROW.playlist_id}','status');">
 						<!-- BEGIN: status -->

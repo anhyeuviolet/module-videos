@@ -25,14 +25,36 @@ if( !empty( $alias ) )
 {
 	$page = ( isset( $array_op[2] ) and substr( $array_op[2], 0, 5 ) == 'page-' ) ? intval( substr( $array_op[2], 5 ) ) : 1;
 
-	$stmt = $db->prepare( 'SELECT playlist_id, title, alias, image, description, keywords FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE alias= :alias' );
+	$stmt = $db->prepare( 'SELECT playlist_id, title, alias, image, description, keywords, hitstotal, add_time, favorite ,status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE alias= :alias' );
 	$stmt->bindParam( ':alias', $alias, PDO::PARAM_STR );
 	$stmt->execute();
 
-	list( $playlist_id, $page_title, $alias, $playlist_image, $description, $key_words ) = $stmt->fetch( 3 );
+	list( $playlist_id, $page_title, $alias, $playlist_image, $description, $key_words, $hitstotal, $add_time, $favorite, $status ) = $stmt->fetch( 3 );
+	$playlist_info = array(
+		'title' => $page_title,
+		'alias' => $alias,
+		'playlist_image' => $playlist_image,
+		'description' => $description,
+		'key_words' => $key_words,
+		'hitstotal' => $hitstotal,
+		'add_time' => $add_time,
+		'favorite' => $favorite
+	);
+	
 
 	if( $playlist_id > 0 )
 	{
+		if( defined( 'NV_IS_MODADMIN' ) )
+		{
+			$time_set = $nv_Request->get_int( $module_data . '_' . $op . '_' . $playlist_id, 'session' );
+			if( empty( $time_set ) )
+			{
+				$nv_Request->set_Session( $module_data . '_' . $op . '_' . $playlist_id, NV_CURRENTTIME );
+				$query = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat SET hitstotal=hitstotal+1 WHERE playlist_id=' . $playlist_id;
+				$db->query( $query );
+			}
+		}
+		
 		$base_url_rewrite = $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '/' . $alias;
 		if( $page > 1 )
 		{
@@ -75,7 +97,7 @@ if( !empty( $alias ) )
 		{
 			if( $item['homeimgthumb'] == 1 )//image thumb
 			{
-				$item['src'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
+				$item['src'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
 			}
 			elseif( $item['homeimgthumb'] == 2 )//image file
 			{
@@ -105,28 +127,28 @@ if( !empty( $alias ) )
 		unset( $result, $row );
 
 		$playlist_other_array = array();
-		if ( $st_links > 0)
-		{
-			$db->sqlreset()
-				->select( 'id, catid, addtime, edittime, publtime, title, alias, hitstotal' )
-				->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
-				->where( 'status=1 AND publtime < ' . $end_publtime )
-				->order( 'publtime ASC' )
-				->limit( $st_links );
+		// if ( $st_links > 0)
+		// {
+			// $db->sqlreset()
+				// ->select( 'id, catid, addtime, edittime, publtime, title, alias, hitstotal' )
+				// ->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
+				// ->where( 'status=1 AND publtime < ' . $end_publtime )
+				// ->order( 'publtime ASC' )
+				// ->limit( $st_links );
 
-			$result = $db->query( $db->sql() );
-			while( $item = $result->fetch() )
-			{
-				$item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
-				$playlist_other_array[] = $item;
-			}
-			unset( $result, $row );
-		}
+			// $result = $db->query( $db->sql() );
+			// while( $item = $result->fetch() )
+			// {
+				// $item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
+				// $playlist_other_array[] = $item;
+			// }
+			// unset( $result, $row );
+		// }
 
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 
 		$pl_ss = md5( $playlist_id . session_id() . $global_config['sitekey'] );
-		$contents = playlist_theme( $playlist_array, $playlist_other_array, $generate_page, $page_title, $description, $playlist_id, $pl_ss );
+		$contents = playlist_theme( $playlist_array, $playlist_other_array, $generate_page, $playlist_info, $playlist_id, $pl_ss );
 	}
 	else
 	{

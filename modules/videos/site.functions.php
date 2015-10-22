@@ -18,7 +18,7 @@ if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
  */
 function nv_show_playlist_cat_list()
 {
-	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $module_file, $global_config, $module_info, $user_info;
+	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $module_file, $module_config, $global_config, $module_info, $user_info;
 
 	$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE userid='. $user_info['userid'] .' ORDER BY weight ASC';
 	$_array_block_cat = $db->query( $sql )->fetchAll();
@@ -93,6 +93,26 @@ function nv_show_playlist_cat_list()
 				) );
 				$xtpl->parse( 'playlistcat_lists.loop.number' );
 			}
+			
+			if($row['status'] == 2)
+			{
+				$xtpl->parse( 'playlistcat_lists.loop.pl_moderate' );
+			}
+			
+			if($module_config[$module_name]['playlist_allow_detele'] > 0)
+			{
+				$xtpl->parse( 'playlistcat_lists.loop.delete' );
+			}
+			
+			if( $module_config[$module_name]['allow_user_plist'] == 1 )
+			{
+				$xtpl->parse( 'playlistcat_lists.loop.edit_link' );
+				$xtpl->parse( 'playlistcat_lists.loop.edit_btn' );
+			}
+			else
+			{
+				$xtpl->parse( 'playlistcat_lists.loop.title_only' );
+			}
 
 			$xtpl->parse( 'playlistcat_lists.loop' );
 		}
@@ -110,7 +130,7 @@ function nv_show_playlist_cat_list()
 
 function nv_show_playlist_list( $playlist_id )
 {
-	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $global_array_cat, $module_file, $global_config;
+	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $global_array_cat, $module_file, $module_config, $global_config;
 
 	$xtpl = new XTemplate( 'playlist_list.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
@@ -147,7 +167,6 @@ function nv_show_playlist_list( $playlist_id )
 				) );
 				$xtpl->parse( 'list_videos.loop.playlist_sort' );
 			}
-
 			$xtpl->parse( 'list_videos.loop' );
 		}
 
@@ -179,13 +198,13 @@ function nv_fix_playlist_cat()
 
 
 /**
- * nv_news_fix_playlist()
+ * nv_fix_playlist()
  *
  * @param mixed $playlist_id
  * @param bool $repairtable
  * @return
  */
-function nv_news_fix_playlist( $playlist_id, $repairtable = true )
+function nv_fix_playlist( $playlist_id, $repairtable = true )
 {
 	global $db, $module_data;
 	$playlist_id = intval( $playlist_id );

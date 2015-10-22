@@ -1,14 +1,23 @@
 <!-- BEGIN: main -->
-<!-- BEGIN: playlistdescription -->
-<div class="news_column">
-	<div class="alert alert-info clearfix">
-		<h3>{PLAYLIST_TITLE}</h3>
-		<p class="text-justify">{PLAYLIST_DESCRIPTION}</p>
+<!-- BEGIN: playlist_info -->
+<div class="col-xs-24 col-md-24 col-lg-24">
+	<div class="page-header pd10_0 mg0_10_10">
+		<h3>{PLAYLIST_INFO.title}</h3>
+		<!-- BEGIN: description -->
+		<p class="text-justify">{PLAYLIST_INFO.description}</p>
+		<!-- END: description -->
+		<!-- BEGIN: time -->
+		<span class="text-muted clearfix">{PLAYLIST_INFO.add_time}</span>
+		<!-- END: time -->
+		<!-- BEGIN: viewed -->
+		<span class="text-muted">{PLAYLIST_INFO.hitstotal}</span>
+		<!-- END: viewed -->
 	</div>
 </div>
-<!-- END: playlistdescription -->
+<!-- END: playlist_info -->
+
 <!-- BEGIN: player -->
-<div class="detail_video margin-bottom-lg margin-top-lg">
+<div class="detail_video margin-bottom-lg margin-top-lg col-xs-24 col-md-24 col-lg-24">
 	<div class="videoplayer">
 		<div id="videoCont">
 			<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_NAME}/loading.gif" class="center-block" alt="Loading player" />
@@ -19,20 +28,27 @@
 	</div>
 </div>
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.js"></script>
-<script type="text/javascript">jwplayer.key="{JWPLAYER_LICENSE}";</script>
+<script type="text/javascript">jwplayer.key="{VIDEO_CONFIG.jwplayer_license}";</script>
 <script type="text/javascript">
 var playerInstance = jwplayer("videoCont");
 playerInstance.setup({
 	image: "{PLAYLIST_IMAGE}",
-	autostart: false,
+	autostart: {VIDEO_CONFIG.jwplayer_autoplay},
 	aspectratio: "16:9",
 	playlist : "{NV_BASE_SITEURL}{MODULE_NAME}/player/{RAND_SS}{PLAYLIST_ID}-{PLIST_CHECKSS}-{RAND_SS}{FAKE_ID}/",
-	controls: true,
+	controls: {VIDEO_CONFIG.jwplayer_controlbar},
 	displaydescription: true,
 	displaytitle: true,
 	flashplayer: "{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.flash.swf",
 	primary: "html5",
-	repeat: false,
+	repeat: {VIDEO_CONFIG.jwplayer_loop},
+	mute: {VIDEO_CONFIG.jwplayer_mute},
+	<!-- BEGIN: player_logo -->
+	logo: {
+		file: '{VIDEO_CONFIG.jwplayer_logo_file}',
+		link: '{NV_BASE_SITEURL}'
+	},
+	<!-- END: player_logo -->
 	skin: {"name": "stormtrooper"},
 	stagevideo: false,
 	stretching: "uniform",
@@ -40,6 +56,8 @@ playerInstance.setup({
 	width: "100%"
   });
   
+var lang_play = "{LANG.play}";
+var lang_new_window = "{LANG.open_new_window}";
 var list = document.getElementById("show-list");
 var html = list.innerHTML;
 html +="<ul class='list-group'>"
@@ -47,7 +65,7 @@ playerInstance.on('ready',function(){
 var playlist = playerInstance.getPlaylist();
 for (var index=0;index<playlist.length;index++){
 	var playindex = index +1;
-	html += "<li class='list-group-item'><span>"+playlist[index].title+"</span><span class='pull-right'><label onclick='javascript:playThis("+index+")' title='Phát "+playlist[index].title+"' class='btn btn-primary btn-xs mgr_10'><i class='fa fa-play'></i></label><a href='"+playlist[index].link+"' title='Xem ở cửa sổ mới' target='_blank'><label class='btn btn-default btn-xs'><i class='fa fa-external-link-square'></i></label></a></span></li>"
+	html += "<li class='list-group-item'><span>"+playlist[index].title+"</span><span class='pull-right'><label onclick='javascript:playThis("+index+")' title='"+lang_play+" "+playlist[index].title+"' class='btn btn-primary btn-xs mgr_10'><i class='fa fa-play'></i></label><a href='"+playlist[index].link+"' title='"+lang_new_window+"' target='_blank'><label class='btn btn-default btn-xs'><i class='fa fa-external-link-square'></i></label></a></span></li>"
 	list.innerHTML = html;
 }
 html +="</ul>"
@@ -57,6 +75,13 @@ html +="</ul>"
 	}
 </script>
 <!-- END: player -->
+
+<!-- BEGIN: no_video_inlist -->
+<div class="col-xs-24 col-md-24 col-lg-24">
+	<div class="alert alert-info" role="alert">{LANG.playlist_empty_video}</div>
+</div>
+<!-- END: no_video_inlist -->
+
 <div class="clearfix"></div>
 <!-- BEGIN: playlist_loop -->
 <div class="news_column panel panel-default">

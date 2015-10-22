@@ -1,15 +1,13 @@
 <!-- BEGIN: main -->
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.pack.js"></script>
-<script src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.MetaData.js" type="text/javascript"></script>
 <link href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.css" type="text/css" rel="stylesheet"/>
-<div class="panel panel-default">
-	<div class="panel-body">
-		<h3 class="title margin-bottom-lg">{DETAIL.title}</h3>
-		<div class="row margin-bottom-lg">
-            <div class="col-md-12">
-                <span class="h5">{DETAIL.publtime}</span>
-            </div>
-        </div>
+<div class="row">
+	<div class="detail_container col-xs-24 col-md-24 col-lg-24">
+		<div class="page-header pd10_0 mg0_10_10">
+			<h3 class="title">{DETAIL.title}</h3>
+			<div class="row margin-top-lg">
+				<span class="h5">{DETAIL.publtime}</span>
+			</div>
+		</div>
 		<div class="detail_video">
 			<div class="videoplayer">
 				<!-- BEGIN: vid_jw_content -->
@@ -17,19 +15,43 @@
 					<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_NAME}/loading.gif" class="center-block mar_rgt_auto" alt="Loading player" />
 				</div>
 				<!-- END: vid_jw_content -->
-				
-				<!-- BEGIN: vid_facebook_content -->
-				<div class="fb-video" data-href="{DETAIL.vid_path}" data-width="auto" data-allowfullscreen="true"></div>				
-				<!-- END: vid_facebook_content -->
 			</div>
 			<div class="clearfix"></div>
 			<!-- BEGIN: socialbutton -->
-			<div class="socialicon clearfix margin-bottom-lg margin-top-lg">
+			<div class="socialicon col-xs-12 col-md-12 col-lg-12 clearfix margin-bottom-lg margin-top-lg">
 				<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">&nbsp;</div>
 				<div class="g-plusone" data-size="medium"></div>
 				<a href="http://twitter.com/share" class="twitter-share-button">Tweet</a>
 			</div>
 			<!-- END: socialbutton -->
+			
+			<div class="col-xs-12 col-md-12 col-lg-12 margin-top-lg">
+				<div class="user_function pull-right">
+					<label class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{LANG.video_favorite}"><i class="fa fa-star"></i></label>&nbsp;&nbsp;<label class="btn btn-primary" data-toggle="collapse" data-target="#add_to_userlist"><i data-toggle="tooltip" data-placement="top" title="{LANG.playlist_add_video}" class="fa fa-plus-square"></i></label>
+				</div>
+				<div class="clearfix"></div>
+				<div class="show_playlist collapse" id="add_to_userlist">
+					<!-- BEGIN: user_playlist -->
+					<label>{LANG.playlist_select}</label>
+					<form id="add_to_playlist" action="">
+						<select class="form-control form_60 pull-left" id="add_user_playlist">
+							<option class="text-center" value="">---------</option>
+							<!-- BEGIN: loop -->
+							<option value="{USER_PLAYLIST.playlist_id}">{USER_PLAYLIST.title}</option>
+							<!-- END: loop -->
+						</select><label class="btn btn-primary col-md-3" onclick="nv_add_user_playlist('{DETAIL.id}','add_user_playlist');">{LANG.save}</label>
+					</form>
+					<!-- END: user_playlist -->
+					
+					<!-- BEGIN: user_create_newlist -->
+					<div class="alert alert-info margin-bottom-lg margin-top-lg">{LANG.user_create_newlist}<a href="{NV_BASE_SITEURL}{MODULE_NAME}/{USERLIST_OPS}/" target="_blank">&nbsp;<label>&nbsp;<i class="fa fa-external-link-square">&nbsp;</i></label></a></div>
+					<!-- END: user_create_newlist -->
+					
+					<!-- BEGIN: user_required -->
+					<div class="alert alert-info margin-bottom-lg margin-top-lg">{LANG.user_required}<a href="#" onclick="return loginForm();">&nbsp;<label>&nbsp;<i class="fa fa-check-square">&nbsp;</i></label></a></div>
+					<!-- END: user_required -->
+				</div>	
+			</div>
 		</div>
 		
 		<!-- BEGIN: no_public -->
@@ -37,6 +59,7 @@
 			{LANG.no_public}
 		</div>
 		<!-- END: no_public -->
+		
 		<!-- BEGIN: showhometext -->
 		<div class="clearfix margin-bottom-lg">
             <div class="hometext">{DETAIL.hometext}</div>
@@ -67,25 +90,17 @@
     </div>
 </div>
 
+<div class="news_column row">
 <!-- BEGIN: keywords -->
-<div class="news_column panel panel-default">
-	<div class="panel-body">
+	<div class="col-md-12">
         <div class="h5">
             <em class="fa fa-tags">&nbsp;</em><strong>{LANG.keywords}: </strong><!-- BEGIN: loop --><a title="{KEYWORD}" href="{LINK_KEYWORDS}"><em>{KEYWORD}</em></a>{SLASH}<!-- END: loop -->
         </div>
     </div>
-</div>
 <!-- END: keywords -->
 
-<!-- BEGIN: adminlink -->
-<p class="text-center margin-bottom-lg">
-    {ADMINLINK}
-</p>
-<!-- END: adminlink -->
-
 <!-- BEGIN: allowed_rating -->
-<div class="news_column panel panel-default">
-	<div class="panel-body">
+	<div class="col-md-12">
         <form id="form3B" action="">
             <div class="h5 clearfix">
                 <p>{STRINGRATING}</p>
@@ -100,66 +115,50 @@
                 </div>
             </div>
         </form>
-<script>
-$(function() {
-    var sr = 0;
-    $(".hover-star").rating({
-    	focus: function(b, c) {
-    		var a = $("#hover-test");
-    		2 != sr && (a[0].data = a[0].data || a.html(), a.html(c.title || "value: " + b), sr = 1)
-    	},
-    	blur: function(b, c) {
-    		var a = $("#hover-test");
-    		2 != sr && ($("#hover-test").html(a[0].data || ""), sr = 1)
-    	},
-    	callback: function(b, c) {
-    		1 == sr && (sr = 2, $(".hover-star").rating("disable"), sendrating("{NEWSID}", b, "{NEWSCHECKSS}"))
-    	}
-    });
-    $(".hover-star").rating("select", "{NUMBERRATING}");
-    <!-- BEGIN: disablerating -->
-    $(".hover-star").rating('disable');
-    sr = 2;
-    <!-- END: disablerating -->
-})
-</script>
-    </div>
+	<script>
+	$(function() {
+		var sr = 0;
+		$(".hover-star").rating({
+			focus: function(b, c) {
+				var a = $("#hover-test");
+				2 != sr && (a[0].data = a[0].data || a.html(), a.html(c.title || "value: " + b), sr = 1)
+			},
+			blur: function(b, c) {
+				var a = $("#hover-test");
+				2 != sr && ($("#hover-test").html(a[0].data || ""), sr = 1)
+			},
+			callback: function(b, c) {
+				1 == sr && (sr = 2, $(".hover-star").rating("disable"), sendrating("{NEWSID}", b, "{NEWSCHECKSS}"))
+			}
+		});
+		$(".hover-star").rating("select", "{NUMBERRATING}");
+		<!-- BEGIN: disablerating -->
+		$(".hover-star").rating('disable');
+		sr = 2;
+		<!-- END: disablerating -->
+	})
+	</script>
+	</div>
 </div>
 <!-- END: allowed_rating -->
 
+<!-- BEGIN: adminlink -->
+<p class="text-center margin-bottom-lg">
+    {ADMINLINK}
+</p>
+<!-- END: adminlink -->
+
 <!-- BEGIN: comment -->
-<div class="news_column panel panel-default">
-	<div class="panel-body">
+<div class="row">
+	<div class="comment_box">
 	{CONTENT_COMMENT}
     </div>
 </div>
 <!-- END: comment -->
 
 <!-- BEGIN: others -->
-<div class="panel panel-default">
-	<div class="panel-body other-news">
-    	<!-- BEGIN: playlist -->
-        <div class="clearfix">
-        	<p class="h3"><strong>{LANG.playlist}</strong></p>
-            <div class="clearfix">
-            	<ul class="related">
-            		<!-- BEGIN: loop -->
-            		<li>
-            			<em class="fa fa-angle-right">&nbsp;</em>
-            			<a href="{PLAYLIST.link}"<!-- BEGIN: tooltip --> data-placement="{TOOLTIP_POSITION}" data-content="{PLAYLIST.hometext}" data-img="{PLAYLIST.imghome}" data-rel="tooltip"<!-- END: tooltip --> title="{PLAYLIST.title}">{PLAYLIST.title}</a>
-            			<em>({PLAYLIST.time})</em>
-            			<!-- BEGIN: newday -->
-            			<span class="icon_new">&nbsp;</span>
-            			<!-- END: newday -->
-            		</li>
-            		<!-- END: loop -->
-            	</ul>
-            </div>
-        	<p class="text-right">
-        		<a title="{PLAYLIST.playlisttitle}" href="{PLAYLIST.playlistlink}">{LANG.more}</a>
-        	</p>
-        </div>
-    	<!-- END: playlist -->
+<div class="row">
+	<div class="other-news">
         
     	<!-- BEGIN: related_new -->
     	<p class="h3"><strong>{LANG.related_new}</strong></p>
@@ -224,6 +223,16 @@ playerInstance.setup({
   });
 </script>
 <!-- END: jwplayer -->
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.pack.js"></script>
+<script src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.MetaData.js" type="text/javascript"></script>
+<script src="{NV_BASE_SITEURL}themes/default/js/videos_shorten.js" type="text/javascript"></script>
+<script language="javascript">
+$(document).ready(function() {
+	$(".bodytext").shorten({showChars: 20});
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
+</script>
 <!-- END: main -->
 
 <!-- BEGIN: no_permission -->

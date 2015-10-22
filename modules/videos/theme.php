@@ -24,7 +24,7 @@ function viewcat_grid_new( $array_catpage, $catid, $generate_page )
 		$xtpl->assign( 'CONTENT', $global_array_cat[$catid] );
 		if( $global_array_cat[$catid]['image'] )
 		{
-			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $global_array_cat[$catid]['image'] );
+			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $global_array_cat[$catid]['image'] );
 			$xtpl->parse( 'main.viewdescription.image' );
 		}
 		$xtpl->parse( 'main.viewdescription' );
@@ -119,7 +119,7 @@ function viewcat_list_new( $array_catpage, $catid, $page, $generate_page )
 		$xtpl->assign( 'CONTENT', $global_array_cat[$catid] );
 		if( $global_array_cat[$catid]['image'] )
 		{
-			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $global_array_cat[$catid]['image'] );
+			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $global_array_cat[$catid]['image'] );
 			$xtpl->parse( 'main.viewdescription.image' );
 		}
 		$xtpl->parse( 'main.viewdescription' );
@@ -179,7 +179,7 @@ function viewcat_page_new( $array_catpage, $array_cat_other, $generate_page )
 		$xtpl->assign( 'CONTENT', $global_array_cat[$catid] );
 		if( $global_array_cat[$catid]['image'] )
 		{
-			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $global_array_cat[$catid]['image'] );
+			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $global_array_cat[$catid]['image'] );
 			$xtpl->parse( 'main.viewdescription.image' );
 		}
 		$xtpl->parse( 'main.viewdescription' );
@@ -299,7 +299,7 @@ function viewcat_top( $array_catcontent, $generate_page )
 		$xtpl->assign( 'CONTENT', $global_array_cat[$catid] );
 		if( $global_array_cat[$catid]['image'] )
 		{
-			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $global_array_cat[$catid]['image'] );
+			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $global_array_cat[$catid]['image'] );
 			$xtpl->parse( 'main.viewdescription.image' );
 		}
 		$xtpl->parse( 'main.viewdescription' );
@@ -471,7 +471,7 @@ function viewcat_two_column( $array_content, $array_catpage )
 		$xtpl->assign( 'CONTENT', $global_array_cat[$catid] );
 		if( $global_array_cat[$catid]['image'] )
 		{
-			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $global_array_cat[$catid]['image'] );
+			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $global_array_cat[$catid]['image'] );
 			$xtpl->parse( 'main.viewdescription.image' );
 		}
 		$xtpl->parse( 'main.viewdescription' );
@@ -600,7 +600,7 @@ function viewcat_two_column( $array_content, $array_catpage )
 	return $xtpl->text( 'main' );
 }
 
-function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_array, $related_array, $playlist_array, $content_comment )
+function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_array, $related_array, $playlist_array, $content_comment, $array_user_playlist )
 {
 	global $global_config, $module_info, $lang_module, $module_name, $module_file, $module_config, $lang_global, $user_info, $admin_info, $client_info;
 
@@ -619,6 +619,8 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	$xtpl->assign( 'NEWSCHECKSS', $news_contents['newscheckss'] );
 	$xtpl->assign( 'DETAIL', $news_contents );
 	$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
+	$xtpl->assign( 'USERLIST_OPS',  $module_info['alias']['user-playlist'] );
+	
 
 	if( $news_contents['allowed_send'] == 1 )
 	{
@@ -809,6 +811,24 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
         $xtpl->parse( 'main.others' );
 	}
 
+	if( ! empty( $array_user_playlist ) )
+	{
+		foreach($array_user_playlist as $array_user_playlist_i)
+		{
+			$xtpl->assign( 'USER_PLAYLIST', $array_user_playlist_i );
+			$xtpl->parse( 'main.user_playlist.loop' );
+		}
+		$xtpl->parse( 'main.user_playlist' );
+	}
+	elseif( $user_info['userid'] > 0 )
+	{
+		$xtpl->parse( 'main.user_create_newlist' );
+	}
+	else
+	{
+		$xtpl->parse( 'main.user_required' );
+	}
+	
 	if( ! empty( $content_comment ) )
 	{
 		$xtpl->assign( 'CONTENT_COMMENT', $content_comment );
@@ -835,7 +855,7 @@ function no_permission()
 	return $xtpl->text( 'no_permission' );
 }
 
-function playlist_theme( $playlist_array, $playlist_other_array, $generate_page, $page_title, $description, $playlist_id, $pl_ss )
+function playlist_theme( $playlist_array, $playlist_other_array, $generate_page, $playlist_info, $playlist_id, $pl_ss )
 {
 	global $lang_module, $module_info, $module_name, $module_file, $playlistalias, $module_config;
 
@@ -848,18 +868,39 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 	$xtpl->assign( 'FAKE_ID', 0 );
 	$xtpl->assign( 'PLIST_CHECKSS', $pl_ss);
 	$xtpl->assign( 'IMGWIDTH1', $module_config[$module_name]['homewidth'] );
-	$xtpl->assign( 'JWPLAYER_LICENSE', $module_config[$module_name]['jwplayer_license'] ? $module_config[$module_name]['jwplayer_license'] : '' );
+	$xtpl->assign( 'VIDEO_CONFIG', $module_config[$module_name] );
+	
 
-	if( ! empty( $description ) )
+	if( ! empty( $playlist_info ) )
 	{
-		$xtpl->assign( 'PLAYLIST_DESCRIPTION', $description );
-		$xtpl->parse( 'main.playlistdescription' );
+		$playlist_info['add_time'] = nv_date( 'H:i d/m/Y', $playlist_info['add_time'] );
+		$xtpl->assign( 'PLAYLIST_INFO', $playlist_info );
+		if( !empty(playlist_info['description']) )
+		{
+			$xtpl->parse( 'main.playlist_info.description' );
+		}
+		
+		if( $playlist_info['add_time'] > 0 )
+		{
+			$xtpl->parse( 'main.playlist_info.time' );
+		}
+		
+		if( $playlist_info['hitstotal'] > 0 )
+		{
+			$xtpl->parse( 'main.playlist_info.viewed' );
+		}
+		
+		$xtpl->parse( 'main.playlist_info' );
 	}
 
 	if( ! empty( $playlist_array ) )
 	{
 		if( $playlist_id > 0 )
 		{
+			if(  ($module_config[$module_name]['jwplayer_logo'] > 0) and (isset($module_config[$module_name]['jwplayer_logo_file'])) )
+			{
+				$xtpl->parse( 'main.player.player_logo' );
+			}
 			$xtpl->parse( 'main.player' );
 		}
 		else
@@ -883,6 +924,10 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 				$xtpl->parse( 'main.playlist_loop' );
 			}
 		}
+	}
+	else
+	{
+		$xtpl->parse( 'main.no_video_inlist' );
 	}
 
 	if( ! empty( $playlist_other_array ) )

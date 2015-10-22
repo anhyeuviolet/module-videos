@@ -97,7 +97,8 @@ if( ! empty( $savecat ) )
 
 $array_status = array(
 	$lang_global['no'],
-	$lang_global['yes']
+	$lang_global['yes'],
+	$lang_module['playlist_waiting_approve']
 );
 
 $array_share_mode = array(

@@ -1,65 +1,76 @@
 <!-- BEGIN: main -->
-<div id="module_show_playlist">
-	{PLAYLIST_CAT_LIST}
-</div>
-<br/>
-<a id="edit"></a>
-<!-- BEGIN: error -->
-<div class="alert alert-warning">{ERROR}</div>
-<!-- END: error -->
-<form class="form-horizontal" action="{NV_BASE_SITEURL}index.php" method="post">
-	<input type="hidden" name ="{NV_NAME_VARIABLE}" value="{MODULE_NAME}" />
-	<input type="hidden" name ="{NV_OP_VARIABLE}" value="{OP}" />
-	<input type="hidden" name ="playlist_id" value="{PLAYLIST_ID}" />
-	<input name="savecat" type="hidden" value="1" />
-	<div class="table-responsive">
-		<table class="table table-striped table-bordered table-hover">
-			<caption><em class="fa fa-file-text-o">&nbsp;</em>{LANG.add_playlist_cat}</caption>
-			<tfoot>
-				<tr>
-					<td class="text-center" colspan="2"><input class="btn btn-primary" name="submit1" type="submit" value="{LANG.save} Save" /></td>
-				</tr>
-			</tfoot>
-			<tbody>
-				<tr>
-					<td class="text-right"><strong>{LANG.name}: </strong><sup class="required">(∗)</sup></td>
-					<td>
-						<input class="form-control w500" name="title" id="idtitle" type="text" value="{title}" maxlength="255" />
-					</td>
-				</tr>
-				<tr>
-					<td class="text-right"><strong>{LANG.alias}: </strong></td>
-					<td>
-						<input class="form-control w500 pull-left" name="alias" id="idalias" type="text" value="{alias}" maxlength="255" /> 
-						&nbsp; <span class="text-middle"><em class="fa fa-refresh fa-lg fa-pointer" onclick="get_alias();">&nbsp;</em></span>
-					</td>
-				</tr>
-				<tr>
-					<td class="text-right"><strong>{LANG.playlist_public}: </strong></td>
-					<td>
-						<select class="form-control w200" name="private_mode" id="private_mode">
-							<!-- BEGIN: private_mode -->
-							<option value="{PRIVATE_MODE.key}" {PRIVATE_MODE.selected}>{PRIVATE_MODE.title}</option>
-							<!-- END: private_mode -->
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td class="text-right"><strong>{LANG.keywords}: </strong></td>
-					<td><input class="form-control w500" name="keywords" type="text" value="{keywords}" maxlength="255" /></td>
-				</tr>
-				<tr>
-					<td class="text-right"><strong>{LANG.description}</strong></td>
-					<td><textarea class="w500 form-control" id="description" name="description" cols="100" rows="5">{description}</textarea></td>
-				</tr>
-				<tr>
-					<td class="text-right"><strong>{LANG.content_homeimg}</strong></td>
-					<td><input class="form-control w500 pull-left" style="margin-right: 5px" type="text" name="image" id="image" value="{image}"/></td>
-				</tr>
-			</tbody>
-		</table>
+<div class="row">
+	<div id="module_show_playlist" class="col-md-24">
+		{PLAYLIST_CAT_LIST}
 	</div>
-</form>
+	<br/>
+	<a id="edit"></a>
+	<!-- BEGIN: error -->
+	<div class="alert alert-warning">{ERROR}</div>
+	<!-- END: error -->
+	<!-- BEGIN: edit_playlist -->
+	<div class="col-md-24">
+		<form class="form-horizontal" action="{NV_BASE_SITEURL}index.php" method="post">
+			<input type="hidden" name ="{NV_NAME_VARIABLE}" value="{MODULE_NAME}" />
+			<input type="hidden" name ="{NV_OP_VARIABLE}" value="{OP}" />
+			<input type="hidden" name ="playlist_id" value="{PLAYLIST_ID}" />
+			<input name="savecat" type="hidden" value="1" />
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered table-hover">
+					<caption><em class="fa fa-file-text-o">&nbsp;</em>{LANG.add_playlist_cat}</caption>
+					<tfoot>
+						<tr>
+							<td class="text-center" colspan="2"><input class="btn btn-primary" name="submit1" type="submit" value="{LANG.save}" /></td>
+						</tr>
+					</tfoot>
+					<tbody>
+						<tr>
+							<td class="text-right"><strong>{LANG.name}: </strong><sup class="required">(∗)</sup></td>
+							<td>
+								<input class="form-control w500" name="title" id="idtitle" type="text" value="{title}" maxlength="255" />
+							</td>
+						</tr>
+						<tr>
+							<td class="text-right"><strong>{LANG.alias}: </strong></td>
+							<td>
+								<input class="form-control form_80 pull-left" name="alias" id="idalias" type="text" value="{alias}" maxlength="255" /> 
+								&nbsp; <span class="text-middle"><em class="fa fa-refresh fa-lg fa-pointer" onclick="get_alias();">&nbsp;</em></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-right"><strong>{LANG.playlist_public}: </strong></td>
+							<td>
+								<select class="form-control w200" name="private_mode" id="private_mode">
+									<!-- BEGIN: private_mode -->
+									<option value="{PRIVATE_MODE.key}" {PRIVATE_MODE.selected}>{PRIVATE_MODE.title}</option>
+									<!-- END: private_mode -->
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-right"><strong>{LANG.keywords}: </strong></td>
+							<td><input class="form-control w500" name="keywords" type="text" value="{keywords}" maxlength="255" /></td>
+						</tr>
+						<tr>
+							<td class="text-right"><strong>{LANG.description}</strong></td>
+							<td><textarea class="w500 form-control" id="description" name="description" cols="100" rows="5">{description}</textarea></td>
+						</tr>
+						<tr>
+							<td class="text-right"><strong>{LANG.content_homeimg}</strong></td>
+							<td><input class="form-control w500 pull-left" style="margin-right: 5px" type="text" name="image" id="image" value="{image}"/></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+	<!-- END: edit_playlist -->
+	<!-- BEGIN: userpl_disable -->
+	<div class="col-md-24 alert alert-info">
+	{LANG.userpl_disable}
+	</div>
+	<!-- END: userpl_disable -->
+</div>
 <script type="text/javascript">
 <!-- BEGIN: getalias -->
 $("#idtitle").change(function() {
@@ -78,7 +89,6 @@ $("#del_playlist").click(function(event){
 <div id="module_show_list">
 	{PLAYLIST_LIST}
 </div>
-
 <!-- BEGIN: news -->
 <div id="add">
 	<form class="form-inline" role="form" action="{NV_BASE_ADMINURL}index.php" method="post">

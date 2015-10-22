@@ -403,7 +403,15 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	}
 	global $detail_playlist_id;
 	$detail_playlist_id = $news_contents['playlist_id'];
-	$contents = detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_array, $related_array, $playlist_array, $content_comment );
+	
+	// call user playlist
+	if( $user_info['userid'] > 0)
+	{
+		$sql = 'SELECT playlist_id, title FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE userid=' . $user_info['userid'] . ' AND status=1 ORDER BY weight ASC';
+		$array_user_playlist = $db->query( $sql )->fetchAll();
+	}
+	
+	$contents = detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_array, $related_array, $playlist_array, $content_comment, $array_user_playlist );
 	$id_profile_googleplus = $news_contents['gid'];
 
 	$page_title = $news_contents['title'];

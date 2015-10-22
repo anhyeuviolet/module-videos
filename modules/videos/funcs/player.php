@@ -68,7 +68,7 @@ if( empty( $contents ) )
 		{
 			if( $data['homeimgthumb'] == 1 ) // image thumb
 			{
-				$data['rss_img'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $data['homeimgfile'];
+				$data['rss_img'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $data['homeimgfile'];
 			}
 			elseif( $data['homeimgthumb'] == 2 ) // image file
 			{
