@@ -46,7 +46,7 @@ playerInstance.setup({
 	<!-- BEGIN: player_logo -->
 	logo: {
 		file: '{VIDEO_CONFIG.jwplayer_logo_file}',
-		link: '{NV_BASE_SITEURL}'
+		link: '{NV_MY_DOMAIN}'
 	},
 	<!-- END: player_logo -->
 	skin: {"name": "stormtrooper"},

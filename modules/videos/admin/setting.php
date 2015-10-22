@@ -47,7 +47,7 @@ if( ! empty( $savesetting ) )
 	$array_config['jwplayer_loop'] = $nv_Request->get_title( 'jwplayer_loop', 'post', '', 0 );
 	$array_config['jwplayer_controlbar'] = $nv_Request->get_title( 'jwplayer_controlbar', 'post', '', 0 );
 	$array_config['jwplayer_mute'] = $nv_Request->get_title( 'jwplayer_mute', 'post', 0 );
-	$array_config['jwplayer_logo'] = $nv_Request->get_title( 'jwplayer_logo', 'post', 0 );
+	$array_config['jwplayer_logo'] = $nv_Request->get_int( 'jwplayer_logo', 'post', 0 );
 	$array_config['jwplayer_logo_file'] = $nv_Request->get_title( 'jwplayer_logo_file', 'post', 0 );
 	
 	$array_config['facebookappid'] = $nv_Request->get_title( 'facebookappid', 'post', '' );
@@ -109,6 +109,11 @@ $xtpl->assign( 'DATA', $module_config[$module_name] );
 $array_jw_js = array(
 	'true' =>$lang_global['yes'],
 	'false' => $lang_global['no']
+	);
+	
+$array_jw_logo = array(
+	$lang_global['no'],
+	$lang_global['yes']
 	);
 
 $array_tooltip_position = array(
@@ -180,7 +185,7 @@ foreach( $array_jw_js as $key => $val )
 	$xtpl->parse( 'main.jwplayer_mute' );
 }
 
-foreach( $array_jw_js as $key => $val )
+foreach( $array_jw_logo as $key => $val )
 {
 	$xtpl->assign( 'JW_LOGO', array(
 		'key' => $key,

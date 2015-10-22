@@ -620,6 +620,14 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	$xtpl->assign( 'DETAIL', $news_contents );
 	$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
 	$xtpl->assign( 'USERLIST_OPS',  $module_info['alias']['user-playlist'] );
+	if( !empty($module_config[$module_name]['jwplayer_logo_file']) and file_exists( NV_ROOTDIR .'/'. $module_config[$module_name]['jwplayer_logo_file'] ) )
+	{
+		$lu = strlen( NV_BASE_SITEURL );
+		$module_config[$module_name]['jwplayer_logo_file'] = NV_BASE_SITEURL . $module_config[$module_name]['jwplayer_logo_file'];
+	}
+
+	$xtpl->assign( 'VIDEO_CONFIG', $module_config[$module_name] );
+
 	
 
 	if( $news_contents['allowed_send'] == 1 )
@@ -629,6 +637,11 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	}
 	if(!empty($href_vid))
 	{
+		if(  $module_config[$module_name]['jwplayer_logo'] > 0 and !empty($module_config[$module_name]['jwplayer_logo_file']))
+		{				
+			$xtpl->parse( 'main.jwplayer.player_logo' );
+		}
+
 		$xtpl->parse( 'main.jwplayer' );
 		$xtpl->parse( 'main.vid_jw_content' );
 	}
@@ -868,14 +881,20 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 	$xtpl->assign( 'FAKE_ID', 0 );
 	$xtpl->assign( 'PLIST_CHECKSS', $pl_ss);
 	$xtpl->assign( 'IMGWIDTH1', $module_config[$module_name]['homewidth'] );
-	$xtpl->assign( 'VIDEO_CONFIG', $module_config[$module_name] );
 	
+	if( !empty($module_config[$module_name]['jwplayer_logo_file']) and file_exists( NV_ROOTDIR .'/'. $module_config[$module_name]['jwplayer_logo_file'] ) )
+	{
+		$lu = strlen( NV_BASE_SITEURL );
+		$module_config[$module_name]['jwplayer_logo_file'] = NV_BASE_SITEURL . $module_config[$module_name]['jwplayer_logo_file'];
+	}
+
+	$xtpl->assign( 'VIDEO_CONFIG', $module_config[$module_name] );
 
 	if( ! empty( $playlist_info ) )
 	{
 		$playlist_info['add_time'] = nv_date( 'H:i d/m/Y', $playlist_info['add_time'] );
 		$xtpl->assign( 'PLAYLIST_INFO', $playlist_info );
-		if( !empty(playlist_info['description']) )
+		if( !empty($playlist_info['description']) )
 		{
 			$xtpl->parse( 'main.playlist_info.description' );
 		}
@@ -897,8 +916,8 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 	{
 		if( $playlist_id > 0 )
 		{
-			if(  ($module_config[$module_name]['jwplayer_logo'] > 0) and (isset($module_config[$module_name]['jwplayer_logo_file'])) )
-			{
+			if(  $module_config[$module_name]['jwplayer_logo'] > 0 and !empty($module_config[$module_name]['jwplayer_logo_file']))
+			{				
 				$xtpl->parse( 'main.player.player_logo' );
 			}
 			$xtpl->parse( 'main.player' );

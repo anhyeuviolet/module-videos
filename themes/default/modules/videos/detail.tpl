@@ -39,7 +39,7 @@
 							<!-- BEGIN: loop -->
 							<option value="{USER_PLAYLIST.playlist_id}">{USER_PLAYLIST.title}</option>
 							<!-- END: loop -->
-						</select><label class="btn btn-primary col-md-3" onclick="nv_add_user_playlist('{DETAIL.id}','add_user_playlist');">{LANG.save}</label>
+						</select>&nbsp;<label class="btn btn-primary col-md-5 margin-left-lg" onclick="nv_add_user_playlist('{DETAIL.id}','add_user_playlist');">{LANG.save}</label>
 					</form>
 					<!-- END: user_playlist -->
 					
@@ -206,15 +206,22 @@
 var playerInstance = jwplayer("videoCont");
 playerInstance.setup({
 	image: "{DETAIL.image.src}",
-	autostart: false,
+	autostart: {VIDEO_CONFIG.jwplayer_autoplay},
 	aspectratio: "16:9",
-	controls: true,
+	controls: {VIDEO_CONFIG.jwplayer_controlbar},
 	displaydescription: true,
 	playlist: "{NV_BASE_SITEURL}{MODULE_NAME}/player/{RAND_SS}{DETAIL.fake_pl_id}-{DETAIL.newscheckss}-{RAND_SS}{DETAIL.id}/",
 	displaytitle: true,
 	flashplayer: "{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.flash.swf",
 	primary: "html5",
-	repeat: false,
+	repeat: {VIDEO_CONFIG.jwplayer_loop},
+	mute: {VIDEO_CONFIG.jwplayer_mute},
+	<!-- BEGIN: player_logo -->
+	logo: {
+		file: '{VIDEO_CONFIG.jwplayer_logo_file}',
+		link: '{NV_MY_DOMAIN}'
+	},
+	<!-- END: player_logo -->
 	skin: {"name": "stormtrooper"},
 	stagevideo: false,
 	stretching: "uniform",
