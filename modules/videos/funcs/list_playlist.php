@@ -8,12 +8,10 @@
  * @Createdate Oct 08, 2015 10:47:41 AM
  */
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
-
 if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
 require NV_ROOTDIR . '/modules/' . $module_file . '/site.functions.php';
 
 $playlist_id = $nv_Request->get_int( 'playlist_id', 'get', 0 );
-
 $contents = nv_show_playlist_list( $playlist_id );
 
 include NV_ROOTDIR . '/includes/header.php';

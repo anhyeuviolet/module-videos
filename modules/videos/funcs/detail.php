@@ -139,13 +139,12 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 
 			$meta_property['og:type'] = 'video.other';
 			$meta_property['og:url'] = $client_info['selfurl'];
-			//$meta_property['og:published_time'] = date( 'Y-m-dTH:i:s', $news_contents['publtime'] );
+			$meta_property['og:published_time'] = date( 'Y-m-dTH:i:s', $news_contents['publtime'] );
 			$meta_property['og:updated_time'] = date( 'Y-m-dTH:i:s', $news_contents['edittime'] );
-			// if( $news_contents['exptime'] )
-			// {
-				// $meta_property['article:expiration_time'] = date( 'Y-m-dTH:i:s', $news_contents['exptime'] );
-			// }
-			//$meta_property['article:section'] = $global_array_cat[$news_contents['catid']]['title'];
+			if( $news_contents['exptime'] )
+			{
+				$meta_property['article:expiration_time'] = date( 'Y-m-dTH:i:s', $news_contents['exptime'] );
+			}
 		}
 
 		if( defined( 'NV_IS_MODADMIN' ) and $news_contents['status'] != 1 )
@@ -407,7 +406,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	// call user playlist
 	if( $user_info['userid'] > 0)
 	{
-		$sql = 'SELECT playlist_id, title FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE userid=' . $user_info['userid'] . ' AND status=1 ORDER BY weight ASC';
+		$sql = 'SELECT playlist_id, title, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE userid=' . $user_info['userid'] . ' ORDER BY weight ASC';
 		$array_user_playlist = $db->query( $sql )->fetchAll();
 	}
 	

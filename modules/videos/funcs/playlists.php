@@ -41,7 +41,6 @@ if( !empty( $alias ) )
 		'favorite' => $favorite
 	);
 	
-
 	if( $playlist_id > 0 )
 	{
 		if( defined( 'NV_IS_MODADMIN' ) )
