@@ -78,14 +78,10 @@ if( empty( $contents ) )
 			{
 				$data['rss_img'] = $data['homeimgfile'];
 			}
-			else // no image
-			{
-				$data['rss_img'] = '';
-			}
 		}
-		elseif($data['vid_type'] != 2)
+		else
 		{
-			$data['rss_img'] = NV_BASE_SITEURL . '/themes/default/images/' . $module_name . '/no_cover.jpg';
+			$data['rss_img'] = '';
 		}
 
 		// Export video link

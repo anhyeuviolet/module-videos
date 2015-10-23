@@ -65,8 +65,10 @@
             <div class="hometext">{DETAIL.hometext}</div>
 		</div>
 		<!-- END: showhometext -->
-		<div id="news-bodyhtml" class="bodytext margin-bottom-lg">
-			{DETAIL.bodytext}
+		<div class="panel panel-default bodytext_shorten">
+			<div id="news-bodyhtml" class="bodytext panel-body margin-bottom-lg">
+				{DETAIL.bodytext}
+			</div>
 		</div>
 		<!-- BEGIN: author -->
         <div class="margin-bottom-lg">
@@ -167,7 +169,7 @@
         		<!-- BEGIN: loop -->
         		<li>
         			<em class="fa fa-angle-right">&nbsp;</em>
-        			<a href="{RELATED_NEW.link}"<!-- BEGIN: tooltip --> data-placement="{TOOLTIP_POSITION}" data-content="{RELATED_NEW.hometext}" data-img="{RELATED_NEW.imghome}" data-rel="tooltip"<!-- END: tooltip -->>{RELATED_NEW.title}</a>
+        			<a href="{RELATED_NEW.link}">{RELATED_NEW.title}</a>
         			<em>({RELATED_NEW.time})</em>
         			<!-- BEGIN: newday -->
         			<span class="icon_new">&nbsp;</span>
@@ -201,7 +203,7 @@
 
 <!-- BEGIN: jwplayer -->
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.js"></script>
-<script type="text/javascript">jwplayer.key="{JWPLAYER_LICENSE}";</script>
+<script type="text/javascript">jwplayer.key="{VIDEO_CONFIG.jwplayer_license}";</script>
 <script type="text/javascript">
 var playerInstance = jwplayer("videoCont");
 playerInstance.setup({
@@ -235,9 +237,11 @@ playerInstance.setup({
 <script src="{NV_BASE_SITEURL}themes/default/js/videos_shorten.js" type="text/javascript"></script>
 <script language="javascript">
 $(document).ready(function() {
-	$(".bodytext").shorten({showChars: 20});
+	$(".bodytext_shorten").shorten({showChars: 200});
     $('[data-toggle="tooltip"]').tooltip();   
 });
+var load_more_text = "{LANG.video_more_text}";
+var load_less_text = "{LANG.video_less_text}";
 </script>
 </script>
 <!-- END: main -->

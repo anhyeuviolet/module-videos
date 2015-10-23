@@ -29,3 +29,29 @@ margin-right: 10px
 }.form_30{
 	width:30%
 }
+.bodytext_collapse{
+	clear: both;
+	width: 100%;
+	float: left;
+    text-align: center;
+    padding: 7px;
+}
+.bodytext_shorten .morelink {
+    color: #FFF;
+    background-color: #428BCA;
+    border-color: #357EBD;
+    display: inline-block;
+    margin-bottom: 0px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 13px;
+    line-height: 1.42857;
+    border-radius: 4px;
+    -moz-user-select: none;
+}

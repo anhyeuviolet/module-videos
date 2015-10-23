@@ -22,7 +22,7 @@
 			<!-- BEGIN: loop -->
 			<tr>
 				<td class="text-center">
-				<select class="form-control" id="id_weight_{ROW.playlist_id}" onchange="nv_chang_playlist_cat('{ROW.playlist_id}','weight');">
+				<select class="form-control" id="id_weight_{ROW.playlist_id}" onchange="nv_change_playlist_cat('{ROW.playlist_id}','weight');">
 					<!-- BEGIN: weight -->
 					<option value="{WEIGHT.key}"{WEIGHT.selected}>{WEIGHT.title}</option>
 					<!-- END: weight -->
@@ -44,7 +44,7 @@
 					</select>
 				</td>
 				<td class="text-center">
-				<select class="form-control" id="id_numlinks_{ROW.playlist_id}" onchange="nv_chang_playlist_cat('{ROW.playlist_id}','numlinks');">
+				<select class="form-control" id="id_numlinks_{ROW.playlist_id}" onchange="nv_change_playlist_cat('{ROW.playlist_id}','numlinks');">
 					<!-- BEGIN: number -->
 					<option value="{NUMBER.key}"{NUMBER.selected}>{NUMBER.title}</option>
 					<!-- END: number -->

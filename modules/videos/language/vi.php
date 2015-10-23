@@ -170,6 +170,7 @@ $lang_module['open_new_window'] = 'Xem ở cửa sổ mới';
 $lang_module['playlist_waiting_moderate'] = 'Đang chờ kiểm duyệt';
 $lang_module['playlist_num_news'] = ' video';
 $lang_module['playlist_add_video'] = 'Thêm vào Playlist';
+$lang_module['playlist_full'] = 'Playlist đã đầy';
 $lang_module['playlist_added_video'] = 'Đã thêm vào Playlist';
 $lang_module['playlist_empty_video'] = 'Playlist chưa có Video nào';
 $lang_module['playlist_select'] = 'Chọn playlist';
@@ -177,3 +178,6 @@ $lang_module['userpl_disable'] = 'Chức năng thêm/sửa Playlist đã bị t�
 $lang_module['user_create_newlist'] = 'Cần tạo mới Playlist';
 $lang_module['user_required'] = 'Đăng ký hoặc đăng nhập để dùng chức năng này';
 $lang_module['video_favorite'] = 'Thích video này';
+
+$lang_module['video_more_text'] = 'Mở rộng';
+$lang_module['video_less_text'] = 'Thu gọn';

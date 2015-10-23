@@ -103,10 +103,12 @@ if(isset($user_info) and $user_info['userid'] > 0 )
 		{
 			$content = 'NO_LIST_OR_VIDEO';
 		}
-		
+
 		$id = ( intval( $id ));
+		$playlist_id = ( intval( $playlist_id ));
 		if( $mod == 'add_user_playlist' and $playlist_id > 0 and $id >0 )
 		{
+			$check_video_inlist = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist WHERE playlist_id=' . $playlist_id )->fetchColumn();
 			$check_video = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist WHERE id=' . $id . ' AND playlist_id=' . $playlist_id )->fetchColumn();
 			if($check_video > 0)
 			{
@@ -114,10 +116,17 @@ if(isset($user_info) and $user_info['userid'] > 0 )
 			}
 			else
 			{
-				$sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_playlist (playlist_id, id, playlist_sort) VALUES (' . $playlist_id . ', ' . $id . ', 0)';
-				$db->query( $sql );
-				nv_fix_playlist( $playlist_id );
-				$content = $lang_module['playlist_added_video'];
+				if( $check_video_inlist >= $module_config[$module_name]['playlist_max_items'])
+				{
+					$content = $lang_module['playlist_full'];
+				}
+				else
+				{
+					$sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_playlist (playlist_id, id, playlist_sort) VALUES (' . $playlist_id . ', ' . $id . ', 0)';
+					$db->query( $sql );
+					nv_fix_playlist( $playlist_id );
+					$content = $lang_module['playlist_added_video'];
+				}
 			}
 			nv_del_moduleCache( $module_name );
 		}

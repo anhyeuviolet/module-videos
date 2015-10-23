@@ -21,23 +21,16 @@ if( $NV_IS_ADMIN_FULL_MODULE )
 }
 
 $array_viewcat_full = array(
+	'viewgrid_by_cat' => $lang_module['viewgrid_by_cat'],
 	'viewcat_page_new' => $lang_module['viewcat_page_new'],
 	'viewcat_page_old' => $lang_module['viewcat_page_old'],
-	'viewcat_list_new' => $lang_module['viewcat_list_new'],
-	'viewcat_list_old' => $lang_module['viewcat_list_old'],
 	'viewcat_grid_new' => $lang_module['viewcat_grid_new'],
 	'viewcat_grid_old' => $lang_module['viewcat_grid_old'],
-	'viewcat_main_left' => $lang_module['viewcat_main_left'],
-	'viewcat_main_right' => $lang_module['viewcat_main_right'],
-	'viewcat_main_bottom' => $lang_module['viewcat_main_bottom'],
-	'viewcat_two_column' => $lang_module['viewcat_two_column'],
 	'viewcat_none' => $lang_module['viewcat_none']
 );
 $array_viewcat_nosub = array(
 	'viewcat_page_new' => $lang_module['viewcat_page_new'],
 	'viewcat_page_old' => $lang_module['viewcat_page_old'],
-	'viewcat_list_new' => $lang_module['viewcat_list_new'],
-	'viewcat_list_old' => $lang_module['viewcat_list_old'],
 	'viewcat_grid_new' => $lang_module['viewcat_grid_new'],
 	'viewcat_grid_old' => $lang_module['viewcat_grid_old']
 );

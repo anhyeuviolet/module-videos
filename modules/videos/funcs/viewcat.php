@@ -59,6 +59,10 @@ if( empty( $contents ) )
 	$array_cat_other = array();
 	$base_url = $global_array_cat[$catid]['link'];
 	$show_no_image = $module_config[$module_name]['show_no_image'];
+	if(empty($show_no_image))
+	{
+		$show_no_image = 'themes/default/images/' . $module_name . '/' . 'video_placeholder.png';
+	}
 
 	if( $viewcat == 'viewcat_page_new' or $viewcat == 'viewcat_page_old' or $set_view_page )
 	{
@@ -71,7 +75,7 @@ if( empty( $contents ) )
 
 		$num_items = $db->query( $db->sql() )->fetchColumn();
 
-		$db->select( 'id, listcatid, playlist_id, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' );
+		$db->select( 'id, listcatid, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' );
 
 		$featured = 0;
 		if( $global_array_cat[$catid]['featured'] != 0 )
@@ -166,7 +170,7 @@ if( empty( $contents ) )
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 		$contents = viewcat_page_new( $array_catpage, $array_cat_other, $generate_page );
 	}
-	elseif( $viewcat == 'viewcat_main_left' or $viewcat == 'viewcat_main_right' or $viewcat == 'viewcat_main_bottom' )
+	elseif( $viewcat == 'viewgrid_by_cat' ) // Phan theo tung chuyen muc dang luoi
 	{
 		$array_catcontent = array();
 		$array_subcatpage = array();
@@ -178,7 +182,7 @@ if( empty( $contents ) )
 
 		$num_items = $db->query( $db->sql() )->fetchColumn();
 
-		$db->select( 'id, listcatid, playlist_id, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' );
+		$db->select( 'id, listcatid, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' );
 
 		$featured = 0;
 		if( $global_array_cat[$catid]['featured'] != 0 )
@@ -261,7 +265,7 @@ if( empty( $contents ) )
 			{
 				$array_cat_other[$key] = $global_array_cat[$catid_i];
 				$db->sqlreset()
-					->select( 'id, catid, listcatid, playlist_id, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
+					->select( 'id, catid, listcatid, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
 					->from( NV_PREFIXLANG . '_' . $module_data . '_' . $catid_i );
 
 				$featured = 0;
@@ -347,183 +351,6 @@ if( empty( $contents ) )
 		$contents = viewcat_top( $array_catcontent, $generate_page );
 		$contents .= call_user_func( 'viewsubcat_main', $viewcat, $array_cat_other );
 	}
-	elseif( $viewcat == 'viewcat_two_column' )
-	{
-		// Cac bai viet phan dau
-		$array_catcontent = array();
-
-		$db->sqlreset()
-			->select( 'id, listcatid, playlist_id, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
-			->from( NV_PREFIXLANG . '_' . $module_data . '_' . $catid )
-			->where( 'status=1' );
-		$featured = 0;
-		if( $global_array_cat[$catid]['featured'] != 0 )
-		{
-			$db->where( 'id=' . $global_array_cat[$catid]['featured'] . ' and status= 1' );
-			$result = $db->query( $db->sql() );
-			while( $item = $result->fetch() )
-			{
-				if( $item['homeimgthumb'] == 1 ) //image thumb
-				{
-					$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-				}
-				elseif( $item['homeimgthumb'] == 2 ) //image file
-				{
-					$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-				}
-				elseif( $item['homeimgthumb'] == 3 ) //image url
-				{
-					$item['imghome'] = $item['homeimgfile'];
-				}
-				elseif( ! empty( $show_no_image ) ) //no image
-				{
-					$item['imghome'] = NV_BASE_SITEURL . $show_no_image;
-				}
-				else
-				{
-					$item['imghome'] = '';
-				}
-
-				$item['newday'] = $global_array_cat[$catid]['newday'];
-				$item['link'] = $global_array_cat[$catid]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
-				$array_catcontent[] = $item;
-				$featured = $item['id'];
-			}
-		}
-		if( $featured )
-		{
-			$db->where( 'status= 1 AND id!=' . $featured )->limit( $array_cat_i['numlinks'] - 1 );
-		}
-		else
-		{
-			$db->where( 'status= 1' )->limit( $array_cat_i['numlinks'] );
-		}
-
-		$db->order( 'publtime DESC' )
-			->offset( ( $page - 1 ) * $per_page );
-		$result = $db->query( $db->sql() );
-		while( $item = $result->fetch() )
-		{
-			if( $item['homeimgthumb'] == 1 ) //image thumb
-			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-			}
-			elseif( $item['homeimgthumb'] == 2 ) //image file
-			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-			}
-			elseif( $item['homeimgthumb'] == 3 ) //image url
-			{
-				$item['imghome'] = $item['homeimgfile'];
-			}
-			elseif( ! empty( $show_no_image ) ) //no image
-			{
-				$item['imghome'] = NV_BASE_SITEURL . $show_no_image;
-			}
-			else
-			{
-				$item['imghome'] = '';
-			}
-
-			$item['newday'] = $global_array_cat[$catid]['newday'];
-			$item['link'] = $global_array_cat[$catid]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
-			$array_catcontent[] = $item;
-		}
-		unset( $sql, $result );
-		// Het cac bai viet phan dau
-
-		// cac bai viet cua cac chu de con
-		$key = 0;
-		$array_catid = explode( ',', $global_array_cat[$catid]['subcatid'] );
-
-		foreach( $array_catid as $catid_i )
-		{
-			$array_cat_other[$key] = $global_array_cat[$catid_i];
-			$db->sqlreset()
-				->select( 'id, listcatid, playlist_id, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
-				->from( NV_PREFIXLANG . '_' . $module_data . '_' . $catid_i )
-				->where( 'status=1' );
-
-			$featured = 0;
-			if( $global_array_cat[$catid_i]['featured'] != 0 )
-			{
-				$db->where( 'id=' . $global_array_cat[$catid_i]['featured'] . ' and status= 1' );
-				$result = $db->query( $db->sql() );
-				while( $item = $result->fetch() )
-				{
-					if( $item['homeimgthumb'] == 1 ) //image thumb
-					{
-						$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-					}
-					elseif( $item['homeimgthumb'] == 2 ) //image file
-					{
-						$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-					}
-					elseif( $item['homeimgthumb'] == 3 ) //image url
-					{
-						$item['imghome'] = $item['homeimgfile'];
-					}
-					elseif( ! empty( $show_no_image ) ) //no image
-					{
-						$item['imghome'] = NV_BASE_SITEURL . $show_no_image;
-					}
-					else
-					{
-						$item['imghome'] = '';
-					}
-
-					$item['newday'] = $global_array_cat[$catid_i]['newday'];
-					$item['link'] = $global_array_cat[$catid_i]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
-					$array_cat_other[$key]['content'][] = $item;
-					$featured = $item['id'];
-				}
-			}
-
-			if( $featured )
-			{
-				$db->where( 'status= 1 AND inhome=1 AND id!=' . $featured )->limit( $array_cat_i['numlinks'] - 1 )->order( 'publtime DESC' );;
-			}
-			else
-			{
-				$db->where( 'status= 1 AND inhome=1' )->limit( $array_cat_i['numlinks'] )->order( 'publtime DESC' );;
-			}
-
-			$result = $db->query( $db->sql() );
-			while( $item = $result->fetch() )
-			{
-				if( $item['homeimgthumb'] == 1 ) //image thumb
-				{
-					$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-				}
-				elseif( $item['homeimgthumb'] == 2 ) //image file
-				{
-					$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-				}
-				elseif( $item['homeimgthumb'] == 3 ) //image url
-				{
-					$item['imghome'] = $item['homeimgfile'];
-				}
-				elseif( ! empty( $show_no_image ) ) //no image
-				{
-					$item['imghome'] = NV_BASE_SITEURL . $show_no_image;
-				}
-				else
-				{
-					$item['imghome'] = '';
-				}
-
-				$item['newday'] = $global_array_cat[$catid_i]['newday'];
-				$item['link'] = $global_array_cat[$catid_i]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
-				$array_cat_other[$key]['content'][] = $item;
-			}
-
-			++$key;
-		}
-
-		unset( $sql, $result );
-		//Het cac bai viet cua cac chu de con
-		$contents = call_user_func( $viewcat, $array_catcontent, $array_cat_other );
-	}
 	elseif( $viewcat == 'viewcat_grid_new' or $viewcat == 'viewcat_grid_old' )
 	{
 		$order_by = ( $viewcat == 'viewcat_grid_new' ) ? 'publtime DESC' : 'publtime ASC';
@@ -535,7 +362,7 @@ if( empty( $contents ) )
 
 		$num_items = $db->query( $db->sql() )->fetchColumn();
 
-		$db->select( 'id, listcatid, playlist_id, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
+		$db->select( 'id, listcatid, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
 			->order( $order_by )
 			->limit( $per_page )
 			->offset( ( $page - 1 ) * $per_page );
@@ -573,56 +400,6 @@ if( empty( $contents ) )
 		$featured=$global_array_cat[$catid]['featured'];
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 		$contents = call_user_func( $viewcat, $array_catpage, $catid, $generate_page );
-	}
-	elseif( $viewcat == 'viewcat_list_new' or $viewcat == 'viewcat_list_old' ) // Xem theo tieu de
-	{
-		$order_by = ( $viewcat == 'viewcat_list_new' ) ? 'publtime DESC' : 'publtime ASC';
-
-		$db->sqlreset()
-			->select( 'COUNT(*)' )
-			->from( NV_PREFIXLANG . '_' . $module_data . '_' . $catid )
-			->where( 'status=1' );
-
-		$num_items = $db->query( $db->sql() )->fetchColumn();
-		$featured = 0;
-		if( $global_array_cat[$catid]['featured'] != 0 )
-		{
-			$db->select( 'id, listcatid, playlist_id, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
-				->where( 'id=' . $global_array_cat[$catid]['featured'] );
-			$result = $db->query( $db->sql() );
-			while( $item = $result->fetch() )
-			{
-				$item['imghome'] = '';
-				$item['newday'] = $global_array_cat[$catid]['newday'];
-				$item['link'] = $global_array_cat[$catid]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
-				$array_catpage[] = $item;
-				$featured = $item['id'];
-			}
-		}
-		if( $featured )
-		{
-			$db->where( 'status= 1 AND inhome=1 AND id!=' . $featured );
-		}
-		else
-		{
-			$db->where( 'status= 1 AND inhome=1' );
-		}
-		$db->select( 'id, listcatid, playlist_id, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
-			->order( $order_by )
-			->limit( $per_page )
-			->offset( ( $page - 1) * $per_page );
-		$results = $db->query( $db->sql() );
-		while( $item = $results->fetch() )
-		{
-			$item['imghome'] = '';
-			$item['newday'] = $global_array_cat[$catid]['newday'];
-			$item['link'] = $global_array_cat[$catid]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
-			$array_catpage[] = $item;
-		}
-
-		$viewcat = 'viewcat_list_new';
-		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
-		$contents = call_user_func( $viewcat, $array_catpage, $catid, ( $page - 1) * $per_page, $generate_page );
 	}
 
 	if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' )
