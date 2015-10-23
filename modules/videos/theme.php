@@ -460,6 +460,10 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	{
 		foreach($array_user_playlist as $array_user_playlist_i)
 		{
+			if( $array_user_playlist_i['status'] == 2 )
+			{
+				$array_user_playlist_i['disabled'] = 'disabled=disabled';
+			}
 			$xtpl->assign( 'USER_PLAYLIST', $array_user_playlist_i );
 			$xtpl->parse( 'main.user_playlist.loop' );
 		}

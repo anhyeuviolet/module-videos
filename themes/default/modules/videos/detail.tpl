@@ -37,7 +37,7 @@
 						<select class="form-control form_60 pull-left" id="add_user_playlist">
 							<option class="text-center" value="">---------</option>
 							<!-- BEGIN: loop -->
-							<option value="{USER_PLAYLIST.playlist_id}">{USER_PLAYLIST.title}</option>
+							<option value="{USER_PLAYLIST.playlist_id}" {USER_PLAYLIST.disabled}>{USER_PLAYLIST.title}</option>
 							<!-- END: loop -->
 						</select>&nbsp;<label class="btn btn-primary col-md-5 margin-left-lg" onclick="nv_add_user_playlist('{DETAIL.id}','add_user_playlist');">{LANG.save}</label>
 					</form>
