@@ -9,9 +9,13 @@
  */
 
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
-require_once NV_ROOTDIR . '/modules/' . $module_file . '/site.functions.php';
-if(isset($user_info) and $user_info['userid'] > 0 )
+
+require NV_ROOTDIR . '/modules/' . $module_file . '/site.functions.php'; // Include site lib
+
+// Check if is user
+if( isset($user_info) and $user_info['userid'] > 0 )
 {
+	// Check if is AJAX method
 	$ajax = $nv_Request->get_int( 'ajax', 'post', '' );
 	if( $ajax == 1 ) // Change order of vids in playlist and del vids in playlist
 	{
@@ -157,6 +161,7 @@ if(isset($user_info) and $user_info['userid'] > 0 )
 		include NV_ROOTDIR . '/includes/footer.php';
 	}
 
+	// User playlist site function
 	$array_mod_title[] = array(
 		'catid' => 0,
 		'title' => $lang_module['your_playlist'],

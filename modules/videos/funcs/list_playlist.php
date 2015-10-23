@@ -10,7 +10,7 @@
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
 
 if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
-require_once NV_ROOTDIR . '/modules/' . $module_file . '/site.functions.php';
+require NV_ROOTDIR . '/modules/' . $module_file . '/site.functions.php';
 
 $playlist_id = $nv_Request->get_int( 'playlist_id', 'get', 0 );
 

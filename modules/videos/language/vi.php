@@ -153,7 +153,6 @@ $lang_module['status_10'] = 'Đang kiểm tra để đăng';
 $lang_module['playlist_share_off'] = 'Riêng tư';
 $lang_module['playlist_share_on'] = 'Công khai';
 $lang_module['playlist_remove_videos'] = 'Bạn muốn xoá video này khỏi playlist ?';
-
 $lang_module['playlist_public'] = 'Hiển thị';
 $lang_module['playlist_status'] = 'Hoạt động';
 $lang_module['playlist'] = 'Danh mục phát';
@@ -164,6 +163,7 @@ $lang_module['playlists'] = 'Playlist';
 $lang_module['playlist_sort'] = 'Thứ tự';
 $lang_module['description'] = 'Mô tả';
 $lang_module['error_name'] = 'Lỗi:Bạn cần nhập Tiêu đề';
+
 $lang_module['save'] = 'Lưu';
 $lang_module['play'] = 'Phát';
 $lang_module['open_new_window'] = 'Xem ở cửa sổ mới';
@@ -174,10 +174,11 @@ $lang_module['playlist_full'] = 'Playlist đã đầy';
 $lang_module['playlist_added_video'] = 'Đã thêm vào Playlist';
 $lang_module['playlist_empty_video'] = 'Playlist chưa có Video nào';
 $lang_module['playlist_select'] = 'Chọn playlist';
+
 $lang_module['userpl_disable'] = 'Chức năng thêm/sửa Playlist đã bị tắt';
 $lang_module['user_create_newlist'] = 'Cần tạo mới Playlist';
 $lang_module['user_required'] = 'Đăng ký hoặc đăng nhập để dùng chức năng này';
-$lang_module['video_favorite'] = 'Thích video này';
 
+$lang_module['video_favorite'] = 'Thích video này';
 $lang_module['video_more_text'] = 'Mở rộng';
 $lang_module['video_less_text'] = 'Thu gọn';

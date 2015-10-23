@@ -638,6 +638,10 @@ function nv_show_playlist_cat_list()
 				) );
 				$xtpl->parse( 'main.loop.number' );
 			}
+			if($row['status'] == 2)
+			{
+				$xtpl->parse( 'main.loop.pending' );
+			}
 
 			$xtpl->parse( 'main.loop' );
 		}

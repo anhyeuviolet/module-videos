@@ -70,9 +70,9 @@ for (var index=0;index<playlist.length;index++){
 }
 html +="</ul>"
 });
-	function playThis(index) {
-		playerInstance.playlistItem(index);
-	}
+function playThis(index) {
+	playerInstance.playlistItem(index);
+}
 </script>
 <!-- END: player -->
 
