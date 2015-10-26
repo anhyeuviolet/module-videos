@@ -54,11 +54,19 @@ if( empty( $contents ) )
 	}
 	elseif( $vid_id > 0 )
 	{
+		if( defined( 'NV_IS_MODADMIN' ) ) // Allow ADMINMOD preview video
+		{
+			$where = '';
+		}
+		else
+		{
+			$where = 'status=1 AND ';
+		}
 		if($check_ss != (md5( $vid_id . session_id() . $global_config['sitekey'] )))die("Wrong session!");
 		$db->sqlreset()
 			->select( '*' )
 			->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
-			->where( 'status=1 AND inhome=1 AND id= ' . $vid_id );
+			->where( $where . 'id= ' . $vid_id );
 	}
 	$result = $db->query( $db->sql() );
 	while( $data = $result->fetch( ) )

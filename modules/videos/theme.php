@@ -337,6 +337,12 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 
 		$xtpl->parse( 'main.showhometext' );
 	}
+	
+	if( ! empty( $news_contents['bodytext'] ) )
+	{
+		$xtpl->parse( 'main.bodytext' );
+	}
+	
 	if( ! empty( $news_contents['post_name'] ) )
 	{
 		$xtpl->parse( 'main.post_name' );
@@ -506,7 +512,7 @@ function no_permission()
 
 function playlist_theme( $playlist_array, $playlist_other_array, $generate_page, $playlist_info, $playlist_id, $pl_ss )
 {
-	global $lang_module, $module_info, $module_name, $module_file, $playlistalias, $module_config;
+	global $lang_module, $module_info, $module_name, $module_file, $playlistalias, $module_config, $user_info;
 
 	$xtpl = new XTemplate( 'playlist.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
@@ -528,7 +534,10 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 
 	if( ! empty( $playlist_info ) )
 	{
-		$playlist_info['add_time'] = nv_date( 'H:i d/m/Y', $playlist_info['add_time'] );
+		if( !empty($playlist_info['add_time']) )
+		{
+			$playlist_info['add_time'] = nv_date( 'H:i d/m/Y', $playlist_info['add_time'] );
+		}
 		$xtpl->assign( 'PLAYLIST_INFO', $playlist_info );
 		if( !empty($playlist_info['description']) )
 		{
@@ -548,17 +557,31 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 		$xtpl->parse( 'main.playlist_info' );
 	}
 
-	if( ! empty( $playlist_array ) )
+	if( ! empty( $playlist_array ) ) //There is playlist or video in playlist
 	{
-		if( $playlist_id > 0 )
+		if( $playlist_id > 0 ) //Single playlist
 		{
-			if(  $module_config[$module_name]['jwplayer_logo'] > 0 and !empty($module_config[$module_name]['jwplayer_logo_file']))
-			{				
-				$xtpl->parse( 'main.player.player_logo' );
+			if( $playlist_info['status'] == 1 ) // playlist approved
+			{
+				if( $playlist_info['private_mode'] != 1 OR $playlist_info['userid'] == $user_info['userid']) // playlist is NOT private 
+				{
+					if(  $module_config[$module_name]['jwplayer_logo'] > 0 and !empty($module_config[$module_name]['jwplayer_logo_file']))
+					{				
+						$xtpl->parse( 'main.player.player_logo' );
+					}
+					$xtpl->parse( 'main.player' );
+				}
+				else
+				{
+					$xtpl->parse( 'main.playlist_is_private' );
+				}
 			}
-			$xtpl->parse( 'main.player' );
+			elseif( $playlist_info['status'] == 2 ) // Playlist is pending
+			{
+				$xtpl->parse( 'main.pending_playlist' );
+			}
 		}
-		else
+		else // List of playlists
 		{
 			foreach( $playlist_array as $playlist_array_i )
 			{
@@ -580,7 +603,7 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 			}
 		}
 	}
-	else
+	else // No video
 	{
 		$xtpl->parse( 'main.no_video_inlist' );
 	}

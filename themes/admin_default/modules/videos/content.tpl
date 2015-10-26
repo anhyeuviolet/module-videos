@@ -283,6 +283,7 @@
 var LANG = [];
 var CFG = [];
 CFG.uploads_dir_user = '{UPLOADS_DIR_USER}';
+CFG.uploads_dir_file_user = '{UPLOADS_DIR_FILE_USER}';
 CFG.upload_current = '{UPLOAD_CURRENT}';
 CFG.upload_file = '{UPLOAD_FILE_PATH}';
 LANG.content_tags_empty = '{LANG.content_tags_empty}.<!-- BEGIN: auto_tags --> {LANG.content_tags_empty_auto}.<!-- END: auto_tags -->';

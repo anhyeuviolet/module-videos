@@ -504,7 +504,7 @@ $(document).ready(function(){
 	// Select Video
 	$("#select-video").click(function() {
 		var area = "vid_path";
-		var path = CFG.uploads_dir_user;
+		var path = CFG.uploads_dir_file_user;
 		var currentpath = CFG.upload_file;
 		var type = "all";
 		nv_open_browse(script_name + "?" + nv_name_variable + "=upload&popup=1&area=" + area + "&path=" + path + "&type=" + type + "&currentpath=" + currentpath, "NVImg", 850, 420, "resizable=no,scrollbars=no,toolbar=no,location=no,status=no");

@@ -25,12 +25,13 @@ if( !empty( $alias ) )
 {
 	$page = ( isset( $array_op[2] ) and substr( $array_op[2], 0, 5 ) == 'page-' ) ? intval( substr( $array_op[2], 5 ) ) : 1;
 
-	$stmt = $db->prepare( 'SELECT playlist_id, title, alias, image, description, keywords, hitstotal, add_time, favorite ,status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE alias= :alias' );
+	$stmt = $db->prepare( 'SELECT playlist_id, title, alias, image, description, keywords, hitstotal, add_time, favorite ,status, private_mode, userid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE alias= :alias' );
 	$stmt->bindParam( ':alias', $alias, PDO::PARAM_STR );
 	$stmt->execute();
 
-	list( $playlist_id, $page_title, $alias, $playlist_image, $description, $key_words, $hitstotal, $add_time, $favorite, $status ) = $stmt->fetch( 3 );
+	list( $playlist_id, $page_title, $alias, $playlist_image, $description, $key_words, $hitstotal, $add_time, $favorite, $status,  $private_mode, $p_userid ) = $stmt->fetch(3);
 	$playlist_info = array(
+		'playlist_id' => $playlist_id,
 		'title' => $page_title,
 		'alias' => $alias,
 		'playlist_image' => $playlist_image,
@@ -38,12 +39,15 @@ if( !empty( $alias ) )
 		'key_words' => $key_words,
 		'hitstotal' => $hitstotal,
 		'add_time' => $add_time,
-		'favorite' => $favorite
+		'favorite' => $favorite,
+		'status' => $status,
+		'private_mode' => $private_mode,
+		'userid' => $p_userid
 	);
 	
-	if( $playlist_id > 0 )
+	if( $playlist_id > 0 AND $status > 0 )
 	{
-		if( defined( 'NV_IS_MODADMIN' ) )
+		if( defined( 'NV_IS_MODADMIN' ) OR ($status == 1) )
 		{
 			$time_set = $nv_Request->get_int( $module_data . '_' . $op . '_' . $playlist_id, 'session' );
 			if( empty( $time_set ) )
@@ -151,16 +155,18 @@ if( !empty( $alias ) )
 	}
 	else
 	{
-		Header( 'Location: ' . nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlist'], true ) );
+		Header( 'Location: ' . nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'], true ) );
 		exit();
 	}
 }
 else
 {
+	$playlist_info = '';
 	$page_title = $module_info['custom_title'];
 	$key_words = $module_info['keywords'];
+	$playlist_info['title'] = $lang_module['playlist_show_list'];
 
-	$result = $db->query( 'SELECT playlist_id as id, title, alias, image, description as hometext, keywords, add_time as publtime FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE status=1 AND private_mode=1 ORDER BY weight ASC' );
+	$result = $db->query( 'SELECT playlist_id as id, title, alias, image, description as hometext, keywords, add_time as publtime, private_mode, userid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE status=1 ORDER BY weight ASC' );
 	while( $item = $result->fetch() )
 	{
 		if( ! empty( $item['image'] ) AND file_exists( NV_ROOTDIR. '/' . NV_FILES_DIR . '/' . $module_upload . '/playlists/' . $item['image'] ) )//image thumb
@@ -184,13 +190,22 @@ else
 
 		$item['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '/' . $item['alias'];
 		$item['fake_id'] = 0;
-		$playlist_array[] = $item;
+		
+		if( $item['private_mode'] == 1 AND $user_info['userid'] != $item['userid'] AND !defined( 'NV_IS_MODADMIN' ) ) // Playlist rieng, chi cho phep MOD ADMIN va nguoi tao xem
+		{
+			unset ($item);
+		}
+		else
+		{
+			$playlist_array[] = $item;
+		}
+	
 	}
 	$result->closeCursor();
 	unset( $result, $row );
 
 	$playlist_other_array = array();
-	$contents = playlist_theme( $playlist_array, $playlist_other_array, '', $page_title, $description, '','' );
+	$contents = playlist_theme( $playlist_array, '', '', $playlist_info, '','' );
 }
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme( $contents );

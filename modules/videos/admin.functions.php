@@ -578,9 +578,9 @@ function nv_show_playlist_cat_list()
 			$lang_module['playlist_waiting_approve']
 		);
 		
-		$array_share_mode = array(
-			$lang_module['playlist_share_off'],
-			$lang_module['playlist_share_on']
+		$array_private_mode = array(
+			$lang_module['playlist_private_off'],
+			$lang_module['playlist_private_on']
 		);
 		$xtpl = new XTemplate( 'playlistcat_lists.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 		$xtpl->assign( 'LANG', $lang_module );
@@ -609,7 +609,7 @@ function nv_show_playlist_cat_list()
 				$xtpl->parse( 'main.loop.weight' );
 			}
 
-			foreach( $array_share_mode as $key => $val )
+			foreach( $array_private_mode as $key => $val )
 			{
 				$xtpl->assign( 'PRIVATE_MODE', array(
 					'key' => $key,

@@ -401,8 +401,8 @@ if( isset($user_info) and $user_info['userid'] > 0 )
 		}
 
 		$array_share_mode = array(
-			$lang_module['playlist_share_off'],
-			$lang_module['playlist_share_on']
+			$lang_module['playlist_private_off'],
+			$lang_module['playlist_private_on']
 		);
 
 		$playlist_id = $nv_Request->get_int( 'playlist_id', 'get', 0 );

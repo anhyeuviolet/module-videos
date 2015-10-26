@@ -118,14 +118,14 @@ else
 $currentpath = str_replace( NV_ROOTDIR . '/', '', $upload_real_dir_page );
 $file_path = str_replace( NV_ROOTDIR . '/', '', $real_file_path );
 
-$uploads_dir_user = NV_UPLOADS_DIR . '/' . $module_upload;
+$uploads_dir_user = NV_UPLOADS_DIR . '/' . $module_upload . '/img/';
 
 if( ! defined( 'NV_IS_SPADMIN' ) and strpos( $structure_upload, 'username' ) !== false )
 {
 	$array_currentpath = explode( '/', $currentpath );
 	if( $array_currentpath[2] == $username_alias )
 	{
-		$uploads_dir_user = NV_UPLOADS_DIR . '/' . $module_upload . '/' . $username_alias;
+		$uploads_dir_user = NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $username_alias;
 	}
 }
 
@@ -134,9 +134,31 @@ if( ! defined( 'NV_IS_SPADMIN' ) and strpos( $structure_upload, 'username' ) !==
 	$array_file_path = explode( '/', $file_path );
 	if( $array_file_path[2] == $username_alias )
 	{
-		$uploads_dir_user = NV_UPLOADS_DIR . '/' . $module_upload . '/' . $username_alias;
+		$uploads_dir_user = NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $username_alias;
 	}
 }
+
+$uploads_dir_file_user = NV_UPLOADS_DIR . '/' . $module_upload . '/vid/';
+
+if( ! defined( 'NV_IS_SPADMIN' ) and strpos( $structure_upload, 'username' ) !== false )
+{
+	$array_currentpath = explode( '/', $currentpath );
+	if( $array_currentpath[2] == $username_alias )
+	{
+		$uploads_dir_file_user = NV_UPLOADS_DIR . '/' . $module_upload . '/vid/' . $username_alias;
+	}
+}
+
+if( ! defined( 'NV_IS_SPADMIN' ) and strpos( $structure_upload, 'username' ) !== false )
+{
+	$array_file_path = explode( '/', $file_path );
+	if( $array_file_path[2] == $username_alias )
+	{
+		$uploads_dir_file_user = NV_UPLOADS_DIR . '/' . $module_upload . '/vid/' . $username_alias;
+	}
+}
+
+
 
 $array_block_cat_module = array();
 $id_block_content = array();
@@ -1279,6 +1301,7 @@ if( empty( $rowcontent['alias'] ) )
 	$xtpl->parse( 'main.getalias' );
 }
 $xtpl->assign( 'UPLOADS_DIR_USER', $uploads_dir_user );
+$xtpl->assign( 'UPLOADS_DIR_FILE_USER', $uploads_dir_file_user );
 $xtpl->assign( 'UPLOAD_CURRENT', $currentpath );
 $xtpl->assign( 'UPLOAD_FILE_PATH', $file_path );
 

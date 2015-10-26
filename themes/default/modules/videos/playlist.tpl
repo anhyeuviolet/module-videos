@@ -76,11 +76,21 @@ function playThis(index) {
 </script>
 <!-- END: player -->
 
+<!-- BEGIN: playlist_is_private -->
+riêng tư
+<!-- END: playlist_is_private -->
+
 <!-- BEGIN: no_video_inlist -->
 <div class="col-xs-24 col-md-24 col-lg-24">
 	<div class="alert alert-info" role="alert">{LANG.playlist_empty_video}</div>
 </div>
 <!-- END: no_video_inlist -->
+
+<!-- BEGIN: pending_playlist -->
+<div class="col-xs-24 col-md-24 col-lg-24">
+	<div class="alert alert-warning" role="alert">{LANG.playlist_is_pending}</div>
+</div>
+<!-- END: pending_playlist -->
 
 <div class="clearfix"></div>
 <!-- BEGIN: playlist_loop -->

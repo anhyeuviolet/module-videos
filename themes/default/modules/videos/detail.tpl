@@ -24,7 +24,6 @@
 				<a href="http://twitter.com/share" class="twitter-share-button">Tweet</a>
 			</div>
 			<!-- END: socialbutton -->
-			
 			<div class="col-xs-12 col-md-12 col-lg-12 margin-top-lg">
 				<div class="user_function pull-right">
 					<label class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{LANG.video_favorite}"><i class="fa fa-star"></i></label>&nbsp;&nbsp;<label class="btn btn-primary" data-toggle="collapse" data-target="#add_to_userlist"><i data-toggle="tooltip" data-placement="top" title="{LANG.playlist_add_video}" class="fa fa-plus-square"></i></label>
@@ -55,8 +54,10 @@
 		</div>
 		
 		<!-- BEGIN: no_public -->
-		<div class="alert alert-warning">
-			{LANG.no_public}
+		<div class="clear">
+			<div class="alert alert-warning">
+				{LANG.no_public}
+			</div>
 		</div>
 		<!-- END: no_public -->
 		
@@ -65,11 +66,13 @@
             <div class="hometext">{DETAIL.hometext}</div>
 		</div>
 		<!-- END: showhometext -->
+		<!-- BEGIN: bodytext -->
 		<div class="panel panel-default bodytext_shorten">
 			<div id="news-bodyhtml" class="bodytext panel-body margin-bottom-lg">
 				{DETAIL.bodytext}
 			</div>
 		</div>
+		<!-- END: bodytext -->
 		<!-- BEGIN: author -->
         <div class="margin-bottom-lg">
     		<!-- BEGIN: name -->
@@ -161,7 +164,6 @@
 <!-- BEGIN: others -->
 <div class="row">
 	<div class="other-news">
-        
     	<!-- BEGIN: related_new -->
     	<p class="h3"><strong>{LANG.related_new}</strong></p>
     	<div class="clearfix">

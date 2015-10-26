@@ -32,8 +32,8 @@ function nv_show_playlist_cat_list()
 		);
 		
 		$array_share_mode = array(
-			$lang_module['playlist_share_off'],
-			$lang_module['playlist_share_on']
+			$lang_module['playlist_private_off'],
+			$lang_module['playlist_private_on']
 		);
 		$xtpl = new XTemplate( 'playlist_cat.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 		$xtpl->assign( 'LANG', $lang_module );
