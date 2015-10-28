@@ -20,14 +20,14 @@
 		</thead>
 		<tbody>
 			<!-- BEGIN: loop -->
-			<tr>
+			<tr <!-- BEGIN: pending -->class="warning"<!-- END: pending --><!-- BEGIN: disable -->class="danger"<!-- END: disable -->>
 				<td class="text-center">
 				<select class="form-control" id="id_weight_{ROW.playlist_id}" onchange="nv_change_playlist_cat('{ROW.playlist_id}','weight');">
 					<!-- BEGIN: weight -->
 					<option value="{WEIGHT.key}"{WEIGHT.selected}>{WEIGHT.title}</option>
 					<!-- END: weight -->
 				</select></td>
-				<td><a href="{ROW.link}">{ROW.title}</a> (<a href="{ROW.linksite}" target="_blank">{ROW.numnews}&nbsp;{LANG.playlist_num_news}&nbsp;<i class="fa fa-external-link"></i></a>)<!-- BEGIN: pending -->&nbsp;<span class="text-warning"><i class="fa fa-circle-o-notch"></i></span><!-- END: pending --></td>
+				<td><a href="{ROW.link}">{ROW.title}</a> (<a href="{ROW.linksite}" target="_blank">{ROW.numnews}&nbsp;{LANG.playlist_num_news}&nbsp;<i class="fa fa-external-link"></i></a>)</td>
 				<td class="text-center">
 					<select class="form-control" id="id_status_{ROW.playlist_id}" onchange="nv_change_playlist_cat('{ROW.playlist_id}','status');">
 						<!-- BEGIN: status -->
@@ -57,5 +57,13 @@
 			<!-- END: loop -->
 		</tbody>
 	</table>
+	<!-- BEGIN: generate_page -->
+	<div class="center-block col-md-24" align="center">
+	{GENERATE_PAGE}
+	</div>
+	<!-- END: generate_page -->
 </div>
+<script>
+var curr_page = "{CUR_PAGE}";
+</script>
 <!-- END: main -->

@@ -19,10 +19,10 @@
 		</thead>
 		<tbody>
 			<!-- BEGIN: loop -->
-			<tr>
+			<tr <!-- BEGIN: pl_moderate -->class="warning"<!-- END: pl_moderate -->>
 				<td class="text-center">{ROW.weight}</td>
 				<td class="text-center">
-				<a href="{ROW.link}">{ROW.title}</a><!-- BEGIN: pl_moderate -->&nbsp;<i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="{LANG.playlist_waiting_moderate}"></i> <!-- END: pl_moderate -->
+				<a href="{ROW.link}">{ROW.title}</a>
 				</td>
 				<td class="text-center"><a href="{ROW.linksite}" title="{ROW.title}" target="_blank">{ROW.numnews}&nbsp;{LANG.playlist_num_news}&nbsp;<i class="fa fa-external-link"></i></a></td>
 				<td class="text-center">

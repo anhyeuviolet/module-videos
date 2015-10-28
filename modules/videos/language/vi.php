@@ -175,7 +175,7 @@ $lang_module['playlist_full'] = 'Playlist đã đầy';
 $lang_module['playlist_added_video'] = 'Đã thêm vào Playlist';
 $lang_module['playlist_empty_video'] = 'Playlist chưa có Video nào';
 $lang_module['playlist_select'] = 'Chọn playlist';
-$lang_module['playlist_is_pending'] = 'Playlist đang được kiểm duyệt';
+$lang_module['playlist_pending'] = 'Playlist đang kiểm duyệt';
 
 $lang_module['userpl_disable'] = 'Chức năng thêm/sửa Playlist đã bị tắt';
 $lang_module['user_create_newlist'] = 'Cần tạo mới Playlist';

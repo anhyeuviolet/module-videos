@@ -559,16 +559,22 @@ function nv_show_playlist_list( $playlist_id )
 
 /**
  * nv_show_playlist_cat_list()
- *
+ * $page
  * @return
  */
-function nv_show_playlist_cat_list()
+function nv_show_playlist_cat_list($page)
 {
-	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $module_file, $global_config, $module_info;
+	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $module_file, $global_config, $module_info, $nv_Request;
 
-	$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat ORDER BY weight ASC';
+	$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=playlists';
+	$page = $nv_Request->get_int( 'page', 'get', 1 );
+	$list_per_page = 25;
+	$all_page = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat' )->fetchColumn();
+
+	$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat ORDER BY weight ASC LIMIT ' .  ( $page - 1 ) * $list_per_page . ', ' . $list_per_page;
 	$_array_block_cat = $db->query( $sql )->fetchAll();
 	$num = sizeof( $_array_block_cat );
+	if ($page > 1) $num = ($num + (( $page - 1 ) * $list_per_page));
 
 	if( $num > 0 )
 	{
@@ -585,7 +591,10 @@ function nv_show_playlist_cat_list()
 		$xtpl = new XTemplate( 'playlistcat_lists.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 		$xtpl->assign( 'LANG', $lang_module );
 		$xtpl->assign( 'GLANG', $lang_global );
-
+		$xtpl->assign( 'CUR_PAGE', $page );
+		
+		$generate_page = nv_generate_page( $base_url, $all_page, $list_per_page, $page );
+		
 		foreach ( $_array_block_cat as $row)
 		{
 			$numnews = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist where playlist_id=' . $row['playlist_id'] )->fetchColumn();
@@ -599,7 +608,7 @@ function nv_show_playlist_cat_list()
 				'url_edit' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;playlist_id=' . $row['playlist_id'] . '#edit'
 			) );
 
-			for( $i = 1; $i <= $num; ++$i )
+			for( $i = 1 ; $i <= $num; ++$i )
 			{
 				$xtpl->assign( 'WEIGHT', array(
 					'key' => $i,
@@ -638,14 +647,25 @@ function nv_show_playlist_cat_list()
 				) );
 				$xtpl->parse( 'main.loop.number' );
 			}
+			
 			if($row['status'] == 2)
 			{
 				$xtpl->parse( 'main.loop.pending' );
 			}
+			elseif($row['status'] == 0)
+			{
+				$xtpl->parse( 'main.loop.disable' );
+			}
 
 			$xtpl->parse( 'main.loop' );
 		}
-
+		
+		if( ! empty( $generate_page ) )
+		{
+			$xtpl->assign( 'GENERATE_PAGE', $generate_page );
+			$xtpl->parse( 'main.generate_page' );
+		}
+	
 		$xtpl->parse( 'main' );
 		$contents = $xtpl->text( 'main' );
 	}

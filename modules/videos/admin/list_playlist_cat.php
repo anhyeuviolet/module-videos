@@ -11,7 +11,9 @@
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
 if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
 
-$contents = nv_show_playlist_cat_list();
+$page = $nv_Request->get_int( 'page', 'get', 1 );
+$page = (intval($page) > 0) ? $page : 1;
+$contents = nv_show_playlist_cat_list($page);
 
 include NV_ROOTDIR . '/includes/header.php';
 echo $contents;

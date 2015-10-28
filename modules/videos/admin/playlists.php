@@ -101,11 +101,11 @@ $array_status = array(
 	$lang_module['playlist_waiting_approve']
 );
 
-$array_share_mode = array(
-	$lang_module['playlist_share_off'],
-	$lang_module['playlist_share_on']
+$array_private_mode = array(
+	$lang_module['playlist_private_off'],
+	$lang_module['playlist_private_on']
 );
-
+		
 $playlist_id = $nv_Request->get_int( 'playlist_id', 'get', 0 );
 if( $playlist_id > 0 )
 {
@@ -149,7 +149,7 @@ foreach( $array_status as $key => $val )
 	$xtpl->parse( 'main.status' );
 }
 
-foreach( $array_share_mode as $key => $val )
+foreach( $array_private_mode as $key => $val )
 {
 	$xtpl->assign( 'PRIVATE_MODE', array(
 		'key' => $key,

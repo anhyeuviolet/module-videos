@@ -65,11 +65,22 @@ playerInstance.on('ready',function(){
 var playlist = playerInstance.getPlaylist();
 for (var index=0;index<playlist.length;index++){
 	var playindex = index +1;
-	html += "<li class='list-group-item'><span>"+playlist[index].title+"</span><span class='pull-right'><label onclick='javascript:playThis("+index+")' title='"+lang_play+" "+playlist[index].title+"' class='btn btn-primary btn-xs mgr_10'><i class='fa fa-play'></i></label><a href='"+playlist[index].link+"' title='"+lang_new_window+"' target='_blank'><label class='btn btn-default btn-xs'><i class='fa fa-external-link-square'></i></label></a></span></li>"
+	html += "<li id='play-items-"+index+"' class='list-group-item'><span>"+playlist[index].title+"</span><span class='pull-right'><label onclick='javascript:playThis("+index+")' title='"+lang_play+" "+playlist[index].title+"' class='btn btn-primary btn-xs mgr_10'><i class='fa fa-play'></i></label><a href='"+playlist[index].link+"' title='"+lang_new_window+"' target='_blank'><label class='btn btn-default btn-xs'><i class='fa fa-external-link-square'></i></label></a></span></li>"
 	list.innerHTML = html;
 }
 html +="</ul>"
 });
+
+playerInstance.on('playlistItem', function() {
+    var playlist = playerInstance.getPlaylist();
+    var index = playerInstance.getPlaylistIndex();
+	var current_li = document.getElementById("play-items-"+index);
+    for(var i = 0; i < playlist.length; i++) {
+            $('li[id^=play-items-]').removeClass( "active" )
+    }
+	current_li.classList.add('active');
+});
+
 function playThis(index) {
 	playerInstance.playlistItem(index);
 }
@@ -88,7 +99,7 @@ riêng tư
 
 <!-- BEGIN: pending_playlist -->
 <div class="col-xs-24 col-md-24 col-lg-24">
-	<div class="alert alert-warning" role="alert">{LANG.playlist_is_pending}</div>
+	<div class="alert alert-warning" role="alert">{LANG.playlist_pending}</div>
 </div>
 <!-- END: pending_playlist -->
 

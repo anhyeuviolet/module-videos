@@ -98,6 +98,10 @@ function nv_show_playlist_cat_list()
 			{
 				$xtpl->parse( 'playlistcat_lists.loop.pl_moderate' );
 			}
+			elseif($row['status'] == 0)
+			{
+				$xtpl->parse( 'playlistcat_lists.loop.pl_disallow' );
+			}
 			
 			if($module_config[$module_name]['playlist_allow_detele'] > 0)
 			{
