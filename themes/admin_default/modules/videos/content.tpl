@@ -293,6 +293,7 @@ $(document).ready(function() {
 	$("#playlists").select2({
 	placeholder: "{LANG.content_block}"
 	});
+	$("#catid").select2();
 });
 <!-- BEGIN: getalias -->
 $("#idtitle").change(function() {

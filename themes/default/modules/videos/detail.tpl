@@ -20,13 +20,11 @@
 			<!-- BEGIN: socialbutton -->
 			<div class="socialicon col-xs-12 col-md-12 col-lg-12 clearfix margin-bottom-lg margin-top-lg">
 				<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">&nbsp;</div>
-				<div class="g-plusone" data-size="medium"></div>
-				<a href="http://twitter.com/share" class="twitter-share-button">Tweet</a>
 			</div>
 			<!-- END: socialbutton -->
 			<div class="col-xs-12 col-md-12 col-lg-12 margin-top-lg">
 				<div class="user_function pull-right">
-					<label class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{LANG.video_favorite}"><i class="fa fa-star"></i></label>&nbsp;&nbsp;<label class="btn btn-primary" data-toggle="collapse" data-target="#add_to_userlist"><i data-toggle="tooltip" data-placement="top" title="{LANG.playlist_add_video}" class="fa fa-plus-square"></i></label>
+					<label class="btn btn-primary" data-toggle="collapse" data-target="#add_to_userlist"><i data-toggle="tooltip" data-placement="top" title="{LANG.playlist_add_video}" class="fa fa-plus-square"></i></label>
 				</div>
 				<div class="clearfix"></div>
 				<div class="show_playlist collapse" id="add_to_userlist">
@@ -52,7 +50,6 @@
 				</div>	
 			</div>
 		</div>
-		
 		<!-- BEGIN: no_public -->
 		<div class="clear">
 			<div class="alert alert-warning">

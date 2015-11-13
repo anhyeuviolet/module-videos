@@ -23,8 +23,7 @@ $array_table = array(
 	'rows',
 	'sources',
 	'tags',
-	'tags_id',
-	'logs'
+	'tags_id'
 );
 $table = $db_config['prefix'] . '_' . $lang . '_' . $module_data;
 $result = $db->query( 'SHOW TABLE STATUS LIKE ' . $db->quote( $table . '_%' ) );
@@ -53,14 +52,14 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	  alias varchar(250) NOT NULL DEFAULT '',
 	  description text,
 	  descriptionhtml text,
-	  image varchar(255) DEFAULT '',
+	  image varchar(250) DEFAULT '',
 	  viewdescription tinyint(2) NOT NULL DEFAULT '0',
 	  weight smallint(5) unsigned NOT NULL DEFAULT '0',
 	  sort smallint(5) NOT NULL DEFAULT '0',
 	  lev smallint(5) NOT NULL DEFAULT '0',
 	  viewcat varchar(50) NOT NULL DEFAULT 'viewcat_page_new',
 	  numsubcat smallint(5) NOT NULL DEFAULT '0',
-	  subcatid varchar(255) DEFAULT '',
+	  subcatid varchar(250) DEFAULT '',
 	  inhome tinyint(1) unsigned NOT NULL DEFAULT '0',
 	  numlinks tinyint(2) unsigned NOT NULL DEFAULT '3',
 	  newday tinyint(2) unsigned NOT NULL DEFAULT '2',
@@ -69,7 +68,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	  admins text,
 	  add_time int(11) unsigned NOT NULL DEFAULT '0',
 	  edit_time int(11) unsigned NOT NULL DEFAULT '0',
-	  groups_view varchar(255) DEFAULT '',
+	  groups_view varchar(250) DEFAULT '',
 	  PRIMARY KEY (catid),
 	  UNIQUE KEY alias (alias),
 	  KEY parentid (parentid)
@@ -78,8 +77,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_sources (
 	 sourceid mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
 	 title varchar(250) NOT NULL DEFAULT '',
-	 link varchar(255) DEFAULT '',
-	 logo varchar(255) DEFAULT '',
+	 link varchar(250) DEFAULT '',
+	 logo varchar(250) DEFAULT '',
 	 weight mediumint(8) unsigned NOT NULL DEFAULT '0',
 	 add_time int(11) unsigned NOT NULL,
 	 edit_time int(11) unsigned NOT NULL,
@@ -95,8 +94,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 numbers smallint(5) NOT NULL DEFAULT '10',
 	 title varchar(250) NOT NULL DEFAULT '',
 	 alias varchar(250) NOT NULL DEFAULT '',
-	 image varchar(255) DEFAULT '',
-	 description varchar(255) DEFAULT '',
+	 image varchar(250) DEFAULT '',
+	 description varchar(250) DEFAULT '',
 	 weight smallint(5) NOT NULL DEFAULT '0',
 	 keywords text,
 	 hitstotal mediumint(8) unsigned NOT NULL default '0',
@@ -121,8 +120,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 numbers smallint(5) NOT NULL DEFAULT '10',
 	 title varchar(250) NOT NULL DEFAULT '',
 	 alias varchar(250) NOT NULL DEFAULT '',
-	 image varchar(255) DEFAULT '',
-	 description varchar(255) DEFAULT '',
+	 image varchar(250) DEFAULT '',
+	 description varchar(250) DEFAULT '',
 	 weight smallint(5) NOT NULL DEFAULT '0',
 	 keywords text,
 	 add_time int(11) NOT NULL DEFAULT '0',
@@ -142,9 +141,9 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows (
 	 id int(11) unsigned NOT NULL auto_increment,
 	 catid smallint(5) unsigned NOT NULL default '0',
-	 listcatid varchar(255) NOT NULL default '',
+	 listcatid varchar(250) NOT NULL default '',
 	 admin_id mediumint(8) unsigned NOT NULL default '0',
-	 author varchar(255) default '',
+	 author varchar(250) default '',
 	 sourceid mediumint(8) NOT NULL default '0',
 	 addtime int(11) unsigned NOT NULL default '0',
 	 edittime int(11) unsigned NOT NULL default '0',
@@ -155,13 +154,13 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 title varchar(250) NOT NULL default '',
 	 alias varchar(250) NOT NULL default '',
 	 hometext text NOT NULL,
-	 vid_path varchar(255) default '',
-	 vid_type varchar(255) default '',
-	 homeimgfile varchar(255) default '',
-	 homeimgalt varchar(255) default '',
+	 vid_path varchar(250) default '',
+	 vid_type varchar(250) default '',
+	 homeimgfile varchar(250) default '',
+	 homeimgalt varchar(250) default '',
 	 homeimgthumb tinyint(4) NOT NULL default '0',
 	 inhome tinyint(1) unsigned NOT NULL default '0',
-	 allowed_comm varchar(255) default '',
+	 allowed_comm varchar(250) default '',
 	 allowed_rating tinyint(1) unsigned NOT NULL default '0',
 	 hitstotal mediumint(8) unsigned NOT NULL default '0',
 	 hitscm mediumint(8) unsigned NOT NULL default '0',
@@ -187,7 +186,7 @@ $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_bodyhtml_1 (
 	 id int(11) unsigned NOT NULL,
 	 bodyhtml longtext NOT NULL,
-	 sourcetext varchar(255) default '',
+	 sourcetext varchar(250) default '',
 	 imgposition tinyint(1) NOT NULL default '1',
 	 copyright tinyint(1) NOT NULL default '0',
 	 allowed_send tinyint(1) NOT NULL default '0',
@@ -202,7 +201,7 @@ $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_
 	 sid mediumint(8) NOT NULL DEFAULT '0',
 	 userid mediumint(8) unsigned NOT NULL DEFAULT '0',
 	 status tinyint(4) NOT NULL DEFAULT '0',
-	 note varchar(255) NOT NULL,
+	 note varchar(250) NOT NULL,
 	 set_time int(11) unsigned NOT NULL DEFAULT '0',
 	 PRIMARY KEY (id),
 	 KEY sid (sid),
@@ -234,9 +233,9 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 tid mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
 	 numnews mediumint(8) NOT NULL DEFAULT '0',
 	 alias varchar(250) NOT NULL DEFAULT '',
-	 image varchar(255) DEFAULT '',
+	 image varchar(250) DEFAULT '',
 	 description text,
-	 keywords varchar(255) DEFAULT '',
+	 keywords varchar(250) DEFAULT '',
 	 PRIMARY KEY (tid),
 	 UNIQUE KEY alias (alias)
 	) ENGINE=MyISAM";
@@ -248,7 +247,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 UNIQUE KEY sid (id,tid)
 	) ENGINE=MyISAM";
 
-$sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'indexfile', 'viewcat_main_right')";
+$sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'indexfile', 'viewgrid_by_cat')";
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'per_page', '20')";
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'st_links', '10')";
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'per_line', '3')";

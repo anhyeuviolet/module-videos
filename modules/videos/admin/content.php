@@ -158,8 +158,6 @@ if( ! defined( 'NV_IS_SPADMIN' ) and strpos( $structure_upload, 'username' ) !==
 	}
 }
 
-
-
 $array_block_cat_module = array();
 $id_block_content = array();
 $sql = 'SELECT bid, adddefault, title FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block_cat ORDER BY weight ASC';
@@ -897,6 +895,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 			{
 				nv_news_fix_block( $bid_i, false );
 			}
+			
 			//Playlist
 			
 			$id_playlist_content_new = $rowcontent['mode'] == 'edit' ? array_diff( $id_playlist_content_post, $id_playlist_content ) : $id_playlist_content_post;
