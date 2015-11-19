@@ -84,13 +84,9 @@ if( empty( $contents ) )
 			$result = $db->query( $db->sql() );
 			if( $item = $result->fetch() )
 			{
-				if( $item['homeimgthumb'] == 1 ) //image thumb
+				if( $item['homeimgthumb'] == 1 OR $item['homeimgthumb'] == 2 ) //image file
 				{
-					$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-				}
-				elseif( $item['homeimgthumb'] == 2 ) //image file
-				{
-					$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
+					$item['imghome'] = creat_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 				}
 				elseif( $item['homeimgthumb'] == 3 ) //image url
 				{
@@ -119,13 +115,9 @@ if( empty( $contents ) )
 		$end_publtime = 0;
 		while( $item = $result->fetch() )
 		{
-			if( $item['homeimgthumb'] == 1 ) //image thumb
+			if( $item['homeimgthumb'] == 1 OR $item['homeimgthumb'] == 2 ) //image file
 			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-			}
-			elseif( $item['homeimgthumb'] == 2 ) //image file
-			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
+				$item['imghome'] = creat_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $item['homeimgthumb'] == 3 ) //image url
 			{
@@ -191,19 +183,15 @@ if( empty( $contents ) )
 			$result = $db->query( $db->sql() );
 			if( $item = $result->fetch() )
 			{
-				if( $item['homeimgthumb'] == 1 ) //image thumb
+				if( $item['homeimgthumb'] == 1 OR $item['homeimgthumb'] == 2 ) //image file
 				{
-					$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-				}
-				elseif( $item['homeimgthumb'] == 2 ) //image file
-				{
-					$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
+					$item['imghome'] = creat_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 				}
 				elseif( $item['homeimgthumb'] == 3 ) //image url
 				{
 					$item['imghome'] = $item['homeimgfile'];
 				}
-				elseif( !empty( $show_no_image ) ) //no image
+				elseif( ! empty( $show_no_image ) ) //no image
 				{
 					$item['imghome'] = NV_BASE_SITEURL . $show_no_image;
 				}
@@ -227,19 +215,15 @@ if( empty( $contents ) )
 		$result = $db->query( $db->sql() );
 		while( $item = $result->fetch() )
 		{
-			if( $item['homeimgthumb'] == 1 ) //image thumb
+			if( $item['homeimgthumb'] == 1 OR $item['homeimgthumb'] == 2 ) //image file
 			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-			}
-			elseif( $item['homeimgthumb'] == 2 ) //image file
-			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
+				$item['imghome'] = creat_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $item['homeimgthumb'] == 3 ) //image url
 			{
 				$item['imghome'] = $item['homeimgfile'];
 			}
-			elseif( !empty( $show_no_image ) ) //no image
+			elseif( ! empty( $show_no_image ) ) //no image
 			{
 				$item['imghome'] = NV_BASE_SITEURL . $show_no_image;
 			}
@@ -275,13 +259,9 @@ if( empty( $contents ) )
 					$result = $db->query( $db->sql() );
 					if( $item = $result->fetch() )
 					{
-						if( $item['homeimgthumb'] == 1 ) //image thumb
+						if( $item['homeimgthumb'] == 1 OR $item['homeimgthumb'] == 2 ) //image file
 						{
-							$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-						}
-						elseif( $item['homeimgthumb'] == 2 ) //image file
-						{
-							$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
+							$item['imghome'] = creat_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 						}
 						elseif( $item['homeimgthumb'] == 3 ) //image url
 						{
@@ -315,13 +295,9 @@ if( empty( $contents ) )
 				$result = $db->query( $db->sql() );
 				while( $item = $result->fetch() )
 				{
-					if( $item['homeimgthumb'] == 1 ) //image thumb
+					if( $item['homeimgthumb'] == 1 OR $item['homeimgthumb'] == 2 ) //image file
 					{
-						$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-					}
-					elseif( $item['homeimgthumb'] == 2 ) //image file
-					{
-						$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
+						$item['imghome'] = creat_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 					}
 					elseif( $item['homeimgthumb'] == 3 ) //image url
 					{
@@ -370,19 +346,15 @@ if( empty( $contents ) )
 		$result = $db->query( $db->sql() );
 		while( $item = $result->fetch() )
 		{
-			if( $item['homeimgthumb'] == 1 ) //image thumb
+			if( $item['homeimgthumb'] == 1 OR $item['homeimgthumb'] == 2 ) //image file
 			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-			}
-			elseif( $item['homeimgthumb'] == 2 ) //image file
-			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
+				$item['imghome'] = creat_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $item['homeimgthumb'] == 3 ) //image url
 			{
 				$item['imghome'] = $item['homeimgfile'];
 			}
-			elseif( !empty( $show_no_image ) ) //no image
+			elseif( ! empty( $show_no_image ) ) //no image
 			{
 				$item['imghome'] = NV_BASE_SITEURL . $show_no_image;
 			}

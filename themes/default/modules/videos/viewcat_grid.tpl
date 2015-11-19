@@ -12,9 +12,9 @@
 <!-- END: viewdescription -->
 <!-- BEGIN: viewcatloop -->
 <div class="col-sm-12 col-md-8">
-	<div class="thumbnail" style="min-height:{VID_HEIGHT}px">
+	<div class="thumbnail">
 		<!-- BEGIN: image -->
-		<a title="{CONTENT.title}" href="{CONTENT.link}"><img alt="{HOMEIMGALT1}" src="{HOMEIMG1}" width="{IMGWIDTH1}" class="img-responsive"/></a>
+		<a title="{CONTENT.title}" href="{CONTENT.link}"><img alt="{HOMEIMGALT1}" src="{HOMEIMG1}" <!-- BEGIN: fix_size --> style="height:{IMGHEIGHT}px;" <!-- END: fix_size --> class="video_img"/></a>
 		<!-- END: image -->
 		<div class="caption text-center">
 			<h4><a class="show" href="{CONTENT.link}" title="{CONTENT.title}">{CONTENT.title}</a></h4>
@@ -24,7 +24,6 @@
 </div>
 <!-- END: viewcatloop -->
 <div class="clear">&nbsp;</div>
-
 <!-- BEGIN: generate_page -->
 <div class="text-center">
 	{GENERATE_PAGE}

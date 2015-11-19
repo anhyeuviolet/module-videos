@@ -164,37 +164,51 @@
     	<!-- BEGIN: related_new -->
     	<p class="h3"><strong>{LANG.related_new}</strong></p>
     	<div class="clearfix">
-            <ul class="related">
+            <div class="related_new_videos">
         		<!-- BEGIN: loop -->
-        		<li>
-        			<em class="fa fa-angle-right">&nbsp;</em>
-        			<a href="{RELATED_NEW.link}">{RELATED_NEW.title}</a>
-        			<em>({RELATED_NEW.time})</em>
-        			<!-- BEGIN: newday -->
-        			<span class="icon_new">&nbsp;</span>
-        			<!-- END: newday -->
-        		</li>
+				<div class="col-md-8">
+					<div class="thumbnail">
+						<!-- BEGIN: image -->
+						<a class="list-inline" href="{RELATED_NEW.link}">
+							<img src="{RELATED_NEW.imghome}" <!-- BEGIN: fix_size --> style="height:{IMGHEIGHT}px;" <!-- END: fix_size --> class="related_video"/>
+						</a>
+						<!-- END: image -->
+						<h4>
+							<a class="list-inline" href="{RELATED_NEW.link}">{RELATED_NEW.title}</a>
+						</h4>
+						<em>({RELATED_NEW.time})</em>
+						<!-- BEGIN: newday -->
+						<span class="icon_new">&nbsp;</span>
+						<!-- END: newday -->
+					</div>
+        		</div>
         		<!-- END: loop -->
-        	</ul>
+        	</div>
         </div>
     	<!-- END: related_new -->
         
     	<!-- BEGIN: related -->
     	<p class="h3"><strong>{LANG.related}</strong></p>
-    	<div class="clearfix">
-            <ul class="related">
+            <div class="related_videos">
         		<!-- BEGIN: loop -->
-        		<li>
-        			<em class="fa fa-angle-right">&nbsp;</em>
-        			<a class="list-inline" href="{RELATED.link}"<!-- BEGIN: tooltip --> data-placement="{TOOLTIP_POSITION}" data-content="{RELATED.hometext}" data-img="{RELATED.imghome}" data-rel="tooltip"<!-- END: tooltip -->>{RELATED.title}</a>
-        			<em>({RELATED.time})</em>
-        			<!-- BEGIN: newday -->
-        			<span class="icon_new">&nbsp;</span>
-        			<!-- END: newday -->
-        		</li>
+				<div class="col-md-8">
+					<div class="thumbnail">
+						<!-- BEGIN: image -->
+						<a class="list-inline" href="{RELATED.link}">
+							<img src="{RELATED.imghome}" <!-- BEGIN: fix_size --> style="height:{IMGHEIGHT}px;" <!-- END: fix_size --> class="related_video"/>
+						</a>
+						<!-- END: image -->
+						<h4>
+							<a class="list-inline" href="{RELATED.link}">{RELATED.title}</a>
+						</h4>
+						<em>({RELATED.time})</em>
+						<!-- BEGIN: newday -->
+						<span class="icon_new">&nbsp;</span>
+						<!-- END: newday -->
+					</div>
+        		</div>
         		<!-- END: loop -->
-        	</ul>
-        </div>
+        	</div>
     	<!-- END: related -->
     </div>
 </div>

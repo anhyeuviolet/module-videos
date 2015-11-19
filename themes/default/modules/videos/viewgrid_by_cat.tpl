@@ -16,9 +16,11 @@
 		<div class="panel-body">
 			<div class="row">
 				<!-- BEGIN: loop -->
-				<div class="col-md-8">
+				<div class="col-md-8 videos_list">
 					<!-- BEGIN: image -->
-					<a title="{CONTENT.title}" href="{CONTENT.link}"><img src="{HOMEIMG}" alt="{HOMEIMGALT}" width="{IMGWIDTH}" class="img-responsive pull-left imghome" /></a>
+					<a class="clearfix" title="{CONTENT.title}" href="{CONTENT.link}">
+						<img src="{HOMEIMG}" alt="{HOMEIMGALT}" <!-- BEGIN: fix_size --> width="{IMGWIDTH}" height="{IMGHEIGHT}" <!-- END: fix_size --> class="pull-left imghome" />
+					</a>
 					<!-- END: image -->
 					<h3>
 						<a title="{CONTENT.title}" href="{CONTENT.link}">{CONTENT.title}</a>
@@ -27,13 +29,17 @@
 						<!-- END: newday -->
 					</h3>
 					<div class="text-muted">
-						<ul class="list-unstyled list-inline">
-							<li><em class="fa fa-clock-o">&nbsp;</em> {CONTENT.publtime}</li>
-							<li><em class="fa fa-eye">&nbsp;</em> {CONTENT.hitstotal}</li>
-							<li><em class="fa fa-comment-o">&nbsp;</em> {CONTENT.hitscm}</li>
+						<ul class="list-unstyled">
+							<!-- BEGIN: author -->
+							<li>{LANG.by}&nbsp;{CONTENT.author}</li>
+							<!-- END: author -->
+							<li class="pull-left">{CONTENT.publtime}</li>
+							<!-- BEGIN: hitstotal -->
+							<li class="spacer pull-left"></li>
+							<li>{CONTENT.hitstotal}&nbsp;{LANG.hits_view}</li>
+							<!-- END: hitstotal -->
 						</ul>
 					</div>
-					<p>{CONTENT.hometext}</p>
 				</div>
 			<!-- END: loop -->
 			</div>

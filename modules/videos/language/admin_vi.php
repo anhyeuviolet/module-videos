@@ -315,3 +315,11 @@ $lang_module['playlist_private_on'] = 'Riêng tư';
 $lang_module['playlist_public'] = 'Hiển thị';
 $lang_module['playlist_status'] = 'Hoạt động';
 $lang_module['playlist'] = 'Danh mục phát';
+
+$lang_module['year'] = 'năm trước';
+$lang_module['month'] = 'tháng trước';
+$lang_module['week'] = 'tuần trước';
+$lang_module['day'] = 'ngày trước';
+$lang_module['hour'] = 'giờ trước';
+$lang_module['minute'] = 'phút trước';
+$lang_module['second'] = 'giây trước';

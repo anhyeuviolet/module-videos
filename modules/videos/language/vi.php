@@ -187,3 +187,14 @@ $lang_module['video_less_text'] = 'Thu gọn';
 
 $lang_module['error_vid_path'] = 'Liên kết Video thiếu hoặc sai quy định';
 
+
+$lang_module['year'] = 'năm trước';
+$lang_module['month'] = 'tháng trước';
+$lang_module['week'] = 'tuần trước';
+$lang_module['day'] = 'ngày trước';
+$lang_module['hour'] = 'giờ trước';
+$lang_module['minute'] = 'phút trước';
+$lang_module['second'] = 'giây trước';
+
+$lang_module['by'] = 'bởi';
+$lang_module['hits_view'] = 'lượt xem';

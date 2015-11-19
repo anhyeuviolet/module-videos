@@ -27,6 +27,13 @@ if( isset( $array_op[1] ) )
 }
 $page_title = trim( str_replace( '-', ' ', $alias ) );
 
+$show_no_image = $module_config[$module_name]['show_no_image'];
+if(empty($show_no_image))
+{
+	$show_no_image = 'themes/default/images/' . $module_name . '/' . 'video_placeholder.png';
+}
+
+
 if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 {
 	$stmt = $db->prepare( 'SELECT tid, image, description, keywords FROM ' . NV_PREFIXLANG . '_' . $module_data . '_tags WHERE alias= :alias' );
@@ -50,7 +57,6 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 
 		$item_array = array();
 		$end_publtime = 0;
-		$show_no_image = $module_config[$module_name]['show_no_image'];
 
 		$db->sqlreset()
 			->select( 'COUNT(*)' )
@@ -59,7 +65,7 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 
 		$num_items = $db->query( $db->sql() )->fetchColumn();
 
-		$db->select( 'id, catid, topicid, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
+		$db->select( 'id, catid, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
 			->order( 'publtime DESC' )
 			->limit( $per_page )
 			->offset( ( $page - 1 ) * $per_page );
@@ -69,11 +75,11 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 		{
 			if( $item['homeimgthumb'] == 1 )//image thumb
 			{
-				$item['src'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $item['homeimgfile'];
+				$item['src'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
 			}
 			elseif( $item['homeimgthumb'] == 2 )//image file
 			{
-				$item['src'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $item['homeimgfile'];
+				$item['src'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
 			}
 			elseif( $item['homeimgthumb'] == 3 )//image url
 			{
@@ -122,7 +128,7 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 		{
 			$image_tag = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $image_tag;
 		}
-		$contents = topic_theme( $item_array, $item_array_other, $generate_page, $page_title, $description, $image_tag );
+		$contents = tag_theme( $item_array, $item_array_other, $generate_page, $page_title, $description, $image_tag );
 
 		if( $page > 1 )
 		{

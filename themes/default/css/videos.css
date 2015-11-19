@@ -55,3 +55,7 @@ margin-right: 10px
     border-radius: 4px;
     -moz-user-select: none;
 }
+.spacer::before{
+	content: "•";
+margin: 0px 5px;
+}

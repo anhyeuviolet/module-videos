@@ -406,3 +406,94 @@ function get_link_mp4_picasa($link_picasa){
 	}  
 	return $links_mp4;  
 }
+
+
+function humanTiming($time)
+{
+	global $lang_module;
+	
+    $time = time() - $time; // to get the time since that moment
+    $time = ($time<1)? 1 : $time;
+    $tokens = array (
+        31536000 => $lang_module['year'],
+        2592000 => $lang_module['month'],
+        604800 => $lang_module['week'],
+        86400 => $lang_module['day'],
+        3600 => $lang_module['hour'],
+        60 => $lang_module['minute'],
+        1 => $lang_module['second']
+    );
+
+    foreach ($tokens as $unit => $text) {
+        if ($time < $unit) continue;
+        $numberOfUnits = floor($time / $unit);
+        return $numberOfUnits.' '.$text;
+    }
+
+}
+
+/**
+ * creat_thumbs()
+ * front-end thumbs create
+ *
+ */
+if( ! nv_function_exists( 'creat_thumbs' ) )
+{
+	function creat_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
+	{
+		if( $width >= $height ) $rate = $width / $height;
+		else  $rate = $height / $width;
+
+		$image = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/img/' . $file;
+ 
+		if( $file != '' and file_exists( $image ) )
+		{
+			$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $file;
+			$imginfo = nv_is_image( $image );
+
+			$basename = $module_upload . '_' . $width . 'x' . $height . '-' . $id . '-' . md5_file( $image ) . '.' . $imginfo['ext'];
+
+			if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename ) )
+			{
+				$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename;
+			}
+			else
+			{
+
+				$_image = new image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
+
+				if( $imginfo['width'] <= $imginfo['height'] )
+				{
+					$_image->resizeXY( $width, 0 );
+
+				}
+				elseif( ( $imginfo['width'] / $imginfo['height'] ) < $rate )
+				{
+					$_image->resizeXY( $width, 0 );
+				}
+				elseif( ( $imginfo['width'] / $imginfo['height'] ) >= $rate )
+				{
+					$_image->resizeXY( 0, $height );
+				}
+
+				$_image->cropFromCenter( $width, $height );
+
+				$_image->save( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/', $basename, $quality );
+
+				if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename ) )
+				{
+					$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename;
+				}
+			}
+		}
+		elseif( nv_is_url( $file ) )
+		{
+			$imgsource = $file;
+		}
+		else
+		{
+			$imgsource = '';
+		}
+		return $imgsource;
+	}
+}
