@@ -236,7 +236,7 @@ function viewsubcat_main( $viewcat, $array_cat )
 	return $xtpl->text( 'main' );
 }
 
-function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_array, $related_array, $playlist_array, $content_comment, $array_user_playlist )
+function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_array, $related_array, $content_comment, $array_user_playlist )
 {
 	global $global_config, $module_info, $lang_module, $module_name, $module_file, $module_config, $lang_global, $user_info, $admin_info, $client_info;
 
@@ -402,7 +402,7 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		$xtpl->parse( 'main.socialbutton' );
 	}
 
-	if( ! empty( $related_new_array ) or ! empty( $related_array ) or ! empty( $playlist_array ) )
+	if( ! empty( $related_new_array ) or ! empty( $related_array ) )
 	{
 		if( ! empty( $related_new_array ) )
 		{
@@ -440,25 +440,7 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 			}
 			$xtpl->parse( 'main.others.related' );
 		}
-
-		if( ! empty( $playlist_array ) )
-		{
-			foreach( $playlist_array as $key => $playlist_array_i )
-			{
-				$playlist_array_i['hometext'] = nv_clean60( $playlist_array_i['hometext'], $module_config[$module_name]['tooltip_length'], true );
-				$newday = $playlist_array_i['time'] + ( 86400 * $playlist_array_i['newday'] );
-				if( $newday >= NV_CURRENTTIME )
-				{
-					$xtpl->parse( 'main.others.playlist.loop.newday' );
-				}
-				$playlist_array_i['time'] = nv_date( 'd/m/Y', $playlist_array_i['time'] );
-				$xtpl->assign( 'PLAYLIST', $playlist_array_i );
-				if( ! empty( $module_config[$module_name]['showtooltip'] ) ) $xtpl->parse( 'main.others.playlist.loop.tooltip' );
-				$xtpl->parse( 'main.others.playlist.loop' );
-			}
-			$xtpl->parse( 'main.others.playlist' );
-		}
-        
+       
         $xtpl->parse( 'main.others' );
 	}
 

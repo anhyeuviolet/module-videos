@@ -289,59 +289,6 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		unset( $related, $row );
 	}
 	
-	$playlist_array = array();
-	if( $news_contents['playlist_id'] > 0 & $st_links > 0)
-	{
-		list( $playlist_title, $playlist_alias ) = $db->query( 'SELECT title, alias FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists WHERE playlist_id = ' . $news_contents['playlist_id'] )->fetch( 3 );
-
-		$playlistlink = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '/' . $playlist_alias;
-
-		$db->sqlreset()
-			->select( 'id, catid, title, alias, publtime, homeimgfile, homeimgthumb, hometext' )
-			->from( NV_PREFIXLANG . '_' . $module_data . '_rows t1' )
-			->where( 'status=1 AND playlist_id = ' . $news_contents['playlist_id'] . ' AND id != ' . $id )
-			->order( 'id DESC' )
-			->limit( $st_links );
-		$playlist = $db->query( $db->sql() );
-		while( $row = $playlist->fetch() )
-		{
-			if( $row['homeimgthumb'] == 1 ) //image thumb
-			{
-				$row['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $row['homeimgfile'];
-			}
-			elseif( $row['homeimgthumb'] == 2 ) //image file
-			{
-				$row['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['homeimgfile'];
-			}
-			elseif( $row['homeimgthumb'] == 3 ) //image url
-			{
-				$row['imghome'] = $row['homeimgfile'];
-			}
-			elseif( ! empty( $show_no_image ) ) //no image
-			{
-				$row['imghome'] = NV_BASE_SITEURL . $show_no_image;
-			}
-			else
-			{
-				$row['imghome'] = '';
-			}
-
-			$link = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$row['catid']]['alias'] . '/' . $row['alias'] . '-' . $row['id'] . $global_config['rewrite_exturl'];
-			$playlist_array[] = array(
-				'title' => $row['title'],
-				'link' => $link,
-				'time' => $row['publtime'],
-				'newday' => $global_array_cat[$row['catid']]['newday'],
-				'playlistlink' => $playlistlink,
-				'playlisttitle' => $playlist_title,
-				'hometext' => $row['hometext'],
-				'imghome' => $row['imghome']
-			);
-		}
-		$playlist->closeCursor();
-		unset( $playlist, $rows );
-	}
-
 	if( $news_contents['allowed_rating'] )
 	{
 		$time_set_rating = $nv_Request->get_int( $module_name . '_' . $op . '_' . $news_contents['id'], 'cookie', 0 );
@@ -410,7 +357,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		$array_user_playlist = $db->query( $sql )->fetchAll();
 	}
 	
-	$contents = detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_array, $related_array, $playlist_array, $content_comment, $array_user_playlist );
+	$contents = detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_array, $related_array, $content_comment, $array_user_playlist );
 	$id_profile_googleplus = $news_contents['gid'];
 
 	$page_title = $news_contents['title'];
