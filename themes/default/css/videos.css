@@ -2,6 +2,9 @@
 {
 	margin: auto
 }
+img.imghome{
+	margin: 0 auto!important;
+}
 .mgr_10
 {
 margin-right: 10px	

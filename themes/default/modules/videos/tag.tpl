@@ -15,20 +15,21 @@
 <div class="news_column panel panel-default">
 	<div class="panel-body">
 		<!-- BEGIN: homethumb -->
-		<a href="{TOPIC.link}" title="{TOPIC.title}"><img alt="{TOPIC.alt}" src="{TOPIC.src}" width="{TOPIC.width}" class="img-thumbnail pull-left imghome" /></a>
+		<div class="videos-thumbnail pull-left col-md-6 col-lg-6 col-xs-6">
+			<a href="{TOPIC.link}" title="{TOPIC.title}"><img alt="{TOPIC.alt}" src="{TOPIC.src}" width="{TOPIC.width}" class="img-thumbnail pull-left imghome" /></a>
+		</div>
 		<!-- END: homethumb -->
-		<h3><a href="{TOPIC.link}" title="{TOPIC.title}">{TOPIC.title}</a></h3>
-		<p>
-			<em class="fa fa-clock-o">&nbsp;</em><em>{TIME} {DATE}</em>
-		</p>
-		<p class="text-justify">
-			{TOPIC.hometext}
-		</p>
-		<!-- BEGIN: adminlink -->
-		<p class="text-right">
-			{ADMINLINK}
-		</p>
-		<!-- END: adminlink -->
+		<div class="videos-thumbnail pull-left col-md-18 col-lg-18 col-xs-18">
+			<h3><a href="{TOPIC.link}" title="{TOPIC.title}">{TOPIC.title}</a></h3>
+			<p>
+				<em>{TIME}</em>
+			</p>
+			<!-- BEGIN: adminlink -->
+			<p class="text-right">
+				{ADMINLINK}
+			</p>
+			<!-- END: adminlink -->
+		</div>
 	</div>
 </div>
 <!-- END: topic -->

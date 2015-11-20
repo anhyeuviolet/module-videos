@@ -11,15 +11,26 @@
 </div>
 <!-- END: viewdescription -->
 <!-- BEGIN: viewcatloop -->
-<div class="col-sm-12 col-md-8">
+<div class="col-md-8 col-lg-8 col-sm-12 col-xs-24 videos_list">
 	<div class="thumbnail">
 		<!-- BEGIN: image -->
-		<a title="{CONTENT.title}" href="{CONTENT.link}"><img alt="{HOMEIMGALT1}" src="{HOMEIMG1}" <!-- BEGIN: fix_size --> style="height:{IMGHEIGHT}px;" <!-- END: fix_size --> class="video_img"/></a>
+		<a title="{CONTENT.title}" href="{CONTENT.link}"><img alt="{HOMEIMGALT1}" src="{HOMEIMG1}" style="width:{IMGWIDTH}px;height:{IMGHEIGHT}px;"  class="img-responsive video_img"/></a>
 		<!-- END: image -->
-		<div class="caption text-center">
-			<h4><a class="show" href="{CONTENT.link}" title="{CONTENT.title}">{CONTENT.title}</a></h4>
-			<span>{ADMINLINK}</span>
+		<h4><a class="show" href="{CONTENT.link}" title="{CONTENT.title}">{CONTENT.title}</a></h4>
+		<div class="text-muted">
+			<ul class="list-unstyled">
+				<!-- BEGIN: uploader_link -->
+				<li>{LANG.by}&nbsp;<a href="{CONTENT.uploader_link}" title="{CONTENT.admin_name}">{CONTENT.admin_name}</a></li>
+				<!-- END: uploader_link -->
+				<!-- BEGIN: uploader -->
+				<li>{LANG.by}&nbsp;{CONTENT.admin_name}</li>
+				<!-- END: uploader -->
+				<li class="pull-left">{CONTENT.publtime}</li>
+				<li class="spacer pull-left"></li>
+				<li>{CONTENT.hitstotal}&nbsp;{LANG.hits_view}</li>
+			</ul>
 		</div>
+		<p class="clear">{ADMINLINK}</p>
 	</div>
 </div>
 <!-- END: viewcatloop -->

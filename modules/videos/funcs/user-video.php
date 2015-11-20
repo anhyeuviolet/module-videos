@@ -143,10 +143,11 @@ if( ! $array_post_user['addcontent'] )
 	include NV_ROOTDIR . '/includes/footer.php';
 }
 
-if( $nv_Request->isset_request( 'get_alias', 'post' ) )
+if( $nv_Request->isset_request( 'get_content_alias', 'post' ) )
 {
-	$title = $nv_Request->get_title( 'get_alias', 'post', '' );
+	$title = $nv_Request->get_title( 'get_content_alias', 'post', '' );
 	$alias = change_alias( $title );
+	$alias = strtolower( $alias );
 
 	include NV_ROOTDIR . '/includes/header.php';
 	echo $alias;
@@ -214,8 +215,10 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 		'id' => '',
 		'listcatid' => '',
 		'catid' => ( $contentid > 0 ) ? $rowcontent_old['catid'] : 0,
-		'admin_id' => ( defined( 'NV_IS_USER' ) ) ? $user_info['userid'] : 0,
+		'admin_id' => ( defined( 'NV_IS_USER' ) ) ? $user_info['userid'] : 1, // Anonymous videos will be moderated by Admin.
+		'admin_name' => ( defined( 'NV_IS_USER' ) ) ? $user_info['username'] : $lang_module['guest_post'],
 		'author' => '',
+		'artist' => '',
 		'sourceid' => 0,
 		'addtime' => NV_CURRENTTIME,
 		'edittime' => NV_CURRENTTIME,
@@ -260,7 +263,6 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 		);
 	}
 
-
 	$error = '';
 
 	if( $nv_Request->isset_request( 'contentid', 'post' ) )
@@ -271,6 +273,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 
 		$rowcontent['listcatid'] = implode( ',', $catids );
 		$rowcontent['author'] = $nv_Request->get_title( 'author', 'post', '', 1 );
+		$rowcontent['artist'] = $nv_Request->get_title( 'artist', 'post', '', 1 );
 
 		$rowcontent['title'] = $nv_Request->get_title( 'title', 'post', '', 1 );
 		$alias = $nv_Request->get_title( 'alias', 'post', '' );
@@ -336,10 +339,6 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 		{
 			$error = $lang_module['error_cat'];
 		}
-		elseif( trim( strip_tags( $rowcontent['bodyhtml'] ) ) == '' )
-		{
-			$error = $lang_module['error_bodytext'];
-		}
 		elseif( ! nv_capcha_txt( $fcode ) )
 		{
 			$error = $lang_module['error_captcha'];
@@ -378,11 +377,13 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 			if( $rowcontent['id'] == 0 )
 			{
 				$_sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_rows
-						(catid, listcatid, admin_id, author, sourceid, addtime, edittime, status, publtime, exptime, archive, title, alias, hometext, vid_path, vid_type, homeimgfile, homeimgalt, homeimgthumb, inhome, allowed_comm, allowed_rating, hitstotal, hitscm, total_rating, click_rating) VALUES
+						(catid, listcatid, admin_id, admin_name, author, artist, sourceid, addtime, edittime, status, publtime, exptime, archive, title, alias, hometext, vid_path, vid_type, homeimgfile, homeimgalt, homeimgthumb, inhome, allowed_comm, allowed_rating, hitstotal, hitscm, total_rating, click_rating) VALUES
 						 (" . intval( $rowcontent['catid'] ) . ",
 						 " . $db->quote( $rowcontent['listcatid'] ) . ",
 						 " . intval( $rowcontent['admin_id'] ) . ",
+						 " . $db->quote( $rowcontent['admin_name'] ) . ",
 						 " . $db->quote( $rowcontent['author'] ) . ",
+						 " . $db->quote( $rowcontent['artist'] ) . ",
 						 " . intval( $rowcontent['sourceid'] ) . ",
 						 " . intval( $rowcontent['addtime'] ) . ",
 						 " . intval( $rowcontent['edittime'] ) . ",
@@ -448,6 +449,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 						 catid=" . intval( $rowcontent['catid'] ) . ",
 						 listcatid=" . $db->quote( $rowcontent['listcatid'] ) . ",
 						 author=" . $db->quote( $rowcontent['author'] ) . ",
+						 artist=" . $db->quote( $rowcontent['artist'] ) . ",
 						 sourceid=" . intval( $rowcontent['sourceid'] ) . ",
 						 status=" . intval( $rowcontent['status'] ) . ",
 						 publtime=" . intval( $rowcontent['publtime'] ) . ",
@@ -665,7 +667,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 	{
 		$contents .= "<script type=\"text/javascript\">\n";
 		$contents .= '$("#idtitle").change(function () {
- 		get_alias();
+ 		get_content_alias();
 		});';
 		$contents .= "</script>\n";
 	}
@@ -691,7 +693,7 @@ elseif( defined( 'NV_IS_USER' ) )
 	$num_items = $db->query( $db->sql() )->fetchColumn();
 	if( $num_items )
 	{
-		$db->select( 'id, catid, listcatid, admin_id, author, sourceid, addtime, edittime, status, publtime, title, alias, hometext, vid_path, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
+		$db->select( 'id, catid, listcatid, admin_id, admin_name, author, artist, sourceid, addtime, edittime, status, publtime, title, alias, hometext, vid_path, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
 			->order( 'id DESC' )
 			->limit( $per_page )
 			->offset( ( $page - 1 ) * $per_page );

@@ -18,7 +18,7 @@
 			</div>
 			<div class="clearfix"></div>
 			<!-- BEGIN: socialbutton -->
-			<div class="socialicon col-xs-12 col-md-12 col-lg-12 clearfix margin-bottom-lg margin-top-lg">
+			<div class="social-icon col-xs-12 col-md-12 col-lg-12 clearfix margin-bottom-lg margin-top-lg">
 				<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">&nbsp;</div>
 			</div>
 			<!-- END: socialbutton -->
@@ -50,6 +50,7 @@
 				</div>	
 			</div>
 		</div>
+		<div class="clear"></div>
 		<!-- BEGIN: no_public -->
 		<div class="clear">
 			<div class="alert alert-warning">
@@ -58,11 +59,6 @@
 		</div>
 		<!-- END: no_public -->
 		
-		<!-- BEGIN: showhometext -->
-		<div class="clearfix margin-bottom-lg">
-            <div class="hometext">{DETAIL.hometext}</div>
-		</div>
-		<!-- END: showhometext -->
 		<!-- BEGIN: bodytext -->
 		<div class="panel panel-default bodytext_shorten">
 			<div id="news-bodyhtml" class="bodytext panel-body margin-bottom-lg">
@@ -71,12 +67,15 @@
 		</div>
 		<!-- END: bodytext -->
 		<!-- BEGIN: author -->
-        <div class="margin-bottom-lg">
+        <div class="clear margin-bottom-lg">
     		<!-- BEGIN: name -->
     		<p class="h5 text-right">
     			<strong>{LANG.author}: </strong>{DETAIL.author}
     		</p>
     		<!-- END: name -->
+    		<p class="h5 text-right">
+    			<strong>{LANG.artist}: </strong>{DETAIL.artist}
+    		</p>
     		<!-- BEGIN: source -->
     		<p class="h5 text-right">
     			<strong>{LANG.source}: </strong>{DETAIL.source}
@@ -159,58 +158,56 @@
 <!-- END: comment -->
 
 <!-- BEGIN: others -->
-<div class="row">
-	<div class="other-news">
-    	<!-- BEGIN: related_new -->
-    	<p class="h3"><strong>{LANG.related_new}</strong></p>
-    	<div class="clearfix">
-            <div class="related_new_videos">
-        		<!-- BEGIN: loop -->
-				<div class="col-md-8">
-					<div class="thumbnail">
-						<!-- BEGIN: image -->
-						<a class="list-inline" href="{RELATED_NEW.link}">
-							<img src="{RELATED_NEW.imghome}" <!-- BEGIN: fix_size --> style="height:{IMGHEIGHT}px;" <!-- END: fix_size --> class="related_video"/>
-						</a>
-						<!-- END: image -->
-						<h4>
-							<a class="list-inline" href="{RELATED_NEW.link}">{RELATED_NEW.title}</a>
-						</h4>
-						<em>({RELATED_NEW.time})</em>
-						<!-- BEGIN: newday -->
-						<span class="icon_new">&nbsp;</span>
-						<!-- END: newday -->
-					</div>
-        		</div>
-        		<!-- END: loop -->
-        	</div>
-        </div>
-    	<!-- END: related_new -->
-        
-    	<!-- BEGIN: related -->
-    	<p class="h3"><strong>{LANG.related}</strong></p>
-            <div class="related_videos">
-        		<!-- BEGIN: loop -->
-				<div class="col-md-8">
-					<div class="thumbnail">
-						<!-- BEGIN: image -->
-						<a class="list-inline" href="{RELATED.link}">
-							<img src="{RELATED.imghome}" <!-- BEGIN: fix_size --> style="height:{IMGHEIGHT}px;" <!-- END: fix_size --> class="related_video"/>
-						</a>
-						<!-- END: image -->
-						<h4>
-							<a class="list-inline" href="{RELATED.link}">{RELATED.title}</a>
-						</h4>
-						<em>({RELATED.time})</em>
-						<!-- BEGIN: newday -->
-						<span class="icon_new">&nbsp;</span>
-						<!-- END: newday -->
-					</div>
-        		</div>
-        		<!-- END: loop -->
-        	</div>
-    	<!-- END: related -->
-    </div>
+<div class="other-news">
+	<!-- BEGIN: related_new -->
+	<p class="h3"><strong>{LANG.related_new}</strong></p>
+	<div class="clearfix">
+		<div class="related_new_videos">
+			<!-- BEGIN: loop -->
+			<div class="col-md-8">
+				<div class="thumbnail">
+					<!-- BEGIN: image -->
+					<a href="{RELATED_NEW.link}">
+						<img src="{RELATED_NEW.imghome}" <!-- BEGIN: fix_size --> style="height:{IMGHEIGHT}px;" <!-- END: fix_size --> class="related_video"/>
+					</a>
+					<!-- END: image -->
+					<h4>
+						<a href="{RELATED_NEW.link}">{RELATED_NEW.title}</a>
+					</h4>
+					<em>({RELATED_NEW.time})</em>
+					<!-- BEGIN: newday -->
+					<span class="icon_new">&nbsp;</span>
+					<!-- END: newday -->
+				</div>
+			</div>
+			<!-- END: loop -->
+		</div>
+	</div>
+	<!-- END: related_new -->
+	
+	<!-- BEGIN: related -->
+	<p class="h3"><strong>{LANG.related}</strong></p>
+		<div class="related_videos">
+			<!-- BEGIN: loop -->
+			<div class="col-md-8">
+				<div class="thumbnail">
+					<!-- BEGIN: image -->
+					<a href="{RELATED.link}">
+						<img src="{RELATED.imghome}" <!-- BEGIN: fix_size --> style="height:{IMGHEIGHT}px;" <!-- END: fix_size --> class="related_video"/>
+					</a>
+					<!-- END: image -->
+					<h4>
+						<a href="{RELATED.link}">{RELATED.title}</a>
+					</h4>
+					<em>({RELATED.time})</em>
+					<!-- BEGIN: newday -->
+					<span class="icon_new">&nbsp;</span>
+					<!-- END: newday -->
+				</div>
+			</div>
+			<!-- END: loop -->
+		</div>
+	<!-- END: related -->
 </div>
 <!-- END: others -->
 

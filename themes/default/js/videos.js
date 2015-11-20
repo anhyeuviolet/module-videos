@@ -50,6 +50,20 @@ function get_alias() {
 	return false;
 }
 
+function get_content_alias() {
+	var title = strip_tags(document.getElementById('idtitle').value);
+	if (title != '') {
+		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-video&nocache=' + new Date().getTime(), 'get_content_alias=' + encodeURIComponent(title), function(res) {
+			if (res != "") {
+				document.getElementById('idalias').value = res;
+			} else {
+				document.getElementById('idalias').value = '';
+			}
+		});
+	}
+	return false;
+}
+
 $(window).load(function(){
 	var newsW = $('#news-bodyhtml').innerWidth();
 	$.each($('#news-bodyhtml img'), function(){

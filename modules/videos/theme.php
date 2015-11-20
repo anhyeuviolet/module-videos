@@ -69,6 +69,20 @@ function viewcat_grid_new( $array_catpage, $catid, $generate_page )
 			$xtpl->parse( 'main.viewcatloop.newday' );
 		}
 
+		if( isset($array_row_i['uploader_link']) AND !empty($array_row_i['uploader_link'] ))
+		{
+			$xtpl->parse( 'main.viewcatloop.uploader_link' );
+		}
+		else
+		{
+			$xtpl->parse( 'main.viewcatloop.uploader' );
+		}
+		
+		if( $array_row_i['hitstotal'] > 0)
+		{
+			$xtpl->parse( 'main.viewcatloop.hitstotal' );
+		}
+		
 		$xtpl->set_autoreset();
 		$xtpl->parse( 'main.viewcatloop' );
 		
@@ -106,7 +120,6 @@ function viewcat_page_new( $array_catpage, $array_cat_other, $generate_page )
 	foreach( $array_catpage as $array_row_i )
 	{
 		$newday = $array_row_i['publtime'] + ( 86400 * $array_row_i['newday'] );
-		//$array_row_i['publtime'] = nv_date( 'd/m/Y h:i:s A', $array_row_i['publtime'] );
 		$array_row_i['publtime'] = humanTiming($array_row_i['publtime']);
 		$array_row_i['listcatid'] = explode( ',', $array_row_i['listcatid'] );
 		$num_cat = sizeof( $array_row_i['listcatid'] );
@@ -139,6 +152,20 @@ function viewcat_page_new( $array_catpage, $array_cat_other, $generate_page )
 		if( $newday >= NV_CURRENTTIME )
 		{
 			$xtpl->parse( 'main.viewcatloop.news.newday' );
+		}
+			
+		if( isset($array_row_i['uploader_link']) AND !empty($array_row_i['uploader_link'] ))
+		{
+			$xtpl->parse( 'main.viewcatloop.news.uploader_link' );
+		}
+		else
+		{
+			$xtpl->parse( 'main.viewcatloop.news.uploader' );
+		}
+		
+		if( $array_row_i['hitstotal'] > 0)
+		{
+			$xtpl->parse( 'main.viewcatloop.news.hitstotal' );
 		}
 
 		$xtpl->set_autoreset();
@@ -238,9 +265,13 @@ function viewsubcat_main( $viewcat, $array_cat )
 					$xtpl->parse( 'main.listcat.loop.adminlink' );
 				}
 				
-				if( !empty($array_row_i['author'] ))
+				if( isset($array_row_i['uploader_link']) AND !empty($array_row_i['uploader_link'] ))
 				{
-					$xtpl->parse( 'main.listcat.loop.author' );
+					$xtpl->parse( 'main.listcat.loop.uploader_link' );
+				}
+				else
+				{
+					$xtpl->parse( 'main.listcat.loop.uploader' );
 				}
 				
 				if( $array_row_i['hitstotal'] > 0)
@@ -871,8 +902,7 @@ function tag_theme( $topic_array, $topic_other_array, $generate_page, $page_titl
 		foreach( $topic_array as $topic_array_i )
 		{
 			$xtpl->assign( 'TOPIC', $topic_array_i );
-			$xtpl->assign( 'TIME', date( 'H:i', $topic_array_i['publtime'] ) );
-			$xtpl->assign( 'DATE', date( 'd/m/Y', $topic_array_i['publtime'] ) );
+			$xtpl->assign( 'TIME', humanTiming( $topic_array_i['publtime'] ) );
 
 			if( ! empty( $topic_array_i['src'] ) )
 			{

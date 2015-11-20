@@ -13,7 +13,7 @@
 <form action="{CONTENT_URL}" name="fsea" method="post" id="fsea" class="form-horizontal">
 
 	<div class="form-group">
-		<label class="col-sm-4 control-label">{LANG.name} <span class="txtrequired">(*)</span></label>
+		<label class="col-sm-4 control-label">{LANG.name}<span class="txtrequired">(*)</span></label>
 		<div class="col-sm-20">
 			<input type="text" class="form-control" name="title" id="idtitle" value="{DATA.title}" />
 		</div>
@@ -23,7 +23,7 @@
 		<label class="col-sm-4 control-label">{LANG.alias}</label>
 		<div class="col-sm-20">
 			<input type="text" class="form-control pull-left" name="alias" id="idalias" value="{DATA.alias}" maxlength="255" style="width: 94%;" />
-			<em class="fa fa-refresh pull-right" style="cursor: pointer; vertical-align: middle; margin: 9px 0 0 4px" onclick="get_alias();" alt="Click">&nbsp;</em>
+			<em class="fa fa-refresh pull-right" style="cursor: pointer; vertical-align: middle; margin: 9px 0 0 4px" onclick="get_content_alias();" alt="Click">&nbsp;</em>
 		</div>
 	</div>
 
@@ -49,7 +49,7 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-4 control-label">{LANG.aaaa} Link Video</label>
+		<label class="col-sm-4 control-label">{LANG.content_link}</label>
 		<div class="col-sm-20">
 			<input class="form-control" style="width:380px" type="text" name="vid_path" id="vid_path" placeholder="{LANG.videos_sources_placeholder}" value="{DATA.vid_path}"/>
 		</div>
@@ -61,6 +61,19 @@
 			<input class="form-control" name="homeimgfile" id="homeimg" value="{DATA.homeimgfile}" type="text" />
 		</div>
 	</div>
+	<div class="form-group">
+		<label class="col-sm-4 control-label">{LANG.search_author}</label>
+		<div class="col-sm-20">
+			<input maxlength="255" value="{DATA.author}" name="author" type="text" class="form-control" />
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label class="col-sm-4 control-label">{LANG.search_artist}</label>
+		<div class="col-sm-20">
+			<input maxlength="255" value="{DATA.artist}" name="artist" type="text" class="form-control" />
+		</div>
+	</div>
 
 	<div class="form-group">
 		<label>{LANG.content_hometext}</label>
@@ -68,7 +81,7 @@
 	</div>
 
 	<div class="form-group">
-		<label>{LANG.content_bodytext} <span class="txtrequired">(*)</span></label>
+		<label>{LANG.content_bodytext}</label>
 		{HTMLBODYTEXT}
 	</div>
 

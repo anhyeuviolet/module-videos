@@ -193,7 +193,9 @@ $rowcontent = array(
 	'catid' => $catid,
 	'listcatid' => $catid . ',' . $parentid,
 	'admin_id' => $admin_id,
+	'admin_name' => $admin_info['username'],
 	'author' => '',
+	'artist' => '',
 	'sourceid' => 0,
 	'addtime' => NV_CURRENTTIME,
 	'edittime' => NV_CURRENTTIME,
@@ -420,6 +422,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 	}
 
 	$rowcontent['author'] = $nv_Request->get_title( 'author', 'post', '', 1 );
+	$rowcontent['artist'] = $nv_Request->get_title( 'artist', 'post', '', 1 );
 	$rowcontent['sourcetext'] = $nv_Request->get_title( 'sourcetext', 'post', '' );
 
 	$publ_date = $nv_Request->get_title( 'publ_date', 'post', '' );
@@ -559,10 +562,6 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 	{
 		$error[] = $lang_module['error_vid_path'];
 	}
-	// elseif( trim( strip_tags( $rowcontent['bodyhtml'] ) ) == '' )
-	// {
-		// $error[] = $lang_module['error_bodytext'];
-	// }
 
 	if( empty( $error ) )
 	{
@@ -686,11 +685,13 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				$rowcontent['status'] = 2;
 			}
 			$sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows
-				(catid, listcatid, admin_id, author, sourceid, addtime, edittime, status, publtime, exptime, archive, title, alias, hometext, vid_path, vid_type, homeimgfile, homeimgalt, homeimgthumb, inhome, allowed_comm, allowed_rating, hitstotal, hitscm, total_rating, click_rating) VALUES
+				(catid, listcatid, admin_id, admin_name, author, artist, sourceid, addtime, edittime, status, publtime, exptime, archive, title, alias, hometext, vid_path, vid_type, homeimgfile, homeimgalt, homeimgthumb, inhome, allowed_comm, allowed_rating, hitstotal, hitscm, total_rating, click_rating) VALUES
 				 (' . intval( $rowcontent['catid'] ) . ',
 				 :listcatid,
 				 ' . intval( $rowcontent['admin_id'] ) . ',
+				 :admin_name,
 				 :author,
+				 :artist,
 				 ' . intval( $rowcontent['sourceid'] ) . ',
 				 ' . intval( $rowcontent['addtime'] ) . ',
 				 ' . intval( $rowcontent['edittime'] ) . ',
@@ -716,7 +717,9 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 
 			$data_insert = array();
 			$data_insert['listcatid'] = $rowcontent['listcatid'];
+			$data_insert['admin_name'] = $rowcontent['admin_name'];
 			$data_insert['author'] = $rowcontent['author'];
+			$data_insert['artist'] = $rowcontent['artist'];
 			$data_insert['title'] = $rowcontent['title'];
 			$data_insert['alias'] = $rowcontent['alias'];
 			$data_insert['hometext'] = $rowcontent['hometext'];
@@ -791,6 +794,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 					 catid=' . intval( $rowcontent['catid'] ) . ',
 					 listcatid=:listcatid,
 					 author=:author,
+					 artist=:artist,
 					 sourceid=' . intval( $rowcontent['sourceid'] ) . ',
 					 status=' . intval( $rowcontent['status'] ) . ',
 					 publtime=' . intval( $rowcontent['publtime'] ) . ',
@@ -812,6 +816,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 
 			$sth->bindParam( ':listcatid', $rowcontent['listcatid'], PDO::PARAM_STR );
 			$sth->bindParam( ':author', $rowcontent['author'], PDO::PARAM_STR );
+			$sth->bindParam( ':artist', $rowcontent['artist'], PDO::PARAM_STR );
 			$sth->bindParam( ':title', $rowcontent['title'], PDO::PARAM_STR );
 			$sth->bindParam( ':alias', $rowcontent['alias'], PDO::PARAM_STR );
 			$sth->bindParam( ':hometext', $rowcontent['hometext'], PDO::PARAM_STR, strlen( $rowcontent['hometext'] ) );

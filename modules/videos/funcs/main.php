@@ -59,7 +59,7 @@ if( empty( $contents ) )
 
 		$num_items = $db->query( $db->sql() )->fetchColumn();
 
-		$db->select( 'id, catid, listcatid, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
+		$db->select( 'id, catid, listcatid, admin_id, admin_name, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
 			->order( $order_by )
 			->limit( $per_page )
 			->offset( ( $page - 1 ) * $per_page );
@@ -84,6 +84,15 @@ if( empty( $contents ) )
 			else
 			{
 				$item['imghome'] = '';
+			}
+			
+			if($item['admin_name'] == $lang_module['guest_post'] )
+			{
+				unset($item['uploader_link']);
+			}
+			else
+			{
+				$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['admin_name'] ;
 			}
 
 			$item['newday'] = $global_array_cat[$item['catid']]['newday'];
@@ -127,7 +136,7 @@ if( empty( $contents ) )
 
 		$key = 0;
 		$db->sqlreset()
-		->select('id, listcatid, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
+		->select('id, listcatid, admin_id, admin_name, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
 		->order( 'publtime DESC' );
 
 		foreach( $global_array_cat as $_catid => $array_cat_i )
@@ -159,6 +168,14 @@ if( empty( $contents ) )
 
 					$item['newday'] = $array_cat_i['newday'];
 					$item['link'] = $array_cat_i['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
+					if($item['admin_name'] == $lang_module['guest_post'] )
+					{
+						unset($item['uploader_link']);
+					}
+					else
+					{
+						$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['admin_name'] ;
+					}
 					$array_cat[$key]['content'][] = $item;
 				}
 				++$key;
@@ -178,7 +195,7 @@ if( empty( $contents ) )
 
 		$num_items = $db->query( $db->sql() )->fetchColumn();
 
-		$db->select( 'id, catid, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
+		$db->select( 'id, catid, admin_id, admin_name, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
 			->order( $order_by )
 			->limit($per_page )
 			->offset( ( $page - 1 ) * $per_page );
@@ -207,6 +224,15 @@ if( empty( $contents ) )
 				$item['imghome'] = '';
 			}
 
+			if($item['admin_name'] == $lang_module['guest_post'] )
+			{
+				unset($item['uploader_link']);
+			}
+			else
+			{
+				$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['admin_name'] ;
+			}
+			
 			$item['newday'] = $global_array_cat[$item['catid']]['newday'];
 			$item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
 			$array_catpage[] = $item;

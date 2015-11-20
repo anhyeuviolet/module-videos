@@ -138,6 +138,15 @@
 							<div class="message_body">
 								<input class="form-control" type="text" maxlength="255" value="{rowcontent.author}" name="author" style="width:100%" />
 							</div>
+						</div>
+						
+						<div class="col-md-24">
+							<p class="message_head">
+								<cite>{LANG.content_artist}:</cite>
+							</p>
+							<div class="message_body">
+								<input class="form-control" type="text" maxlength="255" value="{rowcontent.artist}" name="artist" style="width:100%" />
+							</div>
 						</div>	
 						<!-- BEGIN: googleplus -->
 						<div class="col-md-24">
