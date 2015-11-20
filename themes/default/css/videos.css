@@ -1,4 +1,7 @@
-﻿.videoplayer img
+﻿.videos-home-thumbnail{
+	background: #DDD none repeat scroll 0% 0%;
+}
+.videoplayer img
 {
 	margin: auto
 }

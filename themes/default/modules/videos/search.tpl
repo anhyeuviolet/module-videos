@@ -30,6 +30,8 @@
 						<option value="1" {CHECK1}>{LANG.find_content} </option>
 						<option value="2" {CHECK2}>{LANG.find_author} </option>
 						<option value="3" {CHECK3}>{LANG.find_resource} </option>
+						<option value="4" {CHECK4}>{LANG.find_uploader} </option>
+						<option value="5" {CHECK5}>{LANG.find_artist} </option>
 					</select>
 				</div>
 			</div>

@@ -1,15 +1,15 @@
 <!-- BEGIN: main -->
-<!-- BEGIN: topicdescription -->
+<!-- BEGIN: description -->
 <div class="news_column">
 	<div class="alert alert-info clearfix">
-		<h3>{TOPPIC_TITLE}</h3>
+		<h3>{TITLE}</h3>
 		<!-- BEGIN: image -->
-		<img alt="{TOPPIC_TITLE}" src="{HOMEIMG1}" width="{IMGWIDTH1}" class="img-thumbnail pull-left imghome" />
+		<img alt="{TITLE}" src="{HOMEIMG1}" width="{IMGWIDTH1}" class="img-thumbnail pull-left imghome" />
 		<!-- END: image -->
-		<p class="text-justify">{TOPPIC_DESCRIPTION}</p>
+		<p class="text-justify">{DESCRIPTION}</p>
 	</div>
 </div>
-<!-- END: topicdescription -->
+<!-- END: description -->
 
 <!-- BEGIN: topic -->
 <div class="news_column panel panel-default">
@@ -21,9 +21,18 @@
 		<!-- END: homethumb -->
 		<div class="videos-thumbnail pull-left col-md-18 col-lg-18 col-xs-18">
 			<h3><a href="{TOPIC.link}" title="{TOPIC.title}">{TOPIC.title}</a></h3>
+			<!-- BEGIN: uploader_link -->
+			<p>{LANG.content_uploaded_by}&nbsp;<a href="{TOPIC.uploader_link}" title="{TOPIC.admin_name}">{TOPIC.admin_name}</a></p>
+			<!-- END: uploader_link -->
+			<!-- BEGIN: uploader -->
+			<p>{LANG.content_uploaded_by}&nbsp;{TOPIC.admin_name}</p>
+			<!-- END: uploader -->
 			<p>
-				<em>{TIME}</em>
+				<span class="pull-left">{TIME}</span>
+				<span class="spacer pull-left"></span>
+				<span class="h5">{TOPIC.hitstotal}&nbsp;{LANG.hits_view}</span>
 			</p>
+			
 			<!-- BEGIN: adminlink -->
 			<p class="text-right">
 				{ADMINLINK}

@@ -41,7 +41,6 @@ function viewcat_grid_new( $array_catpage, $catid, $generate_page )
 	foreach( $array_catpage as $array_row_i )
 	{
 		$newday = $array_row_i['publtime'] + ( 86400 * $array_row_i['newday'] );
-		//$array_row_i['publtime'] = nv_date( 'd/m/Y h:i:s A', $array_row_i['publtime'] );
 		$array_row_i['publtime'] = humanTiming($array_row_i['publtime']);
 		
 		$xtpl->clear_autoreset();
@@ -55,10 +54,6 @@ function viewcat_grid_new( $array_catpage, $catid, $generate_page )
 		}
 		if( $array_row_i['imghome'] != '' )
 		{
-			if(!($array_row_i['homeimgthumb'] > 0))
-			{
-				$xtpl->parse( 'main.viewcatloop.image.fix_size' );
-			}
 			$xtpl->assign( 'HOMEIMG1', $array_row_i['imghome'] );
 			$xtpl->assign( 'HOMEIMGALT1', ! empty( $array_row_i['homeimgalt'] ) ? $array_row_i['homeimgalt'] : $array_row_i['title'] );
 			$xtpl->parse( 'main.viewcatloop.image' );
@@ -305,6 +300,8 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	$xtpl->assign( 'IMGHEIGHT', $module_config[$module_name]['homeheight'] );
 
 	$news_contents['addtime'] = nv_date( 'd/m/Y h:i:s', $news_contents['addtime'] );
+	$news_contents['publtime'] = humanTiming(  $news_contents['publtime'] );
+
 	$xtpl->assign( 'RAND_SS', rand(1000,9999) );
 	$xtpl->assign( 'NEWSID', $news_contents['id'] );
 	$xtpl->assign( 'NEWSCHECKSS', $news_contents['newscheckss'] );
@@ -419,6 +416,16 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 
 		$xtpl->parse( 'main.author' );
 	}
+	
+	if( isset($news_contents['uploader_link']) AND !empty($news_contents['uploader_link'] ))
+	{
+		$xtpl->parse( 'main.uploader_link' );
+	}
+	else
+	{
+		$xtpl->parse( 'main.uploader' );
+	}
+	
 	if( $news_contents['copyright'] == 1 )
 	{
 		if( ! empty( $module_config[$module_name]['copyright'] ) )
@@ -502,10 +509,6 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 
 				if( $related_array_i['imghome'] != '' )
 				{
-					if(!($related_array_i['homeimgthumb'] > 0))
-					{
-						$xtpl->parse( 'main.others.related.loop.image.fix_size' );
-					}
 					$xtpl->parse( 'main.others.related.loop.image' );
 				}
 				$xtpl->parse( 'main.others.related.loop' );
@@ -799,7 +802,7 @@ function search_theme( $key, $check_num, $date_array, $array_cat_search )
 		$xtpl->parse( 'main.search_cat' );
 	}
 
-	for( $i = 0; $i <= 3; ++$i )
+	for( $i = 0; $i <= 5; ++$i )
 	{
 		if( $check_num == $i )
 		{
@@ -879,23 +882,23 @@ function search_result_theme( $key, $numRecord, $per_pages, $page, $array_conten
 	$xtpl->parse( 'results' );
 	return $xtpl->text( 'results' );
 }
-function tag_theme( $topic_array, $topic_other_array, $generate_page, $page_title, $description, $topic_image )
+function tag_theme( $topic_array, $generate_page, $page_title, $description, $topic_image )
 {
 	global $lang_module, $module_info, $module_name, $module_file, $topicalias, $module_config;
 
 	$xtpl = new XTemplate( 'tag.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
-	$xtpl->assign( 'TOPPIC_TITLE', $page_title );
+	$xtpl->assign( 'TITLE', $page_title );
 	$xtpl->assign( 'IMGWIDTH1', $module_config[$module_name]['homewidth'] );
 	if( ! empty( $description ) )
 	{
-		$xtpl->assign( 'TOPPIC_DESCRIPTION', $description );
+		$xtpl->assign( 'DESCRIPTION', $description );
 		if( ! empty( $topic_image ) )
 		{
 			$xtpl->assign( 'HOMEIMG1', $topic_image );
-			$xtpl->parse( 'main.topicdescription.image' );
+			$xtpl->parse( 'main.description.image' );
 		}
-		$xtpl->parse( 'main.topicdescription' );
+		$xtpl->parse( 'main.description' );
 	}
 	if( ! empty( $topic_array ) )
 	{
@@ -914,7 +917,14 @@ function tag_theme( $topic_array, $topic_other_array, $generate_page, $page_titl
 				$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $topic_array_i['id'] ) . ' ' . nv_link_delete_page( $topic_array_i['id'] ) );
 				$xtpl->parse( 'main.topic.adminlink' );
 			}
-
+			if( isset($topic_array_i['uploader_link']) AND !empty($topic_array_i['uploader_link'] ))
+			{
+				$xtpl->parse( 'main.topic.uploader_link' );
+			}
+			else
+			{
+				$xtpl->parse( 'main.topic.uploader' );
+			}
 			$xtpl->parse( 'main.topic' );
 		}
 	}

@@ -5,7 +5,16 @@
 		<div class="page-header pd10_0 mg0_10_10">
 			<h3 class="title">{DETAIL.title}</h3>
 			<div class="row margin-top-lg">
-				<span class="h5">{DETAIL.publtime}</span>
+				<!-- BEGIN: uploader_link -->
+				<p>{LANG.content_uploaded_by}&nbsp;<a href="{DETAIL.uploader_link}" title="{DETAIL.admin_name}">{DETAIL.admin_name}</a></p>
+				<!-- END: uploader_link -->
+				<!-- BEGIN: uploader -->
+				<p>{LANG.content_uploaded_by}&nbsp;{DETAIL.admin_name}</p>
+				<!-- END: uploader -->
+				
+				<span class="pull-left">{DETAIL.publtime}</span>
+				<span class="spacer pull-left"></span>
+				<span class="h5">{DETAIL.hitstotal}&nbsp;{LANG.hits_view}</span>
 			</div>
 		</div>
 		<div class="detail_video">
@@ -193,7 +202,7 @@
 				<div class="thumbnail">
 					<!-- BEGIN: image -->
 					<a href="{RELATED.link}">
-						<img src="{RELATED.imghome}" <!-- BEGIN: fix_size --> style="height:{IMGHEIGHT}px;" <!-- END: fix_size --> class="related_video"/>
+						<img src="{RELATED.imghome}" style="width:{IMGWIDTH}px;height:{IMGHEIGHT}px;" class="related_video"/>
 					</a>
 					<!-- END: image -->
 					<h4>

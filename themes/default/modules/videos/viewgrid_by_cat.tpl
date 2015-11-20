@@ -18,27 +18,31 @@
 				<!-- BEGIN: loop -->
 				<div class="col-md-8 col-lg-8 col-sm-12 col-xs-24 videos_list">
 					<!-- BEGIN: image -->
-					<a class="clearfix" title="{CONTENT.title}" href="{CONTENT.link}">
-						<img src="{HOMEIMG}" alt="{HOMEIMGALT}" style="width:{IMGWIDTH}px;height:{IMGHEIGHT}px;" class="imghome img-responsive" />
-					</a>
+					<div class="videos-home-thumbnail pull-left col-md-24 col-lg-24 col-xs-24">
+						<a class="clearfix" title="{CONTENT.title}" href="{CONTENT.link}">
+							<img src="{HOMEIMG}" alt="{HOMEIMGALT}" style="width:{IMGWIDTH}px;height:{IMGHEIGHT}px;" class="imghome img-responsive" />
+						</a>
+					</div>
 					<!-- END: image -->
-					<h3>
-						<a title="{CONTENT.title}" href="{CONTENT.link}">{CONTENT.title}</a>
-					</h3>
-					<div class="text-muted">
-						<ul class="list-unstyled">
-							<!-- BEGIN: uploader_link -->
-							<li>{LANG.by}&nbsp;<a href="{CONTENT.uploader_link}" title="{CONTENT.admin_name}">{CONTENT.admin_name}</a></li>
-							<!-- END: uploader_link -->
-							<!-- BEGIN: uploader -->
-							<li>{LANG.by}&nbsp;{CONTENT.admin_name}</li>
-							<!-- END: uploader -->
-							<li class="pull-left">{CONTENT.publtime}</li>
-							<!-- BEGIN: hitstotal -->
-							<li class="spacer pull-left"></li>
-							<li>{CONTENT.hitstotal}&nbsp;{LANG.hits_view}</li>
-							<!-- END: hitstotal -->
-						</ul>
+					<div class="videos-home-info pull-left col-md-24 col-lg-24 col-xs-24">
+						<h3>
+							<a title="{CONTENT.title}" href="{CONTENT.link}">{CONTENT.title}</a>
+						</h3>
+						<div class="text-muted">
+							<ul class="list-unstyled">
+								<!-- BEGIN: uploader_link -->
+								<li>{LANG.by}&nbsp;<a href="{CONTENT.uploader_link}" title="{CONTENT.admin_name}">{CONTENT.admin_name}</a></li>
+								<!-- END: uploader_link -->
+								<!-- BEGIN: uploader -->
+								<li>{LANG.by}&nbsp;{CONTENT.admin_name}</li>
+								<!-- END: uploader -->
+								<li class="pull-left">{CONTENT.publtime}</li>
+								<!-- BEGIN: hitstotal -->
+								<li class="spacer pull-left"></li>
+								<li>{CONTENT.hitstotal}&nbsp;{LANG.hits_view}</li>
+								<!-- END: hitstotal -->
+							</ul>
+						</div>
 					</div>
 				</div>
 			<!-- END: loop -->

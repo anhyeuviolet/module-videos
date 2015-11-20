@@ -84,6 +84,8 @@ $lang_module['to_date'] = 'Đến ngày';
 $lang_module['find_content'] = 'Tìm theo nội dung';
 $lang_module['find_author'] = 'Tìm theo tác giả';
 $lang_module['find_resource'] = 'Tìm theo nguồn tin';
+$lang_module['find_uploader'] = 'Tìm theo người đăng Video';
+$lang_module['find_artist'] = 'Tìm theo người thể hiện';
 $lang_module['find_all'] = 'Tất cả';
 $lang_module['search_modul_title'] = 'Tin tức';
 $lang_module['type_title'] = 'Lựa chọn kiểu tìm kiếm';
@@ -199,6 +201,7 @@ $lang_module['minute'] = 'phút trước';
 $lang_module['second'] = 'giây trước';
 
 $lang_module['by'] = 'bởi';
+$lang_module['content_uploaded_by'] = 'Đăng bởi';
 $lang_module['hits_view'] = 'lượt xem';
 $lang_module['guest_post'] = 'Khách vãng lai';
 $lang_module['uploaded_by'] = 'Video upload bởi ';

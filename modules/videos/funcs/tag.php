@@ -65,7 +65,7 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 
 		$num_items = $db->query( $db->sql() )->fetchColumn();
 
-		$db->select( 'id, catid, admin_id, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
+		$db->select( 'id, catid, admin_id, admin_name, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
 			->order( 'publtime DESC' )
 			->limit( $per_page )
 			->offset( ( $page - 1 ) * $per_page );
@@ -73,13 +73,9 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 		$result = $db->query( $db->sql() );
 		while( $item = $result->fetch() )
 		{
-			if( $item['homeimgthumb'] == 1 )//image thumb
+			if( $item['homeimgthumb'] == 1 OR $item['homeimgthumb'] == 2 ) //image file
 			{
-				$item['src'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-			}
-			elseif( $item['homeimgthumb'] == 2 )//image file
-			{
-				$item['src'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
+				$item['src'] = creat_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $item['homeimgthumb'] == 3 )//image url
 			{
@@ -97,30 +93,20 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 			$item['width'] = $module_config[$module_name]['homewidth'];
 
 			$end_publtime = $item['publtime'];
-
+			
+			if($item['admin_name'] == $lang_module['guest_post'] )
+			{
+				unset($item['uploader_link']);
+			}
+			else
+			{
+				$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['admin_name'] ;
+			}
 			$item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
 			$item_array[] = $item;
 		}
 		$result->closeCursor();
 		unset( $query, $row );
-
-		$item_array_other = array();
-		if ( $st_links > 0)
-		{
-			$db->sqlreset()
-				->select( 'id, catid, addtime, edittime, publtime, title, alias, hitstotal' )
-				->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
-				->where( 'status=1 AND id IN (SELECT id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_tags_id WHERE tid=' . $tid . ') and publtime < ' . $end_publtime )
-				->order( 'publtime DESC' )
-				->limit( $st_links );
-			$result = $db->query( $db->sql() );
-			while( $item = $result->fetch() )
-			{
-				$item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
-				$item_array_other[] = $item;
-			}
-			unset( $query, $row );
-		}
 
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 
@@ -128,7 +114,7 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 		{
 			$image_tag = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $image_tag;
 		}
-		$contents = tag_theme( $item_array, $item_array_other, $generate_page, $page_title, $description, $image_tag );
+		$contents = tag_theme( $item_array, $generate_page, $page_title, $description, $image_tag );
 
 		if( $page > 1 )
 		{

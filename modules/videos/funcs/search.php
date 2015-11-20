@@ -141,6 +141,14 @@ else
 		}
 		$where = "AND (tb1.sourceid IN (SELECT sourceid FROM " . NV_PREFIXLANG . "_" . $module_data . "_sources WHERE title like '%" . $db->dblikeescape( $dbkey ) . "%' OR link like '%" . $db->dblikeescape( $qurl ) . "%'))";
 	}
+	elseif( $choose == 4 )
+	{
+		$where = "AND ( tb1.admin_name LIKE '%" . $dbkeyhtml . "%' ) ";
+	}
+	elseif( $choose == 5 )
+	{
+		$where = "AND ( tb1.artist LIKE '%" . $dbkeyhtml . "%' ) ";
+	}
 	else
 	{
 		$qurl = $key;
@@ -150,7 +158,7 @@ else
 			$qurl = $url_info['scheme'] . '://' . $url_info['host'];
 		}
 		$tbl_src = ' LEFT JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext tb2 ON ( tb1.id = tb2.id )';
-		$where = " AND ( tb1.title LIKE '%" . $dbkeyhtml . "%' OR tb1.hometext LIKE '%" . $dbkey . "%' ";
+		$where = " AND ( tb1.title LIKE '%" . $dbkeyhtml . "%' OR tb1.hometext LIKE '%" . $dbkey . "%' OR tb1.admin_name LIKE '%" . $dbkey . "%' OR tb1.artist LIKE '%" . $dbkey . "%' ";
 		$where .= " OR tb1.author LIKE '%" . $dbkeyhtml . "%' OR tb2.bodytext LIKE '%" . $dbkey . "%') OR (tb1.sourceid IN (SELECT sourceid FROM " . NV_PREFIXLANG . "_" . $module_data . "_sources WHERE title like '%" . $db->dblikeescape( $dbkey ) . "%' OR link like '%" . $db->dblikeescape( $qurl ) . "%'))";
 	}
 
@@ -185,13 +193,10 @@ else
 
 	while( list( $id, $title, $alias, $catid, $hometext, $author, $publtime, $homeimgfile, $homeimgthumb, $sourceid ) = $result->fetch( 3 ) )
 	{
-		if( $homeimgthumb == 1 ) // image thumb
+	
+		if( $homeimgthumb == 1 OR $homeimgthumb == 2 ) //image file
 		{
-			$img_src = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $homeimgfile;
-		}
-		elseif( $homeimgthumb == 2 ) // image file
-		{
-			$img_src = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $homeimgfile;
+			$img_src = creat_thumbs($id, $homeimgfile, $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 		}
 		elseif( $homeimgthumb == 3 ) // image url
 		{
