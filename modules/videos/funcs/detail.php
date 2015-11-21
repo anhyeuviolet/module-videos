@@ -353,8 +353,6 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	{
 		$content_comment = '';
 	}
-	global $detail_playlist_id;
-	$detail_playlist_id = $news_contents['playlist_id'];
 	
 	// call user playlist
 	if( $user_info['userid'] > 0)
