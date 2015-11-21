@@ -10,7 +10,7 @@
 		<span class="text-muted clearfix">{PLAYLIST_INFO.add_time}</span>
 		<!-- END: time -->
 		<!-- BEGIN: viewed -->
-		<span class="text-muted">{PLAYLIST_INFO.hitstotal}</span>
+		<span class="text-muted">{PLAYLIST_INFO.hitstotal}{LANG.hits_view}</span>
 		<!-- END: viewed -->
 	</div>
 </div>

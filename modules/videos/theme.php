@@ -573,7 +573,6 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 
 	$xtpl = new XTemplate( 'playlist.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
-	$xtpl->assign( 'PLAYLIST_TITLE', $page_title );
 	$xtpl->assign( 'RAND_SS', rand(1000,9999) );
 	$xtpl->assign( 'MODULE_NAME', $module_name );
 	$xtpl->assign( 'PLAYLIST_ID', $playlist_id );

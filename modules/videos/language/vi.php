@@ -202,6 +202,6 @@ $lang_module['second'] = 'giây trước';
 
 $lang_module['by'] = 'bởi';
 $lang_module['content_uploaded_by'] = 'Đăng bởi';
-$lang_module['hits_view'] = 'lượt xem';
+$lang_module['hits_view'] = ' lượt xem';
 $lang_module['guest_post'] = 'Khách vãng lai';
 $lang_module['uploaded_by'] = 'Video upload bởi ';

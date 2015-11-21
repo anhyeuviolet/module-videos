@@ -123,8 +123,8 @@ $xtpl->assign( 'NV_BASE_ADMINURL', NV_BASE_ADMINURL );
 $xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
 $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'OP', $op );
-
-$xtpl->assign( 'PLAYLIST_CAT_LIST', nv_show_playlist_cat_list() );
+$page = 1;
+$xtpl->assign( 'PLAYLIST_CAT_LIST', nv_show_playlist_cat_list($page) );
 
 $xtpl->assign( 'PLAYLIST_ID', $playlist_id );
 $xtpl->assign( 'title', $title );
