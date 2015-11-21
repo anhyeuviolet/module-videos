@@ -47,7 +47,7 @@ if( empty( $contents ) )
 			->join( 'INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_playlist t2 ON t1.id = t2.id' )
 			->where( 't2.playlist_id= ' . $p_id . ' AND t1.status= 1' );
 
-		$db->select( 't1.id, t1.catid, t1.admin_id, t1.author, t1.vid_path, t1.vid_type, t1.addtime, t1.edittime, t1.publtime, t1.title, t1.alias, t1.hometext, t1.homeimgfile, t1.homeimgalt, t1.homeimgthumb, t2.playlist_sort' )
+		$db->select( 't1.id, t1.catid, t1.admin_id, t1.author, t1.vid_path, t1.vid_type, t1.addtime, t1.edittime, t1.publtime, t1.title, t1.alias, t1.hometext, t1.homeimgfile, t1.homeimgalt, t1.homeimgthumb, t2.playlist_id, t2.playlist_sort' )
 			->order( 't2.playlist_sort ASC' );
 			// ->limit( $per_page )
 			// ->offset( ($page - 1) * $per_page );
@@ -91,7 +91,9 @@ if( empty( $contents ) )
 		{
 			$data['rss_img'] = '';
 		}
-
+		// Fake playlist_id and playlist_sort
+		$data['playlist_id'] = 'No.';
+		$data['playlist_sort'] = 99;
 		// Export video link
 		if( ! empty( $data['vid_path'] ) )
 		{

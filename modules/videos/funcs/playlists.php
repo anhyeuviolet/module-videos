@@ -166,7 +166,7 @@ else
 	$key_words = $module_info['keywords'];
 	$playlist_info['title'] = $lang_module['playlist_show_list'];
 
-	$result = $db->query( 'SELECT playlist_id as id, title, alias, image, description as hometext, keywords, add_time as publtime, private_mode, userid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE status=1 ORDER BY weight ASC' );
+	$result = $db->query( 'SELECT playlist_id as id, title, alias, image, hitstotal, description as hometext, keywords, add_time as publtime, private_mode, userid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE status=1 ORDER BY weight ASC' );
 	while( $item = $result->fetch() )
 	{
 		if( ! empty( $item['image'] ) AND file_exists( NV_ROOTDIR. '/' . NV_FILES_DIR . '/' . $module_upload . '/playlists/' . $item['image'] ) )//image thumb

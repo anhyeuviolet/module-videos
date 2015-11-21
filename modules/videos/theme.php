@@ -573,6 +573,7 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 
 	$xtpl = new XTemplate( 'playlist.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
+	//$xtpl->assign( 'PLAYLIST_TITLE', $page_title );
 	$xtpl->assign( 'RAND_SS', rand(1000,9999) );
 	$xtpl->assign( 'MODULE_NAME', $module_name );
 	$xtpl->assign( 'PLAYLIST_ID', $playlist_id );
@@ -590,22 +591,21 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 
 	if( ! empty( $playlist_info ) )
 	{
-		if( !empty($playlist_info['add_time']) )
+		if( isset($playlist_info['add_time']) )
 		{
 			$playlist_info['add_time'] = nv_date( 'H:i d/m/Y', $playlist_info['add_time'] );
 		}
 		$xtpl->assign( 'PLAYLIST_INFO', $playlist_info );
+		if( !empty($playlist_info['add_time']))
+		{
+			$xtpl->parse( 'main.playlist_info.time' );
+		}
 		if( !empty($playlist_info['description']) )
 		{
 			$xtpl->parse( 'main.playlist_info.description' );
 		}
-		
-		if( $playlist_info['add_time'] > 0 )
-		{
-			$xtpl->parse( 'main.playlist_info.time' );
-		}
-		
-		if( $playlist_info['hitstotal'] > 0 )
+	
+		if(isset($playlist_info['hitstotal']) AND $playlist_info['hitstotal'] > 0 )
 		{
 			$xtpl->parse( 'main.playlist_info.viewed' );
 		}
