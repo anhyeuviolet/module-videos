@@ -231,7 +231,7 @@ $lang_module['playlist_nocheck'] = 'Hãy chọn ít nhất 1 Videos để có th
 $lang_module['playlist_delete_confirm'] = 'Bạn có chắc muốn xóa thể loại liên quan ra khỏi Videos ?';
 $lang_module['playlist_delete_success'] = 'Loại bỏ thành công !';
 $lang_module['playlist_nonews'] = 'Hiện tại không có Videos nào thuộc thể loại liên quan này !';
-$lang_module['addtoplaylists'] = 'Thêm vào Playlist';
+$lang_module['addtoplaylist'] = 'Thêm vào Playlist';
 $lang_module['playlist_update_success'] = 'Cập nhật thành công!';
 $lang_module['playlist_num_news'] = ' video';
 
