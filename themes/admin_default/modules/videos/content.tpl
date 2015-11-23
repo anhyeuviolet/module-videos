@@ -100,15 +100,6 @@
 						<td>{LANG.content_homeimgalt}</td>
 						<td><input class="form-control" type="text" maxlength="255" value="{rowcontent.homeimgalt}" id="homeimgalt" name="homeimgalt" style="width:100%" /></td>
 					</tr>
-					<tr>
-						<td>{LANG.imgposition}</td>
-						<td>
-						<select class="form-control" name="imgposition">
-							<!-- BEGIN: looppos -->
-							<option value="{id_imgposition}" {posl}>{title_imgposition}</option>
-							<!-- END: looppos -->
-						</select></td>
-					</tr>
 				</tbody>
 			</table>
 			<table class="table table-striped table-bordered table-hover">
@@ -246,10 +237,6 @@
 							<div style="margin-bottom: 2px;display: inline-block;">
 								<input type="checkbox" value="1" name="allowed_send" {allowed_send_checked}/>
 								<label> {LANG.content_allowed_send} </label>
-							</div>
-							<div style="margin-bottom: 2px;display: inline-block;">
-								<input type="checkbox" value="1" name="allowed_print" {allowed_print_checked} />
-								<label> {LANG.content_allowed_print} </label>
 							</div>
 							<div style="margin-bottom: 2px;display: inline-block;">
 								<input type="checkbox" value="1" name="allowed_save" {allowed_save_checked} />

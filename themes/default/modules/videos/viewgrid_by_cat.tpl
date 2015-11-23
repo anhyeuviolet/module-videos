@@ -26,7 +26,7 @@
 					<!-- END: image -->
 					<div class="videos-home-info pull-left col-md-24 col-lg-24 col-xs-24">
 						<h3>
-							<a title="{CONTENT.title}" href="{CONTENT.link}">{CONTENT.title}</a>
+							<a title="{CONTENT.title}" href="{CONTENT.link}">{CONTENT.title_cut}</a>
 						</h3>
 						<div class="text-muted">
 							<ul class="list-unstyled">

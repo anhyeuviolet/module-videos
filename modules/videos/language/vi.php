@@ -162,6 +162,7 @@ $lang_module['playlist_public'] = 'Hiển thị';
 $lang_module['playlist_status'] = 'Hoạt động';
 $lang_module['playlist'] = 'Danh mục phát';
 $lang_module['playlist_show_list'] = 'Danh sách Playlist';
+$lang_module['playlist_your_hotlink'] = 'Liên kết ảnh đại diện Playlist';
 $lang_module['your_playlist'] = 'Playlist của bạn';
 $lang_module['add_playlist_cat'] = 'Thêm mới Playlist';
 $lang_module['edit_playlist_cat'] = 'Sửa Playlist';

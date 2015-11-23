@@ -146,8 +146,8 @@
 					<td><input class= "form-control" type="text" value="{DATA.blockwidth}" name="blockwidth" /><span class="text-middle"> x </span><input class= "form-control" type="text" value="{DATA.blockheight}" name="blockheight" /></td>
 				</tr>
 				<tr>
-					<th>{LANG.setting_imagefull}</th>
-					<td><input class= "form-control" type="text" value="{DATA.imagefull}" name="imagefull" /></td>
+					<th>{LANG.setting_titlecut}</th>
+					<td><input class= "form-control" type="text" value="{DATA.titlecut}" name="titlecut" /></td>
 				</tr>
 				<tr>
 					<th>{LANG.setting_per_page}</th>
@@ -166,24 +166,6 @@
 						<option value="{ST_LINKS.key}"{ST_LINKS.selected}>{ST_LINKS.title}</option>
 						<!-- END: st_links -->
 					</select></td>
-				</tr>
-				<tr>
-					<th>{LANG.showtooltip}</th>
-					<td>
-						<input type="checkbox" value="1" name="showtooltip"{SHOWTOOLTIP}/>
-						&nbsp;&nbsp;&nbsp;<span class="text-middle">{LANG.showtooltip_position}</span>
-						<select name="tooltip_position" class="form-control">
-							<!-- BEGIN: tooltip_position -->
-							<option value="{TOOLTIP_P.key}"{TOOLTIP_P.selected}>{TOOLTIP_P.title}</option>
-							<!-- END: tooltip_position -->
-						</select>
-						&nbsp;&nbsp;&nbsp;<span class="text-middle">{LANG.showtooltip_length}</span>
-						<input type="text" name="tooltip_length" class="form-control" value="{DATA.tooltip_length}" style="width: 100px" />
-					</td>
-				</tr>
-				<tr>
-					<th>{LANG.showhometext}</th>
-					<td><input type="checkbox" value="1" name="showhometext"{SHOWHOMETEXT}/></td>
 				</tr>
 				<tr>
 					<th>{LANG.socialbutton}</th>
@@ -244,16 +226,6 @@
 						<option value="{STRUCTURE_UPLOAD.key}"{STRUCTURE_UPLOAD.selected}>{STRUCTURE_UPLOAD.title}</option>
 						<!-- END: structure_upload -->
 					</select></td>
-				</tr>
-				<tr>
-					<th>{LANG.imgpositiondefault}</th>
-					<td>
-						<select class="form-control" name="imgposition">
-							<!-- BEGIN: looppos -->
-							<option value="{id_imgposition}" {posl}>{title_imgposition}</option>
-							<!-- END: looppos -->
-						</select>
-					</td>
 				</tr>
 				<tr>
 					<th>{LANG.setting_auto_tags}</th>

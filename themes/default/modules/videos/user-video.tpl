@@ -47,7 +47,6 @@
 			</table>
 		</div>
 	</div>
-
 	<div class="form-group">
 		<label class="col-sm-4 control-label">{LANG.content_link}</label>
 		<div class="col-sm-20">

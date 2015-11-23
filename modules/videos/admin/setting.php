@@ -28,14 +28,11 @@ if( ! empty( $savesetting ) )
 	$array_config['homeheight'] = $nv_Request->get_int( 'homeheight', 'post', 0 );
 	$array_config['blockwidth'] = $nv_Request->get_int( 'blockwidth', 'post', 0 );
 	$array_config['blockheight'] = $nv_Request->get_int( 'blockheight', 'post', 0 );
-	$array_config['imagefull'] = $nv_Request->get_int( 'imagefull', 'post', 0 );
+	
+	$array_config['titlecut'] = $nv_Request->get_int( 'titlecut', 'post', 0 );
 
 	$array_config['allowed_rating_point'] = $nv_Request->get_int( 'allowed_rating_point', 'post', 0 );
 	$array_config['copyright'] = $nv_Request->get_editor( 'copyright', '', NV_ALLOWED_HTML_TAGS );
-	$array_config['showtooltip'] = $nv_Request->get_int( 'showtooltip', 'post', 0 );
-	$array_config['tooltip_position'] = $nv_Request->get_string( 'tooltip_position', 'post', '' );
-	$array_config['tooltip_length'] = $nv_Request->get_int( 'tooltip_length', 'post', 0 );
-	$array_config['showhometext'] = $nv_Request->get_int( 'showhometext', 'post', 0 );
 
 	$array_config['allow_user_plist'] = $nv_Request->get_title( 'allow_user_plist', 'post', '' );
 	$array_config['playlist_moderate'] = $nv_Request->get_title( 'playlist_moderate', 'post', '' );
@@ -55,7 +52,6 @@ if( ! empty( $savesetting ) )
 	$array_config['show_no_image'] = $nv_Request->get_title( 'show_no_image', 'post', '', 0 );
 	$array_config['structure_upload'] = $nv_Request->get_title( 'structure_upload', 'post', '', 0 );
 	$array_config['config_source'] = $nv_Request->get_int( 'config_source', 'post', 0 );
-	$array_config['imgposition'] = $nv_Request->get_int( 'imgposition', 'post', 0 );
 	$array_config['alias_lower'] = $nv_Request->get_int( 'alias_lower', 'post', 0 );
 	$array_config['tags_alias'] = $nv_Request->get_int( 'tags_alias', 'post', 0 );
 	$array_config['auto_tags'] = $nv_Request->get_int( 'auto_tags', 'post', 0 );
@@ -116,22 +112,6 @@ $array_jw_logo = array(
 	$lang_global['yes']
 	);
 
-$array_tooltip_position = array(
-	'top' => $lang_module['showtooltip_position_top'],
-	'bottom' => $lang_module['showtooltip_position_bottom'],
-	'left' => $lang_module['showtooltip_position_left'],
-	'right' => $lang_module['showtooltip_position_right']);
-
-// Vi tri hien thi tooltip
-foreach( $array_tooltip_position as $key => $val )
-{
-	$xtpl->assign( 'TOOLTIP_P', array(
-		'key' => $key,
-		'title' => $val,
-		'selected' => $key == $module_config[$module_name]['tooltip_position'] ? ' selected="selected"' : ''
-	) );
-	$xtpl->parse( 'main.tooltip_position' );
-}
 
 // Cach hien thi tren trang chu
 foreach( $array_viewcat_full as $key => $val )
@@ -239,8 +219,6 @@ for( $i = 0; $i <= 30; ++$i )
 	$xtpl->parse( 'main.playlist_max_items' );
 }
 
-$xtpl->assign( 'SHOWTOOLTIP', $module_config[$module_name]['showtooltip'] ? ' checked="checked"' : '' );
-$xtpl->assign( 'SHOWHOMETEXT', $module_config[$module_name]['showhometext'] ? ' checked="checked"' : '' );
 $xtpl->assign( 'SOCIALBUTTON', $module_config[$module_name]['socialbutton'] ? ' checked="checked"' : '' );
 
 $xtpl->assign( 'ALLOW_USER_PLIST', $module_config[$module_name]['allow_user_plist'] ? ' checked="checked"' : '' );
@@ -294,21 +272,6 @@ foreach( $array_config_source as $key => $val )
 	$xtpl->parse( 'main.config_source' );
 }
 
-$array_imgposition = array(
-	0 => $lang_module['imgposition_0'],
-	1 => $lang_module['imgposition_1'],
-	2 => $lang_module['imgposition_2']
-);
-
-// position images
-while( list( $id_imgposition, $title_imgposition ) = each( $array_imgposition ) )
-{
-	$sl = ( $id_imgposition == $module_config[$module_name]['imgposition'] ) ? ' selected="selected"' : '';
-	$xtpl->assign( 'id_imgposition', $id_imgposition );
-	$xtpl->assign( 'title_imgposition', $title_imgposition );
-	$xtpl->assign( 'posl', $sl );
-	$xtpl->parse( 'main.looppos' );
-}
 
 $copyright = nv_htmlspecialchars( nv_editor_br2nl( $module_config[$module_name]['copyright'] ) );
 if( defined( 'NV_EDITOR' ) and nv_function_exists( 'nv_aleditor' ) )

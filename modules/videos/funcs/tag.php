@@ -90,7 +90,8 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 				$item['imghome'] = '';
 			}
 			$item['alt'] = ! empty( $item['homeimgalt'] ) ? $item['homeimgalt'] : $item['title'];
-			$item['width'] = $module_config[$module_name]['homewidth'];
+			$item['width'] = $module_config[$module_name]['blockwidth'];
+			$item['title_cut'] = nv_clean60( $item['title'], $module_config[$module_name]['titlecut'], true );
 
 			$end_publtime = $item['publtime'];
 			

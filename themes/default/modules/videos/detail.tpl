@@ -101,13 +101,13 @@
 </div>
 
 <div class="news_column row">
-<!-- BEGIN: keywords -->
 	<div class="col-md-12">
+	<!-- BEGIN: keywords -->
         <div class="h5">
             <em class="fa fa-tags">&nbsp;</em><strong>{LANG.keywords}: </strong><!-- BEGIN: loop --><a title="{KEYWORD}" href="{LINK_KEYWORDS}"><em>{KEYWORD}</em></a>{SLASH}<!-- END: loop -->
         </div>
+	<!-- END: keywords -->
     </div>
-<!-- END: keywords -->
 
 <!-- BEGIN: allowed_rating -->
 	<div class="col-md-12">

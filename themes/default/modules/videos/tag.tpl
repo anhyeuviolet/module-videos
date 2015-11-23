@@ -20,7 +20,7 @@
 		</div>
 		<!-- END: homethumb -->
 		<div class="videos-thumbnail pull-left col-md-18 col-lg-18 col-xs-18">
-			<h3><a href="{TOPIC.link}" title="{TOPIC.title}">{TOPIC.title}</a></h3>
+			<h3><a href="{TOPIC.link}" title="{TOPIC.title}">{TOPIC.title_cut}</a></h3>
 			<!-- BEGIN: uploader_link -->
 			<p>{LANG.content_uploaded_by}&nbsp;<a href="{TOPIC.uploader_link}" title="{TOPIC.admin_name}">{TOPIC.admin_name}</a></p>
 			<!-- END: uploader_link -->
@@ -30,7 +30,7 @@
 			<p>
 				<span class="pull-left">{TIME}</span>
 				<span class="spacer pull-left"></span>
-				<span class="h5">{TOPIC.hitstotal}&nbsp;{LANG.hits_view}</span>
+				<span>{TOPIC.hitstotal}&nbsp;{LANG.hits_view}</span>
 			</p>
 			
 			<!-- BEGIN: adminlink -->

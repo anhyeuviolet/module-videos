@@ -57,7 +57,7 @@
 						</tr>
 						<tr>
 							<td class="text-right"><strong>{LANG.content_homeimg}</strong></td>
-							<td><input class="form-control w500 pull-left" style="margin-right: 5px" type="text" name="image" id="image" value="{image}"/></td>
+							<td><input class="form-control w500 pull-left" style="margin-right: 5px" type="text" name="image" id="image" placeholder="{LANG.playlist_your_hotlink}" value="{image}" {disabled}/></td>
 						</tr>
 					</tbody>
 				</table>

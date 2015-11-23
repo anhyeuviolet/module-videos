@@ -179,11 +179,11 @@ if( isset($user_info) and $user_info['userid'] > 0 )
 
 	if($playlist_id > 0)
 	{
-		$sql = 'SELECT playlist_id, title, alias FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat ORDER BY weight ASC';
+		$sql = 'SELECT playlist_id, title, alias, image, description, keywords FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat ORDER BY weight ASC';
 		$result = $db->query( $sql );
 
 		$array_playlist = array();
-		while( list( $playlist_id_i, $title_i, $alias_i ) = $result->fetch( 3 ) )
+		while( list( $playlist_id_i, $title_i, $alias_i, $image_i, $description_i, $keywords_i ) = $result->fetch( 3 ) )
 		{
 			$array_playlist[$playlist_id_i]['title'] = $title_i;
 			$array_playlist[$playlist_id_i]['alias'] = $alias_i;
@@ -334,12 +334,8 @@ if( isset($user_info) and $user_info['userid'] > 0 )
 			$private_mode = $nv_Request->get_int( 'private_mode', 'post', 0 );
 
 			$image = $nv_Request->get_string( 'image', 'post', '' );
-			if( is_file( NV_DOCUMENT_ROOT . $image ) )
-			{
-				$lu = strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/playlists/' );
-				$image = substr( $image, $lu );
-			}
-			else
+			
+			if( !(nv_is_url( $image ) ))
 			{
 				$image = '';
 			}
@@ -427,6 +423,17 @@ if( isset($user_info) and $user_info['userid'] > 0 )
 		$xtpl->assign( 'title', $title );
 		$xtpl->assign( 'alias', $alias );
 		$xtpl->assign( 'keywords', $keywords );
+		$xtpl->assign( 'image', $image );
+		
+		if( nv_is_url($image) )
+		{
+			$xtpl->assign( 'disabled', '' );
+		}
+		else
+		{
+			$xtpl->assign( 'disabled', 'disabled="disabled"' );
+		}
+		
 		$xtpl->assign( 'description', nv_htmlspecialchars( nv_br2nl( $description ) ) );
 
 		foreach( $array_share_mode as $key => $val )

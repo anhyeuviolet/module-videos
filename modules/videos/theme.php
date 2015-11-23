@@ -42,9 +42,9 @@ function viewcat_grid_new( $array_catpage, $catid, $generate_page )
 	{
 		$newday = $array_row_i['publtime'] + ( 86400 * $array_row_i['newday'] );
 		$array_row_i['publtime'] = humanTiming($array_row_i['publtime']);
-		
 		$xtpl->clear_autoreset();
-		$array_row_i['hometext_clean'] = nv_clean60( $array_row_i['hometext'], $module_config[$module_name]['tooltip_length'], true );
+		$array_row_i['title_cut'] = nv_clean60( $array_row_i['title'], $module_config[$module_name]['titlecut'], true );
+
 		$xtpl->assign( 'CONTENT', $array_row_i );
 
 		if( defined( 'NV_IS_MODADMIN' ) )
@@ -118,6 +118,7 @@ function viewcat_page_new( $array_catpage, $array_cat_other, $generate_page )
 		$array_row_i['publtime'] = humanTiming($array_row_i['publtime']);
 		$array_row_i['listcatid'] = explode( ',', $array_row_i['listcatid'] );
 		$num_cat = sizeof( $array_row_i['listcatid'] );
+		$array_row_i['title_cut'] = nv_clean60( $array_row_i['title'], $module_config[$module_name]['titlecut'], true );
 
 		$n = 1;
 		foreach( $array_row_i['listcatid'] as $listcatid )
@@ -235,6 +236,7 @@ function viewsubcat_main( $viewcat, $array_cat )
 				$newday = $array_row_i['publtime'] + ( 86400 * $array_row_i['newday'] );
 				
 				$array_row_i['publtime'] = humanTiming($array_row_i['publtime']);
+				$array_row_i['title_cut'] = nv_clean60( $array_row_i['title'], $module_config[$module_name]['titlecut'], true );
 
 				if( $newday >= NV_CURRENTTIME )
 				{
@@ -361,35 +363,6 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		}
 
 		$xtpl->parse( 'main.allowed_rating' );
-	}
-
-	if( $news_contents['showhometext'] )
-	{
-		if( ! empty( $news_contents['image']['src'] ) )
-		{
-			if( $news_contents['image']['position'] == 1 )
-			{
-				if( ! empty( $news_contents['image']['note'] ) )
-				{
-					$xtpl->parse( 'main.showhometext.imgthumb.note' );
-				}
-				else
-				{
-					$xtpl->parse( 'main.showhometext.imgthumb.empty' );
-				}
-				$xtpl->parse( 'main.showhometext.imgthumb' );
-			}
-			elseif( $news_contents['image']['position'] == 2 )
-			{
-				if( ! empty( $news_contents['image']['note'] ) )
-				{
-					$xtpl->parse( 'main.showhometext.imgfull.note' );
-				}
-				$xtpl->parse( 'main.showhometext.imgfull' );
-			}
-		}
-
-		$xtpl->parse( 'main.showhometext' );
 	}
 	
 	if( ! empty( $news_contents['bodytext'] ) )

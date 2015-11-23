@@ -183,10 +183,6 @@ while( list( $playlist_id,  $title_i ) = $result->fetch( 3 ) )
 
 $catid = $nv_Request->get_int( 'catid', 'get', 0 );
 $parentid = $nv_Request->get_int( 'parentid', 'get', 0 );
-$array_imgposition = array(
-	0 => $lang_module['imgposition_0'],
-	1 => $lang_module['imgposition_1'],
-	2 => $lang_module['imgposition_2'] );
 
 $rowcontent = array(
 	'id' => '',
@@ -211,7 +207,6 @@ $rowcontent = array(
 	'homeimgfile' => '',
 	'homeimgalt' => '',
 	'homeimgthumb' => '',
-	'imgposition' => isset( $module_config[$module_name]['imgposition']) ? $module_config[$module_name]['imgposition'] : 1,
 	'bodyhtml' => '',
 	'copyright' => 0,
 	'gid' => 0,
@@ -219,7 +214,6 @@ $rowcontent = array(
 	'allowed_comm' => $module_config[$module_name]['setcomm'],
 	'allowed_rating' => 1,
 	'allowed_send' => 1,
-	'allowed_print' => 1,
 	'allowed_save' => 1,
 	'hitstotal' => 0,
 	'hitscm' => 0,
@@ -487,11 +481,6 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 	
 	$rowcontent['homeimgfile'] = $nv_Request->get_title( 'homeimg', 'post', '' );
 	$rowcontent['homeimgalt'] = $nv_Request->get_title( 'homeimgalt', 'post', '', 1 );
-	$rowcontent['imgposition'] = $nv_Request->get_int( 'imgposition', 'post', 0 );
-	if( ! array_key_exists( $rowcontent['imgposition'], $array_imgposition ) )
-	{
-		$rowcontent['imgposition'] = 1;
-	}
 	$rowcontent['bodyhtml'] = $nv_Request->get_editor( 'bodyhtml', '', NV_ALLOWED_HTML_TAGS );
 
 	$rowcontent['copyright'] = ( int )$nv_Request->get_bool( 'copyright', 'post' );
@@ -502,7 +491,6 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 
 	$rowcontent['allowed_rating'] = ( int )$nv_Request->get_bool( 'allowed_rating', 'post' );
 	$rowcontent['allowed_send'] = ( int )$nv_Request->get_bool( 'allowed_send', 'post' );
-	$rowcontent['allowed_print'] = ( int )$nv_Request->get_bool( 'allowed_print', 'post' );
 	$rowcontent['allowed_save'] = ( int )$nv_Request->get_bool( 'allowed_save', 'post' );
 	$rowcontent['gid'] = $nv_Request->get_int( 'gid', 'post', 0 );
 
@@ -737,16 +725,14 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				$ct_query = array();
 
 				$tbhtml = NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $rowcontent['id'] / 2000 );
-				$db->query( "CREATE TABLE IF NOT EXISTS " . $tbhtml . " (id int(11) unsigned NOT NULL, bodyhtml longtext NOT NULL, sourcetext varchar(255) NOT NULL default '', imgposition tinyint(1) NOT NULL default '1', copyright tinyint(1) NOT NULL default '0', allowed_send tinyint(1) NOT NULL default '0', allowed_print tinyint(1) NOT NULL default '0', allowed_save tinyint(1) NOT NULL default '0', gid mediumint(9) NOT NULL DEFAULT '0', PRIMARY KEY (id)) ENGINE=MyISAM" );
+				$db->query( "CREATE TABLE IF NOT EXISTS " . $tbhtml . " (id int(11) unsigned NOT NULL, bodyhtml longtext NOT NULL, sourcetext varchar(255) NOT NULL default '', copyright tinyint(1) NOT NULL default '0', allowed_send tinyint(1) NOT NULL default '0', allowed_save tinyint(1) NOT NULL default '0', gid mediumint(9) NOT NULL DEFAULT '0', PRIMARY KEY (id)) ENGINE=MyISAM" );
 
 				$stmt = $db->prepare( 'INSERT INTO ' . $tbhtml . ' VALUES
 					(' . $rowcontent['id'] . ',
 					 :bodyhtml,
 					 :sourcetext,
-					 ' . $rowcontent['imgposition'] . ',
 					 ' . $rowcontent['copyright'] . ',
 					 ' . $rowcontent['allowed_send'] . ',
-					 ' . $rowcontent['allowed_print'] . ',
 					 ' . $rowcontent['allowed_save'] . ',
 					 ' . $rowcontent['gid'] . '
 					 )' );
@@ -835,10 +821,8 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				$sth = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $rowcontent['id'] / 2000 ) . ' SET
 					bodyhtml=:bodyhtml,
 					sourcetext=:sourcetext,
-					imgposition=' . intval( $rowcontent['imgposition'] ) . ',
 					copyright=' . intval( $rowcontent['copyright'] ) . ',
 					allowed_send=' . intval( $rowcontent['allowed_send'] ) . ',
-					allowed_print=' . intval( $rowcontent['allowed_print'] ) . ',
 					allowed_save=' . intval( $rowcontent['allowed_save'] ) . ',
 					gid=' . intval( $rowcontent['gid'] ) . '
 				WHERE id =' . $rowcontent['id'] );
@@ -1142,17 +1126,6 @@ foreach( $global_array_cat as $catid_i => $array_value )
 $checkcop = ( $rowcontent['copyright'] ) ? ' checked="checked"' : '';
 $xtpl->assign( 'checkcop', $checkcop );
 
-
-// position images
-while( list( $id_imgposition, $title_imgposition ) = each( $array_imgposition ) )
-{
-	$sl = ( $id_imgposition == $rowcontent['imgposition'] ) ? ' selected="selected"' : '';
-	$xtpl->assign( 'id_imgposition', $id_imgposition );
-	$xtpl->assign( 'title_imgposition', $title_imgposition );
-	$xtpl->assign( 'posl', $sl );
-	$xtpl->parse( 'main.looppos' );
-}
-
 // time update
 $xtpl->assign( 'publ_date', $publ_date );
 $select = '';
@@ -1256,8 +1229,6 @@ $allowed_rating_checked = ( $rowcontent['allowed_rating'] ) ? ' checked="checked
 $xtpl->assign( 'allowed_rating_checked', $allowed_rating_checked );
 $allowed_send_checked = ( $rowcontent['allowed_send'] ) ? ' checked="checked"' : '';
 $xtpl->assign( 'allowed_send_checked', $allowed_send_checked );
-$allowed_print_checked = ( $rowcontent['allowed_print'] ) ? ' checked="checked"' : '';
-$xtpl->assign( 'allowed_print_checked', $allowed_print_checked );
 $allowed_save_checked = ( $rowcontent['allowed_save'] ) ? ' checked="checked"' : '';
 $xtpl->assign( 'allowed_save_checked', $allowed_save_checked );
 

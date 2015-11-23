@@ -1,6 +1,11 @@
 ﻿.videos-home-thumbnail{
 	background: #DDD none repeat scroll 0% 0%;
 }
+.videos-home-info h3, .videos_list h4, .videos-text h3, .videos-thumbnail h3 {
+    line-height: 1.5;
+    height: 40px;
+	overflow: hidden
+}
 .videoplayer img
 {
 	margin: auto

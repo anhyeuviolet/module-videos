@@ -16,7 +16,7 @@
 		<!-- BEGIN: image -->
 		<a title="{CONTENT.title}" href="{CONTENT.link}"><img alt="{HOMEIMGALT1}" src="{HOMEIMG1}" style="width:{IMGWIDTH}px;height:{IMGHEIGHT}px;"  class="img-responsive video_img"/></a>
 		<!-- END: image -->
-		<h4><a class="show" href="{CONTENT.link}" title="{CONTENT.title}">{CONTENT.title}</a></h4>
+		<h4><a class="show" href="{CONTENT.link}" title="{CONTENT.title}">{CONTENT.title_cut}</a></h4>
 		<div class="text-muted">
 			<ul class="list-unstyled">
 				<!-- BEGIN: uploader_link -->

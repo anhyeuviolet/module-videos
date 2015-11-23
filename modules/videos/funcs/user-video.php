@@ -205,12 +205,6 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 		'link' => $base_url
 	);
 
-	$array_imgposition = array(
-		0 => $lang_module['imgposition_0'],
-		1 => $lang_module['imgposition_1'],
-		2 => $lang_module['imgposition_2']
-	);
-
 	$rowcontent = array(
 		'id' => '',
 		'listcatid' => '',
@@ -234,14 +228,12 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 		'homeimgfile' => '',
 		'homeimgalt' => '',
 		'homeimgthumb' => 0,
-		'imgposition' => 1,
 		'bodyhtml' => '',
 		'copyright' => 0,
 		'inhome' => 1,
 		'allowed_comm' => 4,
 		'allowed_rating' => 1,
 		'allowed_send' => 1,
-		'allowed_print' => 1,
 		'allowed_save' => 1,
 		'hitstotal' => 0,
 		'hitscm' => 0,
@@ -283,7 +275,6 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 		$rowcontent['vid_path'] = $nv_Request->get_title( 'vid_path', 'post', '' );
 		$rowcontent['homeimgfile'] = $nv_Request->get_title( 'homeimgfile', 'post', '' );
 		$rowcontent['homeimgalt'] = $nv_Request->get_title( 'homeimgalt', 'post', '', 1 );
-		$rowcontent['imgposition'] = $nv_Request->get_int( 'imgposition', 'post', 0 );
 		$rowcontent['sourcetext'] = $nv_Request->get_title( 'sourcetext', 'post', '' );
 
 		// Xu ly Video link
@@ -319,11 +310,6 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 		{
 			$rowcontent['homeimgfile'] = '';
 			$rowcontent['homeimgthumb'] = 0;
-		}
-
-		if( ! array_key_exists( $rowcontent['imgposition'], $array_imgposition ) )
-		{
-			$rowcontent['imgposition'] = 1;
 		}
 
 		$bodyhtml = $nv_Request->get_string( 'bodyhtml', 'post', '' );
@@ -416,15 +402,13 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 					}
 
 					$tbhtml = NV_PREFIXLANG . "_" . $module_data . "_bodyhtml_" . ceil( $rowcontent['id'] / 2000 );
-					$db->query( "CREATE TABLE IF NOT EXISTS " . $tbhtml . " (id int(11) unsigned NOT NULL, bodyhtml longtext NOT NULL, sourcetext varchar(255) NOT NULL default '', imgposition tinyint(1) NOT NULL default '1', copyright tinyint(1) NOT NULL default '0', allowed_send tinyint(1) NOT NULL default '0', allowed_print tinyint(1) NOT NULL default '0', allowed_save tinyint(1) NOT NULL default '0', PRIMARY KEY (id)) ENGINE=MyISAM" );
-					$db->query( "INSERT INTO " . $tbhtml . " (id, bodyhtml, sourcetext, imgposition, copyright, allowed_send, allowed_print, allowed_save, gid) VALUES (
+					$db->query( "CREATE TABLE IF NOT EXISTS " . $tbhtml . " (id int(11) unsigned NOT NULL, bodyhtml longtext NOT NULL, sourcetext varchar(255) NOT NULL default '', copyright tinyint(1) NOT NULL default '0', allowed_send tinyint(1) NOT NULL default '0', allowed_save tinyint(1) NOT NULL default '0', PRIMARY KEY (id)) ENGINE=MyISAM" );
+					$db->query( "INSERT INTO " . $tbhtml . " (id, bodyhtml, sourcetext, copyright, allowed_send, allowed_save, gid) VALUES (
 							" . $rowcontent['id'] . ",
 							" . $db->quote( $rowcontent['bodyhtml'] ) . ",
 							" . $db->quote( $rowcontent['sourcetext'] ) . ",
-							" . intval( $rowcontent['imgposition'] ) . ",
 			 				" . intval( $rowcontent['copyright'] ) . ",
 			 				" . intval( $rowcontent['allowed_send'] ) . ",
-			 				" . intval( $rowcontent['allowed_print'] ) . ",
 			 				" . intval( $rowcontent['allowed_save'] ) . ", 0
 						)" );
 
@@ -487,11 +471,9 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 
 					$db->query( "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_bodyhtml_" . ceil( $rowcontent['id'] / 2000 ) . " SET
 							bodyhtml=" . $db->quote( $rowcontent['bodyhtml'] ) . ",
-							imgposition=" . intval( $rowcontent['imgposition'] ) . ",
 							 sourcetext=" . $db->quote( $rowcontent['sourcetext'] ) . ",
 							 copyright=" . intval( $rowcontent['copyright'] ) . ",
 							 allowed_send=" . intval( $rowcontent['allowed_send'] ) . ",
-							 allowed_print=" . intval( $rowcontent['allowed_print'] ) . ",
 							 allowed_save=" . intval( $rowcontent['allowed_save'] ) . "
 							WHERE id =" . $rowcontent['id'] );
 
@@ -639,16 +621,6 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 		$xtpl->parse( 'main.catid' );
 	}
 
-	while( list( $id_imgposition, $title_imgposition ) = each( $array_imgposition ) )
-	{
-		$array_temp = array();
-		$array_temp['value'] = $id_imgposition;
-		$array_temp['title'] = $title_imgposition;
-		$array_temp['selected'] = ( $id_imgposition == $rowcontent['imgposition'] ) ? ' selected="selecte"' : '';
-
-		$xtpl->assign( 'DATAIMGOP', $array_temp );
-		$xtpl->parse( 'main.imgposition' );
-	}
 
 	if( ! ( $rowcontent['status'] and $rowcontent['id'] ) )
 	{
