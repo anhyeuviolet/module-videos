@@ -30,8 +30,8 @@ if( ! empty( $savecat ) )
 
 	$image = $nv_Request->get_string( 'image', 'post', '' );
 	if( is_file( NV_DOCUMENT_ROOT . $image ) )
-	{
-		$lu = strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/playlists/' );
+	{	
+		$lu = strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' );
 		$image = substr( $image, $lu );
 	}
 	else
@@ -132,12 +132,12 @@ $xtpl->assign( 'alias', $alias );
 $xtpl->assign( 'keywords', $keywords );
 $xtpl->assign( 'description', nv_htmlspecialchars( nv_br2nl( $description ) ) );
 
-if( ! empty( $image ) and file_exists( NV_UPLOADS_REAL_DIR . "/" . $module_upload . "/playlists/" . $image ) )
+if( ! empty( $image ) and file_exists( NV_UPLOADS_REAL_DIR . "/" . $module_upload . "/img/" . $image ) )
 {
-	$image = NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_upload . "/playlists/" . $image;
+	$image = NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_upload . "/img/" . $image;
 }
 $xtpl->assign( 'image', $image );
-$xtpl->assign( 'UPLOAD_CURRENT', NV_UPLOADS_DIR . '/' . $module_upload  . "/playlists/" );
+$xtpl->assign( 'UPLOAD_CURRENT', NV_UPLOADS_DIR . '/' . $module_upload  . "/img/playlists/" );
 
 foreach( $array_status as $key => $val )
 {

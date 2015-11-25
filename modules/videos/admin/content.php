@@ -409,7 +409,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 
 	foreach( $catids as $catid_i )
 	{
-		if( ! in_array( $catid_i, $array_cat_check_content ) )
+		if( !empty($catid_i) AND ! in_array( $catid_i, $array_cat_check_content ) )
 		{
 			$error[] = sprintf( $message_error_show, $global_array_cat[$catid_i]['title'] );
 		}

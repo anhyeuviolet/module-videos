@@ -88,8 +88,16 @@ function playThis(index) {
 <!-- END: player -->
 
 <!-- BEGIN: playlist_is_private -->
-riêng tư
+<div class="col-xs-24 col-md-24 col-lg-24">
+	<div class="alert alert-info" role="alert">{LANG.playlist_is_private}</div>
+</div>
 <!-- END: playlist_is_private -->
+
+<!-- BEGIN: no_playlist_inlist -->
+<div class="col-xs-24 col-md-24 col-lg-24">
+	<div class="alert alert-info" role="alert">{LANG.playlist_empty_playlist}</div>
+</div>
+<!-- END: no_playlist_inlist -->
 
 <!-- BEGIN: no_video_inlist -->
 <div class="col-xs-24 col-md-24 col-lg-24">
@@ -108,20 +116,27 @@ riêng tư
 <div class="news_column panel panel-default">
 	<div class="panel-body">
 		<!-- BEGIN: homethumb -->
-		<a href="{PLAYLIST_LOOP.link}" title="{PLAYLIST_LOOP.title}"><img alt="{PLAYLIST_LOOP.alt}" src="{PLAYLIST_LOOP.src}" width="{PLAYLIST_LOOP.width}" class="img-thumbnail pull-left imghome" /></a>
+		<div class="videos-thumbnail pull-left col-md-6 col-lg-6 col-xs-6">
+			<a href="{PLAYLIST_LOOP.link}" title="{PLAYLIST_LOOP.title}"><img alt="{PLAYLIST_LOOP.alt}" src="{PLAYLIST_LOOP.src}" width="{PLAYLIST_LOOP.width}" class="img-thumbnail pull-left imghome" /></a>
+		</div>
 		<!-- END: homethumb -->
-		<h3><a href="{PLAYLIST_LOOP.link}" title="{PLAYLIST_LOOP.title}">{PLAYLIST_LOOP.title}</a></h3>
-		<p>
-			<em class="fa fa-clock-o">&nbsp;</em><em>{TIME} {DATE}</em>
-		</p>
-		<p class="text-justify">
-			{PLAYLIST_LOOP.hometext}
-		</p>
-		<!-- BEGIN: adminlink -->
-		<p class="text-right">
-			{ADMINLINK}
-		</p>
-		<!-- END: adminlink -->
+		<div class="videos-thumbnail pull-left col-md-18 col-lg-18 col-xs-18">
+			<h3><a href="{PLAYLIST_LOOP.link}" title="{PLAYLIST_LOOP.title}">{PLAYLIST_LOOP.title}</a></h3>
+			<p>
+				{LANG.playlist_num_videos}&nbsp;:&nbsp;{PLAYLIST_LOOP.num_items}&nbsp;{LANG.video}
+			</p>
+			<p>
+				{LANG.create_date}&nbsp;:&nbsp;{DATE}
+			</p>
+			<p class="text-justify">
+				{PLAYLIST_LOOP.hometext}
+			</p>
+			<!-- BEGIN: adminlink -->
+			<p class="text-right">
+				{ADMINLINK}
+			</p>
+			<!-- END: adminlink -->
+		</div>
 	</div>
 </div>
 <!-- END: playlist_loop -->

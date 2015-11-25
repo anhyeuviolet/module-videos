@@ -201,6 +201,20 @@ function nv_link_delete_page( $id, $detail = 0)
 }
 
 /**
+ * nv_link_edit_playlist()
+ *
+ * @param mixed $id
+ * @return
+ */
+function nv_link_edit_playlist( $id )
+{
+	global $lang_global, $module_name;
+	$link = "<a class=\"btn btn-primary btn-xs\" href=\"" . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=playlists&amp;playlist_id=" . $id . "#edit\"><em class=\"fa fa-edit margin-right\"></em> " . $lang_global['edit'] . "</a>";
+	return $link;
+}
+
+
+/**
  * nv_news_get_bodytext()
  *
  * @param mixed $bodytext

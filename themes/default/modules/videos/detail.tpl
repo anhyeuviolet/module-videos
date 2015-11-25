@@ -14,7 +14,7 @@
 				
 				<span class="pull-left">{DETAIL.publtime}</span>
 				<span class="spacer pull-left"></span>
-				<span class="h5">{DETAIL.hitstotal}&nbsp;{LANG.hits_view}</span>
+				<span>{DETAIL.hitstotal}&nbsp;{LANG.hits_view}</span>
 			</div>
 		</div>
 		<div class="detail_video">

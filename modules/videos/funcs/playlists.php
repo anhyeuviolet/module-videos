@@ -11,6 +11,10 @@
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
 
 $show_no_image = $module_config[$module_name]['show_no_image'];
+if(empty($show_no_image))
+{
+	$show_no_image = 'themes/default/images/' . $module_name . '/' . 'video_placeholder.png';
+}
 
 $array_mod_title[] = array(
 	'catid' => 0,
@@ -98,13 +102,9 @@ if( !empty( $alias ) )
 		$result = $db->query( $db->sql() );
 		while( $item = $result->fetch() )
 		{
-			if( $item['homeimgthumb'] == 1 )//image thumb
+			if( $item['homeimgthumb'] == 1 OR $item['homeimgthumb'] == 2 ) //image file
 			{
-				$item['src'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
-			}
-			elseif( $item['homeimgthumb'] == 2 )//image file
-			{
-				$item['src'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['homeimgfile'];
+				$item['imghome'] = creat_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $item['homeimgthumb'] == 3 )//image url
 			{
@@ -119,35 +119,18 @@ if( !empty( $alias ) )
 				$item['imghome'] = '';
 			}
 			$item['alt'] = ! empty( $item['homeimgalt'] ) ? $item['homeimgalt'] : $item['title'];
-			$item['width'] = $module_config[$module_name]['homewidth'];
+			$item['width'] = $module_config[$module_name]['blockwidth'];
 
 			$end_publtime = $item['publtime'];
 
 			$item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
+			$item['num_items'] = $num_items;
 			$playlist_array[] = $item;
 		}
 		$result->closeCursor();
 		unset( $result, $row );
 
-		$playlist_other_array = array();
-		// if ( $st_links > 0)
-		// {
-			// $db->sqlreset()
-				// ->select( 'id, catid, addtime, edittime, publtime, title, alias, hitstotal' )
-				// ->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
-				// ->where( 'status=1 AND publtime < ' . $end_publtime )
-				// ->order( 'publtime ASC' )
-				// ->limit( $st_links );
-
-			// $result = $db->query( $db->sql() );
-			// while( $item = $result->fetch() )
-			// {
-				// $item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
-				// $playlist_other_array[] = $item;
-			// }
-			// unset( $result, $row );
-		// }
-
+		$playlist_other_array = array(); // check to remove
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 
 		$pl_ss = md5( $playlist_id . session_id() . $global_config['sitekey'] );
@@ -169,13 +152,13 @@ else
 	$result = $db->query( 'SELECT playlist_id as id, title, alias, image, hitstotal, description as hometext, keywords, add_time as publtime, private_mode, userid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE status=1 ORDER BY weight ASC' );
 	while( $item = $result->fetch() )
 	{
-		if( ! empty( $item['image'] ) AND file_exists( NV_ROOTDIR. '/' . NV_FILES_DIR . '/' . $module_upload . '/playlists/' . $item['image'] ) )//image thumb
+		if( ! empty( $item['image'] ) AND file_exists( NV_ROOTDIR. '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['image'] ) )//image file
 		{
-			$item['src'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/playlists/' . $item['image'];
+			$item['src'] = creat_thumbs($item['id'], $item['image'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 		}
-		elseif( ! empty( $item['image'] ) )//image file
+		elseif(nv_is_url($item['image']))
 		{
-			$item['src'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/playlists/' . $item['image'];
+			$item['src'] = $item['image'];
 		}
 		elseif( ! empty( $show_no_image ) )//no image
 		{
@@ -186,10 +169,18 @@ else
 			$item['src'] = '';
 		}
 		$item['alt'] = ! empty( $item['homeimgalt'] ) ? $item['homeimgalt'] : $item['title'];
-		$item['width'] = $module_config[$module_name]['homewidth'];
+		$item['width'] = $module_config[$module_name]['blockwidth'];
 
 		$item['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '/' . $item['alias'];
 		$item['fake_id'] = 0;
+		
+		$db->sqlreset()
+			->select( 'COUNT(*)' )
+			->from( NV_PREFIXLANG . '_' . $module_data . '_playlist' )
+			->where( 'playlist_id= ' . $item['id']);
+
+		$num_items = $db->query( $db->sql() )->fetchColumn();
+		$item['num_items'] = $num_items;
 		
 		if( $item['private_mode'] == 1 AND $user_info['userid'] != $item['userid'] AND !defined( 'NV_IS_MODADMIN' ) ) // Playlist rieng, chi cho phep MOD ADMIN va nguoi tao xem
 		{

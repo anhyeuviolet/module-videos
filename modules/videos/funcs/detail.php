@@ -50,7 +50,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 			{
 				$src = $alt = $note = '';
 				$width = $height = 0;
-				if( $news_contents['homeimgthumb'] == 1 and $news_contents['imgposition'] == 1 )
+				if( $news_contents['homeimgthumb'] == 1 )
 				{
 					$src = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $news_contents['homeimgfile'];
 					$news_contents['homeimgfile'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $news_contents['homeimgfile'];
@@ -59,44 +59,16 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 				elseif( $news_contents['homeimgthumb'] == 3 )
 				{
 					$src = $news_contents['homeimgfile'];
-					$width = ( $news_contents['imgposition'] == 1 ) ? $module_config[$module_name]['homewidth'] : $module_config[$module_name]['imagefull'];
 				}
 				elseif( file_exists( NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/img/' . $news_contents['homeimgfile'] ) )
 				{
 					$src = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $news_contents['homeimgfile'];
-					if( $news_contents['imgposition'] == 1 )
-					{
-						$width = $module_config[$module_name]['homewidth'];
-					}
-					else
-					{
-						$imagesize = @getimagesize( NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/img/' . $news_contents['homeimgfile'] );
-						if( $imagesize[0] > 0 and $imagesize[0] > $module_config[$module_name]['imagefull'] )
-						{
-							$width = $module_config[$module_name]['imagefull'];
-						}
-						else
-						{
-							$width = $imagesize[0];
-						}
-					}
 					$news_contents['homeimgfile'] = $src;
 				}
 
 				if( ! empty( $src ) )
 				{
 					$meta_property['og:image'] = ( preg_match( '/^(http|https|ftp|gopher)\:\/\//', $src ) ) ? $src : NV_MY_DOMAIN . $src;
-
-					if( $news_contents['imgposition'] > 0 )
-					{
-						$news_contents['image'] = array(
-							'src' => $src,
-							'width' => $width,
-							'alt' => ( empty( $news_contents['homeimgalt'] ) ) ? $news_contents['title'] : $news_contents['homeimgalt'],
-							'note' => $news_contents['homeimgalt'],
-							'position' => $news_contents['imgposition']
-						);
-					}
 				}
 				elseif( !empty( $show_no_image ) )
 				{

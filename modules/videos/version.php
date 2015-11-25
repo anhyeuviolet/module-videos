@@ -21,6 +21,6 @@ $module_version = array(
 	'date' => 'Thu, Nov 20, 2015 00:00:00 GMT', // Ngay phat hanh phien ban
 	'author' => 'KENNYNGUYEN (nguyentiendat713@gmail.com)', // Tac gia
 	'note' => '', // Ghi chu
-	'uploads_dir' => array( $module_upload, $module_upload . '/img', $module_upload . '/vid', $module_upload . '/playlists',$module_upload . '/thumbs'),
+	'uploads_dir' => array( $module_upload, $module_upload . '/img', $module_upload . '/vid', $module_upload . '/img/playlists',$module_upload . '/thumbs'),
 	'files_dir' => array( $module_upload . '/img' )
 );

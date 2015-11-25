@@ -546,7 +546,6 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 
 	$xtpl = new XTemplate( 'playlist.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
-	//$xtpl->assign( 'PLAYLIST_TITLE', $page_title );
 	$xtpl->assign( 'RAND_SS', rand(1000,9999) );
 	$xtpl->assign( 'MODULE_NAME', $module_name );
 	$xtpl->assign( 'PLAYLIST_ID', $playlist_id );
@@ -615,7 +614,6 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 			foreach( $playlist_array as $playlist_array_i )
 			{
 				$xtpl->assign( 'PLAYLIST_LOOP', $playlist_array_i );
-				$xtpl->assign( 'TIME', date( 'H:i', $playlist_array_i['publtime'] ) );
 				$xtpl->assign( 'DATE', date( 'd/m/Y', $playlist_array_i['publtime'] ) );
 
 				if( ! empty( $playlist_array_i['src'] ) )
@@ -625,23 +623,30 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 
 				if( defined( 'NV_IS_MODADMIN' ) )
 				{
-					$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $playlist_array_i['id'] ) . ' ' . nv_link_delete_page( $playlist_array_i['id'] ) );
+					$xtpl->assign( 'ADMINLINK', nv_link_edit_playlist( $playlist_array_i['id'] ) ); // Go to ACP to delete playlist
 					$xtpl->parse( 'main.playlist_loop.adminlink' );
 				}
 				$xtpl->parse( 'main.playlist_loop' );
 			}
 		}
 	}
-	else // No video
+	else // No video or Playlist
 	{
-		$xtpl->parse( 'main.no_video_inlist' );
+		if($playlist_id > 0)
+		{
+			$xtpl->parse( 'main.no_video_inlist' );
+		}
+		else
+		{
+			$xtpl->parse( 'main.no_playlist_inlist' );
+		}
 	}
 
 	if( ! empty( $playlist_other_array ) )
 	{
 		foreach( $playlist_other_array as $playlist_other_array_i )
 		{
-			$playlist_other_array_i['publtime'] = nv_date( 'H:i d/m/Y', $playlist_other_array_i['publtime'] );
+			$playlist_other_array_i['publtime'] = nv_date( 'd/m/Y', $playlist_other_array_i['publtime'] );
 
 			$xtpl->assign( 'PLAYLIST_OTHER', $playlist_other_array_i );
 			$xtpl->parse( 'main.other.loop' );

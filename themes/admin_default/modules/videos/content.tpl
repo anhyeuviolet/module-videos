@@ -287,7 +287,7 @@ LANG.alias_empty_notice = '{LANG.alias_empty_notice}';
 var content_checkcatmsg = "{LANG.content_checkcatmsg}";
 $(document).ready(function() {
 	$("#playlists").select2({
-	placeholder: "{LANG.content_block}"
+	placeholder: "{LANG.content_playlist}"
 	});
 	$("#catid").select2();
 });

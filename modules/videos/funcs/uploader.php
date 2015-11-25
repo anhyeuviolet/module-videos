@@ -86,6 +86,7 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 			$end_publtime = $item['publtime'];
 
 			$item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
+			$item['title_cut'] = nv_clean60( $item['title'], $module_config[$module_name]['titlecut'], true );
 			$item_array[] = $item;
 		}
 		$result->closeCursor();
