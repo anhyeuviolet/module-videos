@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @Project VIDEOS 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Website tradacongnghe.com
  * @License GNU/GPL version 2 or any later version
- * @Createdate 3-6-2010 0:14
+ * @Createdate Oct 08, 2015 10:47:41 AM
  */
 
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
@@ -15,15 +15,20 @@ $publtime = 0;
 
 if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 {
+
 	$query = $db->query( 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' WHERE id = ' . $id );
 	$news_contents = $query->fetch();
 	if( $news_contents['id'] > 0 )
 	{
-		$body_contents = $db->query( 'SELECT bodyhtml as bodytext, sourcetext, imgposition, copyright, allowed_send, allowed_print, allowed_save, gid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $news_contents['id'] / 2000 ) . ' where id=' . $news_contents['id'] )->fetch();
+		$body_contents = $db->query( 'SELECT bodyhtml as bodytext, sourcetext, copyright, allowed_send, allowed_save, gid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $news_contents['id'] / 2000 ) . ' where id=' . $news_contents['id'] )->fetch();
 		$news_contents = array_merge( $news_contents, $body_contents );
 		unset( $body_contents );
 
 		$show_no_image = $module_config[$module_name]['show_no_image'];
+		if(empty($show_no_image))
+		{
+			$show_no_image = 'themes/default/images/' . $module_name . '/' . 'video_placeholder.png';
+		}
 
 		if( defined( 'NV_IS_MODADMIN' ) or ( $news_contents['status'] == 1 and $news_contents['publtime'] < NV_CURRENTTIME and ( $news_contents['exptime'] == 0 or $news_contents['exptime'] > NV_CURRENTTIME ) ) )
 		{
@@ -41,12 +46,11 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 					$db->query( $query );
 				}
 			}
-			$news_contents['showhometext'] = $module_config[$module_name]['showhometext'];
 			if( ! empty( $news_contents['homeimgfile'] ) )
 			{
 				$src = $alt = $note = '';
 				$width = $height = 0;
-				if( $news_contents['homeimgthumb'] == 1 and $news_contents['imgposition'] == 1 )
+				if( $news_contents['homeimgthumb'] == 1 )
 				{
 					$src = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $news_contents['homeimgfile'];
 					$news_contents['homeimgfile'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $news_contents['homeimgfile'];
@@ -55,44 +59,16 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 				elseif( $news_contents['homeimgthumb'] == 3 )
 				{
 					$src = $news_contents['homeimgfile'];
-					$width = ( $news_contents['imgposition'] == 1 ) ? $module_config[$module_name]['homewidth'] : $module_config[$module_name]['imagefull'];
 				}
 				elseif( file_exists( NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/img/' . $news_contents['homeimgfile'] ) )
 				{
 					$src = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $news_contents['homeimgfile'];
-					if( $news_contents['imgposition'] == 1 )
-					{
-						$width = $module_config[$module_name]['homewidth'];
-					}
-					else
-					{
-						$imagesize = @getimagesize( NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/img/' . $news_contents['homeimgfile'] );
-						if( $imagesize[0] > 0 and $imagesize[0] > $module_config[$module_name]['imagefull'] )
-						{
-							$width = $module_config[$module_name]['imagefull'];
-						}
-						else
-						{
-							$width = $imagesize[0];
-						}
-					}
 					$news_contents['homeimgfile'] = $src;
 				}
 
 				if( ! empty( $src ) )
 				{
 					$meta_property['og:image'] = ( preg_match( '/^(http|https|ftp|gopher)\:\/\//', $src ) ) ? $src : NV_MY_DOMAIN . $src;
-
-					if( $news_contents['imgposition'] > 0 )
-					{
-						$news_contents['image'] = array(
-							'src' => $src,
-							'width' => $width,
-							'alt' => ( empty( $news_contents['homeimgalt'] ) ) ? $news_contents['title'] : $news_contents['homeimgalt'],
-							'note' => $news_contents['homeimgalt'],
-							'position' => $news_contents['imgposition']
-						);
-					}
 				}
 				elseif( !empty( $show_no_image ) )
 				{
@@ -126,7 +102,11 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 				{
 					$href_vid = get_link_mp4_picasa($news_contents['vid_path']);
 				}
-				elseif( $news_contents['vid_type'] == 4 || $news_contents['vid_type'] == 5 )
+				elseif( $news_contents['vid_type'] == 4 )
+				{
+					$href_vid = get_facebook_mp4($news_contents['vid_path']);
+				}
+				elseif( $news_contents['vid_type'] == 5 )
 				{
 					$href_vid['link'] = $news_contents['vid_path'];
 					$href_vid['quality'] = '';
@@ -135,13 +115,12 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 
 			$meta_property['og:type'] = 'video.other';
 			$meta_property['og:url'] = $client_info['selfurl'];
-			//$meta_property['og:published_time'] = date( 'Y-m-dTH:i:s', $news_contents['publtime'] );
+			$meta_property['og:published_time'] = date( 'Y-m-dTH:i:s', $news_contents['publtime'] );
 			$meta_property['og:updated_time'] = date( 'Y-m-dTH:i:s', $news_contents['edittime'] );
-			// if( $news_contents['exptime'] )
-			// {
-				// $meta_property['article:expiration_time'] = date( 'Y-m-dTH:i:s', $news_contents['exptime'] );
-			// }
-			//$meta_property['article:section'] = $global_array_cat[$news_contents['catid']]['title'];
+			if( $news_contents['exptime'] )
+			{
+				$meta_property['article:expiration_time'] = date( 'Y-m-dTH:i:s', $news_contents['exptime'] );
+			}
 		}
 
 		if( defined( 'NV_IS_MODADMIN' ) and $news_contents['status'] != 1 )
@@ -174,7 +153,6 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	}
 
 	$news_contents['url_sendmail'] = nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=sendmail/' . $global_array_cat[$catid]['alias'] . '/' . $news_contents['alias'] . '-' . $news_contents['id'] . $global_config['rewrite_exturl'], true );
-	$news_contents['url_print'] = nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=print/' . $global_array_cat[$catid]['alias'] . '/' . $news_contents['alias'] . '-' . $news_contents['id'] . $global_config['rewrite_exturl'], true );
 	$news_contents['url_savefile'] = nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=savefile/' . $global_array_cat[$catid]['alias'] . '/' . $news_contents['alias'] . '-' . $news_contents['id'] . $global_config['rewrite_exturl'], true );
 
 	$sql = 'SELECT title, link, logo FROM ' . NV_PREFIXLANG . '_' . $module_data . '_sources WHERE sourceid = ' . $news_contents['sourceid'];
@@ -184,10 +162,20 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	unset( $sql, $result );
 
 	$news_contents['newscheckss'] = md5( $news_contents['id'] . session_id() . $global_config['sitekey'] );
+	$news_contents['fake_pl_id'] = 0;
+	
+	if($news_contents['admin_name'] == $lang_module['guest_post'] )
+	{
+		unset($news_contents['uploader_link']);
+	}
+	else
+	{
+		$news_contents['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $news_contents['admin_name'] ;
+	}
+			
 	if( $module_config[$module_name]['config_source'] == 0 ) $news_contents['source'] = $sourcetext;
 	elseif( $module_config[$module_name]['config_source'] == 1 ) $news_contents['source'] = $source_link;
 	elseif( $module_config[$module_name]['config_source'] == 2 && ! empty( $source_logo ) ) $news_contents['source'] = '<img width="100px" src="' . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/source/' . $source_logo . '">';
-	$news_contents['publtime'] = nv_date( 'l - d/m/Y H:i', $news_contents['publtime'] );
 
 	$related_new_array = array();
 	$related_array = array();
@@ -203,13 +191,9 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		$related = $db->query( $db->sql() );
 		while( $row = $related->fetch() )
 		{
-			if( $row['homeimgthumb'] == 1 ) //image thumb
+			if( $row['homeimgthumb'] == 1 OR $row['homeimgthumb'] == 2 ) //image file
 			{
-				$row['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $row['homeimgfile'];
-			}
-			elseif( $row['homeimgthumb'] == 2 ) //image file
-			{
-				$row['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['homeimgfile'];
+				$row['imghome'] = creat_thumbs($row['id'], $row['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $row['homeimgthumb'] == 3 ) //image url
 			{
@@ -248,13 +232,9 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		$related = $db->query( $db->sql() );
 		while( $row = $related->fetch() )
 		{
-			if( $row['homeimgthumb'] == 1 ) //image thumb
+			if( $row['homeimgthumb'] == 1 OR $row['homeimgthumb'] == 2 ) //image file
 			{
-				$row['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $row['homeimgfile'];
-			}
-			elseif( $row['homeimgthumb'] == 2 ) //image file
-			{
-				$row['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['homeimgfile'];
+				$row['imghome'] = creat_thumbs($row['id'], $row['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $row['homeimgthumb'] == 3 ) //image url
 			{
@@ -276,6 +256,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 				'link' => $link,
 				'newday' => $global_array_cat[$catid]['newday'],
 				'hometext' => $row['hometext'],
+				'homeimgthumb' => $row['homeimgthumb'],
 				'imghome' => $row['imghome']
 			);
 		}
@@ -284,59 +265,6 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		unset( $related, $row );
 	}
 	
-	$playlist_array = array();
-	if( $news_contents['playlist_id'] > 0 & $st_links > 0)
-	{
-		list( $playlist_title, $playlist_alias ) = $db->query( 'SELECT title, alias FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlists WHERE playlist_id = ' . $news_contents['playlist_id'] )->fetch( 3 );
-
-		$playlistlink = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlist'] . '/' . $playlist_alias;
-
-		$db->sqlreset()
-			->select( 'id, catid, title, alias, publtime, homeimgfile, homeimgthumb, hometext' )
-			->from( NV_PREFIXLANG . '_' . $module_data . '_rows t1' )
-			->where( 'status=1 AND playlist_id = ' . $news_contents['playlist_id'] . ' AND id != ' . $id )
-			->order( 'id DESC' )
-			->limit( $st_links );
-		$playlist = $db->query( $db->sql() );
-		while( $row = $playlist->fetch() )
-		{
-			if( $row['homeimgthumb'] == 1 ) //image thumb
-			{
-				$row['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $row['homeimgfile'];
-			}
-			elseif( $row['homeimgthumb'] == 2 ) //image file
-			{
-				$row['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['homeimgfile'];
-			}
-			elseif( $row['homeimgthumb'] == 3 ) //image url
-			{
-				$row['imghome'] = $row['homeimgfile'];
-			}
-			elseif( ! empty( $show_no_image ) ) //no image
-			{
-				$row['imghome'] = NV_BASE_SITEURL . $show_no_image;
-			}
-			else
-			{
-				$row['imghome'] = '';
-			}
-
-			$link = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$row['catid']]['alias'] . '/' . $row['alias'] . '-' . $row['id'] . $global_config['rewrite_exturl'];
-			$playlist_array[] = array(
-				'title' => $row['title'],
-				'link' => $link,
-				'time' => $row['publtime'],
-				'newday' => $global_array_cat[$row['catid']]['newday'],
-				'playlistlink' => $playlistlink,
-				'playlisttitle' => $playlist_title,
-				'hometext' => $row['hometext'],
-				'imghome' => $row['imghome']
-			);
-		}
-		$playlist->closeCursor();
-		unset( $playlist, $rows );
-	}
-
 	if( $news_contents['allowed_rating'] )
 	{
 		$time_set_rating = $nv_Request->get_int( $module_name . '_' . $op . '_' . $news_contents['id'], 'cookie', 0 );
@@ -395,9 +323,15 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	{
 		$content_comment = '';
 	}
-	global $detail_playlist_id;
-	$detail_playlist_id = $news_contents['playlist_id'];
-	$contents = detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_array, $related_array, $playlist_array, $content_comment );
+	
+	// call user playlist
+	if( $user_info['userid'] > 0)
+	{
+		$sql = 'SELECT playlist_id, title, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE userid=' . $user_info['userid'] . ' AND status > 0 ORDER BY weight ASC';
+		$array_user_playlist = $db->query( $sql )->fetchAll();
+	}
+	
+	$contents = detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_array, $related_array, $content_comment, $array_user_playlist );
 	$id_profile_googleplus = $news_contents['gid'];
 
 	$page_title = $news_contents['title'];

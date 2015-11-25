@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @Project VIDEOS 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Website tradacongnghe.com
  * @License GNU/GPL version 2 or any later version
- * @Createdate Tue, 21 Jan 2014 01:32:02 GMT
+ * @Createdate Oct 08, 2015 10:47:41 AM
  */
 
 if( ! defined( 'NV_MAINFILE' ) )	die( 'Stop!!!' );

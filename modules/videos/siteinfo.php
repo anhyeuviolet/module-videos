@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES. All rights reserved
+ * @Project VIDEOS 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Website tradacongnghe.com
  * @License GNU/GPL version 2 or any later version
- * @Createdate Apr 20, 2010 10:47:41 AM
+ * @Createdate Oct 08, 2015 10:47:41 AM
  */
 
 if( ! defined( 'NV_IS_FILE_SITEINFO' ) ) die( 'Stop!!!' );
@@ -17,6 +17,20 @@ $number = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $mod_data 
 if( $number > 0 )
 {
 	$siteinfo[] = array( 'key' => $lang_siteinfo['siteinfo_publtime'], 'value' => $number );
+
+}
+
+// Playlist chua duyet
+$number = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $mod_data . '_playlist_cat WHERE status= 2' )->fetchColumn();
+if( $number > 0 )
+{
+	$siteinfo[] = array( 'key' => $lang_siteinfo['siteinfo_playlist_pending'], 'value' => $number );
+	
+	$pendinginfo[] = array(
+		'key' => $lang_siteinfo['siteinfo_playlist_pending'],
+		'value' => $number,
+		'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $mod . '&amp;' . NV_OP_VARIABLE . '=playlists',
+	);
 }
 
 //So bai viet thanh vien gui toi

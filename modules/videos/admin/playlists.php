@@ -1,75 +1,68 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @Project VIDEOS 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Website tradacongnghe.com
  * @License GNU/GPL version 2 or any later version
- * @Createdate 2-9-2010 14:43
+ * @Createdate Oct 08, 2015 10:47:41 AM
  */
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
-
 $page_title = $lang_module['playlists'];
 
 $error = '';
 $savecat = 0;
-
-$array = array();
-$array['playlist_id'] = 0;
-$array['title'] = '';
-$array['alias'] = '';
-$array['image'] = '';
-$array['description'] = '';
-$array['keywords'] = '';
+list( $playlist_id, $title, $alias, $description, $image, $keywords, $status, $private_mode ) = array( 0, '', '', '', '', '', 1, 1 );
 
 $savecat = $nv_Request->get_int( 'savecat', 'post', 0 );
 if( ! empty( $savecat ) )
 {
-	$array['playlist_id'] = $nv_Request->get_int( 'playlist_id', 'post', 0 );
-	$array['title'] = $nv_Request->get_title( 'title', 'post', '', 1 );
-	$array['keywords'] = $nv_Request->get_title( 'keywords', 'post', '', 1 );
-	$array['alias'] = $nv_Request->get_title( 'alias', 'post', '' );
-	$array['description'] = $nv_Request->get_string( 'description', 'post', '' );
+	$playlist_id = $nv_Request->get_int( 'playlist_id', 'post', 0 );
+	$title = $nv_Request->get_title( 'title', 'post', '', 1 );
+	$keywords = $nv_Request->get_title( 'keywords', 'post', '', 1 );
+	$alias = $nv_Request->get_title( 'alias', 'post', '' );
+	$description = $nv_Request->get_string( 'description', 'post', '' );
+	$description = nv_nl2br( nv_htmlspecialchars( strip_tags( $description ) ), '<br/>' );
+	$alias = ( $alias == '' ) ? change_alias( $title ) : change_alias( $alias );
+	$status = $nv_Request->get_int( 'status', 'post', 0 );
+	$private_mode = $nv_Request->get_int( 'private_mode', 'post', 0 );
 
-	$array['description'] = strip_tags( $array['description'] );
-	$array['description'] = nv_nl2br( nv_htmlspecialchars( $array['description'] ), '<br />' );
-
-	// Xu ly anh minh hoa
-	$array['image'] = $nv_Request->get_title( 'homeimg', 'post', '' );
-	if( ! nv_is_url( $array['image'] ) and file_exists( NV_DOCUMENT_ROOT . $array['image'] ) )
-	{
-		$lu = strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/playlists/' );
-		$array['image'] = substr( $array['image'], $lu );
+	$image = $nv_Request->get_string( 'image', 'post', '' );
+	if( is_file( NV_DOCUMENT_ROOT . $image ) )
+	{	
+		$lu = strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' );
+		$image = substr( $image, $lu );
 	}
 	else
 	{
-		$array['image'] = '';
+		$image = '';
 	}
 
-	$array['alias'] = ( $array['alias'] == '' ) ? change_alias( $array['title'] ) : change_alias( $array['alias'] );
-
-	if( empty( $array['title'] ) )
+	if( empty( $title ) )
 	{
-		$error = $lang_module['playlists_error_title'];
+		$error = $lang_module['error_name'];
 	}
-	elseif( $array['playlist_id'] == 0 )
+	elseif( $playlist_id == 0 )
 	{
-		$weight = $db->query( "SELECT max(weight) FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlists" )->fetchColumn();
+		$weight = $db->query( "SELECT max(weight) FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist_cat" )->fetchColumn();
 		$weight = intval( $weight ) + 1;
 
-		$_sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_playlists (title, alias, description, image, weight, keywords, add_time, edit_time) VALUES ( :title, :alias, :description, :image, :weight, :keywords, " . NV_CURRENTTIME . ", " . NV_CURRENTTIME . ")";
+		$sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_playlist_cat ( numbers, title, alias, status, private_mode, userid, description, image, weight, keywords, add_time, edit_time) VALUES (20, :title , :alias, :status, :private_mode, :userid, :description, :image, :weight, :keywords, " . NV_CURRENTTIME . ", " . NV_CURRENTTIME . ")";
 		$data_insert = array();
-		$data_insert['title'] = $array['title'];
-		$data_insert['alias'] = $array['alias'];
-		$data_insert['description'] = $array['description'];
-		$data_insert['image'] = $array['image'];
+		$data_insert['title'] = $title;
+		$data_insert['alias'] = $alias;
+		$data_insert['status'] = $status;
+		$data_insert['private_mode'] = $private_mode;
+		$data_insert['userid'] = $admin_info['userid'];
+		$data_insert['image'] = $image;
+		$data_insert['description'] = $description;
 		$data_insert['weight'] = $weight;
-		$data_insert['keywords'] = $array['keywords'];
+		$data_insert['keywords'] = $keywords;
 
-		if( $db->insert_id( $_sql, 'playlist_id', $data_insert ) )
+		if( $db->insert_id( $sql, 'playlist_id', $data_insert ) )
 		{
-			nv_insert_logs( NV_LANG_DATA, $module_name, 'log_add_playlist', " ", $admin_info['userid'] );
+			nv_insert_logs( NV_LANG_DATA, $module_name, 'log_add_playlistcat', " ", $admin_info['userid'] );
 			Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );
 			die();
 		}
@@ -80,17 +73,20 @@ if( ! empty( $savecat ) )
 	}
 	else
 	{
-		$stmt = $db->prepare( "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_playlists SET title= :title, alias = :alias, description= :description, image = :image, keywords= :keywords, edit_time=" . NV_CURRENTTIME . " WHERE playlist_id =" . $array['playlist_id'] );
-		$stmt->bindParam( ':title', $array['title'], PDO::PARAM_STR );
-		$stmt->bindParam( ':alias', $array['alias'], PDO::PARAM_STR );
-		$stmt->bindParam( ':description', $array['description'], PDO::PARAM_STR );
-		$stmt->bindParam( ':image', $array['image'], PDO::PARAM_STR );
-		$stmt->bindParam( ':keywords', $array['keywords'], PDO::PARAM_STR );
-
+		$stmt = $db->prepare( "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_playlist_cat SET title= :title, alias = :alias, status = :status, private_mode = :private_mode, description= :description, image= :image, keywords= :keywords, edit_time=" . NV_CURRENTTIME . " WHERE playlist_id =" . $playlist_id );
+		$stmt->bindParam( ':title', $title, PDO::PARAM_STR );
+		$stmt->bindParam( ':alias', $alias, PDO::PARAM_STR );
+		$stmt->bindParam( ':status', $status, PDO::PARAM_STR );
+		$stmt->bindParam( ':private_mode', $private_mode, PDO::PARAM_STR );
+		$stmt->bindParam( ':description', $description, PDO::PARAM_STR );
+		$stmt->bindParam( ':image', $image, PDO::PARAM_STR );
+		$stmt->bindParam( ':keywords', $keywords, PDO::PARAM_STR );
+		$stmt->execute();
 		if( $stmt->execute() )
 		{
-			nv_insert_logs( NV_LANG_DATA, $module_name, 'log_edit_playlist', "playlist_id " . $array['playlist_id'], $admin_info['userid'] );
+			nv_insert_logs( NV_LANG_DATA, $module_name, 'log_edit_playlistcat', "playlist_id " . $playlist_id, $admin_info['userid'] );
 			Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );
+			die();
 		}
 		else
 		{
@@ -99,17 +95,26 @@ if( ! empty( $savecat ) )
 	}
 }
 
-$array['playlist_id'] = $nv_Request->get_int( 'playlist_id', 'get', 0 );
-if( $array['playlist_id'] > 0 )
+$array_status = array(
+	$lang_global['no'],
+	$lang_global['yes'],
+	$lang_module['playlist_waiting_approve']
+);
+
+$array_private_mode = array(
+	$lang_module['playlist_private_off'],
+	$lang_module['playlist_private_on']
+);
+		
+$playlist_id = $nv_Request->get_int( 'playlist_id', 'get', 0 );
+if( $playlist_id > 0 )
 {
-	list( $array['playlist_id'], $array['title'], $array['alias'], $array['image'], $array['description'], $array['keywords'] ) = $db->query( "SELECT playlist_id, title, alias, image, description, keywords FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlists where playlist_id=" . $array['playlist_id'] )->fetch( 3 );
-	$lang_module['add_playlist'] = $lang_module['edit_playlist'];
+	list( $playlist_id, $title, $alias, $description, $image, $keywords, $status, $private_mode ) = $db->query( "SELECT playlist_id, title, alias, description, image, keywords, status, private_mode FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist_cat where playlist_id=" . $playlist_id )->fetch( 3 );
+	$lang_module['add_playlist_cat'] = $lang_module['edit_playlist_cat'];
 }
 
-if( is_file( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/playlists/' . $array['image'] ) )
-{
-	$array['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/playlists/' . $array['image'];
-}
+$lang_global['title_suggest_max'] = sprintf( $lang_global['length_suggest_max'], 65 );
+$lang_global['description_suggest_max'] = sprintf( $lang_global['length_suggest_max'], 160 );
 
 $xtpl = new XTemplate( 'playlists.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 $xtpl->assign( 'LANG', $lang_module );
@@ -118,17 +123,49 @@ $xtpl->assign( 'NV_BASE_ADMINURL', NV_BASE_ADMINURL );
 $xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
 $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'OP', $op );
-$xtpl->assign( 'UPLOADS_DIR', NV_UPLOADS_DIR . '/' . $module_upload . '/playlists' );
-$xtpl->assign( 'DATA', $array );
-$xtpl->assign( 'playlist_LIST', nv_show_playlists_list() );
+$page = 1;
+$xtpl->assign( 'PLAYLIST_CAT_LIST', nv_show_playlist_cat_list($page) );
 
+$xtpl->assign( 'PLAYLIST_ID', $playlist_id );
+$xtpl->assign( 'title', $title );
+$xtpl->assign( 'alias', $alias );
+$xtpl->assign( 'keywords', $keywords );
+$xtpl->assign( 'description', nv_htmlspecialchars( nv_br2nl( $description ) ) );
+
+if( ! empty( $image ) and file_exists( NV_UPLOADS_REAL_DIR . "/" . $module_upload . "/img/" . $image ) )
+{
+	$image = NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_upload . "/img/" . $image;
+}
+$xtpl->assign( 'image', $image );
+$xtpl->assign( 'UPLOAD_CURRENT', NV_UPLOADS_DIR . '/' . $module_upload  . "/img/playlists/" );
+
+foreach( $array_status as $key => $val )
+{
+	$xtpl->assign( 'STATUS', array(
+		'key' => $key,
+		'title' => $val,
+		'selected' => $key == $status ? ' selected="selected"' : ''
+	) );
+	$xtpl->parse( 'main.status' );
+}
+
+foreach( $array_private_mode as $key => $val )
+{
+	$xtpl->assign( 'PRIVATE_MODE', array(
+		'key' => $key,
+		'title' => $val,
+		'selected' => $key == $private_mode ? ' selected="selected"' : ''
+	) );
+	$xtpl->parse( 'main.private_mode' );
+}
+			
 if( ! empty( $error ) )
 {
 	$xtpl->assign( 'ERROR', $error );
 	$xtpl->parse( 'main.error' );
 }
 
-if( empty( $array['alias'] ) )
+if( empty( $alias ) )
 {
 	$xtpl->parse( 'main.getalias' );
 }

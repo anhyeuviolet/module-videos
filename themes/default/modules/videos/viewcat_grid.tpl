@@ -10,70 +10,34 @@
 	</div>
 </div>
 <!-- END: viewdescription -->
-
-<!-- BEGIN: featuredloop -->
-<div class="news_column">
-<div class="panel panel-default">
-		<div class="panel-body featured">
-			<!-- BEGIN: image -->
-			<a href="{CONTENT.link}" title="{CONTENT.title}"><img  alt="{HOMEIMGALT1}" src="{HOMEIMG1}" width="150px" class="img-thumbnail pull-left imghome" /></a>
-			<!-- END: image -->
-			<h2>
-				<a href="{CONTENT.link}" title="{CONTENT.title}">{CONTENT.title}</a>
-			</h2>
-			<div class="text-muted">
-				<ul class="list-unstyled list-inline">
-					<li>
-						<em class="fa fa-clock-o">&nbsp;</em> {CONTENT.publtime}
-					</li>
-					<li>
-						<em class="fa fa-eye">&nbsp;</em> {LANG.view}: {CONTENT.hitstotal}
-					</li>
-					<li>
-						<em class="fa fa-comment-o">&nbsp;</em> {LANG.total_comment}: {CONTENT.hitscm}
-					</li>
-				</ul>
-			</div>
-			<p class="text-justify">
-				{CONTENT.hometext}
-			</p>
-			<!-- BEGIN: adminlink -->
-			<p class="text-right">
-				{ADMINLINK}
-			</p>
-			<!-- END: adminlink -->
-		</div>
-	</div>
-</div>
-<!-- END: featuredloop -->
-
 <!-- BEGIN: viewcatloop -->
-<div class="col-sm-12 col-md-8">
+<div class="col-md-8 col-lg-8 col-sm-12 col-xs-24 videos_list">
 	<div class="thumbnail">
-		<a title="{CONTENT.title}" href="{CONTENT.link}"><img alt="{HOMEIMGALT1}" src="{HOMEIMG1}" width="{IMGWIDTH1}" class="img-thumbnail"/></a>
-		<div class="caption text-center">
-			<h4><a class="show" href="{CONTENT.link}" data-content="{CONTENT.hometext_clean}" data-img="{CONTENT.imghome}" data-rel="tooltip" data-placement="{TOOLTIP_POSITION}" title="{CONTENT.title}">{CONTENT.title}</a></h4>
-			<span>{ADMINLINK}</span>
+		<!-- BEGIN: image -->
+		<a title="{CONTENT.title}" href="{CONTENT.link}"><img alt="{HOMEIMGALT1}" src="{HOMEIMG1}" style="width:{IMGWIDTH}px;height:{IMGHEIGHT}px;"  class="img-responsive video_img"/></a>
+		<!-- END: image -->
+		<h4><a class="show" href="{CONTENT.link}" title="{CONTENT.title}">{CONTENT.title_cut}</a></h4>
+		<div class="text-muted">
+			<ul class="list-unstyled">
+				<!-- BEGIN: uploader_link -->
+				<li>{LANG.by}&nbsp;<a href="{CONTENT.uploader_link}" title="{CONTENT.admin_name}">{CONTENT.admin_name}</a></li>
+				<!-- END: uploader_link -->
+				<!-- BEGIN: uploader -->
+				<li>{LANG.by}&nbsp;{CONTENT.admin_name}</li>
+				<!-- END: uploader -->
+				<li class="pull-left">{CONTENT.publtime}</li>
+				<li class="spacer pull-left"></li>
+				<li>{CONTENT.hitstotal}&nbsp;{LANG.hits_view}</li>
+			</ul>
 		</div>
+		<p class="clear">{ADMINLINK}</p>
 	</div>
 </div>
 <!-- END: viewcatloop -->
 <div class="clear">&nbsp;</div>
-
 <!-- BEGIN: generate_page -->
 <div class="text-center">
 	{GENERATE_PAGE}
 </div>
 <!-- END: generate_page -->
-<script type="text/javascript">
-$(window).load(function(){
-	$.each( $('.thumbnail'), function(k,v){
-		var height1 = $($('.thumbnail')[k]).height();
-		var height2 = $($('.thumbnail')[k+1]).height();
-		var height = ( height1 > height2 ? height1 : height2 );
-		$($('.thumbnail')[k]).height( height );
-		$($('.thumbnail')[k+1]).height( height );
-	});
-});
-</script>
 <!-- END: main -->

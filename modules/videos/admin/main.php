@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2010 - 2014 VINADES.,JSC. All rights reserved
+ * @Project VIDEOS 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Website tradacongnghe.com
  * @License GNU/GPL version 2 or any later version
- * @Createdate Sun, 08 Apr 2012 00:00:00 GMT
+ * @Createdate Oct 08, 2015 10:47:41 AM
  */
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
@@ -160,7 +160,7 @@ if( defined( 'NV_IS_ADMIN_MODULE' ) )
 {
 	$array_list_action['declined'] = $lang_module['declined'];
 	$array_list_action['block'] = $lang_module['addtoblock'];
-	$array_list_action['addtoplaylists'] = $lang_module['addtoplaylists'];
+	$array_list_action['playlist'] = $lang_module['addtoplaylists'];
 	$array_list_action['move'] = $lang_module['move'];
 }
 elseif( $check_declined ) //Neu co quyen duyet bai thi

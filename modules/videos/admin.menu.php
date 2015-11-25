@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @Project VIDEOS 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Website tradacongnghe.com
  * @License GNU/GPL version 2 or any later version
- * @Createdate 07/30/2013 10:27
+ * @Createdate Oct 08, 2015 10:47:41 AM
  */
 
 if( ! defined( 'NV_ADMIN' ) ) die( 'Stop!!!' );
@@ -97,13 +97,6 @@ if( $NV_IS_ADMIN_MODULE )
 	$allow_func[] = 'del_cat';
 
 	$allow_func[] = 'admins';
-	$allow_func[] = 'playlistsnews';
-	$allow_func[] = 'playlists';
-	$allow_func[] = 'playlistdelnews';
-	$allow_func[] = 'addtoplaylists';
-	$allow_func[] = 'change_playlist';
-	$allow_func[] = 'list_playlist';
-	$allow_func[] = 'del_playlist';
 
 	$allow_func[] = 'sources';
 	$allow_func[] = 'change_source';
@@ -117,6 +110,14 @@ if( $NV_IS_ADMIN_MODULE )
 	$allow_func[] = 'chang_block_cat';
 	$allow_func[] = 'change_block';
 	$allow_func[] = 'list_block';
+	
+	$allow_func[] = 'playlist';
+	$allow_func[] = 'playlists';
+	$allow_func[] = 'del_playlist_cat';
+	$allow_func[] = 'list_playlist_cat';
+	$allow_func[] = 'change_playlist_cat';
+	$allow_func[] = 'change_playlist';
+	$allow_func[] = 'list_playlist';
 
 	$allow_func[] = 'tags';
 	$allow_func[] = 'setting';

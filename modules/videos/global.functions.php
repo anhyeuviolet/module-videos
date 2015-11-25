@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @Project VIDEOS 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Website tradacongnghe.com
  * @License GNU/GPL version 2 or any later version
- * @Createdate 12/31/2009 0:51
+ * @Createdate Oct 08, 2015 10:47:41 AM
  */
 
 if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
@@ -201,6 +201,20 @@ function nv_link_delete_page( $id, $detail = 0)
 }
 
 /**
+ * nv_link_edit_playlist()
+ *
+ * @param mixed $id
+ * @return
+ */
+function nv_link_edit_playlist( $id )
+{
+	global $lang_global, $module_name;
+	$link = "<a class=\"btn btn-primary btn-xs\" href=\"" . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=playlists&amp;playlist_id=" . $id . "#edit\"><em class=\"fa fa-edit margin-right\"></em> " . $lang_global['edit'] . "</a>";
+	return $link;
+}
+
+
+/**
  * nv_news_get_bodytext()
  *
  * @param mixed $bodytext
@@ -245,6 +259,26 @@ function nv_news_get_bodytext( $bodytext )
  * @return
  */
 
+ function curl($url) {
+	$ch = @curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	$head[] = "Connection: keep-alive";
+	$head[] = "Keep-Alive: 300";
+	$head[] = "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7";
+	$head[] = "Accept-Language: en-us,en;q=0.5";
+	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36');
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $head);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
+	$page = curl_exec($ch);
+	curl_close($ch);
+	return $page;
+}
 
 function get_youtube_id($url){
 preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $url, $matches);
@@ -274,6 +308,54 @@ function is_facebook($url){
 		return false;
 	}
 }
+// Get Facebook video id
+function get_facebook_id($fb_url)
+{
+	preg_match("~/videos/(?:(t|vb)\.\d+/)?(\d+)~i", $fb_url, $fb_vid);
+	return $fb_vid[2];
+}
+
+// Get direct link MP$ Facebook
+function get_facebook_mp4($fb_url)
+{
+	$id = get_facebook_id($fb_url);
+	$embed = 'https://www.facebook.com/video/embed?video_id='.$id;
+	$get = curl($embed);
+	$data = explode('[["params","', $get);
+	$data = explode('"],["', $data[1]);
+	$data = str_replace(
+		array('\u00257B', '\u002522', '\u00253A', '\u00252C', '\u00255B', '\u00255C\u00252F', '\u00252F', '\u00253F', '\u00253D', '\u002526'),
+		array('{', '"', ':', ',', '[', '\/', '/', '?', '=', '&'),
+		$data[0]
+	);
+	$fbvid_mp4 = array();
+	$mp4 = array(
+		'link_mp4'=>'',
+		'quality'=>''
+	 );
+	//Link HD
+	$HD = explode('[{"hd_src":"', $data);
+	$HD = explode('","', $HD[1]);
+	$HD = str_replace('\/', '/', $HD[0]);
+	$mp4 = array(
+		'link_mp4'=>$HD,
+		'quality'=>'720p HD'
+	 );  
+	$fbvid_mp4[] = $mp4;
+	
+	 //Link SD
+	$SD = explode('"sd_src":"', $data);
+	$SD = explode('","', $SD[1]);
+	$SD = str_replace('\/', '/', $SD[0]);
+	$mp4 = array(
+		'link_mp4'=>$SD,
+		'quality'=>'360p'
+	 );  
+	$fbvid_mp4[] = $mp4;
+	
+	return $fbvid_mp4;  
+}
+
 
 // Check URL is Picasa
 function is_picasa($url){
@@ -337,4 +419,95 @@ function get_link_mp4_picasa($link_picasa){
 		$links_mp4[] = $mp4;
 	}  
 	return $links_mp4;  
+}
+
+
+function humanTiming($time)
+{
+	global $lang_module;
+	
+    $time = time() - $time; // to get the time since that moment
+    $time = ($time<1)? 1 : $time;
+    $tokens = array (
+        31536000 => $lang_module['year'],
+        2592000 => $lang_module['month'],
+        604800 => $lang_module['week'],
+        86400 => $lang_module['day'],
+        3600 => $lang_module['hour'],
+        60 => $lang_module['minute'],
+        1 => $lang_module['second']
+    );
+
+    foreach ($tokens as $unit => $text) {
+        if ($time < $unit) continue;
+        $numberOfUnits = floor($time / $unit);
+        return $numberOfUnits.' '.$text;
+    }
+
+}
+
+/**
+ * creat_thumbs()
+ * front-end thumbs create
+ *
+ */
+if( ! nv_function_exists( 'creat_thumbs' ) )
+{
+	function creat_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
+	{
+		if( $width >= $height ) $rate = $width / $height;
+		else  $rate = $height / $width;
+
+		$image = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/img/' . $file;
+ 
+		if( $file != '' and file_exists( $image ) )
+		{
+			$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $file;
+			$imginfo = nv_is_image( $image );
+
+			$basename = $module_upload . '_' . $width . 'x' . $height . '-' . $id . '-' . md5_file( $image ) . '.' . $imginfo['ext'];
+
+			if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename ) )
+			{
+				$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename;
+			}
+			else
+			{
+
+				$_image = new image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
+
+				if( $imginfo['width'] <= $imginfo['height'] )
+				{
+					$_image->resizeXY( $width, 0 );
+
+				}
+				elseif( ( $imginfo['width'] / $imginfo['height'] ) < $rate )
+				{
+					$_image->resizeXY( $width, 0 );
+				}
+				elseif( ( $imginfo['width'] / $imginfo['height'] ) >= $rate )
+				{
+					$_image->resizeXY( 0, $height );
+				}
+
+				$_image->cropFromCenter( $width, $height );
+
+				$_image->save( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/', $basename, $quality );
+
+				if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename ) )
+				{
+					$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename;
+				}
+			}
+		}
+		elseif( nv_is_url( $file ) )
+		{
+			$imgsource = $file;
+		}
+		else
+		{
+			$imgsource = '';
+		}
+		return $imgsource;
+	}
 }
