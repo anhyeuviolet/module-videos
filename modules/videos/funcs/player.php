@@ -22,6 +22,7 @@ $arr_alias = explode('-',$raw_alias);
 $p_id = intval(substr($arr_alias[0],4));
 $check_ss = $arr_alias[1];
 $vid_id = intval(substr($arr_alias[2],4));
+$embed = $arr_alias[3];
 
 // cache call
 if( ! defined( 'NV_IS_MODADMIN' ) )
@@ -40,7 +41,7 @@ if( empty( $contents ) )
 {
 	if( $p_id > 0 )
 	{
-		if($check_ss != (md5( $p_id . session_id() . $global_config['sitekey'] )))die("Wrong session!");
+
 		$db->sqlreset()
 			->select( 'COUNT(*)' )
 			->from( NV_PREFIXLANG . '_' . $module_data . '_rows t1' )
@@ -49,8 +50,6 @@ if( empty( $contents ) )
 
 		$db->select( 't1.id, t1.catid, t1.admin_id, t1.author, t1.vid_path, t1.vid_type, t1.addtime, t1.edittime, t1.publtime, t1.title, t1.alias, t1.hometext, t1.homeimgfile, t1.homeimgalt, t1.homeimgthumb, t2.playlist_id, t2.playlist_sort' )
 			->order( 't2.playlist_sort ASC' );
-			// ->limit( $per_page )
-			// ->offset( ($page - 1) * $per_page );
 	}
 	elseif( $vid_id > 0 )
 	{
@@ -62,7 +61,7 @@ if( empty( $contents ) )
 		{
 			$where = 'status=1 AND ';
 		}
-		if($check_ss != (md5( $vid_id . session_id() . $global_config['sitekey'] )))die("Wrong session!");
+
 		$db->sqlreset()
 			->select( '*' )
 			->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
@@ -126,42 +125,76 @@ if( empty( $contents ) )
 		$array_item[] = $data;
 	}
 
-	$contents .='<?xml version="1.0" encoding="utf-8"?>';
-	$contents.='<rss version="2.0" xmlns:jwplayer="http://rss.jwpcdn.com/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">';
-	$contents .='<channel>';
-	$contents .='<title>'.$channel['title'].'</title>';
-	$contents .='<description>'.$channel['description'].'</description>';
-	$contents .='<link>'.$channel['link'].'</link>';
-	foreach ( $array_item as $items )
+	if($embed == 'embed') // embed to FB
 	{
-		$contents .='<item>';
-		$contents .='<title>'.$items['title'].'</title>';
-		$contents .='<link>'.$items['link'].'</link>';
-		$contents .='<description>'.$items['hometext'].'</description>';
-		$contents .='<guid>'.$items['playlist_id'].$items['playlist_sort'].'</guid>';
-		$contents .='<jwplayer:image>'.$items['rss_img'].'</jwplayer:image>';
-		if( $items['vid_type'] == 3 || $items['vid_type'] == 4 )
+		$contents.='<config>';
+		foreach ( $array_item as $items )
 		{
-			foreach ($items['href'] as $source_file_i)
+			$contents .='<title>'.$items['title'].'</title>';
+			$contents .='<link>'.$items['link'].'</link>';
+			$contents .='<image>'.$items['rss_img'].'</image>';
+			$contents .='<linktarget>_blank</linktarget>';
+			$contents .='<repeat>linktargettrue</repeat>';
+			$contents .='<resizing>false</resizing>';
+			$contents .='<smoothing>true</smoothing>';
+			$contents .='<autostart>true</autostart>';
+			$contents .='<fullscreen>false</fullscreen>';
+			$contents .='<displayclick>play</displayclick>';		
+			
+			
+			if( $items['vid_type'] == 3 || $items['vid_type'] == 4 )
 			{
-				$contents .= '<jwplayer:source file="'.htmlentities($source_file_i['link_mp4']).'" label="'.$source_file_i['quality'].'" type="mp4" />';
+				foreach ($items['href'] as $source_file_i)
+				{
+					$contents .= '<file>'.htmlentities($source_file_i['link_mp4']). '</file>';
+				}
+			}
+			else
+			{
+				$contents .= '<file>'.htmlentities($items['href']).'</file>';
 			}
 		}
-		else
-		{
-			$contents .= '<jwplayer:source file="'.htmlentities($items['href']).'" />';
-		}
-		$contents .='</item>';	
+		$contents .='</config>';
 	}
-	$contents .='</channel>';
-	$contents .='</rss>';
-
-	$time_set_cache = filemtime( NV_ROOTDIR . '/' . NV_CACHEDIR .'/'. $module_name . '/' . $cache_file);
-	if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' and ((NV_CURRENTTIME - $time_set_cache) > 43200) )
+	else
 	{
-		nv_set_cache( $module_name, $cache_file, $contents );
+		$contents.='<rss xmlns:jwplayer="http://rss.jwpcdn.com/">';
+		$contents .='<channel>';
+		$contents .='<title>'.$channel['title'].'</title>';
+		$contents .='<description>'.$channel['description'].'</description>';
+		$contents .='<link>'.$channel['link'].'</link>';
+		foreach ( $array_item as $items )
+		{
+			$contents .='<item>';
+			$contents .='<title>'.$items['title'].'</title>';
+			$contents .='<link>'.$items['link'].'</link>';
+			$contents .='<description>'.$items['hometext'].'</description>';
+			$contents .='<guid>'.$items['playlist_id'].$items['playlist_sort'].'</guid>';
+			$contents .='<jwplayer:image>'.$items['rss_img'].'</jwplayer:image>';
+			if( $items['vid_type'] == 3 || $items['vid_type'] == 4 )
+			{
+				foreach ($items['href'] as $source_file_i)
+				{
+					$contents .= '<jwplayer:source file="'.htmlentities($source_file_i['link_mp4']).'" label="'.$source_file_i['quality'].'" type="mp4" />';
+				}
+			}
+			else
+			{
+				$contents .= '<jwplayer:source file="'.htmlentities($items['href']).'" />';
+			}
+			$contents .='</item>';	
+		}
+		$contents .='</channel>';
+		$contents .='</rss>';
+
+		$time_set_cache = filemtime( NV_ROOTDIR . '/' . NV_CACHEDIR .'/'. $module_name . '/' . $cache_file);
+		if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' and ((NV_CURRENTTIME - $time_set_cache) > 43200) )
+		{
+			nv_set_cache( $module_name, $cache_file, $contents );
+		}
 	}
-}
+
+	}
 
 echo $contents;
 die();
