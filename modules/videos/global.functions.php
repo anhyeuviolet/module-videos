@@ -384,7 +384,7 @@ function get_link_redirector_picasa($link_picasa){
 	return $links;
 }
 
-
+// Get link Picasa
 function getDirectLink($url){
 	$urlInfo = parse_url($url);  
 	$out  = "GET  {$url} HTTP/1.1\r\n";  
@@ -408,7 +408,7 @@ function getDirectLink($url){
 	return trim($url);  
 }
 
-// Output MP4 direct link
+// Output Picasa MP4 direct link
 function get_link_mp4_picasa($link_picasa){
 	$links= get_link_redirector_picasa($link_picasa);  
 	$links_mp4= array();  

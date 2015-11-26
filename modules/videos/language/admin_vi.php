@@ -79,18 +79,21 @@ $lang_module['keywords'] = 'Từ khóa';
 $lang_module['content_list'] = 'Danh sách Videos';
 $lang_module['content_add'] = 'Thêm Videos';
 $lang_module['add_cat'] = 'Thêm chuyên mục';
-$lang_module['add_playlist'] = 'Thêm Playlist';
 $lang_module['add_sources'] = 'Thêm nguồn Videos';
 $lang_module['edit_cat'] = 'Sửa chuyên mục';
+$lang_module['add_playlist'] = 'Thêm Playlist';
 $lang_module['edit_playlist'] = 'Sửa Playlist';
+
 $lang_module['edit_sources'] = 'Sửa nguồn Videos';
 $lang_module['add_block_cat'] = 'Thêm thể loại';
 $lang_module['edit_block_cat'] = 'Sửa thể loại';
+
 $lang_module['link'] = 'Website nguồn Videos';
 $lang_module['cat_sub'] = 'Thuộc chuyên mục';
 $lang_module['cat_sub_sl'] = 'Là chuyên mục chính';
 $lang_module['note_cat'] = 'Bạn cần tạo chuyên mục trước';
 $lang_module['playlist_sl'] = 'Chọn thể loại liên quan hoặc tự điền';
+
 $lang_module['delcat_msg_cat'] = 'Chuyên mục này có %s Chuyên mục thành phần, bạn cần xóa hoặc di chuyển các Chuyên mục thành phần trước';
 $lang_module['delcat_msg_rows'] = 'Chuyên mục có %s Videos, bạn có chắc chắn xóa hoặc di chuyển sang Chuyên mục khác';
 $lang_module['delcat_msg_rows_select'] = 'Chú ý: Chuyên mục %s có %s Videos. <br />Bạn xóa Chuyên mục này tức là xóa tất cả Videos bên trong nó.';
@@ -215,7 +218,8 @@ $lang_module['imgposition_0'] = 'Không hiển thị';
 $lang_module['imgposition_1'] = 'Hiển thị theo cấu hình module';
 $lang_module['imgposition_2'] = 'Hiển thị dưới phần mở đầu';
 $lang_module['addtoblock'] = 'Thêm Videos vào thể loại';
-$lang_module['delete_from_block'] = 'Xóa Videos khỏi Playlist';
+$lang_module['delete_from_block'] = 'Xóa Videos khỏi Thể loại';
+$lang_module['delete_from_playlist'] = 'Xóa Videos khỏi Playlist';
 $lang_module['error_del_content'] = 'Lỗi: Hệ thống không xóa hết được các Videos, vui lòng thử lại';
 $lang_module['msgnocheck'] = 'Bạn cần chọn ít nhất 1 Videos để thực hiện';
 $lang_module['facebookAppID'] = 'Facebook App ID';
