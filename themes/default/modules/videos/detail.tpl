@@ -21,7 +21,7 @@
 			<div class="videoplayer">
 				<!-- BEGIN: vid_jw_content -->
 				<div id="videoCont">
-					<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_NAME}/loading.gif" class="center-block mar_rgt_auto" alt="Loading player" />
+					<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_NAME}/loading.gif" class="center-block mar_rgt_auto img-responsive" alt="Loading player" />
 				</div>
 				<!-- END: vid_jw_content -->
 			</div>
