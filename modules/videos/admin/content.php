@@ -661,6 +661,13 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 		{
 			$rowcontent['vid_path'] = '';
 		}
+		
+		// Auto-Thumb from Youtube - if empty Image
+		if( ($rowcontent['vid_type'] == 2) AND ( empty($rowcontent['homeimgfile']) ) )
+		{
+			$rowcontent['homeimgfile'] = 'http://img.youtube.com/vi/' . get_youtube_id($rowcontent['vid_path']) . '/sddefault.jpg';
+			$rowcontent['homeimgthumb'] = 3;
+		}
 
 		if( $rowcontent['id'] == 0 )
 		{

@@ -112,15 +112,27 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 					$href_vid['quality'] = '';
 				}
 			}
-
-			$meta_property['og:type'] = 'video.other';
+			$link_embed = NV_MY_DOMAIN . NV_BASE_SITEURL . $module_file . '/player/' . rand(1000,9999) . 0 .'-' . md5( $news_contents['id'] . session_id() . $global_config['sitekey'] ) . '-'. rand(1000,9999) . $news_contents['id'] . '-embed/';
+			$http_url = NV_MY_DOMAIN . NV_BASE_SITEURL . 'themes/default/modules/' . $module_file . '/jwplayer/jwplayer5.swf?config=' . $link_embed;
+			
+			$meta_property['og:type'] = 'video';
+			if($news_contents['vid_type'] ==3 OR $news_contents['vid_type'] == 4)
+			{
+				$meta_property['og:video'] = $http_url;
+			}
+			else
+			{
+				$https_url = preg_replace('/^http:/i', 'https:', $http_url);
+				$meta_property['og:video'] = $https_url;
+			}
+			
 			$meta_property['og:url'] = $client_info['selfurl'];
+			$meta_property['og:title'] = $news_contents['title'];
+			$meta_property['og:video:type'] = 'application/x-shockwave-flash';
+			$meta_property['og:video:width'] = '480';
+			$meta_property['og:video:height'] = '360';
 			$meta_property['og:published_time'] = date( 'Y-m-dTH:i:s', $news_contents['publtime'] );
 			$meta_property['og:updated_time'] = date( 'Y-m-dTH:i:s', $news_contents['edittime'] );
-			if( $news_contents['exptime'] )
-			{
-				$meta_property['article:expiration_time'] = date( 'Y-m-dTH:i:s', $news_contents['exptime'] );
-			}
 		}
 
 		if( defined( 'NV_IS_MODADMIN' ) and $news_contents['status'] != 1 )

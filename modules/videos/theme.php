@@ -18,7 +18,6 @@ function viewcat_grid_new( $array_catpage, $catid, $generate_page )
 	$xtpl->assign( 'LANG', $lang_module );
 	$xtpl->assign( 'IMGWIDTH', $module_config[$module_name]['homewidth'] );
 	$xtpl->assign( 'IMGHEIGHT', $module_config[$module_name]['homeheight'] );
-	$xtpl->assign( 'TOOLTIP_POSITION', $module_config[$module_name]['showtooltip'] ? $module_config[$module_name]['tooltip_position'] : '' );
 	$xtpl->assign( 'MODULE_NAME', $module_file );
 
 	if( ( $global_array_cat[$catid]['viewdescription'] and $page == 1 ) or $global_array_cat[$catid]['viewdescription'] == 2 )
@@ -204,7 +203,6 @@ function viewsubcat_main( $viewcat, $array_cat )
 
 	$xtpl = new XTemplate( $viewcat . '.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
-	$xtpl->assign( 'TOOLTIP_POSITION', $module_config[$module_name]['showtooltip'] ? $module_config[$module_name]['tooltip_position'] : '' );
 	$xtpl->assign( 'MODULE_NAME', $module_file );
 	$xtpl->assign( 'IMGWIDTH', $module_config[$module_name]['homewidth'] );
 	$xtpl->assign( 'IMGHEIGHT', $module_config[$module_name]['homeheight'] );
@@ -334,12 +332,6 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		$xtpl->parse( 'main.vid_jw_content' );
 	}
 	
-	if( $news_contents['allowed_print'] == 1 )
-	{
-		$xtpl->assign( 'URL_PRINT', $news_contents['url_print'] );
-		$xtpl->parse( 'main.allowed_print' );
-	}
-
 	if( $news_contents['allowed_save'] == 1 )
 	{
 		$xtpl->assign( 'URL_SAVEFILE', $news_contents['url_savefile'] );
@@ -445,7 +437,6 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		{
 			foreach( $related_new_array as $key => $related_new_array_i )
 			{
-				$related_new_array_i['hometext'] = nv_clean60( $related_new_array_i['hometext'], $module_config[$module_name]['tooltip_length'], true );
 				$newday = $related_new_array_i['time'] + ( 86400 * $related_new_array_i['newday'] );
 				if( $newday >= NV_CURRENTTIME )
 				{
@@ -471,7 +462,6 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		{
 			foreach( $related_array as $related_array_i )
 			{
-				$related_array_i['hometext'] = nv_clean60( $related_array_i['hometext'], $module_config[$module_name]['tooltip_length'], true );
 				$newday = $related_array_i['time'] + ( 86400 * $related_array_i['newday'] );
 				if( $newday >= NV_CURRENTTIME )
 				{
