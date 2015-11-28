@@ -447,13 +447,13 @@ function humanTiming($time)
 }
 
 /**
- * creat_thumbs()
+ * videos_thumbs()
  * front-end thumbs create
  *
  */
-if( ! nv_function_exists( 'creat_thumbs' ) )
+if( ! nv_function_exists( 'videos_thumbs' ) )
 {
-	function creat_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
+	function videos_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
 	{
 		if( $width >= $height ) $rate = $width / $height;
 		else  $rate = $height / $width;

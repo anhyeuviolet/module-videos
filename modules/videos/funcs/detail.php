@@ -205,7 +205,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		{
 			if( $row['homeimgthumb'] == 1 OR $row['homeimgthumb'] == 2 ) //image file
 			{
-				$row['imghome'] = creat_thumbs($row['id'], $row['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
+				$row['imghome'] = videos_thumbs($row['id'], $row['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $row['homeimgthumb'] == 3 ) //image url
 			{
@@ -246,7 +246,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		{
 			if( $row['homeimgthumb'] == 1 OR $row['homeimgthumb'] == 2 ) //image file
 			{
-				$row['imghome'] = creat_thumbs($row['id'], $row['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
+				$row['imghome'] = videos_thumbs($row['id'], $row['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $row['homeimgthumb'] == 3 ) //image url
 			{
