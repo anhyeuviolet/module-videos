@@ -20,8 +20,10 @@ $arr_alias = explode('-',$raw_alias);
 $p_id = intval(substr($arr_alias[0],4));
 $check_ss = $arr_alias[1];
 $vid_id = intval(substr($arr_alias[2],4));
-$embed = $arr_alias[3];
-
+if(sizeof($arr_alias) == 4)
+{
+	$embed = $arr_alias[3];
+}
 
 $channel['title'] = $module_info['custom_title'];
 $channel['link'] = NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
@@ -30,7 +32,7 @@ $channel['description'] = ! empty( $module_info['description'] ) ? $module_info[
 $cache_file = '';
 $contents = '';
 
-if($embed == 'embed') // embed to FB
+if( isset( $embed ) AND $embed == 'embed') // embed to FB
 {
 	// cache call
 	if( ! defined( 'NV_IS_MODADMIN' ) )
