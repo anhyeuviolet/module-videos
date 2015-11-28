@@ -243,12 +243,7 @@ function viewsubcat_main( $viewcat, $array_cat )
 				$xtpl->assign( 'CONTENT', $array_row_i );
 
 				if( $array_row_i['imghome'] != "" )
-				{
-					if(!($array_row_i['homeimgthumb'] > 0))
-					{
-						$xtpl->parse( 'main.listcat.loop.image.fix_size' );
-					}
-					
+				{				
 					$xtpl->assign( 'HOMEIMG', $array_row_i['imghome'] );
 					$xtpl->assign( 'HOMEIMGALT', ! empty( $array_row_i['homeimgalt'] ) ? $array_row_i['homeimgalt'] : $array_row_i['title'] );
 					$xtpl->parse( 'main.listcat.loop.image' );
@@ -446,10 +441,6 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 				$xtpl->assign( 'RELATED_NEW', $related_new_array_i );
 				if( $related_new_array_i['imghome'] != '' )
 				{
-					if(!($related_new_array_i['homeimgthumb'] > 0))
-					{
-						$xtpl->parse( 'main.others.related_new.loop.image.fix_size' );
-					}
 					$xtpl->parse( 'main.others.related_new.loop.image' );
 				}
 				$xtpl->parse( 'main.others.related_new.loop' );

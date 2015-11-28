@@ -175,7 +175,7 @@
 				<div class="thumbnail">
 					<!-- BEGIN: image -->
 					<a href="{RELATED_NEW.link}">
-						<img src="{RELATED_NEW.imghome}" <!-- BEGIN: fix_size --> style="height:{IMGHEIGHT}px;" <!-- END: fix_size --> class="related_video"/>
+						<img src="{RELATED_NEW.imghome}" style="width:{IMGWIDTH}px;height:{IMGHEIGHT}px;" class="related_video"/>
 					</a>
 					<!-- END: image -->
 					<h4>
