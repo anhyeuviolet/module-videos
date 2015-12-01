@@ -48,7 +48,6 @@ if( isset( $embed ) AND $embed == 'embed') // embed to FB
 	{
 		if( $p_id > 0 )
 		{
-
 			$db->sqlreset()
 				->select( 'COUNT(*)' )
 				->from( NV_PREFIXLANG . '_' . $module_data . '_rows t1' )
@@ -174,7 +173,7 @@ else
 	{
 		if( $p_id > 0 )
 		{
-
+			if($check_ss != (md5( $p_id . session_id() . $global_config['sitekey'] )))die("Wrong session!");
 			$db->sqlreset()
 				->select( 'COUNT(*)' )
 				->from( NV_PREFIXLANG . '_' . $module_data . '_rows t1' )
@@ -186,6 +185,7 @@ else
 		}
 		elseif( $vid_id > 0 )
 		{
+			if($check_ss != (md5( $vid_id . session_id() . $global_config['sitekey'] )))die("Wrong session!");
 			if( defined( 'NV_IS_MODADMIN' ) ) // Allow ADMINMOD preview video
 			{
 				$where = '';
