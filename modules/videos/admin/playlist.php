@@ -97,7 +97,7 @@ if( $listid == '' and $playlist_id )
 }
 else
 {
-	$page_title = $lang_module['addtoplaylist'];
+	$page_title = $lang_module['addtoplaylists'];
 	$id_array = array_map( 'intval', explode( ',', $listid ) );
 
 	$db->sqlreset()->select( 'id, title' )->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )->order( 'publtime DESC' )->where( 'status=1 AND id IN (' . implode( ',', $id_array ) . ')' );
