@@ -336,8 +336,9 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		$content_comment = '';
 	}
 	
+	$array_user_playlist = array();
 	// call user playlist
-	if( $user_info['userid'] > 0)
+	if( isset($user_info['userid']) AND $user_info['userid'] > 0)
 	{
 		$sql = 'SELECT playlist_id, title, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE userid=' . $user_info['userid'] . ' AND status > 0 ORDER BY weight ASC';
 		$array_user_playlist = $db->query( $sql )->fetchAll();

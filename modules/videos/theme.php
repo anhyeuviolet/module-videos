@@ -486,7 +486,7 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		}
 		$xtpl->parse( 'main.user_playlist' );
 	}
-	elseif( $user_info['userid'] > 0 )
+	elseif( isset($user_info['userid']) AND $user_info['userid'] > 0 )
 	{
 		$xtpl->parse( 'main.user_create_newlist' );
 	}
