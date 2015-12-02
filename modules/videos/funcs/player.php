@@ -35,9 +35,9 @@ $contents = '';
 if( isset( $embed ) AND $embed == 'embed') // embed to FB
 {
 	// cache call
+	$cache_file = NV_LANG_DATA . '_' . $module_name . '_' . $op . '_embed_' .  md5( $p_id.$vid_id ) .'_' . NV_CACHE_PREFIX . '.cache';
 	if( ! defined( 'NV_IS_MODADMIN' ) )
 	{
-		$cache_file = NV_LANG_DATA . '_' . $module_name . '_' . $op . '_embed_' .  md5( $p_id.$vid_id ) .'_' . NV_CACHE_PREFIX . '.cache';
 		if( ( $cache = nv_get_cache( $module_name, $cache_file ) ) != false )
 		{
 			$contents = $cache;
@@ -149,6 +149,7 @@ if( isset( $embed ) AND $embed == 'embed') // embed to FB
 		$contents .='</config>';
 		
 		$time_set_cache = filemtime( NV_ROOTDIR . '/' . NV_CACHEDIR .'/'. $module_name . '/' . $cache_file);
+		
 		if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' and ((NV_CURRENTTIME - $time_set_cache) > 43200) )
 		{
 			nv_set_cache( $module_name, $cache_file, $contents );
@@ -160,9 +161,9 @@ if( isset( $embed ) AND $embed == 'embed') // embed to FB
 else
 {
 	// cache call
+	$cache_file = NV_LANG_DATA . '_' . $module_name . '_' . $op . '_' .  md5( $p_id.$vid_id ) .'_' . NV_CACHE_PREFIX . '.cache';
 	if( ! defined( 'NV_IS_MODADMIN' ) )
 	{
-		$cache_file = NV_LANG_DATA . '_' . $module_name . '_' . $op . '_' .  md5( $p_id.$vid_id ) .'_' . NV_CACHE_PREFIX . '.cache';
 		if( ( $cache = nv_get_cache( $module_name, $cache_file ) ) != false )
 		{
 			$contents = $cache;

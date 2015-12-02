@@ -8,11 +8,11 @@
 	
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-hover">
-			<caption><em class="fa fa-file-text-o">&nbsp;</em>{LANG.setting_player} Cấu hình trình phát</caption>
+			<caption><em class="fa fa-file-text-o">&nbsp;</em>{LANG.setting_player}</caption>
 			<tbody>
 				<tr>
 					<th>{LANG.setting_jwplayer_license}</th>
-					<td><input class="form-control" style="width:340px;" name="jwplayer_license" value="{DATA.jwplayer_license}" type="text"/><span class="text-middle">{LANG.jwplayer_license_note} Ghi chú</span></td>
+					<td><input class="form-control" style="width:340px;" name="jwplayer_license" value="{DATA.jwplayer_license}" type="text"/><span class="text-middle"><br/>{LANG.wiki_get_free_jwlicense}</span></td>
 				</tr>
 				
 				<tr>
