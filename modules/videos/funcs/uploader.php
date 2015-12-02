@@ -66,7 +66,7 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 		{
 			if( $item['homeimgthumb'] == 1 OR $item['homeimgthumb'] == 2 ) //image file
 			{
-				$item['src'] = creat_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
+				$item['src'] = videos_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $item['homeimgthumb'] == 3 ) //image url
 			{
@@ -94,11 +94,7 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 
-		if( ! empty( $image_tag ) )
-		{
-			$image_tag = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $image_tag;
-		}
-		$contents = tag_theme( $item_array, $generate_page, $page_title, $description, $image_tag );
+		$contents = tag_theme( $item_array, $generate_page, $page_title, $description, '' );
 
 		if( $page > 1 )
 		{

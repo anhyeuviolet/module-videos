@@ -16,7 +16,7 @@
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="5"><input class="btn btn-primary" type="button" onclick="nv_del_playlist_list(this.form, {PLAYLIST_ID})" value="{LANG.delete_from_block}"></td>
+					<td colspan="5"><input class="btn btn-primary" type="button" onclick="nv_del_playlist_list(this.form, {PLAYLIST_ID})" value="{LANG.delete_from_playlist}"></td>
 				</tr>
 			</tfoot>
 			<tbody>

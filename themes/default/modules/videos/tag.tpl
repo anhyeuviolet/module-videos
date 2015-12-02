@@ -10,7 +10,6 @@
 	</div>
 </div>
 <!-- END: description -->
-
 <!-- BEGIN: topic -->
 <div class="news_column panel panel-default">
 	<div class="panel-body">

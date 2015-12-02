@@ -11,6 +11,11 @@
  if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
 
 $show_no_image = $module_config[$module_name]['show_no_image'];
+if(empty($show_no_image))
+{
+	$show_no_image = 'themes/default/images/' . $module_name . '/' . 'video_placeholder.png';
+}
+
 if( isset( $array_op[1] ) )
 {
 	$alias = trim( $array_op[1] );
@@ -53,7 +58,7 @@ if( isset( $array_op[1] ) )
 
 		$num_items = $db->query( $db->sql() )->fetchColumn();
 
-		$db->select( 't1.id, t1.catid, t1.admin_id, t1.author, t1.sourceid, t1.addtime, t1.edittime, t1.publtime, t1.title, t1.alias, t1.hometext, t1.homeimgfile, t1.homeimgalt, t1.homeimgthumb, t1.allowed_rating, t1.hitstotal, t1.hitscm, t1.total_rating, t1.click_rating, t2.weight' )
+		$db->select( 't1.id, t1.catid, t1.admin_id, t1.admin_name, t1.author, t1.sourceid, t1.addtime, t1.edittime, t1.publtime, t1.title, t1.alias, t1.hometext, t1.homeimgfile, t1.homeimgalt, t1.homeimgthumb, t1.allowed_rating, t1.hitstotal, t1.hitscm, t1.total_rating, t1.click_rating, t2.weight' )
 			->order( 't2.weight ASC' )
 			->limit( $per_page )
 			->offset( ($page - 1) * $per_page );
@@ -61,13 +66,9 @@ if( isset( $array_op[1] ) )
 		$result = $db->query( $db->sql() );
 		while( $item = $result->fetch() )
 		{
-			if( $item['homeimgthumb'] == 1 )//image thumb
+			if( $item['homeimgthumb'] == 1 OR $item['homeimgthumb'] == 2 ) //image file
 			{
-				$item['src'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $item['homeimgfile'];
-			}
-			elseif( $item['homeimgthumb'] == 2 )//image file
-			{
-				$item['src'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $item['homeimgfile'];
+				$item['src'] = videos_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $item['homeimgthumb'] == 3 )//image url
 			{
@@ -82,8 +83,18 @@ if( isset( $array_op[1] ) )
 				$item['src'] = '';
 			}
 
+			$item['title_cut'] = nv_clean60( $item['title'], $module_config[$module_name]['titlecut'], true );
 			$item['alt'] = ! empty( $item['homeimgalt'] ) ? $item['homeimgalt'] : $item['title'];
 			$item['width'] = $module_config[$module_name]['homewidth'];
+			
+			if($item['admin_name'] == $lang_module['guest_post'] )
+			{
+				unset($item['uploader_link']);
+			}
+			else
+			{
+				$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['admin_name'] ;
+			}
 
 			$end_weight = $item['weight'];
 
@@ -117,7 +128,7 @@ if( isset( $array_op[1] ) )
 		{
 			$image_group = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $image_group;
 		}
-		$contents = topic_theme( $item_array, $item_array_other, $generate_page, $page_title, $description, $image_group );
+		$contents = tag_theme( $item_array, $item_array_other, $generate_page, $page_title, $description, $image_group );
 	}
 }
 else
@@ -138,8 +149,8 @@ else
 		);
 
 		$db->sqlreset()
-			->select( 't1.id, t1.catid, t1.admin_id, t1.author, t1.sourceid, t1.addtime, t1.edittime, t1.publtime, t1.title, t1.alias, t1.hometext, t1.homeimgfile, t1.homeimgalt, t1.homeimgthumb, t1.allowed_rating, t1.hitstotal, t1.hitscm, t1.total_rating, t1.click_rating' )
-			->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
+			->select( 't1.id, t1.catid, t1.admin_id, t1.admin_name, t1.author, t1.sourceid, t1.addtime, t1.edittime, t1.publtime, t1.title, t1.alias, t1.hometext, t1.homeimgfile, t1.homeimgalt, t1.homeimgthumb, t1.allowed_rating, t1.hitstotal, t1.hitscm, t1.total_rating, t1.click_rating' )
+			->from( NV_PREFIXLANG . '_' . $module_data . '_rows t1' )
 			->join( 'INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_block t2 ON t1.id = t2.id' )
 			->where( 't2.bid= ' . $bid . ' AND t1.status= 1' )
 			->order( 't2.weight ASC' )
@@ -147,13 +158,9 @@ else
 		$result = $db->query( $db->sql() );
 		while( $item = $result->fetch() )
 		{
-			if( $item['homeimgthumb'] == 1 )//image thumb
+			if( $item['homeimgthumb'] == 1 OR $item['homeimgthumb'] == 2 ) //image file
 			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $item['homeimgfile'];
-			}
-			elseif( $item['homeimgthumb'] == 2 )//image file
-			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $item['homeimgfile'];
+				$item['imghome'] = videos_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $item['homeimgthumb'] == 3 )//image url
 			{

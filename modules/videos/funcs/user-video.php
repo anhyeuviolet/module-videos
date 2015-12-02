@@ -311,6 +311,13 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 			$rowcontent['homeimgfile'] = '';
 			$rowcontent['homeimgthumb'] = 0;
 		}
+		
+		// Auto-Thumb from Youtube - if empty Image
+		if( ($rowcontent['vid_type'] == 2) AND ( empty($rowcontent['homeimgfile']) ) )
+		{
+			$rowcontent['homeimgfile'] = 'http://img.youtube.com/vi/' . get_youtube_id($rowcontent['vid_path']) . '/0.jpg';
+			$rowcontent['homeimgthumb'] = 3;
+		}
 
 		$bodyhtml = $nv_Request->get_string( 'bodyhtml', 'post', '' );
 		$rowcontent['bodyhtml'] = defined( 'NV_EDITOR' ) ? nv_nl2br( $bodyhtml, '' ) : nv_nl2br( nv_htmlspecialchars( strip_tags( $bodyhtml ) ), '<br />' );
@@ -673,13 +680,9 @@ elseif( defined( 'NV_IS_USER' ) )
 		$result = $db->query( $db->sql() );
 		while( $item = $result->fetch() )
 		{
-			if( $item['homeimgthumb'] == 1 ) // image thumb
+			if( $item['homeimgthumb'] == 1 OR $item['homeimgthumb'] == 2 ) //image file
 			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $item['homeimgfile'];
-			}
-			elseif( $item['homeimgthumb'] == 2 ) // image file
-			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $item['homeimgfile'];
+				$item['imghome'] = videos_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $item['homeimgthumb'] == 3 ) // image url
 			{
@@ -687,7 +690,7 @@ elseif( defined( 'NV_IS_USER' ) )
 			}
 			else // no image
 			{
-				$item['imghome'] = NV_BASE_SITEURL . 'themes/' . $global_config['site_theme'] . '/images/no_image.gif';
+				$item['imghome'] = NV_BASE_SITEURL .  'themes/default/images/' . $module_name . '/' . 'video_placeholder.png';
 			}
 
 			$item['is_edit_content'] = ( empty( $item['status'] ) or $array_post_user['editcontent'] ) ? 1 : 0;
@@ -695,6 +698,7 @@ elseif( defined( 'NV_IS_USER' ) )
 
 			$catid = $item['catid'];
 			$item['link'] = $global_array_cat[$catid]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
+			$item['title_cut'] = nv_clean60( $item['title'], $module_config[$module_name]['titlecut'], true );
 			$array_catpage[] = $item;
 		}
 

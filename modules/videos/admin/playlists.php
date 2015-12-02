@@ -110,7 +110,7 @@ $playlist_id = $nv_Request->get_int( 'playlist_id', 'get', 0 );
 if( $playlist_id > 0 )
 {
 	list( $playlist_id, $title, $alias, $description, $image, $keywords, $status, $private_mode ) = $db->query( "SELECT playlist_id, title, alias, description, image, keywords, status, private_mode FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist_cat where playlist_id=" . $playlist_id )->fetch( 3 );
-	$lang_module['add_playlist_cat'] = $lang_module['edit_playlist_cat'];
+$lang_module['add_playlist'] = $lang_module['edit_playlist'];
 }
 
 $lang_global['title_suggest_max'] = sprintf( $lang_global['length_suggest_max'], 65 );

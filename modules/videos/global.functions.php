@@ -384,7 +384,7 @@ function get_link_redirector_picasa($link_picasa){
 	return $links;
 }
 
-
+// Get link Picasa
 function getDirectLink($url){
 	$urlInfo = parse_url($url);  
 	$out  = "GET  {$url} HTTP/1.1\r\n";  
@@ -408,7 +408,7 @@ function getDirectLink($url){
 	return trim($url);  
 }
 
-// Output MP4 direct link
+// Output Picasa MP4 direct link
 function get_link_mp4_picasa($link_picasa){
 	$links= get_link_redirector_picasa($link_picasa);  
 	$links_mp4= array();  
@@ -447,13 +447,13 @@ function humanTiming($time)
 }
 
 /**
- * creat_thumbs()
+ * videos_thumbs()
  * front-end thumbs create
  *
  */
-if( ! nv_function_exists( 'creat_thumbs' ) )
+if( ! nv_function_exists( 'videos_thumbs' ) )
 {
-	function creat_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
+	function videos_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
 	{
 		if( $width >= $height ) $rate = $width / $height;
 		else  $rate = $height / $width;
