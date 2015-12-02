@@ -38,13 +38,11 @@ if( isset( $embed ) AND $embed == 'embed') // embed to FB
 	$cache_file = NV_LANG_DATA . '_' . $module_name . '_' . $op . '_embed_' .  md5( $p_id.$vid_id ) .'_' . NV_CACHE_PREFIX . '.cache';
 	if( ! defined( 'NV_IS_MODADMIN' ) )
 	{
-		if( ( $cache = nv_get_cache( $module_name, $cache_file ) ) != false )
-		{
-			$contents = $cache;
-		}
+		$time_set_cache = NV_CURRENTTIME - filemtime( NV_ROOTDIR . '/' . NV_CACHEDIR .'/'. $module_name . '/' . $cache_file);
+		$contents = $cache;
 	}
 	
-	if( empty( $contents ) )
+	if( empty( $contents ) OR $time_set_cache > 43200 )
 	{
 		if( $p_id > 0 )
 		{
@@ -147,12 +145,14 @@ if( isset( $embed ) AND $embed == 'embed') // embed to FB
 			$contents .= '<file>'.htmlentities($items['href']).'</file>';
 		}
 		$contents .='</config>';
-		
-		$time_set_cache = filemtime( NV_ROOTDIR . '/' . NV_CACHEDIR .'/'. $module_name . '/' . $cache_file);
-		
-		if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' and ((NV_CURRENTTIME - $time_set_cache) > 43200) )
+
+		if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' )
 		{
-			nv_set_cache( $module_name, $cache_file, $contents );
+			$time_set_cache = filemtime( NV_ROOTDIR . '/' . NV_CACHEDIR .'/'. $module_name . '/' . $cache_file);
+			if((NV_CURRENTTIME - $time_set_cache) > 43200)
+			{
+				nv_set_cache( $module_name, $cache_file, $contents );
+			}
 		}
 	}
 	echo $contents;
@@ -166,11 +166,12 @@ else
 	{
 		if( ( $cache = nv_get_cache( $module_name, $cache_file ) ) != false )
 		{
+			$time_set_cache = NV_CURRENTTIME - filemtime( NV_ROOTDIR . '/' . NV_CACHEDIR .'/'. $module_name . '/' . $cache_file);
 			$contents = $cache;
 		}
 	}
 
-	if( empty( $contents ) )
+	if( empty( $contents ) OR $time_set_cache > 43200 )
 	{
 		if( $p_id > 0 )
 		{
@@ -288,8 +289,7 @@ else
 		$contents .='</channel>';
 		$contents .='</rss>';
 
-		$time_set_cache = filemtime( NV_ROOTDIR . '/' . NV_CACHEDIR .'/'. $module_name . '/' . $cache_file);
-		if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' and ((NV_CURRENTTIME - $time_set_cache) > 43200) )
+		if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' )
 		{
 			nv_set_cache( $module_name, $cache_file, $contents );
 		}
