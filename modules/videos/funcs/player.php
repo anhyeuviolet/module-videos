@@ -150,8 +150,8 @@ else
 			$contents = $cache;
 		}
 	}
-
-	if( empty( $contents ) OR $time_set_cache > 43200 )
+		
+	if( empty( $contents )  )
 	{
 		if( $p_id > 0 )
 		{
