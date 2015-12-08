@@ -287,12 +287,10 @@ preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\
 
 // Check URL is Youtube
 function is_youtube($url){
-	if(strlen(get_youtube_id($url)) > 0)
-	{
+	$valid = preg_match("/^(http\:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/watch\?v\=\w+$/", $url);
+	if ($valid) {
 		return true;
-	}
-	else
-	{
+	} else {
 		return false;
 	}
 }
@@ -335,13 +333,16 @@ function get_facebook_mp4($fb_url)
 	 );
 	//Link HD
 	$HD = explode('[{"hd_src":"', $data);
-	$HD = explode('","', $HD[1]);
-	$HD = str_replace('\/', '/', $HD[0]);
-	$mp4 = array(
-		'link_mp4'=>$HD,
-		'quality'=>'720p HD'
-	 );  
-	$fbvid_mp4[] = $mp4;
+	if(!empty($HD[1]))
+	{
+		$HD = explode('","', $HD[1]);
+		$HD = str_replace('\/', '/', $HD[0]);
+		$mp4 = array(
+			'link_mp4'=>$HD,
+			'quality'=>'720p HD'
+		 );  
+		$fbvid_mp4[] = $mp4;
+	}
 	
 	 //Link SD
 	$SD = explode('"sd_src":"', $data);
