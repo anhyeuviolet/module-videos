@@ -595,8 +595,17 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 			foreach( $playlist_array as $playlist_array_i )
 			{
 				$xtpl->assign( 'PLAYLIST_LOOP', $playlist_array_i );
-				$xtpl->assign( 'DATE', date( 'd/m/Y', $playlist_array_i['publtime'] ) );
+				if($playlist_array_i['publtime'] > 0)
+				{
+					$xtpl->assign( 'DATE', date( 'd/m/Y', $playlist_array_i['publtime'] ) );
+					$xtpl->parse( 'main.playlist_loop.publtime' );
+				}
 
+				if( ! empty( $playlist_array_i['num_items'] ) )
+				{
+					$xtpl->parse( 'main.playlist_loop.num_items' );
+				}
+				
 				if( ! empty( $playlist_array_i['src'] ) )
 				{
 					$xtpl->parse( 'main.playlist_loop.homethumb' );

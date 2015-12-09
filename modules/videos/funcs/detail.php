@@ -182,7 +182,9 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	}
 	else
 	{
-		$news_contents['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $news_contents['admin_name'] ;
+		$news_contents['upload_alias'] = change_alias(  $news_contents['admin_name']  );
+		$news_contents['upload_alias'] = strtolower( $news_contents['upload_alias'] );
+		$news_contents['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $news_contents['upload_alias'] . '-' . $news_contents['admin_id'];
 	}
 			
 	if( $module_config[$module_name]['config_source'] == 0 ) $news_contents['source'] = $sourcetext;

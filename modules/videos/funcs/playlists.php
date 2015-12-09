@@ -190,7 +190,6 @@ else
 		{
 			$playlist_array[] = $item;
 		}
-	
 	}
 	$result->closeCursor();
 	unset( $result, $row );

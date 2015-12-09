@@ -122,12 +122,16 @@ function playThis(index) {
 		<!-- END: homethumb -->
 		<div class="videos-thumbnail pull-left col-md-18 col-lg-18 col-xs-18">
 			<h3><a href="{PLAYLIST_LOOP.link}" title="{PLAYLIST_LOOP.title}">{PLAYLIST_LOOP.title}</a></h3>
+			<!-- BEGIN: num_items -->
 			<p>
 				{LANG.playlist_num_videos}&nbsp;:&nbsp;{PLAYLIST_LOOP.num_items}&nbsp;{LANG.video}
 			</p>
+			<!-- END: num_items -->
+			<!-- BEGIN: publtime -->
 			<p>
 				{LANG.create_date}&nbsp;:&nbsp;{DATE}
 			</p>
+			<!-- END: publtime -->
 			<p class="text-justify">
 				{PLAYLIST_LOOP.hometext}
 			</p>
