@@ -330,3 +330,5 @@ $lang_module['minute'] = 'phút trước';
 $lang_module['second'] = 'giây trước';
 
 $lang_module['guest_post'] = 'Khách vãng lai';
+$lang_module['setting_player'] = 'Cấu hình trình phát';
+$lang_module['wiki_get_free_jwlicense'] = '<a title="Hướng dẫn đăng ký JWplayer License" target="_blank" href="https://github.com/anhyeuviolet/module-videos/wiki/H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-%C4%91%C4%83ng-k%C3%BD-Free-License-JWPlayer-7">Hướng dẫn đăng ký JWplayer License</a>';

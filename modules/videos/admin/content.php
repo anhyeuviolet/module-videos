@@ -184,12 +184,23 @@ while( list( $playlist_id,  $title_i ) = $result->fetch( 3 ) )
 $catid = $nv_Request->get_int( 'catid', 'get', 0 );
 $parentid = $nv_Request->get_int( 'parentid', 'get', 0 );
 
+$admin_name = '';
+if( !empty($admin_info['first_name']) OR !empty($admin_info['first_name'] ) )
+{
+	$admin_name = $admin_info['first_name'] . ' ' . $admin_info['last_name'];
+}
+else
+{
+	$admin_name = $admin_info['username'];
+}
+
+
 $rowcontent = array(
 	'id' => '',
 	'catid' => $catid,
 	'listcatid' => $catid . ',' . $parentid,
 	'admin_id' => $admin_id,
-	'admin_name' => $admin_info['username'],
+	'admin_name' => $admin_name,
 	'author' => '',
 	'artist' => '',
 	'sourceid' => 0,

@@ -182,9 +182,6 @@
 						<a href="{RELATED_NEW.link}">{RELATED_NEW.title}</a>
 					</h4>
 					<em>({RELATED_NEW.time})</em>
-					<!-- BEGIN: newday -->
-					<span class="icon_new">&nbsp;</span>
-					<!-- END: newday -->
 				</div>
 			</div>
 			<!-- END: loop -->
@@ -207,9 +204,6 @@
 						<a href="{RELATED.link}">{RELATED.title}</a>
 					</h4>
 					<em>({RELATED.time})</em>
-					<!-- BEGIN: newday -->
-					<span class="icon_new">&nbsp;</span>
-					<!-- END: newday -->
 				</div>
 			</div>
 			<!-- END: loop -->

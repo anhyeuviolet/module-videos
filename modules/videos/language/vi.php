@@ -209,3 +209,4 @@ $lang_module['hits_view'] = ' Lượt xem';
 $lang_module['guest_post'] = 'Khách vãng lai';
 $lang_module['uploaded_by'] = 'Video upload bởi ';
 $lang_module['create_date'] = 'Ngày tạo';
+$lang_module['groups_show_list'] = 'Danh sách Thể loại';

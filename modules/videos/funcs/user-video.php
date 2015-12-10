@@ -143,9 +143,9 @@ if( ! $array_post_user['addcontent'] )
 	include NV_ROOTDIR . '/includes/footer.php';
 }
 
-if( $nv_Request->isset_request( 'get_content_alias', 'post' ) )
+if( $nv_Request->isset_request( 'get_alias', 'post' ) )
 {
-	$title = $nv_Request->get_title( 'get_content_alias', 'post', '' );
+	$title = $nv_Request->get_title( 'get_alias', 'post', '' );
 	$alias = change_alias( $title );
 	$alias = strtolower( $alias );
 
@@ -204,13 +204,26 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 		'title' => $lang_module['add_content'],
 		'link' => $base_url
 	);
-
+	
+	$admin_name = '';
+	if(defined( 'NV_IS_USER' ))
+	{
+		if( !empty($user_info['first_name']) OR !empty($user_info['first_name'] ) )
+		{
+			$admin_name = $user_info['first_name'] . ' ' . $user_info['last_name'];
+		}
+		else
+		{
+			$admin_name = $user_info['username'];
+		}
+	}
+	
 	$rowcontent = array(
 		'id' => '',
 		'listcatid' => '',
 		'catid' => ( $contentid > 0 ) ? $rowcontent_old['catid'] : 0,
 		'admin_id' => ( defined( 'NV_IS_USER' ) ) ? $user_info['userid'] : 1, // Anonymous videos will be moderated by Admin.
-		'admin_name' => ( defined( 'NV_IS_USER' ) ) ? $user_info['username'] : $lang_module['guest_post'],
+		'admin_name' => ( defined( 'NV_IS_USER' ) ) ? $admin_name : $lang_module['guest_post'],
 		'author' => '',
 		'artist' => '',
 		'sourceid' => 0,
@@ -279,25 +292,18 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 
 		// Xu ly Video link
 		$rowcontent['vid_type'] = 0;
-		if( nv_is_url( $rowcontent['vid_path'] ) )
+		if(is_youtube($rowcontent['vid_path']))
 		{
-			if(is_youtube($rowcontent['vid_path']))
-			{
-				$rowcontent['vid_type'] = 2; //is Youtube
-			}
-			elseif( is_picasa($rowcontent['vid_path']) )
-			{
-				$rowcontent['vid_type'] = 3; //is Picasa
-			}
-			else
-			{
-				$rowcontent['vid_path'] = ''; //return blank
-				$rowcontent['vid_type'] = ''; //return blank
-			}
+			$rowcontent['vid_type'] = 2; //is Youtube
+		}
+		elseif( is_picasa($rowcontent['vid_path']) )
+		{
+			$rowcontent['vid_type'] = 3; //is Picasa
 		}
 		else
 		{
-			$rowcontent['vid_path'] = '';
+			$rowcontent['vid_path'] = ''; //return blank
+			$rowcontent['vid_type'] = ''; //return blank
 		}
 
 		// Xu ly anh minh hoa
@@ -646,7 +652,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 	{
 		$contents .= "<script type=\"text/javascript\">\n";
 		$contents .= '$("#idtitle").change(function () {
- 		get_content_alias();
+ 		get_alias();
 		});';
 		$contents .= "</script>\n";
 	}

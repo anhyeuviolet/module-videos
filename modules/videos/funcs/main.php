@@ -85,14 +85,17 @@ if( empty( $contents ) )
 			{
 				$item['imghome'] = '';
 			}
-			
+
+
 			if($item['admin_name'] == $lang_module['guest_post'] )
 			{
 				unset($item['uploader_link']);
 			}
 			else
 			{
-				$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['admin_name'] ;
+				$item['upload_alias'] = change_alias(  $item['admin_name']  );
+				$item['upload_alias'] = strtolower( $item['upload_alias'] );
+				$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['admin_name']  . '-' . $item['admin_id'];
 			}
 
 			$item['newday'] = $global_array_cat[$item['catid']]['newday'];
@@ -174,7 +177,9 @@ if( empty( $contents ) )
 					}
 					else
 					{
-						$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['admin_name'] ;
+						$item['upload_alias'] = change_alias(  $item['admin_name']  );
+						$item['upload_alias'] = strtolower( $item['upload_alias'] );
+						$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['upload_alias']  . '-' . $item['admin_id'];
 					}
 					$array_cat[$key]['content'][] = $item;
 				}
@@ -226,7 +231,9 @@ if( empty( $contents ) )
 			}
 			else
 			{
-				$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['admin_name'] ;
+				$item['upload_alias'] = change_alias(  $item['admin_name']  );
+				$item['upload_alias'] = strtolower( $item['upload_alias'] );
+				$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['upload_alias'] . '-' . $item['admin_id'];
 			}
 			
 			$item['newday'] = $global_array_cat[$item['catid']]['newday'];
