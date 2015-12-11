@@ -35,7 +35,7 @@ playerInstance.setup({
 	image: "{PLAYLIST_IMAGE}",
 	autostart: {VIDEO_CONFIG.jwplayer_autoplay},
 	aspectratio: "16:9",
-	playlist : "{NV_BASE_SITEURL}{MODULE_NAME}/player/{RAND_SS}{PLAYLIST_ID}-{PLIST_CHECKSS}-{RAND_SS}{FAKE_ID}/",
+	playlist : "{NV_BASE_SITEURL}{MODULE_NAME}/player/{RAND_SS}{PLAYLIST_ID}-{PLIST_CHECKSS}-{RAND_SS}{FAKE_ID}{EXT_URL}",
 	controls: {VIDEO_CONFIG.jwplayer_controlbar},
 	displaydescription: true,
 	displaytitle: true,
