@@ -149,7 +149,7 @@ else
 			$time_set_cache = NV_CURRENTTIME - filemtime( NV_ROOTDIR . '/' . NV_CACHEDIR .'/'. $module_name . '/' . $cache_file);
 			if( $time_set_cache > 86400 )
 			{
-				unset(NV_ROOTDIR . '/' . NV_CACHEDIR .'/'. $module_name . '/' . $cache_file);
+				unlink( NV_ROOTDIR . '/' . NV_CACHEDIR .'/'. $module_name . '/' . $cache_file );
 				$contents = '';
 			}
 			else
