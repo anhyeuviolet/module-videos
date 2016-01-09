@@ -101,7 +101,7 @@ if ( ! nv_function_exists( 'nv_blog_news_tags' ) )
 	{
 	$sql='SELECT tid, numnews, alias, keywords FROM ' . NV_PREFIXLANG . '_' . $mod_data . '_tags ORDER BY '. $block_config['tagsort'].' '. $block_config['tagsort_type'].' LIMIT 0, ' . $block_config['numrow'];
 	}
-	$list = nv_db_cache( $sql, 'id', $module );
+	$list = $nv_Cache->db( $sql, 'id', $module );
       
       if( !empty( $list ) )
       {

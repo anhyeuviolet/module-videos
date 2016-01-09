@@ -18,7 +18,7 @@ if( ! nv_function_exists( 'nv_block_news_groups_multi_tabs' ) )
 		$html = '<tr>';
 		$html .= '<td>' . $lang_block['blockid'] . '</td>';
 		$sql = 'SELECT bid, title FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_block_cat ORDER BY weight ASC';
-		$list = nv_db_cache( $sql, '', $module );
+		$list = $nv_Cache->db( $sql, '', $module );
 		$html .= '<td>';
 		foreach( $list as $l )
 		{
@@ -101,7 +101,7 @@ if( ! nv_function_exists( 'nv_block_news_groups_multi_tabs' ) )
 				->where( 't2.bid= ' . $data['bid'] . ' AND t1.status= 1' )
 				->order( 't2.weight ASC' )
 				->limit( $block_config['numrow'] );
-			$list = nv_db_cache( $db->sql(), '', $module );
+			$list = $nv_Cache->db( $db->sql(), '', $module );
 
 			if( ! empty( $list ) )
 			{
@@ -160,7 +160,7 @@ if( defined( 'NV_SYSTEM' ) )
 		{
 			$module_array_cat = array();
 			$sql = 'SELECT catid, parentid, title, alias, viewcat, subcatid, numlinks, description, inhome, keywords, groups_view FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_cat ORDER BY sort ASC';
-			$list = nv_db_cache( $sql, 'catid', $module );
+			$list = $nv_Cache->db( $sql, 'catid', $module );
 			foreach( $list as $l )
 			{
 				$module_array_cat[$l['catid']] = $l;

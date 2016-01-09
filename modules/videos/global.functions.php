@@ -80,8 +80,8 @@ function nv_set_status_module()
 	$sth->bindValue( ':config_value', intval( $timecheckstatus ), PDO::PARAM_STR );
 	$sth->execute();
 
-	nv_del_moduleCache( 'settings' );
-	nv_del_moduleCache( $module_name );
+	$nv_Cache->delMod( 'settings' );
+	$nv_Cache->delMod( $module_name );
 
 	unlink( $check_run_cronjobs );
 	clearstatcache();
@@ -475,7 +475,7 @@ if( ! nv_function_exists( 'videos_thumbs' ) )
 			else
 			{
 
-				$_image = new image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
+				$_image = new NukeViet\Files\Image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 
 				if( $imginfo['width'] <= $imginfo['height'] )
 				{

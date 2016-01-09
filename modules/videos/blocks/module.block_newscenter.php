@@ -56,7 +56,7 @@ if ( ! nv_function_exists( 'nv_news_block_newscenter' ) )
         $html .= '<tr>';
         $html .= '<td>' . $lang_block['nocatid'] . '</td>';
         $sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_cat ORDER BY sort ASC';
-        $list = nv_db_cache( $sql, '', $module );
+        $list = $nv_Cache->db( $sql, '', $module );
         $html .= '<td>';
         $html .= '<div style="height: 160px; overflow: auto">';
         foreach( $list as $l )
@@ -109,7 +109,7 @@ if ( ! nv_function_exists( 'nv_news_block_newscenter' ) )
         	$db->where( 'status= 1 AND catid NOT IN ('.implode( ',', $block_config['nocatid'] ) . ')' );
         }
 
-        $list = nv_db_cache( $db->sql(), 'id', $module_name );
+        $list = $nv_Cache->db( $db->sql(), 'id', $module_name );
         if ( ! empty( $list ) )
         {
             $xtpl = new XTemplate( 'block_newscenter.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
@@ -146,7 +146,7 @@ if ( ! nv_function_exists( 'nv_news_block_newscenter' ) )
                             }
                             else
                             {
-                                $_image = new image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
+                                $_image = new NukeViet\Files\Image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
                                 $_image->resizeXY( $width, $height );
                                 $_image->save( NV_ROOTDIR . '/' . NV_TEMP_DIR, $basename );
                                 if ( file_exists( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $basename ) )

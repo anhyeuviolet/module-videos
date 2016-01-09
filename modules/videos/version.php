@@ -18,7 +18,7 @@ $module_version = array(
 	'is_sysmod' => 0, // 1:0 => Co phai la module he thong hay khong
 	'virtual' => 1, // 1:0 => Co cho phep ao hoa module hay khong
 	'version' => '0.1.06', // Phien ban cua module
-	'date' => 'Thu, Dec 09, 2015 00:00:00 GMT', // Ngay phat hanh phien ban
+	'date' => 'Sat, Jan 09, 2016 00:00:00 GMT', // Ngay phat hanh phien ban
 	'author' => 'KENNYNGUYEN (nguyentiendat713@gmail.com)', // Tac gia
 	'note' => '', // Ghi chu
 	'uploads_dir' => array( $module_upload, $module_upload . '/img', $module_upload . '/vid', $module_upload . '/img/playlists', $module_upload . '/img/groups',$module_upload . '/thumbs'),

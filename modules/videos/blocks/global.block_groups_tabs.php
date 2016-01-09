@@ -22,7 +22,7 @@ if( ! nv_function_exists( 'nv_block_news_groups_tabs' ) )
 		$html .= '<td><select name="config_blockid" class="form-control w200">';
 		$html .= '<option value="0"> -- </option>';
 		$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_block_cat ORDER BY weight ASC';
-		$list = nv_db_cache( $sql, '', $module );
+		$list = $nv_Cache->db( $sql, '', $module );
 		foreach( $list as $l )
 		{
 			$html .= '<option value="' . $l['bid'] . '" ' . ( ( $data_block['blockid'] == $l['bid'] ) ? ' selected="selected"' : '' ) . '>' . $l['title'] . '</option>';
@@ -72,7 +72,7 @@ if( ! nv_function_exists( 'nv_block_news_groups_tabs' ) )
 		$xtpl = new XTemplate( 'block_groups_tabs.tpl', NV_ROOTDIR . '/themes/' . $block_theme . '/modules/news' );
 
 		$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_block_cat WHERE bid='.$block_config['blockid'];
-		$list = nv_db_cache( $sql, '', $module );
+		$list = $nv_Cache->db( $sql, '', $module );
 		foreach( $list as $l )
 		{
 			$block_select = $l;
@@ -85,7 +85,7 @@ if( ! nv_function_exists( 'nv_block_news_groups_tabs' ) )
 			->where( 't2.bid= ' . $block_config['blockid'] . ' AND t1.status= 1' )
 			->order( 't2.weight ASC' )
 			->limit( $block_config['numrow'] );
-		$list = nv_db_cache( $db->sql(), '', $module );
+		$list = $nv_Cache->db( $db->sql(), '', $module );
 
 		if( ! empty( $list ) )
 		{
@@ -130,7 +130,7 @@ if( ! nv_function_exists( 'nv_block_news_groups_tabs' ) )
 			->where( 'status= 1' )
 			->order( 'publtime DESC' )
 			->limit( $block_config['numrow'] );
-		$last = nv_db_cache( $db->sql(), '', $module );
+		$last = $nv_Cache->db( $db->sql(), '', $module );
 		if( ! empty( $last ) )
 		{
 			foreach( $last as $ls )
@@ -186,7 +186,7 @@ if( defined( 'NV_SYSTEM' ) )
 		{
 			$module_array_cat = array();
 			$sql = 'SELECT catid, parentid, title, alias, viewcat, subcatid, numlinks, description, inhome, keywords, groups_view FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_cat ORDER BY sort ASC';
-			$list = nv_db_cache( $sql, 'catid', $module );
+			$list = $nv_Cache->db( $sql, 'catid', $module );
 			foreach( $list as $l )
 			{
 				$module_array_cat[$l['catid']] = $l;
