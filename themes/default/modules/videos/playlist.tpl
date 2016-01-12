@@ -20,14 +20,14 @@
 <div class="detail_video margin-bottom-lg margin-top-lg col-xs-24 col-md-24 col-lg-24">
 	<div class="videoplayer">
 		<div id="videoCont">
-			<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_NAME}/loading.gif" class="center-block" alt="Loading player" />
+			<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_FILE}/loading.gif" class="center-block" alt="Loading player" />
 		</div>
 		<div class="PlaylistCont margin-top-lg">
 			<div id="show-list"></div>
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/jwplayer.js"></script>
 <script type="text/javascript">jwplayer.key="{VIDEO_CONFIG.jwplayer_license}";</script>
 <script type="text/javascript">
 var playerInstance = jwplayer("videoCont");
@@ -39,7 +39,7 @@ playerInstance.setup({
 	controls: {VIDEO_CONFIG.jwplayer_controlbar},
 	displaydescription: true,
 	displaytitle: true,
-	flashplayer: "{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.flash.swf",
+	flashplayer: "{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/jwplayer.flash.swf",
 	primary: "html5",
 	repeat: {VIDEO_CONFIG.jwplayer_loop},
 	mute: {VIDEO_CONFIG.jwplayer_mute},

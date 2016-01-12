@@ -19,7 +19,7 @@
 			<div class="videoplayer">
 				<!-- BEGIN: vid_jw_content -->
 				<div id="videoCont">
-					<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_NAME}/loading.gif" class="center-block mar_rgt_auto img-responsive" alt="Loading player" />
+					<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_FILE}/loading.gif" class="center-block mar_rgt_auto img-responsive" alt="Loading player" />
 				</div>
 				<!-- END: vid_jw_content -->
 			</div>
@@ -213,7 +213,7 @@
 <!-- END: others -->
 
 <!-- BEGIN: jwplayer -->
-<script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/jwplayer.js"></script>
 <script type="text/javascript">jwplayer.key="{VIDEO_CONFIG.jwplayer_license}";</script>
 <script type="text/javascript">
 var playerInstance = jwplayer("videoCont");
@@ -225,7 +225,7 @@ playerInstance.setup({
 	displaydescription: true,
 	playlist: "{NV_BASE_SITEURL}{MODULE_NAME}/player/{RAND_SS}{DETAIL.fake_pl_id}-{DETAIL.newscheckss}-{RAND_SS}{DETAIL.id}{EXT_URL}",
 	displaytitle: true,
-	flashplayer: "{NV_BASE_SITEURL}themes/default/modules/{MODULE_NAME}/jwplayer/jwplayer.flash.swf",
+	flashplayer: "{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/jwplayer.flash.swf",
 	primary: "html5",
 	repeat: {VIDEO_CONFIG.jwplayer_loop},
 	mute: {VIDEO_CONFIG.jwplayer_mute},

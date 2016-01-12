@@ -290,6 +290,7 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	$xtpl->assign( 'TEMPLATE', $global_config['module_theme'] );
 	$xtpl->assign( 'MODULE_NAME', $module_name );
 	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'MODULE_FILE', $module_file );
 	
 	$xtpl->assign( 'IMGWIDTH', $module_config[$module_name]['homewidth'] );
 	$xtpl->assign( 'IMGHEIGHT', $module_config[$module_name]['homeheight'] );
@@ -531,6 +532,7 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 	$xtpl->assign( 'RAND_SS', rand(1000,9999) );
 	$xtpl->assign( 'EXT_URL', $global_config['rewrite_endurl'] );
 	$xtpl->assign( 'MODULE_NAME', $module_name );
+	$xtpl->assign( 'MODULE_FILE', $module_file );
 	$xtpl->assign( 'PLAYLIST_ID', $playlist_id );
 	$xtpl->assign( 'FAKE_ID', 0 );
 	$xtpl->assign( 'PLIST_CHECKSS', $pl_ss);
