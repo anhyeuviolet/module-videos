@@ -5,7 +5,7 @@
  * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
  * @Website tradacongnghe.com
  * @License GNU/GPL version 2 or any later version
- * @Createdate Fri, 28 Jan 2016 14:00:59 GMT
+ * @Createdate Sat, 30 Jan 2016 10:00:59 GMT
  */
 
 if( ! defined( 'NV_ADMIN' ) or ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
@@ -17,8 +17,8 @@ $module_version = array(
 	'submenu' => 'user-playlist,user-video,rss,search',
 	'is_sysmod' => 0, // 1:0 => Co phai la module he thong hay khong
 	'virtual' => 1, // 1:0 => Co cho phep ao hoa module hay khong
-	'version' => '0.1.07', // Phien ban cua module
-	'date' => 'Fri, 28 Jan 2016 14:00:59 GMT', // Ngay phat hanh phien ban
+	'version' => '0.1.08', // Phien ban cua module
+	'date' => 'Sat, 30 Jan 2016 10:00:59 GMT', // Ngay phat hanh phien ban
 	'author' => 'KENNYNGUYEN (nguyentiendat713@gmail.com)', // Tac gia
 	'note' => 'Compatible with NukeViet RC', // Ghi chu
 	'uploads_dir' => array( $module_upload, $module_upload . '/img', $module_upload . '/vid', $module_upload . '/img/playlists', $module_upload . '/img/groups',$module_upload . '/thumbs'),
