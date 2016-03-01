@@ -154,6 +154,26 @@ if( $nv_Request->isset_request( 'get_alias', 'post' ) )
 	include NV_ROOTDIR . '/includes/footer.php';
 }
 
+if( $nv_Request->isset_request( 'get_duration', 'post' ) )
+{
+	$path = $nv_Request->get_string( 'get_duration', 'post', '' );
+	$mod = $nv_Request->get_string( 'mod', 'post', '' );
+	$path = urldecode($path);
+	if( !empty($path) AND is_youtube($path) )
+	{
+		$_vid_duration = youtubeVideoDuration($path);
+		$duration = sec2hms($_vid_duration);
+	}
+	else
+	{
+		$duration = '';
+	}
+
+	include NV_ROOTDIR . '/includes/header.php';
+	echo $duration;
+	include NV_ROOTDIR . '/includes/footer.php';
+}
+
 $contentid = $nv_Request->get_int( 'contentid', 'get,post', 0 );
 $fcheckss = $nv_Request->get_title( 'checkss', 'get,post', '' );
 $checkss = md5( $contentid . $client_info['session_id'] . $global_config['sitekey'] );
@@ -236,6 +256,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 		'title' => '',
 		'alias' => '',
 		'vid_path' => '',
+		'vid_duration' => '',
 		'vid_type' => '',
 		'hometext' => '',
 		'homeimgfile' => '',
@@ -286,6 +307,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 
 		$rowcontent['hometext'] = $nv_Request->get_title( 'hometext', 'post', '' );
 		$rowcontent['vid_path'] = $nv_Request->get_title( 'vid_path', 'post', '' );
+		$rowcontent['vid_duration'] = $nv_Request->get_title( 'vid_duration', 'post', '' );
 		$rowcontent['homeimgfile'] = $nv_Request->get_title( 'homeimgfile', 'post', '' );
 		$rowcontent['homeimgalt'] = $nv_Request->get_title( 'homeimgalt', 'post', '', 1 );
 		$rowcontent['sourcetext'] = $nv_Request->get_title( 'sourcetext', 'post', '' );
@@ -324,7 +346,14 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 			$rowcontent['homeimgfile'] = 'http://img.youtube.com/vi/' . get_youtube_id($rowcontent['vid_path']) . '/0.jpg';
 			$rowcontent['homeimgthumb'] = 3;
 		}
-
+		
+		// Auto-duration from Youtube - if empty 
+		if( ($rowcontent['vid_type'] == 2) AND ( empty($rowcontent['vid_duration']) ) )
+		{
+			$_vid_duration = youtubeVideoDuration($rowcontent['vid_path']);
+			$rowcontent['vid_duration'] = sec2hms($_vid_duration);
+		}
+		
 		$bodyhtml = $nv_Request->get_string( 'bodyhtml', 'post', '' );
 		$rowcontent['bodyhtml'] = defined( 'NV_EDITOR' ) ? nv_nl2br( $bodyhtml, '' ) : nv_nl2br( nv_htmlspecialchars( strip_tags( $bodyhtml ) ), '<br />' );
 
@@ -376,7 +405,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 			if( $rowcontent['id'] == 0 )
 			{
 				$_sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_rows
-						(catid, listcatid, admin_id, admin_name, author, artist, sourceid, addtime, edittime, status, publtime, exptime, archive, title, alias, hometext, vid_path, vid_type, homeimgfile, homeimgalt, homeimgthumb, inhome, allowed_comm, allowed_rating, hitstotal, hitscm, total_rating, click_rating) VALUES
+						(catid, listcatid, admin_id, admin_name, author, artist, sourceid, addtime, edittime, status, publtime, exptime, archive, title, alias, hometext, vid_path, vid_duration, vid_type, homeimgfile, homeimgalt, homeimgthumb, inhome, allowed_comm, allowed_rating, hitstotal, hitscm, total_rating, click_rating) VALUES
 						 (" . intval( $rowcontent['catid'] ) . ",
 						 " . $db->quote( $rowcontent['listcatid'] ) . ",
 						 " . intval( $rowcontent['admin_id'] ) . ",
@@ -394,6 +423,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 						 " . $db->quote( $rowcontent['alias'] ) . ",
 						 " . $db->quote( $rowcontent['hometext'] ) . ",
 						 " . $db->quote( $rowcontent['vid_path'] ) . ",
+						 " . $db->quote( $rowcontent['vid_duration'] ) . ",
 						 " . intval( $rowcontent['vid_type'] ) . ",
 						 " . $db->quote( $rowcontent['homeimgfile'] ) . ",
 						 " . $db->quote( $rowcontent['homeimgalt'] ) . ",
@@ -455,6 +485,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 						 title=" . $db->quote( $rowcontent['title'] ) . ",
 						 alias=" . $db->quote( $rowcontent['alias'] ) . ",
 						 vid_path=" . $db->quote( $rowcontent['vid_path'] ) . ",
+						 vid_duration=" . $db->quote( $rowcontent['vid_duration'] ) . ",
  						 vid_type=" . intval( $rowcontent['vid_type'] ) . ",
 						 hometext=" . $db->quote( $rowcontent['hometext'] ) . ",
 						 homeimgfile=" . $db->quote( $rowcontent['homeimgfile'] ) . ",
@@ -656,6 +687,15 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 		});';
 		$contents .= "</script>\n";
 	}
+	
+	if( empty( $rowcontent['vid_duration'] ) )
+	{
+		$contents .= "<script type=\"text/javascript\">\n";
+		$contents .= '$("#vid_path").change(function () {
+ 		get_duration();
+		});';
+		$contents .= "</script>\n";
+	}
 }
 elseif( defined( 'NV_IS_USER' ) )
 {
@@ -678,7 +718,7 @@ elseif( defined( 'NV_IS_USER' ) )
 	$num_items = $db->query( $db->sql() )->fetchColumn();
 	if( $num_items )
 	{
-		$db->select( 'id, catid, listcatid, admin_id, admin_name, author, artist, sourceid, addtime, edittime, status, publtime, title, alias, hometext, vid_path, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
+		$db->select( 'id, catid, listcatid, admin_id, admin_name, author, artist, sourceid, addtime, edittime, status, publtime, title, alias, hometext, vid_path, vid_duration, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
 			->order( 'id DESC' )
 			->limit( $per_page )
 			->offset( ( $page - 1 ) * $per_page );

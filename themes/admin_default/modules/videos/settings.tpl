@@ -13,8 +13,7 @@
 				<tr>
 					<th>{LANG.setting_jwplayer_license}</th>
 					<td><input class="form-control" style="width:340px;" name="jwplayer_license" value="{DATA.jwplayer_license}" type="text"/><span class="text-middle"><br/>{LANG.wiki_get_free_jwlicense}</span></td>
-				</tr>
-				
+				</tr>			
 				<tr>
 					<th>{LANG.setting_jwplayer_autoplay}</th>
 					<td>
@@ -209,6 +208,10 @@
 				<tr>
 					<th>{LANG.facebookAppID}</th>
 					<td><input class="form-control w150" name="facebookappid" value="{DATA.facebookappid}" type="text"/><span class="text-middle">{LANG.facebookAppIDNote}</span></td>
+				</tr>
+				<tr>
+					<th>{LANG.setting_youtube_api}</th>
+					<td><input class="form-control" style="width:340px;" name="youtube_api" value="{DATA.youtube_api}" type="text"/><span class="text-middle"><br/>{LANG.wiki_get_free_youtube_api}</span></td>
 				</tr>
 				<tr>
 					<th>{LANG.setting_alias_lower}</th>

@@ -53,7 +53,12 @@
 			<input class="form-control" style="width:380px" type="text" name="vid_path" id="vid_path" placeholder="{LANG.videos_sources_placeholder}" value="{DATA.vid_path}"/>
 		</div>
 	</div>
-	
+	<div class="form-group">
+		<label class="col-sm-4 control-label">{LANG.videos_duration}</label>
+		<div class="col-sm-20">
+			<input class="form-control pull-left" style="width:100px" type="text" name="vid_duration" id="vid_duration" placeholder="00:00:00" value="{DATA.vid_duration}"/>&nbsp; <em class="fa fa-refresh fa-lg fa-pointer pull-left" style="cursor: pointer; vertical-align: middle; margin: 9px 0 0 4px" onclick="get_duration();">&nbsp;</em>
+		</div>
+	</div>
 	<div class="form-group">
 		<label class="col-sm-4 control-label">{LANG.content_homeimg}</label>
 		<div class="col-sm-20">

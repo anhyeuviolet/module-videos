@@ -39,6 +39,7 @@ if( ! empty( $savesetting ) )
 	$array_config['playlist_allow_detele'] = $nv_Request->get_int( 'playlist_allow_detele', 'post', 0 );
 	$array_config['playlist_max_items'] = $nv_Request->get_title( 'playlist_max_items', 'post', '', 0 );
 	
+	$array_config['youtube_api'] = $nv_Request->get_title( 'youtube_api', 'post', '' );
 	$array_config['jwplayer_license'] = $nv_Request->get_title( 'jwplayer_license', 'post', '' );
 	$array_config['jwplayer_autoplay'] = $nv_Request->get_title( 'jwplayer_autoplay', 'post', 0 );
 	$array_config['jwplayer_loop'] = $nv_Request->get_title( 'jwplayer_loop', 'post', '', 0 );

@@ -193,6 +193,7 @@ $lang_module['video_more_text'] = 'Mở rộng';
 $lang_module['video_less_text'] = 'Thu gọn';
 
 $lang_module['error_vid_path'] = 'Liên kết Video thiếu hoặc sai quy định';
+$lang_module['videos_duration'] = 'Thời lượng';
 
 $lang_module['year'] = 'năm trước';
 $lang_module['month'] = 'tháng trước';

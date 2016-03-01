@@ -50,6 +50,21 @@ function get_alias() {
 	return false;
 }
 
+function get_duration(mod) {
+	var path = strip_tags(document.getElementById('vid_path').value);
+	if (path != '') {
+		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-video&nocache=' + new Date().getTime(), 'get_duration=' + path + '&mod=' + mod, function(res) {
+			if (res != "") {
+				document.getElementById('vid_duration').value = res;
+			} else {
+				document.getElementById('vid_duration').value = '';
+			}
+		});
+	}
+	return false;
+}
+
+
 $(window).load(function(){
 	var newsW = $('#news-bodyhtml').innerWidth();
 	$.each($('#news-bodyhtml img'), function(){
