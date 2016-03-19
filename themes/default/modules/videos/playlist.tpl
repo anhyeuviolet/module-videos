@@ -16,6 +16,14 @@
 </div>
 <!-- END: playlist_info -->
 
+<!-- BEGIN: no_jwp_lic_admin -->
+<div class="clear alert alert-warning"><a href="{SETTING_LINKS}" title="{LANG.no_jwp_lic_admin}"><strong>{LANG.no_jwp_lic_admin}</strong>&nbsp;<em class="fa fa-external-link"></em></a> </div>
+<!-- END: no_jwp_lic_admin -->
+
+<!-- BEGIN: no_jwp_lic -->
+<div class="clear alert alert-warning"><strong>{LANG.no_jwp_lic}</strong></div>
+<!-- END: no_jwp_lic -->
+
 <!-- BEGIN: player -->
 <div class="detail_video margin-bottom-lg margin-top-lg col-xs-24 col-md-24 col-lg-24">
 	<div class="videoplayer">

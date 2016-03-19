@@ -16,6 +16,14 @@
 			</ul>
 		</div>
 		<div class="detail_video">
+			<!-- BEGIN: no_jwp_lic_admin -->
+			<div class="alert alert-warning"><a href="{SETTING_LINKS}" title="{LANG.no_jwp_lic_admin}"><strong>{LANG.no_jwp_lic_admin}</strong>&nbsp;<em class="fa fa-external-link"></em></a> </div>
+			<!-- END: no_jwp_lic_admin -->
+
+			<!-- BEGIN: no_jwp_lic -->
+			<div class="alert alert-warning"><strong>{LANG.no_jwp_lic}</strong></div>
+			<!-- END: no_jwp_lic -->
+
 			<div class="videoplayer">
 				<!-- BEGIN: vid_jw_content -->
 				<div id="videoCont">

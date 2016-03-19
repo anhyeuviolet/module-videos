@@ -17,6 +17,8 @@ $lang_translator['copyright'] = '@Copyright (C) 2012 VINADES.,JSC. All rights re
 $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_module';
 
+$lang_module['no_jwp_lic_admin'] = 'Chưa cấu hình License JWplayer';
+$lang_module['no_jwp_lic'] = 'Trình phát bị lỗi. Vui lòng liên hệ với quản trị trang để được hỗ trợ.';
 $lang_module['nocatpage'] = 'Lỗi không có chủ đề';
 $lang_module['other'] = 'Các tin khác';
 $lang_module['detail'] = 'Chi tiết tin';

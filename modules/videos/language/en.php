@@ -17,6 +17,8 @@ $lang_translator['copyright'] = '@Copyright (C) 2010 VINADES.,JSC. All rights re
 $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_module';
 
+$lang_module['no_jwp_lic_admin'] = 'JWplayer License Error';
+$lang_module['no_jwp_lic'] = 'Player error. Please contact to Webmaster for more infomation.';
 $lang_module['nocatpage'] = 'Error:No topic';
 $lang_module['other'] = 'Other';
 $lang_module['detail'] = 'Detailed information';

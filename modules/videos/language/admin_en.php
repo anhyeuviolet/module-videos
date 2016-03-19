@@ -17,6 +17,7 @@ $lang_translator['copyright'] = '@Copyright (C) 2010 VINADES.,JSC. All rights re
 $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_module';
 
+$lang_module['no_jwp_lic'] = 'JWplayer License Error';
 $lang_module['categories'] = 'Categories';
 $lang_module['select_category'] = 'Select Category';
 $lang_module['playlists'] = 'Playlists';

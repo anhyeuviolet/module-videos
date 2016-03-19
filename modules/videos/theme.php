@@ -305,6 +305,14 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	$xtpl->assign( 'DETAIL', $news_contents );
 	$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
 	$xtpl->assign( 'USERLIST_OPS',  $module_info['alias']['user-playlist'] );
+	
+	if( empty($module_config['jwplayer_license']) AND defined( 'NV_IS_MODADMIN' ) ){
+		$xtpl->assign( 'SETTING_LINKS',  NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=setting#jwplayer_license' );
+		$xtpl->parse( 'main.no_jwp_lic_admin' );
+	}elseif( empty($module_config['jwplayer_license']) OR !isset($module_config['jwplayer_license']) ){
+		$xtpl->parse( 'main.no_jwp_lic' );
+	}
+
 	if( !empty($module_config[$module_name]['jwplayer_logo_file']) and file_exists( NV_ROOTDIR .'/'. $module_config[$module_name]['jwplayer_logo_file'] ) )
 	{
 		$lu = strlen( NV_BASE_SITEURL );
@@ -543,7 +551,7 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 		$lu = strlen( NV_BASE_SITEURL );
 		$module_config[$module_name]['jwplayer_logo_file'] = NV_BASE_SITEURL . $module_config[$module_name]['jwplayer_logo_file'];
 	}
-
+		
 	$xtpl->assign( 'VIDEO_CONFIG', $module_config[$module_name] );
 
 	if( ! empty( $playlist_info ) )
@@ -578,6 +586,12 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 			{
 				if( $playlist_info['private_mode'] != 1 OR $playlist_info['userid'] == $user_info['userid']) // playlist is NOT private 
 				{
+					if( empty($module_config['jwplayer_license']) AND defined( 'NV_IS_MODADMIN' ) ){
+						$xtpl->assign( 'SETTING_LINKS',  NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=setting#jwplayer_license' );
+						$xtpl->parse( 'main.no_jwp_lic_admin' );
+					}elseif( empty($module_config['jwplayer_license']) OR !isset($module_config['jwplayer_license']) ){
+						$xtpl->parse( 'main.no_jwp_lic' );
+					}
 					if(  $module_config[$module_name]['jwplayer_logo'] > 0 and !empty($module_config[$module_name]['jwplayer_logo_file']))
 					{				
 						$xtpl->parse( 'main.player.player_logo' );
