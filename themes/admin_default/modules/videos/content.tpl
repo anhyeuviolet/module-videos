@@ -90,6 +90,7 @@
 						<td>
 							<input class="form-control" style="width:380px" type="text" name="vid_path" id="vid_path" placeholder="{LANG.videos_sources_placeholder}" value="{rowcontent.vid_path}"/>
 							<input id="select-video" type="button" value="{LANG.browse_server}" name="selectvid" class="btn btn-info" />
+							<span>{LANG.videos_duration}: </span><input class="form-control" style="width:100px" type="text" name="vid_duration" id="vid_duration" placeholder="00:00:00" value="{rowcontent.vid_duration}"/>&nbsp; <em class="fa fa-refresh fa-lg fa-pointer" onclick="get_duration();">&nbsp;</em>
 						</td>
 					</tr>
 					<tr>
@@ -296,6 +297,13 @@ $("#idtitle").change(function() {
 	get_alias();
 });
 <!-- END: getalias -->
+
+<!-- BEGIN: get_duration -->
+$("#vid_path").change(function() {
+	get_duration();
+});
+<!-- END: get_duration -->
+
 //]]>
 </script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.core.min.js"></script>

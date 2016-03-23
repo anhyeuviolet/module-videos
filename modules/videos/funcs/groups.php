@@ -143,7 +143,7 @@ else
 	$cache_file = NV_LANG_DATA . '_' . $module_name . '_' . $op . '_' .  md5( $op ) .'_' . NV_CACHE_PREFIX . '.cache';
 	if( ! defined( 'NV_IS_MODADMIN' ) )
 	{
-		if( ( $cache = nv_get_cache( $module_name, $cache_file ) ) != false )
+		if( ( $cache = $nv_Cache->getItem( $module_name, $cache_file ) ) != false )
 		{
 			$time_set_cache = NV_CURRENTTIME - filemtime( NV_ROOTDIR . '/' . NV_CACHEDIR .'/'. $module_name . '/' . $cache_file);
 			$contents = $cache;
@@ -187,7 +187,7 @@ else
 
 		if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' )
 		{
-			nv_set_cache( $module_name, $cache_file, $contents );
+			$nv_Cache->setItem( $module_name, $cache_file, $contents );
 		}
 	}
 

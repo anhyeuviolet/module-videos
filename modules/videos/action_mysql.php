@@ -158,6 +158,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 hometext text NOT NULL,
 	 vid_path varchar(250) default '',
 	 vid_type varchar(250) default '',
+	 vid_duration varchar(250) default '',
 	 homeimgfile varchar(250) default '',
 	 homeimgalt varchar(250) default '',
 	 homeimgthumb tinyint(4) NOT NULL default '0',
@@ -273,6 +274,8 @@ $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module,
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'playlist_moderate', '1')";
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'playlist_allow_detele', '1')";
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'playlist_max_items', '20')";
+
+$sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'youtube_api', '')";
 
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'jwplayer_license', '')";
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'jwplayer_autoplay', 'false')";

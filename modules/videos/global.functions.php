@@ -23,7 +23,7 @@ if( $timecheckstatus > 0 and $timecheckstatus < NV_CURRENTTIME )
  */
 function nv_set_status_module()
 {
-	global $db, $module_name, $module_data, $global_config;
+	global $db, $nv_Cache, $module_name, $module_data, $global_config;
 
 	$check_run_cronjobs = NV_ROOTDIR . '/' . NV_LOGS_DIR . '/data_logs/cronjobs_' . md5( $module_data . 'nv_set_status_module' . $global_config['sitekey'] ) . '.txt';
 	$p = NV_CURRENTTIME - 300;
@@ -80,8 +80,8 @@ function nv_set_status_module()
 	$sth->bindValue( ':config_value', intval( $timecheckstatus ), PDO::PARAM_STR );
 	$sth->execute();
 
-	nv_del_moduleCache( 'settings' );
-	nv_del_moduleCache( $module_name );
+	$nv_Cache->delMod( 'settings' );
+	$nv_Cache->delMod( $module_name );
 
 	unlink( $check_run_cronjobs );
 	clearstatcache();
@@ -263,7 +263,10 @@ function get_youtube_id($url){
 	preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $url, $matches);
 	return $matches[1];
 }
-
+/**
+ * curl()
+ *
+ */
  function curl($url) {
 	$ch = @curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
@@ -475,7 +478,7 @@ if( ! nv_function_exists( 'videos_thumbs' ) )
 			else
 			{
 
-				$_image = new image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
+				$_image = new NukeViet\Files\Image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 
 				if( $imginfo['width'] <= $imginfo['height'] )
 				{
@@ -511,4 +514,76 @@ if( ! nv_function_exists( 'videos_thumbs' ) )
 		}
 		return $imgsource;
 	}
+}
+
+/**
+* Return video duration in seconds.
+* 
+* @param $video_url
+* @param $api_key
+* @return integer|null
+*/
+function youtubeVideoDuration($video_url) {
+	global $module_config, $module_name;
+    // video id from url
+    $video_id = get_youtube_id($video_url);
+	$api_key =  $module_config[$module_name]['youtube_api'];
+	if(empty($api_key))
+	{
+		$seconds = '';
+		return $seconds;
+	}
+	else
+	{
+		// video json data
+		$json_result = file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=$video_id&key=$api_key");
+		$result = json_decode($json_result, true);
+
+		// video duration data
+		if (!count($result['items'])) {
+			return null;
+		}
+		$duration_encoded = $result['items'][0]['contentDetails']['duration'];
+
+		// duration
+		$interval = new DateInterval($duration_encoded);
+		$seconds = $interval->days * 86400 + $interval->h * 3600 + $interval->i * 60 + $interval->s;
+
+		return $seconds;
+	}
+}
+
+/**
+* Return video duration to hours.
+* 
+* @param $sec
+* @param $padHours (true/false)
+* @return $hms
+*
+*/
+function sec2hms ($sec, $padHours = false) {
+	$hms = "";
+	$hours = intval(intval($sec) / 3600); 
+	$hms .= ($padHours) 
+		  ? str_pad($hours, 2, "0", STR_PAD_LEFT). ":"
+		  : $hours. ":";
+	$minutes = intval(($sec / 60) % 60); 
+	$hms .= str_pad($minutes, 2, "0", STR_PAD_LEFT). ":";
+	$seconds = intval($sec % 60); 
+	$hms .= str_pad($seconds, 2, "0", STR_PAD_LEFT);
+	return $hms;
+}
+
+/**
+* Add http to URL
+* 
+* @param $url
+* @return $url
+*
+*/
+function addhttp($url) {
+    if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+        $url = "http://" . $url;
+    }
+    return $url;
 }

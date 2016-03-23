@@ -12,7 +12,7 @@ if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
 
 $array_page = explode( '-', $array_op[1] );
 $uploader_id = intval( end( $array_page ) );
-$number = strlen( $upload_id ) + 1;
+$number = strlen( $uploader_id ) + 1;
 $alias = substr( $array_op[1], 0, -$number );
 
 if( isset( $array_op[2] ) )
