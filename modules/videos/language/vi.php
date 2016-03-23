@@ -188,7 +188,7 @@ $lang_module['playlist_num_videos'] = 'Video trong Playlist';
 
 $lang_module['userpl_disable'] = 'Chức năng thêm/sửa Playlist đã bị tắt';
 $lang_module['user_create_newlist'] = 'Cần tạo mới Playlist';
-$lang_module['user_required'] = 'Đăng ký hoặc đăng nhập để dùng chức năng này';
+$lang_module['user_required'] = 'Đăng ký hoặc đăng nhập để dùng chức năng Yêu thích Video';
 
 $lang_module['video_favorite'] = 'Thích video này';
 $lang_module['video_more_text'] = 'Mở rộng';
