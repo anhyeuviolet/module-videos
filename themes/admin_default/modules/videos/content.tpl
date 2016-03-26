@@ -106,8 +106,8 @@
 			<table class="table table-striped table-bordered table-hover">
 				<div id="content_hometext" >
 				<strong>{LANG.content_hometext}</strong>
-					<i>{LANG.content_notehome}.</i> {GLANG.length_characters}: <span id="descriptionlength" class="red">0</span>. {GLANG.description_suggest_max} 
-					<textarea id="description" name="hometext" rows="5" cols="75" style="font-size:14px; width: 100%; height:150px;" class="form-control">{rowcontent.hometext}</textarea>
+					<i>{LANG.content_notehome}.</i> {GLANG.length_characters}: <span id="descriptionlength" class="red">0</span>. 
+					<textarea id="description" name="hometext" rows="5" cols="75" style="font-size:14px; width: 100%; height:100px;margin-bottom:15px;" class="form-control">{rowcontent.hometext}</textarea>
 				</div>
 				<div id="content_bodytext" >
 				<strong>{LANG.content_bodytext}</strong>

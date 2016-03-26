@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @Project VIDEOS 4.x
  * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
@@ -7,6 +6,7 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate Oct 08, 2015 10:47:41 AM
  */
+header("Content-type: text/xml");
 
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
 
@@ -25,8 +25,8 @@ if(sizeof($arr_alias) == 4)
 	$embed = $arr_alias[3];
 }
 
-$channel['title'] = $module_info['custom_title'];
-$channel['link'] = NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+$channel['title'] = $module_info['custom_title'] . ' - ' . $global_config['site_name'];
+$channel['link'] = NV_MY_DOMAIN . nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name, true );
 $channel['description'] = ! empty( $module_info['description'] ) ? $module_info['description'] : $global_config['site_description'];
 
 $cache_file = '';
@@ -119,22 +119,22 @@ if( isset( $embed ) AND $embed == 'embed') // embed to FB
 		$array_item[] = $data;
 	}
 
-	$contents.='<config>';
+	$contents.='<config>'."\n";
 	foreach ( $array_item as $items )
 	{
-		$contents .='<title>'.$items['title'].'</title>';
-		$contents .='<link>'.$items['link'].'</link>';
-		$contents .='<image>'.$items['rss_img'].'</image>';
-		$contents .='<linktarget>_blank</linktarget>';
-		$contents .='<repeat>linktargettrue</repeat>';
-		$contents .='<resizing>false</resizing>';
-		$contents .='<smoothing>true</smoothing>';
-		$contents .='<autostart>true</autostart>';
-		$contents .='<fullscreen>false</fullscreen>';
-		$contents .='<displayclick>play</displayclick>';		
-		$contents .= '<file>'.htmlentities($items['href']).'</file>';
+		$contents .='	<title><![CDATA['.$items['title'].']]></title>'."\n";
+		$contents .='	<link>'.$items['link'].'</link>'."\n";
+		$contents .='	<image>'.$items['rss_img'].'</image>'."\n";
+		$contents .='	<linktarget>_blank</linktarget>'."\n";
+		$contents .='	<repeat>linktargettrue</repeat>'."\n";
+		$contents .='	<resizing>false</resizing>'."\n";
+		$contents .='	<smoothing>true</smoothing>'."\n";
+		$contents .='	<autostart>true</autostart>'."\n";
+		$contents .='	<fullscreen>false</fullscreen>'."\n";
+		$contents .='	<displayclick>play</displayclick>'."\n";		
+		$contents .='	<file>'.htmlentities($items['href']).'</file>'."\n";
 	}
-	$contents .='</config>';
+	$contents .='</config>'."\n";
 	echo $contents;
 	die();
 }
@@ -248,34 +248,36 @@ else
 			$array_item[] = $data;
 		}
 
-		$contents.='<rss xmlns:jwplayer="http://rss.jwpcdn.com/">';
-		$contents .='<channel>';
-		$contents .='<title>'.$channel['title'].'</title>';
-		$contents .='<description>'.$channel['description'].'</description>';
-		$contents .='<link>'.$channel['link'].'</link>';
+		$contents.='<?xml version="1.0" encoding="UTF-8"?>'."\n";
+		$contents.='<rss xmlns:jwplayer="http://rss.jwpcdn.com/">'."\n";
+		$contents .='	<channel>'."\n";
+		$contents .='		<title><![CDATA['.$channel['title'].']]></title>'."\n";
+		$contents .='		<description><![CDATA['.$channel['description'].']]></description>'."\n";
+		$contents .='		<link>'.$channel['link'].'</link>'."\n";
 		foreach ( $array_item as $items )
 		{
-			$contents .='<item>';
-			$contents .='<title>'.$items['title'].'</title>';
-			$contents .='<link>'.$items['link'].'</link>';
-			$contents .='<description>'.$items['hometext'].'</description>';
-			$contents .='<guid>'.$items['playlist_id'].$items['playlist_sort'].'</guid>';
-			$contents .='<jwplayer:image>'.$items['rss_img'].'</jwplayer:image>';
+			$items['hometext'] = strip_tags($items['hometext']);
+			$contents .='		<item>'."\n";
+			$contents .='			<title><![CDATA['.$items['title'].']]></title>'."\n";
+			$contents .='			<link>'.$items['link'].'</link>'."\n";
+			$contents .='			<description><![CDATA['.$items['hometext'].']]></description>'."\n";
+			$contents .='			<guid>'.$items['playlist_id'].$items['playlist_sort'].'</guid>'."\n";
+			$contents .='			<jwplayer:image><![CDATA['.$items['rss_img'].']]></jwplayer:image>'."\n";
 			if( $items['vid_type'] == 3 || $items['vid_type'] == 4 )
 			{
 				foreach ($items['href'] as $source_file_i)
 				{
-					$contents .= '<jwplayer:source file="'.htmlentities($source_file_i['link_mp4']).'" label="'.$source_file_i['quality'].'" type="mp4" />';
+					$contents .= '			<jwplayer:source file="'.htmlentities($source_file_i['link_mp4']).'" label="'.$source_file_i['quality'].'" type="mp4" />'."\n";
 				}
 			}
 			else
 			{
-				$contents .= '<jwplayer:source file="'.htmlentities($items['href']).'" />';
+				$contents .= '			<jwplayer:source file="'.htmlentities($items['href']).'" />'."\n";
 			}
-			$contents .='</item>';	
+			$contents .='		</item>'."\n";	
 		}
-		$contents .='</channel>';
-		$contents .='</rss>';
+		$contents .='	</channel>'."\n";
+		$contents .='</rss>'."\n";
 
 		if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' )
 		{
