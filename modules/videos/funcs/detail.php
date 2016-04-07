@@ -112,15 +112,27 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 					$href_vid['quality'] = '';
 				}
 			}
-
-			$meta_property['og:type'] = 'video.other';
+			$link_embed = NV_MY_DOMAIN . NV_BASE_SITEURL . $module_file . '/player/' . rand(1000,9999) . 0 .'-' . md5( $news_contents['id'] . session_id() . $global_config['sitekey'] ) . '-'. rand(1000,9999) . $news_contents['id'] . '-embed/';
+			$http_url = NV_MY_DOMAIN . NV_BASE_SITEURL . 'themes/default/modules/' . $module_file . '/jwplayer/jwplayer5.swf?config=' . $link_embed;
+			
+			$meta_property['og:type'] = 'video';
+			if($news_contents['vid_type'] ==3 OR $news_contents['vid_type'] == 4)
+			{
+				$meta_property['og:video'] = $http_url;
+			}
+			else
+			{
+				$https_url = preg_replace('/^http:/i', 'https:', $http_url);
+				$meta_property['og:video'] = $https_url;
+			}
+			
 			$meta_property['og:url'] = $client_info['selfurl'];
+			$meta_property['og:title'] = $news_contents['title'];
+			$meta_property['og:video:type'] = 'application/x-shockwave-flash';
+			$meta_property['og:video:width'] = '480';
+			$meta_property['og:video:height'] = '360';
 			$meta_property['og:published_time'] = date( 'Y-m-dTH:i:s', $news_contents['publtime'] );
 			$meta_property['og:updated_time'] = date( 'Y-m-dTH:i:s', $news_contents['edittime'] );
-			if( $news_contents['exptime'] )
-			{
-				$meta_property['article:expiration_time'] = date( 'Y-m-dTH:i:s', $news_contents['exptime'] );
-			}
 		}
 
 		if( defined( 'NV_IS_MODADMIN' ) and $news_contents['status'] != 1 )
@@ -170,7 +182,9 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	}
 	else
 	{
-		$news_contents['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $news_contents['admin_name'] ;
+		$news_contents['upload_alias'] = change_alias(  $news_contents['admin_name']  );
+		$news_contents['upload_alias'] = strtolower( $news_contents['upload_alias'] );
+		$news_contents['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $news_contents['upload_alias'] . '-' . $news_contents['admin_id'];
 	}
 			
 	if( $module_config[$module_name]['config_source'] == 0 ) $news_contents['source'] = $sourcetext;
@@ -193,7 +207,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		{
 			if( $row['homeimgthumb'] == 1 OR $row['homeimgthumb'] == 2 ) //image file
 			{
-				$row['imghome'] = creat_thumbs($row['id'], $row['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
+				$row['imghome'] = videos_thumbs($row['id'], $row['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $row['homeimgthumb'] == 3 ) //image url
 			{
@@ -234,7 +248,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		{
 			if( $row['homeimgthumb'] == 1 OR $row['homeimgthumb'] == 2 ) //image file
 			{
-				$row['imghome'] = creat_thumbs($row['id'], $row['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
+				$row['imghome'] = videos_thumbs($row['id'], $row['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif( $row['homeimgthumb'] == 3 ) //image url
 			{
@@ -324,8 +338,9 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		$content_comment = '';
 	}
 	
+	$array_user_playlist = array();
 	// call user playlist
-	if( $user_info['userid'] > 0)
+	if( isset($user_info['userid']) AND $user_info['userid'] > 0)
 	{
 		$sql = 'SELECT playlist_id, title, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE userid=' . $user_info['userid'] . ' AND status > 0 ORDER BY weight ASC';
 		$array_user_playlist = $db->query( $sql )->fetchAll();
