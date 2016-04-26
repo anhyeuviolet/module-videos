@@ -1,10 +1,14 @@
-.news {
+.no_cat{
+	text-align: center;
+	font-size: 15px
+}
+.videos {
 	clear: both;
 	margin: 2px 0;
 	text-align: right
 }
 
-.news label {
+.videos label {
 	border-bottom: 1px dotted #ccc;
 	display: inline;
 	float: left;
@@ -12,15 +16,15 @@
 	width: 150px
 }
 
-.news input {
+.videos input {
 	width: 380px
 }
 
-.news select {
+.videos select {
 	width: 382px
 }
 
-.news_checkbox {
+.videos_checkbox {
 	width: 18px !important
 }
 
@@ -117,7 +121,7 @@ select, input {
 	font-size: 13px
 }
 
-.newserror {
+.videoserror {
 	background: #F8F8F8;
 	border: 1px solid #F2F2F2;
 	color: red;
@@ -128,7 +132,7 @@ select, input {
 	padding: 10px
 }
 
-.news input, .news select, .textareas, .message_body textarea, .message_body select {
+.videos input, .videos select, .textareas, .message_body textarea, .message_body select {
 	border: 1px solid #ccc
 }
 
@@ -238,16 +242,16 @@ select, input {
 }
 
 /* Icon info */
-.news-inf-icons{
+.videos-inf-icons{
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
 }
-.news-inf-icons li{
+.videos-inf-icons li{
 	display: inline-block;
 	padding-left: 10px;
 }
-.news-inf-icons li:first-child{
+.videos-inf-icons li:first-child{
 	padding-left: 0;
 }
 @media only screen and (min-width:320px) and (max-width: 992px) {

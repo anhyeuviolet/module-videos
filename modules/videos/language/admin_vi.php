@@ -93,7 +93,7 @@ $lang_module['edit_block_cat'] = 'Sửa thể loại';
 $lang_module['link'] = 'Website nguồn Videos';
 $lang_module['cat_sub'] = 'Thuộc chuyên mục';
 $lang_module['cat_sub_sl'] = 'Là chuyên mục chính';
-$lang_module['note_cat'] = 'Bạn cần tạo chuyên mục trước';
+$lang_module['note_cat'] = 'Chưa có chuyên mục cho Video.<br/>Bạn sẽ được chuyển tới khu vực khởi tạo Chuyên mục.';
 $lang_module['playlist_sl'] = 'Chọn thể loại liên quan hoặc tự điền';
 
 $lang_module['delcat_msg_cat'] = 'Chuyên mục này có %s Chuyên mục thành phần, bạn cần xóa hoặc di chuyển các Chuyên mục thành phần trước';
@@ -133,6 +133,7 @@ $lang_module['setting_jwplayer_controlbar'] = ' Hiện thanh điều khiển';
 $lang_module['setting_jwplayer_mute'] = ' Mặc định tắt âm thanh';
 $lang_module['setting_jwplayer_logo'] = 'Chèn Logo vào video';
 $lang_module['setting_jwplayer_logo_file'] = 'Đường dẫn Logo';
+$lang_module['setting_jwplayer_logo_position'] = 'Vị trí của Logo';
 
 $lang_module['viewcat_page'] = 'Cách thể hiện Chuyên mục';
 $lang_module['viewcat_page_new'] = 'danh sách, mới lên trên';
@@ -324,6 +325,9 @@ $lang_module['playlist_public'] = 'Hiển thị';
 $lang_module['playlist_status'] = 'Hoạt động';
 $lang_module['playlist'] = 'Danh mục phát';
 
+$lang_module['about_uploader'] = 'Giới thiệu về ';
+$lang_module['add_uploader_data'] = 'Thêm bảng Uploader';
+
 $lang_module['year'] = 'năm trước';
 $lang_module['month'] = 'tháng trước';
 $lang_module['week'] = 'tuần trước';
@@ -335,3 +339,8 @@ $lang_module['second'] = 'giây trước';
 $lang_module['guest_post'] = 'Khách vãng lai';
 $lang_module['setting_player'] = 'Cấu hình trình phát';
 $lang_module['wiki_get_free_jwlicense'] = '<a title="Hướng dẫn đăng ký JWplayer License" target="_blank" href="https://github.com/anhyeuviolet/module-videos/wiki/H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-%C4%91%C4%83ng-k%C3%BD-Free-License-JWPlayer-7">Hướng dẫn đăng ký JWplayer License</a>';
+
+$lang_module['jwposition_top-right'] = 'Phía trên - bên phải (mặc định)';
+$lang_module['jwposition_top-left'] = 'Phía trên - bên trái';
+$lang_module['jwposition_bottom-right'] = 'Phía dưới - bên phải';
+$lang_module['jwposition_bottom-left'] = 'Phía dưới - bên trái';

@@ -19,12 +19,7 @@
 		<h4><a class="show" href="{CONTENT.link}" title="{CONTENT.title}">{CONTENT.title_cut}</a></h4>
 		<div class="text-muted">
 			<ul class="list-unstyled">
-				<!-- BEGIN: uploader_link -->
-				<li>{LANG.by}&nbsp;<a href="{CONTENT.uploader_link}" title="{CONTENT.admin_name}">{CONTENT.admin_name}</a></li>
-				<!-- END: uploader_link -->
-				<!-- BEGIN: uploader -->
-				<li>{LANG.by}&nbsp;{CONTENT.admin_name}</li>
-				<!-- END: uploader -->
+				<li>{LANG.by}&nbsp;<a href="{CONTENT.uploader_link}" title="{CONTENT.uploader_name}">{CONTENT.uploader_name}</a></li>
 				<li class="pull-left">{CONTENT.publtime}</li>
 				<li class="spacer pull-left"></li>
 				<li>{CONTENT.hitstotal}&nbsp;{LANG.hits_view}</li>

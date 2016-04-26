@@ -33,7 +33,6 @@ if( ! defined( 'NV_IS_MODADMIN' ) and $page < 5 )
 		$contents = $cache;
 	}
 }
-
 if( empty( $contents ) )
 {
 	$viewcat = $module_config[$module_name]['indexfile'];
@@ -56,16 +55,12 @@ if( empty( $contents ) )
 			->select( 'COUNT(*)' )
 			->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
 			->where( 'status= 1 AND inhome=1' );
-
 		$num_items = $db->query( $db->sql() )->fetchColumn();
-
 		$db->select( 'id, catid, listcatid, admin_id, admin_name, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
 			->order( $order_by )
 			->limit( $per_page )
 			->offset( ( $page - 1 ) * $per_page );
-
 		$end_publtime = 0;
-
 		$result = $db->query( $db->sql() );
 		while( $item = $result->fetch() )
 		{
@@ -85,26 +80,14 @@ if( empty( $contents ) )
 			{
 				$item['imghome'] = '';
 			}
-
-
-			if($item['admin_name'] == $lang_module['guest_post'] )
-			{
-				unset($item['uploader_link']);
-			}
-			else
-			{
-				$item['upload_alias'] = change_alias(  $item['admin_name']  );
-				$item['upload_alias'] = strtolower( $item['upload_alias'] );
-				$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['admin_name']  . '-' . $item['admin_id'];
-			}
-
+			$item['uploader_name'] = $global_array_uploader[$item['admin_id']]['uploader_name'];
+			$item['uploader_link'] = $global_array_uploader[$item['admin_id']]['link'];
 			$item['newday'] = $global_array_cat[$item['catid']]['newday'];
 			$item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
 			$array_catpage[] = $item;
 			$end_publtime = $item['publtime'];
 		}
-
-		if( $st_links > 0)
+	if( $st_links > 0)
 		{
 			$db->sqlreset()
 				->select('id, catid, addtime, edittime, publtime, title, alias, hitstotal')
@@ -128,7 +111,6 @@ if( empty( $contents ) )
 				$array_cat_other[] = $item;
 			}
 		}
-
 		$viewcat = 'viewcat_page_new';
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 		$contents = call_user_func( $viewcat, $array_catpage, $array_cat_other, $generate_page );
@@ -136,7 +118,6 @@ if( empty( $contents ) )
 	elseif( $viewcat == 'viewgrid_by_cat' )
 	{
 		$array_cat = array();
-
 		$key = 0;
 		$db->sqlreset()
 		->select('id, listcatid, admin_id, admin_name, author, sourceid, addtime, edittime, publtime, title, alias, hometext, homeimgfile, homeimgalt, homeimgthumb, allowed_rating, hitstotal, hitscm, total_rating, click_rating' )
@@ -171,22 +152,13 @@ if( empty( $contents ) )
 
 					$item['newday'] = $array_cat_i['newday'];
 					$item['link'] = $array_cat_i['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
-					if($item['admin_name'] == $lang_module['guest_post'] )
-					{
-						unset($item['uploader_link']);
-					}
-					else
-					{
-						$item['upload_alias'] = change_alias(  $item['admin_name']  );
-						$item['upload_alias'] = strtolower( $item['upload_alias'] );
-						$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['upload_alias']  . '-' . $item['admin_id'];
-					}
+					$item['uploader_link'] = $global_array_uploader[$item['admin_id']]['link'];
+					$item['uploader_name'] = $global_array_uploader[$item['admin_id']]['uploader_name'];
 					$array_cat[$key]['content'][] = $item;
 				}
 				++$key;
 			}
 		}
-
 		$viewcat = 'viewgrid_by_cat';
 		$contents = viewsubcat_main( $viewcat, $array_cat );
 	}
@@ -224,23 +196,12 @@ if( empty( $contents ) )
 			{
 				$item['imghome'] = '';
 			}
-
-			if($item['admin_name'] == $lang_module['guest_post'] )
-			{
-				unset($item['uploader_link']);
-			}
-			else
-			{
-				$item['upload_alias'] = change_alias(  $item['admin_name']  );
-				$item['upload_alias'] = strtolower( $item['upload_alias'] );
-				$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['upload_alias'] . '-' . $item['admin_id'];
-			}
-			
+			$item['uploader_link'] = $global_array_uploader[$item['admin_id']]['link'];
+			$item['uploader_name'] = $global_array_uploader[$item['admin_id']]['uploader_name'];
 			$item['newday'] = $global_array_cat[$item['catid']]['newday'];
 			$item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
 			$array_catpage[] = $item;
 		}
-
 		$viewcat = 'viewcat_grid_new';
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 		$contents = call_user_func( $viewcat, $array_catpage, 0, $generate_page );

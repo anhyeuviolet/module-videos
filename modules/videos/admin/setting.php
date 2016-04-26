@@ -46,7 +46,8 @@ if( ! empty( $savesetting ) )
 	$array_config['jwplayer_controlbar'] = $nv_Request->get_title( 'jwplayer_controlbar', 'post', '', 0 );
 	$array_config['jwplayer_mute'] = $nv_Request->get_title( 'jwplayer_mute', 'post', 0 );
 	$array_config['jwplayer_logo'] = $nv_Request->get_int( 'jwplayer_logo', 'post', 0 );
-	$array_config['jwplayer_logo_file'] = $nv_Request->get_title( 'jwplayer_logo_file', 'post', 0 );
+	$array_config['jwplayer_logo_file'] = $nv_Request->get_title( 'jwplayer_logo_file', 'post', '' );
+	$array_config['jwplayer_logo_pos'] = $nv_Request->get_title( 'jwplayer_logo_pos', 'post', '' );
 	
 	$array_config['facebookappid'] = $nv_Request->get_title( 'facebookappid', 'post', '' );
 	$array_config['socialbutton'] = $nv_Request->get_int( 'socialbutton', 'post', 0 );
@@ -112,6 +113,13 @@ $array_jw_logo = array(
 	$lang_global['no'],
 	$lang_global['yes']
 	);
+	
+$array_jw_position = array(
+	'top-right' => $lang_module['jwposition_top-right'],
+	'top-left' => $lang_module['jwposition_top-left'],
+	'bottom-right' => $lang_module['jwposition_bottom-right'],
+	'bottom-left' => $lang_module['jwposition_bottom-left']
+	);
 
 
 // Cach hien thi tren trang chu
@@ -174,6 +182,16 @@ foreach( $array_jw_logo as $key => $val )
 		'selected' => $key == $module_config[$module_name]['jwplayer_logo'] ? ' selected="selected"' : ''
 	) );
 	$xtpl->parse( 'main.jwplayer_logo' );
+}
+
+foreach( $array_jw_position as $_jw_position => $_title)
+{
+	$xtpl->assign( 'JW_POS', array(
+		'value' => $_jw_position,
+		'title' => $_title,
+		'selected' => $_jw_position == $module_config[$module_name]['jwplayer_logo_pos'] ? ' selected="selected"' : ''
+	) );
+	$xtpl->parse( 'main.jwplayer_logo_pos' );
 }
 
 // So bai viet tren mot trang
@@ -292,7 +310,7 @@ $xtpl->assign( 'CURRENTPATH', defined( 'NV_IS_SPADMIN' ) ? "images" : NV_UPLOADS
 if( defined( 'NV_IS_ADMIN_FULL_MODULE' ) or ! in_array( 'admins', $allow_func ) )
 {
 	$groups_list = nv_groups_list();
-	unset($groups_list[6]);
+	unset($groups_list[5], $groups_list[6], $groups_list[7] );
 
 	$savepost = $nv_Request->get_int( 'savepost', 'post', 0 );
 	if( ! empty( $savepost ) )

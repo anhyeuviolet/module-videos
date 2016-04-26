@@ -184,16 +184,7 @@ while( list( $playlist_id,  $title_i ) = $result->fetch( 3 ) )
 $catid = $nv_Request->get_int( 'catid', 'get', 0 );
 $parentid = $nv_Request->get_int( 'parentid', 'get', 0 );
 
-$admin_name = '';
-if( !empty($admin_info['first_name']) OR !empty($admin_info['first_name'] ) )
-{
-	$admin_name = $admin_info['first_name'] . ' ' . $admin_info['last_name'];
-}
-else
-{
-	$admin_name = $admin_info['username'];
-}
-
+$admin_name = $admin_info['username'];
 
 $rowcontent = array(
 	'id' => '',
@@ -750,6 +741,10 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 			$rowcontent['id'] = $db->insert_id( $sql, 'id', $data_insert );
 			if( $rowcontent['id'] > 0 )
 			{
+				if( nv_videos_check_uploader( intval( $rowcontent['admin_id'] ) ) ){
+					nv_videos_getuser_info(intval( $rowcontent['admin_id'] ) );
+					nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['add_uploader_data'], $rowcontent['admin_name'], $admin_info['userid'] );
+				}
 				nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['content_add'], $rowcontent['title'], $admin_info['userid'] );
 				$ct_query = array();
 
@@ -1101,8 +1096,8 @@ if( empty( $array_cat_check_content ) )
 {
 	$redirect = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=cat';
 
-	$contents = '<p class="note_cat">' . $lang_module['note_cat'] . '</p>';
-	$contents .= "<meta http-equiv=\"refresh\" content=\"3;URL=" . $redirect . "\" />";
+	$contents = '<div class="alert alert-info"><p class="no_cat">' . $lang_module['note_cat'] . '</p></div>';
+	$contents .= "<meta http-equiv=\"refresh\" content=\"5;URL=" . $redirect . "\" />";
 	include NV_ROOTDIR . '/includes/header.php';
 	echo nv_admin_theme( $contents );
 	include NV_ROOTDIR . '/includes/footer.php';

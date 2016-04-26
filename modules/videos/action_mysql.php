@@ -13,6 +13,7 @@ if( ! defined( 'NV_IS_FILE_MODULES' ) ) die( 'Stop!!!' );
 $sql_drop_module = array();
 $array_table = array(
 	'admins',
+	'uploaders',
 	'block',
 	'block_cat',
 	'playlist',
@@ -229,6 +230,21 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 app_content tinyint(4) NOT NULL default '0',
 	 UNIQUE KEY userid (userid,catid)
 	) ENGINE=MyISAM";
+	
+$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_uploaders (
+	userid mediumint(8) NOT NULL,
+	group_id smallint(5) unsigned NOT NULL DEFAULT '0',
+	status mediumint(8) NOT NULL DEFAULT '1',
+	username varchar(100) NOT NULL DEFAULT '',
+	md5username char(32) NOT NULL DEFAULT '',
+	email varchar(250) NOT NULL DEFAULT '',
+	first_name varchar(100) NOT NULL DEFAULT '',
+	last_name varchar(100) NOT NULL DEFAULT '',
+	photo varchar(250) DEFAULT '',
+	description text,
+	view_mail tinyint(1) unsigned NOT NULL DEFAULT '0',
+	PRIMARY KEY (userid)
+) ENGINE=MyISAM";
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_tags (
 	 tid mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
@@ -284,6 +300,7 @@ $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module,
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'jwplayer_mute', 'false')";
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'jwplayer_logo', '0')";
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'jwplayer_logo_file', '')";
+$sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'jwplayer_logo_pos', 'top-right')";
 // Comments
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'auto_postcomm', '1')";
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'allowed_comm', '-1')";

@@ -65,13 +65,23 @@
 					</td>
 				</tr>
 				<tr>
+					<th>{LANG.setting_jwplayer_logo_position}</th>
+					<td>
+						<select class="form-control" name="jwplayer_logo_pos">
+							<!-- BEGIN: jwplayer_logo_pos -->
+							<option value="{JW_POS.value}"{JW_POS.selected}>{JW_POS.title}</option>
+							<!-- END: jwplayer_logo_pos -->
+						</select>
+					</td>
+				</tr>
+				<tr>
 					<th>{LANG.setting_jwplayer_logo_file}</th>
 					<td>
 						<input class="form-control" name="jwplayer_logo_file" id="jwplayer_logo_file" value="{JWPLAYER_LOGO_FILE}" style="width:340px;" type="text"/>
 						<input id="select-jw-logo-setting" value="{GLANG.browse_image}" name="selectimg" type="button" class="btn btn-info"/>
 					</td>
 				</tr>
-				
+
 			</tbody>
 			<tfoot>
 				<tr>
@@ -198,6 +208,14 @@
 					<td>{COPYRIGHTHTML}</td>
 				</tr>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td class="text-center" colspan="2">
+						<input class="btn btn-primary" type="submit" value="{LANG.save}" name="Submit1" />
+						<input type="hidden" value="1" name="savesetting" />
+					</td>
+				</tr>
+			</tfoot>
 		</table>
 	</div>
 	

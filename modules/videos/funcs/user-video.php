@@ -143,37 +143,6 @@ if( ! $array_post_user['addcontent'] )
 	include NV_ROOTDIR . '/includes/footer.php';
 }
 
-if( $nv_Request->isset_request( 'get_alias', 'post' ) )
-{
-	$title = $nv_Request->get_title( 'get_alias', 'post', '' );
-	$alias = change_alias( $title );
-	$alias = strtolower( $alias );
-
-	include NV_ROOTDIR . '/includes/header.php';
-	echo $alias;
-	include NV_ROOTDIR . '/includes/footer.php';
-}
-
-if( $nv_Request->isset_request( 'get_duration', 'post' ) )
-{
-	$path = $nv_Request->get_string( 'get_duration', 'post', '' );
-	$mod = $nv_Request->get_string( 'mod', 'post', '' );
-	$path = urldecode($path);
-	if( !empty($path) AND is_youtube($path) )
-	{
-		$_vid_duration = youtubeVideoDuration($path);
-		$duration = sec2hms($_vid_duration);
-	}
-	else
-	{
-		$duration = '';
-	}
-
-	include NV_ROOTDIR . '/includes/header.php';
-	echo $duration;
-	include NV_ROOTDIR . '/includes/footer.php';
-}
-
 $contentid = $nv_Request->get_int( 'contentid', 'get,post', 0 );
 $fcheckss = $nv_Request->get_title( 'checkss', 'get,post', '' );
 $checkss = md5( $contentid . $client_info['session_id'] . $global_config['sitekey'] );
@@ -225,25 +194,12 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 		'link' => $base_url
 	);
 	
-	$admin_name = '';
-	if(defined( 'NV_IS_USER' ))
-	{
-		if( !empty($user_info['first_name']) OR !empty($user_info['first_name'] ) )
-		{
-			$admin_name = $user_info['first_name'] . ' ' . $user_info['last_name'];
-		}
-		else
-		{
-			$admin_name = $user_info['username'];
-		}
-	}
-	
 	$rowcontent = array(
 		'id' => '',
 		'listcatid' => '',
 		'catid' => ( $contentid > 0 ) ? $rowcontent_old['catid'] : 0,
-		'admin_id' => ( defined( 'NV_IS_USER' ) ) ? $user_info['userid'] : 1, // Anonymous videos will be moderated by Admin.
-		'admin_name' => ( defined( 'NV_IS_USER' ) ) ? $admin_name : $lang_module['guest_post'],
+		'admin_id' => $user_info['userid'], // Registered user only.
+		'admin_name' => $user_info['username'],
 		'author' => '',
 		'artist' => '',
 		'sourceid' => 0,
@@ -439,6 +395,10 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 				$rowcontent['id'] = $db->insert_id( $_sql, 'id' );
 				if( $rowcontent['id'] > 0 )
 				{
+					if( nv_videos_check_uploader( intval( $rowcontent['admin_id'] ) ) ){
+						nv_videos_getuser_info(intval( $rowcontent['admin_id'] ) );
+						nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['add_uploader_data'], $rowcontent['admin_name'], $user_info['userid'] );
+					}
 					foreach( $catids as $catid )
 					{
 						$db->query( "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_" . $catid . " SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $rowcontent['id'] );

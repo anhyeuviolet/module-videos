@@ -54,9 +54,12 @@ playerInstance.setup({
 	<!-- BEGIN: player_logo -->
 	logo: {
 		file: '{VIDEO_CONFIG.jwplayer_logo_file}',
-		link: '{NV_MY_DOMAIN}'
+		link: '{NV_MY_DOMAIN}',
+		position: '{VIDEO_CONFIG.jwplayer_logo_pos}'
 	},
 	<!-- END: player_logo -->
+	abouttext: "{LANG.jw_video_source}{VIDEO_CONFIG.site_name}",
+	aboutlink: "{NV_MY_DOMAIN}",
 	skin: {"name": "stormtrooper"},
 	stagevideo: false,
 	stretching: "uniform",

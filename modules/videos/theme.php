@@ -43,7 +43,6 @@ function viewcat_grid_new( $array_catpage, $catid, $generate_page )
 		$array_row_i['publtime'] = humanTiming($array_row_i['publtime']);
 		$xtpl->clear_autoreset();
 		$array_row_i['title_cut'] = nv_clean60( $array_row_i['title'], $module_config[$module_name]['titlecut'], true );
-
 		$xtpl->assign( 'CONTENT', $array_row_i );
 
 		if( defined( 'NV_IS_MODADMIN' ) )
@@ -62,15 +61,6 @@ function viewcat_grid_new( $array_catpage, $catid, $generate_page )
 		{
 			$xtpl->parse( 'main.viewcatloop.newday' );
 		}
-
-		if( isset($array_row_i['uploader_link']) AND !empty($array_row_i['uploader_link'] ))
-		{
-			$xtpl->parse( 'main.viewcatloop.uploader_link' );
-		}
-		else
-		{
-			$xtpl->parse( 'main.viewcatloop.uploader' );
-		}
 		
 		if( $array_row_i['hitstotal'] > 0)
 		{
@@ -79,7 +69,6 @@ function viewcat_grid_new( $array_catpage, $catid, $generate_page )
 		
 		$xtpl->set_autoreset();
 		$xtpl->parse( 'main.viewcatloop' );
-		
 	}
 
 	if( ! empty( $generate_page ) )
@@ -147,15 +136,6 @@ function viewcat_page_new( $array_catpage, $array_cat_other, $generate_page )
 		if( $newday >= NV_CURRENTTIME )
 		{
 			$xtpl->parse( 'main.viewcatloop.news.newday' );
-		}
-			
-		if( isset($array_row_i['uploader_link']) AND !empty($array_row_i['uploader_link'] ))
-		{
-			$xtpl->parse( 'main.viewcatloop.news.uploader_link' );
-		}
-		else
-		{
-			$xtpl->parse( 'main.viewcatloop.news.uploader' );
 		}
 		
 		if( $array_row_i['hitstotal'] > 0)
@@ -255,15 +235,6 @@ function viewsubcat_main( $viewcat, $array_cat )
 					$xtpl->parse( 'main.listcat.loop.adminlink' );
 				}
 				
-				if( isset($array_row_i['uploader_link']) AND !empty($array_row_i['uploader_link'] ))
-				{
-					$xtpl->parse( 'main.listcat.loop.uploader_link' );
-				}
-				else
-				{
-					$xtpl->parse( 'main.listcat.loop.uploader' );
-				}
-				
 				if( $array_row_i['hitstotal'] > 0)
 				{
 					$xtpl->parse( 'main.listcat.loop.hitstotal' );
@@ -318,6 +289,7 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		$lu = strlen( NV_BASE_SITEURL );
 		$module_config[$module_name]['jwplayer_logo_file'] = NV_BASE_SITEURL . $module_config[$module_name]['jwplayer_logo_file'];
 	}
+	$module_config[$module_name]['site_name'] = $global_config['site_name'];
 
 	$xtpl->assign( 'VIDEO_CONFIG', $module_config[$module_name] );
 
@@ -325,6 +297,10 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	{
 		$xtpl->assign( 'URL_SENDMAIL', $news_contents['url_sendmail'] );
 		$xtpl->parse( 'main.allowed_send' );
+	}
+	if( $news_contents['hitstotal'] > 0 )
+	{
+		$xtpl->parse( 'main.hitstotal' );
 	}
 	if( !empty($href_vid) )
 	{
@@ -385,15 +361,6 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		}
 
 		$xtpl->parse( 'main.author' );
-	}
-	
-	if( isset($news_contents['uploader_link']) AND !empty($news_contents['uploader_link'] ))
-	{
-		$xtpl->parse( 'main.uploader_link' );
-	}
-	else
-	{
-		$xtpl->parse( 'main.uploader' );
 	}
 	
 	if( $news_contents['copyright'] == 1 )
@@ -551,7 +518,7 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 		$lu = strlen( NV_BASE_SITEURL );
 		$module_config[$module_name]['jwplayer_logo_file'] = NV_BASE_SITEURL . $module_config[$module_name]['jwplayer_logo_file'];
 	}
-		
+	$module_config[$module_name]['site_name'] = $global_config['site_name'];
 	$xtpl->assign( 'VIDEO_CONFIG', $module_config[$module_name] );
 
 	if( ! empty( $playlist_info ) )
@@ -901,14 +868,6 @@ function tag_theme( $topic_array, $generate_page, $page_title, $description, $to
 			{
 				$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $topic_array_i['id'] ) . ' ' . nv_link_delete_page( $topic_array_i['id'] ) );
 				$xtpl->parse( 'main.topic.adminlink' );
-			}
-			if( isset($topic_array_i['uploader_link']) AND !empty($topic_array_i['uploader_link'] ))
-			{
-				$xtpl->parse( 'main.topic.uploader_link' );
-			}
-			else
-			{
-				$xtpl->parse( 'main.topic.uploader' );
 			}
 			$xtpl->parse( 'main.topic' );
 		}

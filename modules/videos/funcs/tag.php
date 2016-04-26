@@ -95,16 +95,8 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 
 			$end_publtime = $item['publtime'];
 			
-			if($item['admin_name'] == $lang_module['guest_post'] )
-			{
-				unset($item['uploader_link']);
-			}
-			else
-			{
-				$item['upload_alias'] = change_alias(  $item['admin_name']  );
-				$item['upload_alias'] = strtolower( $item['upload_alias'] );
-				$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['upload_alias'] . '-' . $item['admin_id'];
-			}
+			$item['uploader_name'] = $global_array_uploader[$item['admin_id']]['uploader_name'];
+			$item['uploader_link'] = $global_array_uploader[$item['admin_id']]['link'];
 			$item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
 			$item_array[] = $item;
 		}

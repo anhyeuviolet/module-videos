@@ -176,17 +176,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	$news_contents['newscheckss'] = md5( $news_contents['id'] . session_id() . $global_config['sitekey'] );
 	$news_contents['fake_pl_id'] = 0;
 	
-	if($news_contents['admin_name'] == $lang_module['guest_post'] )
-	{
-		unset($news_contents['uploader_link']);
-	}
-	else
-	{
-		$news_contents['upload_alias'] = change_alias(  $news_contents['admin_name']  );
-		$news_contents['upload_alias'] = strtolower( $news_contents['upload_alias'] );
-		$news_contents['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $news_contents['upload_alias'] . '-' . $news_contents['admin_id'];
-	}
-			
+	$news_contents['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $news_contents['admin_name'];
 	if( $module_config[$module_name]['config_source'] == 0 ) $news_contents['source'] = $sourcetext;
 	elseif( $module_config[$module_name]['config_source'] == 1 ) $news_contents['source'] = $source_link;
 	elseif( $module_config[$module_name]['config_source'] == 2 && ! empty( $source_logo ) ) $news_contents['source'] = '<img width="100px" src="' . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/source/' . $source_logo . '">';
@@ -301,10 +291,8 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 			'verygood' => $lang_module['star_verygood']
 		);
 	}
-
-	list( $post_username, $post_first_name, $post_last_name ) = $db->query( 'SELECT username, first_name, last_name FROM ' . NV_USERS_GLOBALTABLE . ' WHERE userid = ' . $news_contents['admin_id'] )->fetch( 3 );
-	$news_contents['post_name'] = nv_show_name_user( $post_first_name, $post_last_name, $post_username );
-
+	$news_contents['uploader_name'] = $global_array_uploader[$news_contents['admin_id']]['uploader_name'];
+	$news_contents['uploader_link'] = $global_array_uploader[$news_contents['admin_id']]['link'];
 	$array_keyword = array();
 	$key_words = array();
 	$_query = $db->query( 'SELECT a1.keyword, a2.alias FROM ' . NV_PREFIXLANG . '_' . $module_data . '_tags_id a1 INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_tags a2 ON a1.tid=a2.tid WHERE a1.id=' . $news_contents['id'] );

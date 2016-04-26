@@ -309,17 +309,6 @@ if( isset($user_info) and $user_info['userid'] > 0 )
 	else
 	{
 		list( $playlist_id, $title, $alias, $description, $image, $keywords, $status, $private_mode ) = array( 0, '', '', '', '', '', 1, 1 );
-		// Get Alias
-		if( $nv_Request->isset_request( 'get_alias', 'post' ) )
-		{
-			$title = $nv_Request->get_title( 'get_alias', 'post', '' );
-			$alias = strtolower(change_alias( $title ));
-
-			include NV_ROOTDIR . '/includes/header.php';
-			echo $alias;
-			include NV_ROOTDIR . '/includes/footer.php';
-		}
-
 		$savecat = $nv_Request->get_int( 'savecat', 'post', 0 );
 		if( ! empty( $savecat ) )
 		{
@@ -425,13 +414,13 @@ if( isset($user_info) and $user_info['userid'] > 0 )
 		$xtpl->assign( 'keywords', $keywords );
 		$xtpl->assign( 'image', $image );
 		
-		if( nv_is_url($image) )
+		if( !empty($image) AND nv_is_url($image) )
 		{
-			$xtpl->assign( 'disabled', '' );
+			$xtpl->assign( 'disabled', 'disabled="disabled"' );
 		}
 		else
 		{
-			$xtpl->assign( 'disabled', 'disabled="disabled"' );
+			$xtpl->assign( 'disabled', '' );
 		}
 		
 		$xtpl->assign( 'description', nv_htmlspecialchars( nv_br2nl( $description ) ) );

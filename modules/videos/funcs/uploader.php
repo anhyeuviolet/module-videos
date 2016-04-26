@@ -11,9 +11,7 @@
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
 
 $array_page = explode( '-', $array_op[1] );
-$uploader_id = intval( end( $array_page ) );
-$number = strlen( $uploader_id ) + 1;
-$alias = substr( $array_op[1], 0, -$number );
+$alias = $array_op[1];
 
 if( isset( $array_op[2] ) )
 {
@@ -30,37 +28,22 @@ if( isset( $array_op[2] ) )
 $u_info = array();
 $db->sqlreset()
 	->select( 'userid, username, first_name, last_name' )
-	->from( NV_USERS_GLOBALTABLE  )
-	->where( 'userid=' . $uploader_id );
+	->from( NV_PREFIXLANG . '_' . $module_data . '_uploaders' )
+	->where( 'username = ' . $db->quote( $alias ). ' AND md5username=' .  $db->quote( nv_md5safe($alias) ) );
 	$result = $db->query( $db->sql() );
 	while( $uploader_info = $result->fetch() )
 	{
-		if(!empty($uploader_info))
-		{
-			if ( !empty($uploader_info['first_name']) OR !empty($uploader_info['last_name']) )
-			{
-				$uploader_info['uploader_name'] = $uploader_info['first_name'] . ' ' . $uploader_info['last_name'];
-			}
-			else
-			{
-				$uploader_info['uploader_name'] = $uploader_info['username'];
-			}
-		}
-		else
-		{
-			$alias = trim( str_replace( '-', ' ', $alias ) );
-			$uploader_info['uploader_name'] = $alias;
-		}
 		$u_info = $uploader_info;
 	}
 
+$u_info['post_name'] = nv_show_name_user( $u_info['first_name'], $u_info['last_name'], $u_info['username'] );
 $show_no_image = $module_config[$module_name]['show_no_image'];
 if(empty($show_no_image))
 {
 	$show_no_image = 'themes/default/images/' . $module_name . '/' . 'video_placeholder.png';
 }
 
-if( ! empty( $alias ) and ! empty( $uploader_id ) )
+if( ! empty( $alias ) and ! empty( $u_info['userid'] ) )
 {
 	$item_array = array();
 	$end_publtime = 0;
@@ -69,7 +52,7 @@ if( ! empty( $alias ) and ! empty( $uploader_id ) )
 	$db->sqlreset()
 		->select( 'COUNT(*)' )
 		->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
-		->where( 'status=1 AND admin_id=' . $uploader_id );
+		->where( 'status=1 AND admin_id=' . $u_info['userid'] );
 	
 	$num_items = $db->query( $db->sql() )->fetchColumn();
 	$description = $num_items . $lang_module['playlist_num_news'];
@@ -103,6 +86,8 @@ if( ! empty( $alias ) and ! empty( $uploader_id ) )
 			$item['width'] = $module_config[$module_name]['homewidth'];
 
 			$end_publtime = $item['publtime'];
+			$item['uploader_name'] = $global_array_uploader[$u_info['userid']]['uploader_name'];
+			$item['uploader_link'] = $global_array_uploader[$u_info['userid']]['link'];
 
 			$item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
 			$item['title_cut'] = nv_clean60( $item['title'], $module_config[$module_name]['titlecut'], true );
@@ -110,9 +95,9 @@ if( ! empty( $alias ) and ! empty( $uploader_id ) )
 		}
 		$result->closeCursor();
 		unset( $query, $row );
-
-		$page_title = $lang_module['uploaded_by'] . ' ' . $u_info['uploader_name'];
-		$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $alias . $uploader_id;
+		
+		$page_title = $lang_module['uploaded_by'] . ' ' . $u_info['post_name'];
+		$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $alias;
 		if( $page > 1 )
 		{
 			$page_title .= ' ' . NV_TITLEBAR_DEFIS . ' ' . $lang_global['page'] . ' ' . $page;

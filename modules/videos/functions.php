@@ -60,8 +60,21 @@ foreach( $list as $l )
 {
 	$global_array_block[$l['bid']] = $l;
 	$global_array_block[$l['bid']]['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['groups'] . '/' . $l['alias'];
-	 
+
 }
+
+unset( $sql, $list );
+
+$global_array_uploader = array();
+$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_uploaders ORDER BY userid ASC';
+$list = $nv_Cache->db( $sql, 'userid', $module_name );
+foreach( $list as $l )
+{
+	$global_array_uploader[$l['userid']] = $l;
+	$global_array_uploader[$l['userid']]['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['uploader'] . '/' . $l['username'];
+	$global_array_uploader[$l['userid']]['uploader_name'] = nv_show_name_user( $l['first_name'], $l['last_name'], $l['username'] );
+}
+unset( $sql, $list );
 
 //Xac dinh RSS
 if( $module_info['rss'] )

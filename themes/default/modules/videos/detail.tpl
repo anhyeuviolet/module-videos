@@ -6,13 +6,10 @@
 			<h3 class="title">{DETAIL.title}</h3>
 			<ul class="uploadinfo list-inline">
 				<li><em class="fa fa-clock-o">&nbsp;</em>{DETAIL.publtime}</li>
-				<!-- BEGIN: uploader_link -->
-				<li><em class="fa fa-user">&nbsp;</em>{LANG.content_uploaded_by}&nbsp;<a href="{DETAIL.uploader_link}" title="{DETAIL.admin_name}">{DETAIL.admin_name}</a></li>
-				<!-- END: uploader_link -->
-				<!-- BEGIN: uploader -->
-				<li><em class="fa fa-user">&nbsp;</em>{LANG.content_uploaded_by}&nbsp;{DETAIL.admin_name}</li>
-				<!-- END: uploader -->
+				<li><em class="fa fa-user">&nbsp;</em>{LANG.content_uploaded_by}&nbsp;<a href="{DETAIL.uploader_link}" title="{DETAIL.uploader_name}">{DETAIL.uploader_name}</a></li>
+				<!-- BEGIN: hitstotal -->
 				<li><em class="fa fa-search">&nbsp;</em>{LANG.hits_view}: {DETAIL.hitstotal}</li>
+				<!-- END: hitstotal -->
 			</ul>
 		</div>
 		<div class="detail_video">
@@ -240,10 +237,13 @@ playerInstance.setup({
 	<!-- BEGIN: player_logo -->
 	logo: {
 		file: '{VIDEO_CONFIG.jwplayer_logo_file}',
-		link: '{NV_MY_DOMAIN}'
+		link: '{NV_MY_DOMAIN}',
+		position: '{VIDEO_CONFIG.jwplayer_logo_pos}'
 	},
 	<!-- END: player_logo -->
 	skin: {"name": "stormtrooper"},
+	abouttext: "{LANG.jw_video_source}{VIDEO_CONFIG.site_name}",
+	aboutlink: "{NV_MY_DOMAIN}",
 	stagevideo: false,
 	stretching: "uniform",
 	visualplaylist: true,
@@ -255,13 +255,12 @@ playerInstance.setup({
 <script src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.MetaData.js" type="text/javascript"></script>
 <script src="{NV_BASE_SITEURL}themes/default/js/videos_shorten.js" type="text/javascript"></script>
 <script language="javascript">
+var load_more_text = "{LANG.video_more_text}";
+var load_less_text = "{LANG.video_less_text}";
 $(document).ready(function() {
 	$(".bodytext_shorten").shorten({showChars: 200});
     $('[data-toggle="tooltip"]').tooltip();
 });
-var load_more_text = "{LANG.video_more_text}";
-var load_less_text = "{LANG.video_less_text}";
-</script>
 </script>
 <!-- END: main -->
 

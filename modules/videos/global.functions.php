@@ -7,7 +7,6 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate Oct 08, 2015 10:47:41 AM
  */
-
 if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 $timecheckstatus = $module_config[$module_name]['timecheckstatus'];
@@ -586,4 +585,80 @@ function addhttp($url) {
         $url = "http://" . $url;
     }
     return $url;
+}
+
+/**
+ * Get either a Gravatar URL or complete image tag for a specified email address.
+ *
+ * @param string $email The email address
+ * @param string $s Size in pixels, defaults to 80px [ 1 - 2048 ]
+ * @param string $d Default imageset to use [ 404 | mm | identicon | monsterid | wavatar ]
+ * @param string $r Maximum rating (inclusive) [ g | pg | r | x ]
+ * @param boole $img True to return a complete IMG tag False for just the URL
+ * @param array $atts Optional, additional key/value attributes to include in the IMG tag
+ * @return String containing either just a URL or a complete image tag
+ * @source http://gravatar.com/site/implement/images/php/
+ */
+function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+    $url = 'http://www.gravatar.com/avatar/';
+    $url .= md5( strtolower( trim( $email ) ) );
+    $url .= "?s=$s&d=$d&r=$r";
+    if ( $img ) {
+        $url = '<img src="' . $url . '"';
+        foreach ( $atts as $key => $val )
+            $url .= ' ' . $key . '="' . $val . '"';
+        $url .= ' />';
+    }
+    return $url;
+}
+
+function nv_videos_check_uploader( $user_id ){
+	global $db, $global_config, $module_data, $module_name;
+	$db->sqlreset()
+	->select( 'userid' )
+	->from(  NV_PREFIXLANG . '_' . $module_data . '_uploaders'  )
+	->where( 'userid=' . $user_id );
+	$query = $db->query( $db->sql() );
+	$result = $query->fetch();
+	if( $result > 0){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+function nv_videos_getuser_info( $user_id ){
+	global $db, $nv_Cache, $global_config, $module_data, $module_name, $lang_module;
+	$db->sqlreset()
+	->select( 'userid, group_id, username, md5username, email, first_name, last_name, photo' )
+	->from( NV_USERS_GLOBALTABLE  )
+	->where( 'userid=' . $user_id );
+	$result = $db->query( $db->sql() );
+	while( $uploader_info = $result->fetch() )
+	{
+		$stmt = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_uploaders VALUES(
+		' . intval( $uploader_info['userid'] ) . ',
+		' . intval( $uploader_info['group_id'] ) . ',
+		1,
+		:username,
+		:md5username,
+		:email,
+		:first_name,
+		:last_name,
+		:photo,
+		:description,
+		0)'
+		);
+		
+		$_des = $lang_module['about_uploader'] . $uploader_info['username'];
+		$stmt->bindParam(':username', $uploader_info['username'], PDO::PARAM_STR);
+		$stmt->bindParam(':md5username', $uploader_info['md5username'], PDO::PARAM_STR);
+		$stmt->bindParam(':email', $uploader_info['email'], PDO::PARAM_STR);
+		$stmt->bindParam(':first_name', $uploader_info['first_name'] , PDO::PARAM_STR);
+		$stmt->bindParam(':last_name', $uploader_info['last_name'], PDO::PARAM_STR);
+		$stmt->bindParam(':photo', $uploader_info['photo'], PDO::PARAM_STR);
+		$stmt->bindParam(':description', $_des, PDO::PARAM_STR);
+		$stmt->execute();
+	}
+	$nv_Cache->delMod( $module_name );
 }
