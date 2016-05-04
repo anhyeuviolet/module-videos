@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @Project VIDEOS 4.x
  * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
@@ -9,6 +8,7 @@
  */
 
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
+$per_page = $module_config[$module_name]['playlist_max_items'];
 
 $show_no_image = $module_config[$module_name]['show_no_image'];
 if(empty($show_no_image))
@@ -131,10 +131,9 @@ if( !empty( $alias ) )
 		unset( $result, $row );
 
 		$playlist_other_array = array(); // check to remove
-		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 
 		$pl_ss = md5( $playlist_id . session_id() . $global_config['sitekey'] );
-		$contents = playlist_theme( $playlist_array, $playlist_other_array, $generate_page, $playlist_info, $playlist_id, $pl_ss );
+		$contents = playlist_theme( $playlist_array, $playlist_other_array, $playlist_info, $playlist_id, $pl_ss );
 	}
 	else
 	{

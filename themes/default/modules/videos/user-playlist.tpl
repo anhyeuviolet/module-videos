@@ -1,3 +1,15 @@
+<!-- BEGIN: mainrefresh -->
+<div class="text-center">
+	{DATA.content}
+	<br />
+	<br />
+	<img src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/images/load_bar.gif" />
+	<br />
+	<br />
+</div>
+<meta http-equiv="refresh" content="5;URL={DATA.urlrefresh}" />
+<!-- END: mainrefresh -->
+
 <!-- BEGIN: main -->
 <div class="row">
 	<div id="module_show_playlist" class="col-md-24">

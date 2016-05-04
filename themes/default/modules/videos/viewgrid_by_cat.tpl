@@ -20,12 +20,12 @@
 					<!-- BEGIN: image -->
 					<div class="videos-home-thumbnail pull-left col-md-24 col-lg-24 col-xs-24">
 						<a class="clearfix" title="{CONTENT.title}" href="{CONTENT.link}">
-							<img src="{HOMEIMG}" alt="{HOMEIMGALT}" style="width:{IMGWIDTH}px;height:{IMGHEIGHT}px;" class="imghome img-responsive" />
+							<img src="{HOMEIMG}" alt="{HOMEIMGALT}" class="imghome img-responsive" />
 						</a>
 					</div>
 					<!-- END: image -->
 					<div class="videos-home-info pull-left col-md-24 col-lg-24 col-xs-24">
-						<h3>
+						<h3 class="clearfix">
 							<a title="{CONTENT.title}" href="{CONTENT.link}">{CONTENT.title_cut}</a>
 						</h3>
 						<div class="text-muted">

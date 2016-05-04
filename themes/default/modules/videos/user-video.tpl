@@ -1,6 +1,11 @@
 <!-- BEGIN: mainrefresh -->
 <div class="text-center">
 	{DATA.content}
+	<br />
+	<br />
+	<img src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/images/load_bar.gif" />
+	<br />
+	<br />
 </div>
 <meta http-equiv="refresh" content="5;URL={DATA.urlrefresh}" />
 <!-- END: mainrefresh -->
@@ -23,7 +28,7 @@
 		<label class="col-sm-4 control-label">{LANG.alias}</label>
 		<div class="col-sm-20">
 			<input type="text" class="form-control pull-left" name="alias" id="idalias" value="{DATA.alias}" maxlength="255" style="width: 94%;" />
-			<em class="fa fa-refresh pull-right" style="cursor: pointer; vertical-align: middle; margin: 9px 0 0 4px" onclick="get_alias();" alt="Click">&nbsp;</em>
+			<em class="fa fa-refresh pull-right" style="cursor: pointer; vertical-align: middle; margin: 9px 0 0 4px" onclick="get_alias('{OP}');" alt="Click">&nbsp;</em>
 		</div>
 	</div>
 
@@ -56,7 +61,7 @@
 	<div class="form-group">
 		<label class="col-sm-4 control-label">{LANG.videos_duration}</label>
 		<div class="col-sm-20">
-			<input class="form-control pull-left" style="width:100px" type="text" name="vid_duration" id="vid_duration" placeholder="00:00:00" value="{DATA.vid_duration}"/>&nbsp; <em class="fa fa-refresh fa-lg fa-pointer pull-left" style="cursor: pointer; vertical-align: middle; margin: 9px 0 0 4px" onclick="get_duration();">&nbsp;</em>
+			<input class="form-control pull-left" style="width:100px" type="text" name="vid_duration" id="vid_duration" placeholder="00:00:00" value="{DATA.vid_duration}"/>&nbsp; <em class="fa fa-refresh fa-lg fa-pointer pull-left" style="cursor: pointer; vertical-align: middle; margin: 9px 0 0 4px" onclick="get_duration('{OP}');">&nbsp;</em>
 		</div>
 	</div>
 	<div class="form-group">

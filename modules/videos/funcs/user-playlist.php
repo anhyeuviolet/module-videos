@@ -13,7 +13,7 @@ if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
 require NV_ROOTDIR . '/modules/' . $module_file . '/site.functions.php'; // Include site lib
 
 // Check if is user
-if( isset($user_info) and $user_info['userid'] > 0 )
+if( defined( 'NV_IS_USER' ) )
 {
 	// Check if is AJAX method
 	$ajax = $nv_Request->get_int( 'ajax', 'post', '' );
@@ -461,8 +461,22 @@ if( isset($user_info) and $user_info['userid'] > 0 )
 }
 else
 {
-	Header( 'Location: ' . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=users&' . NV_OP_VARIABLE . '=login' );
-	die;
+	$array_temp = array();
+	$array_temp['urlrefresh'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=users&amp;' . NV_OP_VARIABLE . '=login&nv_redirect=' . nv_redirect_encrypt( $client_info['selfurl'] );
+	$array_temp['content'] = $lang_module['login_redirect'];
+	$template = $module_info['template'];
+
+	if( ! file_exists( NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file . '/user-video.tpl' ) )
+	{
+		$template = 'default';
+	}
+
+	$array_temp['urlrefresh'] = nv_url_rewrite( $array_temp['urlrefresh'], true );
+
+	$xtpl = new XTemplate( 'user-playlist.tpl', NV_ROOTDIR . '/themes/' . $template . '/modules/' . $module_file );
+	$xtpl->assign( 'DATA', $array_temp );
+	$xtpl->parse( 'mainrefresh' );
+	$contents = $xtpl->text( 'mainrefresh' );
 }
 
 include NV_ROOTDIR . '/includes/header.php';

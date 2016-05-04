@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @Project VIDEOS 4.x
  * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
@@ -11,9 +10,16 @@ if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
 if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
 require NV_ROOTDIR . '/modules/' . $module_file . '/site.functions.php';
 
-$playlist_id = $nv_Request->get_int( 'playlist_id', 'get', 0 );
-$contents = nv_show_playlist_list( $playlist_id );
-
-include NV_ROOTDIR . '/includes/header.php';
-echo $contents;
-include NV_ROOTDIR . '/includes/footer.php';
+$mod = $nv_Request->get_title( 'mod_list', 'get', '', 1 );
+if( $mod == 'playlist'){
+	$playlist_id = $nv_Request->get_int( 'playlist_id', 'get', 0 );
+	$contents = nv_show_playlist_list( $playlist_id );
+	include NV_ROOTDIR . '/includes/header.php';
+	echo $contents;
+	include NV_ROOTDIR . '/includes/footer.php';
+}elseif($mod == 'playlist_cat' ){
+	$contents = nv_show_playlist_cat_list();
+	include NV_ROOTDIR . '/includes/header.php';
+	echo $contents;
+	include NV_ROOTDIR . '/includes/footer.php';
+}

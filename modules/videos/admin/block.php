@@ -22,7 +22,7 @@ while( list( $bid_i, $title_i ) = $result->fetch( 3 ) )
 }
 if( empty( $array_block ) )
 {
-	Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=blockcat' );
+	Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=groups' );
 }
 
 $cookie_bid = $nv_Request->get_int( 'int_bid', 'cookie', 0 );

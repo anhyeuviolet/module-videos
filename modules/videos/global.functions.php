@@ -599,7 +599,7 @@ function addhttp($url) {
  * @return String containing either just a URL or a complete image tag
  * @source http://gravatar.com/site/implement/images/php/
  */
-function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+function get_gravatar( $email, $s = 256, $d = 'identicon', $r = 'g', $img = false, $atts = array() ) {
     $url = 'http://www.gravatar.com/avatar/';
     $url .= md5( strtolower( trim( $email ) ) );
     $url .= "?s=$s&d=$d&r=$r";
@@ -630,7 +630,7 @@ function nv_videos_check_uploader( $user_id ){
 function nv_videos_getuser_info( $user_id ){
 	global $db, $nv_Cache, $global_config, $module_data, $module_name, $lang_module;
 	$db->sqlreset()
-	->select( 'userid, group_id, username, md5username, email, first_name, last_name, photo' )
+	->select( 'userid, group_id, username, md5username, email, first_name, last_name' )
 	->from( NV_USERS_GLOBALTABLE  )
 	->where( 'userid=' . $user_id );
 	$result = $db->query( $db->sql() );
@@ -645,7 +645,6 @@ function nv_videos_getuser_info( $user_id ){
 		:email,
 		:first_name,
 		:last_name,
-		:photo,
 		:description,
 		0)'
 		);
@@ -656,7 +655,6 @@ function nv_videos_getuser_info( $user_id ){
 		$stmt->bindParam(':email', $uploader_info['email'], PDO::PARAM_STR);
 		$stmt->bindParam(':first_name', $uploader_info['first_name'] , PDO::PARAM_STR);
 		$stmt->bindParam(':last_name', $uploader_info['last_name'], PDO::PARAM_STR);
-		$stmt->bindParam(':photo', $uploader_info['photo'], PDO::PARAM_STR);
 		$stmt->bindParam(':description', $_des, PDO::PARAM_STR);
 		$stmt->execute();
 	}

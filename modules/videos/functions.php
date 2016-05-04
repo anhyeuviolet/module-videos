@@ -73,6 +73,9 @@ foreach( $list as $l )
 	$global_array_uploader[$l['userid']] = $l;
 	$global_array_uploader[$l['userid']]['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['uploader'] . '/' . $l['username'];
 	$global_array_uploader[$l['userid']]['uploader_name'] = nv_show_name_user( $l['first_name'], $l['last_name'], $l['username'] );
+	$global_array_uploader[$l['userid']]['uploader_list'] = $global_array_uploader[$l['userid']]['link'] . '/list';
+	$global_array_uploader[$l['userid']]['uploader_editinfo'] = $global_array_uploader[$l['userid']]['link'] . '/editinfo';
+	$global_array_uploader[$l['userid']]['uploader_gravatar'] = get_gravatar($global_array_uploader[$l['userid']]['email']);
 }
 unset( $sql, $list );
 

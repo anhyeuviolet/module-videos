@@ -498,7 +498,7 @@ function no_permission()
 	return $xtpl->text( 'no_permission' );
 }
 
-function playlist_theme( $playlist_array, $playlist_other_array, $generate_page, $playlist_info, $playlist_id, $pl_ss )
+function playlist_theme( $playlist_array, $playlist_other_array, $playlist_info, $playlist_id, $pl_ss )
 {
 	global $global_config, $lang_module, $module_info, $module_name, $module_file, $playlistalias, $module_config, $user_info;
 
@@ -627,12 +627,6 @@ function playlist_theme( $playlist_array, $playlist_other_array, $generate_page,
 			$xtpl->parse( 'main.other.loop' );
 		}
 		$xtpl->parse( 'main.other' );
-	}
-
-	if( ! empty( $generate_page ) )
-	{
-		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
-		$xtpl->parse( 'main.generate_page' );
 	}
 
 	$xtpl->parse( 'main' );
@@ -857,14 +851,25 @@ function tag_theme( $topic_array, $generate_page, $page_title, $description, $to
 		foreach( $topic_array as $topic_array_i )
 		{
 			$xtpl->assign( 'TOPIC', $topic_array_i );
-			$xtpl->assign( 'TIME', humanTiming( $topic_array_i['publtime'] ) );
-
+			
+			if(!empty($topic_array_i['uploader_name'])){
+				$xtpl->parse( 'main.topic.uploader_name' );
+			}
+			
+			if(!empty($topic_array_i['hitstotal'])){
+				$xtpl->parse( 'main.topic.hitstotal' );
+			}
+			
+			if(!empty($topic_array_i['publtime'])){
+				$xtpl->assign( 'TIME', humanTiming( $topic_array_i['publtime'] ) );
+			}
+			
 			if( ! empty( $topic_array_i['src'] ) )
 			{
 				$xtpl->parse( 'main.topic.homethumb' );
 			}
 
-			if( defined( 'NV_IS_MODADMIN' ) )
+			if( defined( 'NV_IS_MODADMIN' ) AND !empty($topic_array_i['id'] ) )
 			{
 				$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $topic_array_i['id'] ) . ' ' . nv_link_delete_page( $topic_array_i['id'] ) );
 				$xtpl->parse( 'main.topic.adminlink' );
@@ -894,4 +899,123 @@ function tag_theme( $topic_array, $generate_page, $page_title, $description, $to
 
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
+}
+
+function uploader_theme( $array_uploader, $item_array, $generate_page, $mode )
+{
+	if( $mode == 'uploader'){
+		global $lang_module, $module_info, $module_name, $module_file, $topicalias, $module_config, $user_info, $lang_global;
+
+		$xtpl = new XTemplate( 'uploader.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
+		$xtpl->assign( 'LANG', $lang_module );
+		$xtpl->assign( 'GLANG', $lang_global );
+		$xtpl->assign( 'UPLOADER', $array_uploader );
+		$xtpl->assign( 'IMGWIDTH', $module_config[$module_name]['homewidth'] );
+		$xtpl->assign( 'IMGHEIGHT', $module_config[$module_name]['homeheight'] );
+		$xtpl->assign( 'MODULE_NAME', $module_file );
+		foreach( $item_array as $item ){
+			$item['publtime'] = humanTiming($item['publtime']);
+			$item['title_cut'] = nv_clean60( $item['title'], $module_config[$module_name]['titlecut'], true );
+			$xtpl->assign( 'ITEM', $item );
+			if( defined( 'NV_IS_MODADMIN' ) )
+			{
+				$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $item['id'] ) . " " . nv_link_delete_page( $item['id'] ) );
+				$xtpl->parse( 'main_info.adminlink' );
+			}
+			if( $item['imghome'] != '' )
+			{
+				$xtpl->assign( 'HOMEIMG', $item['imghome'] );
+				$xtpl->assign( 'HOMEIMGALT', ! empty( $item['homeimgalt'] ) ? $item['homeimgalt'] : $item['title'] );
+				$xtpl->parse( 'main_info.loop.image' );
+			}
+			
+			if( $item['hitstotal'] > 0)
+			{
+				$xtpl->parse( 'main_info.loop.hitstotal' );
+			}
+			
+			$xtpl->parse( 'main_info.loop' );
+		}
+		
+		if( !empty( $array_uploader['email'] ) AND $array_uploader['view_mail'] == 1 )
+		{
+			$xtpl->parse( 'main_info.view_mail' );
+		}
+		
+		if( !empty( $array_uploader['description'] ) )
+		{
+			$xtpl->parse( 'main_info.description' );
+		}
+
+		if( ( defined( 'NV_IS_USER' ) AND $array_uploader['status'] == 1 AND $user_info['userid'] == $array_uploader['userid'] ) )
+		{
+			$xtpl->parse( 'main_info.edit_link' );
+		}
+		
+		if( ! empty( $generate_page ) )
+		{
+			$xtpl->assign( 'GENERATE_PAGE', $generate_page );
+			$xtpl->parse( 'main_info.generate_page' );
+		}
+		$xtpl->parse( 'main_info' );
+		return $xtpl->text( 'main_info' );
+	}elseif( $mode == 'list'){
+		global $lang_module, $module_info, $module_name, $module_file, $topicalias, $module_config, $user_info, $lang_global;
+
+		$xtpl = new XTemplate( 'uploader.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
+		$xtpl->assign( 'LANG', $lang_module );
+		$xtpl->assign( 'UPLOADER', $array_uploader );
+		$xtpl->assign( 'IMGWIDTH', $module_config[$module_name]['homewidth'] );
+		$xtpl->assign( 'IMGHEIGHT', $module_config[$module_name]['homeheight'] );
+		$xtpl->assign( 'MODULE_NAME', $module_file );
+		
+		foreach( $item_array as $item ){
+			$item['publtime'] = humanTiming($item['publtime']);
+			$item['title_cut'] = nv_clean60( $item['title'], $module_config[$module_name]['titlecut'], true );
+			$xtpl->assign( 'ITEM', $item );
+			if( defined( 'NV_IS_MODADMIN' ) )
+			{
+				$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $item['id'] ) . " " . nv_link_delete_page( $item['id'] ) );
+				$xtpl->parse( 'list_video.loop.adminlink' );
+			}
+			
+			if( $item['imghome'] != '' )
+			{
+				$xtpl->assign( 'HOMEIMG', $item['imghome'] );
+				$xtpl->assign( 'HOMEIMGALT', ! empty( $item['homeimgalt'] ) ? $item['homeimgalt'] : $item['title'] );
+				$xtpl->parse( 'list_video.loop.image' );
+			}
+			
+			if( $item['hitstotal'] > 0)
+			{
+				$xtpl->parse( 'list_video.loop.hitstotal' );
+			}
+			
+			$xtpl->parse( 'list_video.loop' );
+		}
+		
+		if( ( defined( 'NV_IS_USER' ) AND $array_uploader['status'] == 1 AND $user_info['userid'] == $array_uploader['userid'] ) )
+		{
+			$xtpl->parse( 'list_video.edit_link' );
+		}
+		
+		if( ! empty( $generate_page ) )
+		{
+			$xtpl->assign( 'GENERATE_PAGE', $generate_page );
+			$xtpl->parse( 'list_video.generate_page' );
+		}
+		
+		$xtpl->parse( 'list_video' );
+		return $xtpl->text( 'list_video' );
+	}elseif( $mode == 'editinfo'){
+		global $lang_module, $module_info, $module_name, $module_file, $topicalias, $module_config, $user_info, $lang_global;
+
+		$xtpl = new XTemplate( 'uploader.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
+		$xtpl->assign( 'LANG', $lang_module );
+		$xtpl->assign( 'GLANG', $lang_global );
+		$xtpl->assign( 'UPLOADER', $array_uploader );
+
+		$xtpl->parse( 'edit_info' );
+		return $xtpl->text( 'edit_info' );
+	}
 }

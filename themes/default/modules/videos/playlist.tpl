@@ -175,9 +175,4 @@ function playThis(index) {
 </ul>
 <!-- END: other -->
 
-<!-- BEGIN: generate_page -->
-<div class="text-center">
-	{GENERATE_PAGE}
-</div>
-<!-- END: generate_page -->
 <!-- END: main -->

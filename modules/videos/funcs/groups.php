@@ -8,14 +8,14 @@
  * @Createdate Oct 08, 2015 10:47:41 AM
  */
 
- if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
 
 $show_no_image = $module_config[$module_name]['show_no_image'];
 if(empty($show_no_image))
 {
 	$show_no_image = 'themes/default/images/' . $module_name . '/' . 'video_placeholder.png';
 }
-
+$groups_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['groups'];
 if( isset( $array_op[1] ) )
 {
 	$alias = trim( $array_op[1] );
@@ -43,6 +43,12 @@ if( isset( $array_op[1] ) )
 
 		$array_mod_title[] = array(
 			'catid' => 0,
+			'title' => $lang_module['groups_show'],
+			'link' => $groups_url
+		);
+		
+		$array_mod_title[] = array(
+			'catid' => 1,
 			'title' => $page_title,
 			'link' => $base_url
 		);
@@ -86,51 +92,38 @@ if( isset( $array_op[1] ) )
 			$item['title_cut'] = nv_clean60( $item['title'], $module_config[$module_name]['titlecut'], true );
 			$item['alt'] = ! empty( $item['homeimgalt'] ) ? $item['homeimgalt'] : $item['title'];
 			$item['width'] = $module_config[$module_name]['homewidth'];
-			
-			if($item['admin_name'] == $lang_module['guest_post'] )
-			{
-				unset($item['uploader_link']);
-			}
-			else
-			{
-				$item['upload_alias'] = change_alias(  $item['admin_name']  );
-				$item['upload_alias'] = strtolower( $item['upload_alias'] );
-				$item['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=uploader/' . $item['upload_alias'] . '-' . $item['admin_id'];
-			}
 
 			$end_weight = $item['weight'];
-
+			
+			$item['uploader_name'] = $global_array_uploader[$item['admin_id']]['uploader_name'];
+			$item['uploader_link'] = $global_array_uploader[$item['admin_id']]['link'];
 			$item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
 			$item_array[] = $item;
 		}
 		$result->closeCursor();
 		unset( $query, $row );
 
-		$item_array_other = array();
-		if ( $st_links > 0)
-		{
-			$db->sqlreset()
-				->select( 't1.id, t1.catid, t1.addtime, t1.edittime, t1.publtime, t1.title, t1.alias, t1.hitstotal' )
-				->from( NV_PREFIXLANG . '_' . $module_data . '_rows t1' )
-				->join( 'INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_block t2 ON t1.id = t2.id' )
-				->where( 't2.bid= ' . $bid . ' AND t2.weight > ' . $end_weight )
-				->order( 't2.weight ASC' )
-				->limit( $st_links );
-			$result = $db->query( $db->sql() );
-			while( $item = $result->fetch() )
-			{
-				$item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
-				$item_array_other[] = $item;
-			}
-			unset( $query, $row );
-		}
-
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 		if( ! empty( $image_group ) )
 		{
-			$image_group = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $image_group;
+			if( ! empty( $image_group ) AND file_exists( NV_ROOTDIR. '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $image_group ) )//image file
+			{
+				$image_group = videos_thumbs($bid, $image_group, $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
+			}
+			elseif(nv_is_url($image_group))
+			{
+				$image_group = $image_group;
+			}
+			else
+			{
+				$image_group = '';
+			}
 		}
-		$contents = tag_theme( $item_array, $item_array_other, $generate_page, $page_title, $description, $image_group );
+		if( (empty($description)) ){
+			$description = $lang_module['video_show_list'];
+		}
+		
+		$contents = tag_theme( $item_array, $generate_page, $page_title, $description, $image_group );
 	}
 }
 else
@@ -151,39 +144,32 @@ else
 	}
 	if( empty( $contents )  )
 	{
-		$query_cat = $db->query( 'SELECT bid as id, title, alias, image, description, weight FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block_cat ORDER BY weight ASC' );
+		$query_cat = $db->query( 'SELECT bid, title, alias, image, description, weight FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block_cat ORDER BY weight ASC' );
 
 		while( $item = $query_cat->fetch() )
 		{
 			if( ! empty( $item['image'] ) AND file_exists( NV_ROOTDIR. '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/img/' . $item['image'] ) )//image file
 			{
-				$item['src'] = videos_thumbs($item['id'], $item['image'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
+				$item['src'] = videos_thumbs($item['bid'], $item['image'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 			}
 			elseif(nv_is_url($item['image']))
 			{
 				$item['src'] = $item['image'];
 			}
-			elseif( ! empty( $show_no_image ) )//no image
-			{
-				$item['src'] = NV_BASE_SITEURL . $show_no_image;
-			}
 			else
 			{
 				$item['src'] = '';
 			}
-			$item['alt'] = $item['title'];
-			$item['width'] = $module_config[$module_name]['blockwidth'];
-
+			$item['title_cut'] = nv_clean60( $item['title'], $module_config[$module_name]['titlecut'], true );
 			$item['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['groups'] . '/' . $item['alias'];
 			$item['publtime'] = 0;
-			
 			$array_cat[] = $item;
 		}
-		
+
 		$query_cat->closeCursor();
 		unset( $query_cat, $item );
 		
-		$contents = playlist_theme( $array_cat, '', '', $groups_info, '','' );
+		$contents = tag_theme( $array_cat, '', '', $groups_info['title'], '');
 
 		if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' )
 		{
@@ -191,8 +177,14 @@ else
 		}
 	}
 
-	$page_title = $module_info['funcs']['groups']['func_custom_name'];
+	$page_title = $lang_module['groups_show_list'];
 	$key_words = $module_info['keywords'];
+	
+	$array_mod_title[] = array(
+		'catid' => 0,
+		'title' => $lang_module['groups_show'],
+		'link' => $groups_url
+	);
 }
 
 include NV_ROOTDIR . '/includes/header.php';

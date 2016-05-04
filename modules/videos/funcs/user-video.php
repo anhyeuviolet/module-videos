@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @Project VIDEOS 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Website tradacongnghe.com
  * @License GNU/GPL version 2 or any later version
- * @Createdate 12-11-2010 20:40
+ * @Createdate Oct 08, 2015 10:47:41 AM
  */
 
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
@@ -116,14 +116,15 @@ if( ! $array_post_user['addcontent'] )
 {
 	if( defined( 'NV_IS_USER' ) )
 	{
-		$array_temp['urlrefresh'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA;
+		$array_temp['urlrefresh'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+		$array_temp['content'] = $lang_module['error_addcontent'];
 	}
 	else
 	{
 		$array_temp['urlrefresh'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=users&amp;' . NV_OP_VARIABLE . '=login&nv_redirect=' . nv_redirect_encrypt( $client_info['selfurl'] );
+		$array_temp['content'] = $lang_module['login_redirect'];
 	}
 
-	$array_temp['content'] = $lang_module['error_addcontent'];
 	$template = $module_info['template'];
 
 	if( ! file_exists( NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file . '/user-video.tpl' ) )
@@ -140,6 +141,36 @@ if( ! $array_post_user['addcontent'] )
 
 	include NV_ROOTDIR . '/includes/header.php';
 	echo nv_site_theme( $contents );
+	include NV_ROOTDIR . '/includes/footer.php';
+}
+	
+if( $nv_Request->isset_request( 'get_alias', 'post' ) )
+{
+	$title = $nv_Request->get_title( 'get_alias', 'post', '' );
+	$alias = change_alias( $title );
+	$alias = strtolower( $alias );
+
+	include NV_ROOTDIR . '/includes/header.php';
+	echo $alias;
+	include NV_ROOTDIR . '/includes/footer.php';
+}
+
+if( $nv_Request->isset_request( 'get_duration', 'post' ) )
+{
+	$path = $nv_Request->get_string( 'get_duration', 'post', '' );
+	$path = urldecode($path);
+	if( !empty($path) AND is_youtube($path) )
+	{
+		$_vid_duration = youtubeVideoDuration($path);
+		$duration = sec2hms($_vid_duration);
+	}
+	else
+	{
+		$duration = '';
+	}
+
+	include NV_ROOTDIR . '/includes/header.php';
+	echo $duration;
 	include NV_ROOTDIR . '/includes/footer.php';
 }
 
@@ -591,8 +622,8 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 	$xtpl = new XTemplate( 'user-video.tpl', NV_ROOTDIR . '/themes/' . $template . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
 	$xtpl->assign( 'DATA', $rowcontent );
+	$xtpl->assign('OP', $module_info['alias']['user-video']);
 	$xtpl->assign( 'HTMLBODYTEXT', $htmlbodyhtml );
-
 	$xtpl->assign( 'GFX_WIDTH', NV_GFX_WIDTH );
 	$xtpl->assign( 'GFX_HEIGHT', NV_GFX_HEIGHT );
 	$xtpl->assign( 'NV_BASE_SITEURL', NV_BASE_SITEURL );
@@ -625,7 +656,6 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 		$xtpl->parse( 'main.catid' );
 	}
 
-
 	if( ! ( $rowcontent['status'] and $rowcontent['id'] ) )
 	{
 		$xtpl->parse( 'main.save_temp' );
@@ -643,7 +673,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 	{
 		$contents .= "<script type=\"text/javascript\">\n";
 		$contents .= '$("#idtitle").change(function () {
- 		get_alias();
+ 		get_alias("' . $module_info['alias']['user-video'] . '");
 		});';
 		$contents .= "</script>\n";
 	}
@@ -652,7 +682,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 	{
 		$contents .= "<script type=\"text/javascript\">\n";
 		$contents .= '$("#vid_path").change(function () {
- 		get_duration();
+ 		get_duration("' . $module_info['alias']['user-video'] . '");
 		});';
 		$contents .= "</script>\n";
 	}
@@ -669,12 +699,10 @@ elseif( defined( 'NV_IS_USER' ) )
 	$contents = "<div style=\"border: 1px solid #ccc;margin: 10px; font-size: 15px; font-weight: bold; text-align: center;\"><a href=\"" . $base_url . "&amp;contentid=0&checkss=" . md5( "0" . $client_info['session_id'] . $global_config['sitekey'] ) . "\">" . $lang_module['add_content'] . "</a></h1></div>";
 
 	$array_catpage = array();
-
 	$db->sqlreset()
 		->select( 'COUNT(*)' )
 		->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )
 		->where( 'admin_id= ' . $user_info['userid'] );
-
 	$num_items = $db->query( $db->sql() )->fetchColumn();
 	if( $num_items )
 	{
@@ -704,10 +732,11 @@ elseif( defined( 'NV_IS_USER' ) )
 
 			$catid = $item['catid'];
 			$item['link'] = $global_array_cat[$catid]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
+			$item['uploader_name'] = $global_array_uploader[$item['admin_id']]['uploader_name'];
+			$item['uploader_link'] = $global_array_uploader[$item['admin_id']]['link'];
 			$item['title_cut'] = nv_clean60( $item['title'], $module_config[$module_name]['titlecut'], true );
 			$array_catpage[] = $item;
 		}
-
 
 		// parse content
 		$xtpl = new XTemplate( 'viewcat_page.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
@@ -760,7 +789,6 @@ elseif( defined( 'NV_IS_USER' ) )
 
 		$xtpl->parse( 'main' );
 		$contents .= $xtpl->text( 'main' );
-
 
 		if( $page > 1 )
 		{

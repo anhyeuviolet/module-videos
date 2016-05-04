@@ -20,11 +20,15 @@
 		<!-- END: homethumb -->
 		<div class="videos-thumbnail pull-left col-md-18 col-lg-18 col-xs-18">
 			<h3><a href="{TOPIC.link}" title="{TOPIC.title}">{TOPIC.title_cut}</a></h3>
+			<!-- BEGIN: uploader_name -->
 			<p>{LANG.content_uploaded_by}&nbsp;<a href="{TOPIC.uploader_link}" title="{TOPIC.uploader_name}">{TOPIC.uploader_name}</a></p>
+			<!-- END: uploader_name -->
 			<p>
 				<span class="pull-left">{TIME}</span>
+				<!-- BEGIN: hitstotal -->
 				<span class="spacer pull-left"></span>
 				<span>{TOPIC.hitstotal}&nbsp;{LANG.hits_view}</span>
+				<!-- END: hitstotal -->
 			</p>
 			
 			<!-- BEGIN: adminlink -->

@@ -240,9 +240,8 @@ $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_
 	email varchar(250) NOT NULL DEFAULT '',
 	first_name varchar(100) NOT NULL DEFAULT '',
 	last_name varchar(100) NOT NULL DEFAULT '',
-	photo varchar(250) DEFAULT '',
 	description text,
-	view_mail tinyint(1) unsigned NOT NULL DEFAULT '0',
+	view_mail tinyint(1) unsigned NOT NULL DEFAULT '1',
 	PRIMARY KEY (userid)
 ) ENGINE=MyISAM";
 
