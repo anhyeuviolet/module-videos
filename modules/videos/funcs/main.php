@@ -87,33 +87,9 @@ if( empty( $contents ) )
 			$array_catpage[] = $item;
 			$end_publtime = $item['publtime'];
 		}
-	if( $st_links > 0)
-		{
-			$db->sqlreset()
-				->select('id, catid, addtime, edittime, publtime, title, alias, hitstotal')
-				->from( NV_PREFIXLANG . '_' . $module_data . '_rows' );
-
-			if( $viewcat == 'viewcat_page_new' )
-			{
-				$db->where( 'status= 1 AND inhome=1 AND publtime < ' . $end_publtime );
-			}
-			else
-			{
-				$db->where( 'status= 1 AND inhome=1 AND publtime > ' . $end_publtime );
-			}
-			$db->order( $order_by )->limit( $st_links );
-
-			$result = $db->query( $db->sql() );
-			while( $item = $result->fetch() )
-			{
-				$item['newday'] = $global_array_cat[$item['catid']]['newday'];
-				$item['link'] = $global_array_cat[$item['catid']]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
-				$array_cat_other[] = $item;
-			}
-		}
 		$viewcat = 'viewcat_page_new';
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
-		$contents = call_user_func( $viewcat, $array_catpage, $array_cat_other, $generate_page );
+		$contents = call_user_func( $viewcat, $array_catpage, $generate_page );
 	}
 	elseif( $viewcat == 'viewgrid_by_cat' )
 	{

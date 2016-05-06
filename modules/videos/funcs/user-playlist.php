@@ -16,151 +16,154 @@ require NV_ROOTDIR . '/modules/' . $module_file . '/site.functions.php'; // Incl
 if( defined( 'NV_IS_USER' ) )
 {
 	// Check if is AJAX method
+	$check_session = md5( $user_info['userid'] . $global_config['sitekey'] . session_id() );
 	$ajax = $nv_Request->get_int( 'ajax', 'post', '' );
-	if( $ajax == 1 ) // Change order of vids in playlist and del vids in playlist
-	{
-		$id = $nv_Request->get_int( 'id', 'post', 0 );
-		$playlist_id = $nv_Request->get_int( 'playlist_id', 'post', 0 );
-		$mod = $nv_Request->get_string( 'mod', 'post', '' );
-		$new_vid = $nv_Request->get_int( 'new_vid', 'post', 0 );
-		$del_list = $nv_Request->get_string( 'del_list', 'post', '' );
-		$content = "NO_" . $playlist_id;
-		if( $playlist_id > 0 )
+	$fcheck_session = $nv_Request->get_title( 'fcheck', 'post', '' );
+	if( $fcheck_session == $check_session){
+		if( $ajax == 1 ) // Change order of vids in playlist and del vids in playlist
 		{
-			if( $del_list != '' )
+			$id = $nv_Request->get_int( 'id', 'post', 0 );
+			$playlist_id = $nv_Request->get_int( 'playlist_id', 'post', 0 );
+			$mod = $nv_Request->get_string( 'mod', 'post', '' );
+			$new_vid = $nv_Request->get_int( 'new_vid', 'post', 0 );
+			$del_list = $nv_Request->get_string( 'del_list', 'post', '' );
+			$content = "NO_" . $playlist_id;
+			if( $playlist_id > 0 )
 			{
-				$array_id = array_map( "intval", explode( ',', $del_list ) );
-				foreach( $array_id as $id )
+				if( $del_list != '' )
 				{
-					if( $id > 0 )
+					$array_id = array_map( "intval", explode( ',', $del_list ) );
+					foreach( $array_id as $id )
 					{
-						$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist WHERE playlist_id=" . $playlist_id . " AND id=" . $id );
+						if( $id > 0 )
+						{
+							$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist WHERE playlist_id=" . $playlist_id . " AND id=" . $id );
+						}
+					}
+					nv_fix_playlist( $playlist_id );
+					$content = "OK_" . $playlist_id;
+				}
+				elseif( $id > 0 )
+				{
+					list( $playlist_id, $id ) = $db->query( "SELECT playlist_id, id FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist WHERE playlist_id=" . intval( $playlist_id ) . " AND id=" . intval( $id ) )->fetch( 3 );
+					if( $playlist_id > 0 and $id > 0 )
+					{
+						if( $mod == "playlist_sort" and $new_vid > 0 )
+						{
+							$query = "SELECT id FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist WHERE playlist_id=" . $playlist_id . " AND id!=" . $id . " ORDER BY playlist_sort ASC";
+							$result = $db->query( $query );
+
+							$playlist_sort = 0;
+							while( $row = $result->fetch() )
+							{
+								++$playlist_sort;
+								if( $playlist_sort == $new_vid ) ++$playlist_sort;
+								$sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_playlist SET playlist_sort=" . $playlist_sort . " WHERE playlist_id=" . $playlist_id . " AND id=" . intval( $row['id'] );
+								$db->query( $sql );
+							}
+
+							$result->closeCursor();
+							$sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_playlist SET playlist_sort=" . $new_vid . " WHERE playlist_id=" . $playlist_id . " AND id=" . intval( $id );
+							$db->query( $sql );
+
+							$content = "OK_" . $playlist_id;
+						}
 					}
 				}
 				nv_fix_playlist( $playlist_id );
-				$content = "OK_" . $playlist_id;
+				$nv_Cache->delMod( $module_name );
 			}
-			elseif( $id > 0 )
+			include NV_ROOTDIR . '/includes/header.php';
+			echo $content;
+			include NV_ROOTDIR . '/includes/footer.php';
+		}
+		elseif( $ajax == 2 ) //Change playlist sharing status
+		{
+			$playlist_id = $nv_Request->get_int( 'playlist_id', 'post', 0 );
+			$mod = $nv_Request->get_string( 'mod', 'post', '' );
+			$new_vid = $nv_Request->get_int( 'new_vid', 'post', 0 );
+
+			if( empty( $playlist_id ) ) die( 'NO_' . $playlist_id );
+			$content = 'NO_' . $playlist_id;
+
+			if( $mod == 'private_mode' and $playlist_id > 0 )
 			{
-				list( $playlist_id, $id ) = $db->query( "SELECT playlist_id, id FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist WHERE playlist_id=" . intval( $playlist_id ) . " AND id=" . intval( $id ) )->fetch( 3 );
-				if( $playlist_id > 0 and $id > 0 )
-				{
-					if( $mod == "playlist_sort" and $new_vid > 0 )
-					{
-						$query = "SELECT id FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist WHERE playlist_id=" . $playlist_id . " AND id!=" . $id . " ORDER BY playlist_sort ASC";
-						$result = $db->query( $query );
-
-						$playlist_sort = 0;
-						while( $row = $result->fetch() )
-						{
-							++$playlist_sort;
-							if( $playlist_sort == $new_vid ) ++$playlist_sort;
-							$sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_playlist SET playlist_sort=" . $playlist_sort . " WHERE playlist_id=" . $playlist_id . " AND id=" . intval( $row['id'] );
-							$db->query( $sql );
-						}
-
-						$result->closeCursor();
-						$sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_playlist SET playlist_sort=" . $new_vid . " WHERE playlist_id=" . $playlist_id . " AND id=" . intval( $id );
-						$db->query( $sql );
-
-						$content = "OK_" . $playlist_id;
-					}
-				}
+				$new_vid = ( intval( $new_vid ) == 1 ) ? 1 : 0;
+				$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat SET private_mode=' . $new_vid . ' WHERE playlist_id=' . $playlist_id;
+				$db->query( $sql );
+				$content = 'OK_' . $playlist_id;
 			}
-			nv_fix_playlist( $playlist_id );
+
 			$nv_Cache->delMod( $module_name );
+
+			include NV_ROOTDIR . '/includes/header.php';
+			echo $content;
+			include NV_ROOTDIR . '/includes/footer.php';
 		}
-		include NV_ROOTDIR . '/includes/header.php';
-		echo $content;
-		include NV_ROOTDIR . '/includes/footer.php';
-	}
-	elseif( $ajax == 2 ) //Change playlist sharing status
-	{
-		$playlist_id = $nv_Request->get_int( 'playlist_id', 'post', 0 );
-		$mod = $nv_Request->get_string( 'mod', 'post', '' );
-		$new_vid = $nv_Request->get_int( 'new_vid', 'post', 0 );
-
-		if( empty( $playlist_id ) ) die( 'NO_' . $playlist_id );
-		$content = 'NO_' . $playlist_id;
-
-		if( $mod == 'private_mode' and $playlist_id > 0 )
+		elseif( $ajax == 3 ) // Add video to playlist
 		{
-			$new_vid = ( intval( $new_vid ) == 1 ) ? 1 : 0;
-			$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat SET private_mode=' . $new_vid . ' WHERE playlist_id=' . $playlist_id;
-			$db->query( $sql );
-			$content = 'OK_' . $playlist_id;
-		}
+			$playlist_id = $nv_Request->get_int( 'playlist_id', 'post', 0 );
+			$mod = $nv_Request->get_string( 'mod', 'post', '' );
+			$id = $nv_Request->get_int( 'id', 'post', 0 );
 
-		$nv_Cache->delMod( $module_name );
-
-		include NV_ROOTDIR . '/includes/header.php';
-		echo $content;
-		include NV_ROOTDIR . '/includes/footer.php';
-	}
-	elseif( $ajax == 3 ) // Add video to playlist
-	{
-		$playlist_id = $nv_Request->get_int( 'playlist_id', 'post', 0 );
-		$mod = $nv_Request->get_string( 'mod', 'post', '' );
-		$id = $nv_Request->get_int( 'id', 'post', 0 );
-
-		if( empty( $playlist_id ) or empty( $id ) )
-		{
-			$content = 'NO_LIST_OR_VIDEO';
-		}
-
-		$id = ( intval( $id ));
-		$playlist_id = ( intval( $playlist_id ));
-		if( $mod == 'add_user_playlist' and $playlist_id > 0 and $id >0 )
-		{
-			$check_video_inlist = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist WHERE playlist_id=' . $playlist_id )->fetchColumn();
-			$check_video = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist WHERE id=' . $id . ' AND playlist_id=' . $playlist_id )->fetchColumn();
-			if($check_video > 0)
+			if( empty( $playlist_id ) or empty( $id ) )
 			{
-				$content = $lang_module['playlist_added_video'];
+				$content = 'NO_LIST_OR_VIDEO';
 			}
-			else
+
+			$id = ( intval( $id ));
+			$playlist_id = ( intval( $playlist_id ));
+			if( $mod == 'add_user_playlist' and $playlist_id > 0 and $id > 0 )
 			{
-				if( $check_video_inlist >= $module_config[$module_name]['playlist_max_items'])
+				$check_video_inlist = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist WHERE playlist_id=' . $playlist_id )->fetchColumn();
+				$check_video = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist WHERE id=' . $id . ' AND playlist_id=' . $playlist_id )->fetchColumn();
+				if($check_video > 0)
 				{
-					$content = $lang_module['playlist_full'];
+					$content = $lang_module['playlist_added_video'];
 				}
 				else
 				{
-					$sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_playlist (playlist_id, id, playlist_sort) VALUES (' . $playlist_id . ', ' . $id . ', 0)';
-					$db->query( $sql );
-					nv_fix_playlist( $playlist_id );
-					$content = $lang_module['playlist_added_video'];
+					if( $check_video_inlist >= $module_config[$module_name]['playlist_max_items'])
+					{
+						$content = $lang_module['playlist_full'];
+					}
+					else
+					{
+						$sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_playlist (playlist_id, id, playlist_sort) VALUES (' . $playlist_id . ', ' . $id . ', 0)';
+						$db->query( $sql );
+						nv_fix_playlist( $playlist_id );
+						$content = $lang_module['playlist_added_video'];
+					}
+				}
+				$nv_Cache->delMod( $module_name );
+			}
+
+			include NV_ROOTDIR . '/includes/header.php';
+			echo $content;
+			include NV_ROOTDIR . '/includes/footer.php';
+		}
+		elseif($ajax == 4) //Delete Playlist
+		{
+			$pid = $nv_Request->get_int( 'playlist_id', 'post', 0 );
+			$playlist_id = $db->query( "SELECT playlist_id FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist_cat WHERE playlist_id=" . intval( $pid ) )->fetchColumn();
+			if( $playlist_id > 0 )
+			{
+				nv_insert_logs( NV_LANG_DATA, $module_name, 'log_del_playlistcat', "playlist_catid " . $playlist_id, $user_info['userid'] );
+				$query = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist_cat WHERE playlist_id=" . $playlist_id;
+				if( $db->exec( $query ) )
+				{
+					$query = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist WHERE playlist_id=" . $playlist_id;
+					$db->query( $query );
+					nv_fix_playlist_cat();
+					$nv_Cache->delMod( $module_name );
+					$content = "OK_" . $playlist_id;
 				}
 			}
-			$nv_Cache->delMod( $module_name );
+			include NV_ROOTDIR . '/includes/header.php';
+			echo $content;
+			include NV_ROOTDIR . '/includes/footer.php';
 		}
-
-		include NV_ROOTDIR . '/includes/header.php';
-		echo $content;
-		include NV_ROOTDIR . '/includes/footer.php';
 	}
-	elseif($ajax == 4) //Delete Playlist
-	{
-		$pid = $nv_Request->get_int( 'playlist_id', 'post', 0 );
-		$playlist_id = $db->query( "SELECT playlist_id FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist_cat WHERE playlist_id=" . intval( $pid ) )->fetchColumn();
-		if( $playlist_id > 0 )
-		{
-			nv_insert_logs( NV_LANG_DATA, $module_name, 'log_del_playlistcat', "playlist_catid " . $playlist_id, $user_info['userid'] );
-			$query = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist_cat WHERE playlist_id=" . $playlist_id;
-			if( $db->exec( $query ) )
-			{
-				$query = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist WHERE playlist_id=" . $playlist_id;
-				$db->query( $query );
-				nv_fix_playlist_cat();
-				$nv_Cache->delMod( $module_name );
-				$content = "OK_" . $playlist_id;
-			}
-		}
-		include NV_ROOTDIR . '/includes/header.php';
-		echo $content;
-		include NV_ROOTDIR . '/includes/footer.php';
-	}
-
 	// User playlist site function
 	$array_mod_title[] = array(
 		'catid' => 0,
@@ -263,6 +266,7 @@ if( defined( 'NV_IS_USER' ) )
 		$xtpl->assign( 'NV_OP_VARIABLE', NV_OP_VARIABLE );
 		$xtpl->assign( 'MODULE_NAME', $module_name );
 		$xtpl->assign( 'OP', $op );
+		$xtpl->assign( 'OP_VIDEO', $module_info['alias']['user-video'] );
 
 		$listid = $nv_Request->get_string( 'listid', 'get', '' );
 		if( $listid == '' and $playlist_id )
@@ -405,6 +409,7 @@ if( defined( 'NV_IS_USER' ) )
 		$xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
 		$xtpl->assign( 'MODULE_NAME', $module_name );
 		$xtpl->assign( 'OP', $op );
+		$xtpl->assign( 'OP_VIDEO', $module_info['alias']['user-video'] );
 
 		$xtpl->assign( 'PLAYLIST_CAT_LIST', nv_show_playlist_cat_list() );
 
@@ -440,7 +445,6 @@ if( defined( 'NV_IS_USER' ) )
 			$xtpl->assign( 'ERROR', $error );
 			$xtpl->parse( 'main.error' );
 		}
-
 
 		if( empty( $alias ) )
 		{

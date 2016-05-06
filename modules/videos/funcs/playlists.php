@@ -130,10 +130,8 @@ if( !empty( $alias ) )
 		$result->closeCursor();
 		unset( $result, $row );
 
-		$playlist_other_array = array(); // check to remove
-
 		$pl_ss = md5( $playlist_id . session_id() . $global_config['sitekey'] );
-		$contents = playlist_theme( $playlist_array, $playlist_other_array, $playlist_info, $playlist_id, $pl_ss );
+		$contents = playlist_theme( $playlist_array, $playlist_info, $playlist_id, $pl_ss );
 	}
 	else
 	{
@@ -144,9 +142,8 @@ if( !empty( $alias ) )
 else
 {
 	$playlist_info = '';
-	$page_title = $module_info['custom_title'];
 	$key_words = $module_info['keywords'];
-	$playlist_info['title'] = $lang_module['playlist_show_list'];
+	$page_title = $playlist_info['title'] = $lang_module['playlist_show_list'];
 
 	$result = $db->query( 'SELECT playlist_id as id, title, alias, image, hitstotal, description as hometext, keywords, add_time as publtime, private_mode, userid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE status=1 ORDER BY weight ASC' );
 	while( $item = $result->fetch() )
@@ -193,7 +190,6 @@ else
 	$result->closeCursor();
 	unset( $result, $row );
 
-	$playlist_other_array = array();
 	$contents = playlist_theme( $playlist_array, '', '', $playlist_info, '','' );
 }
 include NV_ROOTDIR . '/includes/header.php';

@@ -103,10 +103,10 @@ function nv_del_playlist_list(oForm, playlist_id) {
 	}
 }
 
-function nv_change_playlist_cat(playlist_id, mod) {
+function nv_change_playlist_cat(playlist_id, mod, fcheck) {
 	var nv_timer = nv_settimeout_disable('id_' + mod + '_' + playlist_id, 1500);
 	var new_vid = $('#id_' + mod + '_' + playlist_id).val();
-	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'playlist_id=' + playlist_id + '&ajax=2&mod=' + mod + '&new_vid=' + new_vid, function(res) {
+	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'playlist_id=' + playlist_id + '&fcheck=' + fcheck + '&ajax=2&mod=' + mod + '&new_vid=' + new_vid, function(res) {
 		var r_split = res.split('_');
 		if (r_split[0] != 'OK') {
 			alert(nv_is_change_act_confirm[2]);
@@ -117,9 +117,9 @@ function nv_change_playlist_cat(playlist_id, mod) {
 	return;
 }
 
-function nv_del_playlist_cat(playlist_id) {
+function nv_del_playlist_cat(playlist_id, fcheck) {
 	if (confirm(nv_is_del_confirm[0])) {
-		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), '&ajax=4&playlist_id=' + playlist_id, function(res) {
+		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), '&ajax=4&playlist_id=' + playlist_id + '&fcheck=' + fcheck, function(res) {
 			var r_split = res.split('_');
 			if (r_split[0] == 'OK') {
 				nv_show_list_playlist_cat('playlist_cat');
@@ -168,13 +168,24 @@ function nv_show_list_playlist_cat( mod_list ) {
 	return;
 }
 
-function nv_add_user_playlist(id, mod) {
+function nv_add_user_playlist(id, user_playlist, mod) {
 	if (mod != 'add_user_playlist') {
 		return false;
 	}
-	var user_playlist = $('#add_user_playlist').val();
 	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'id=' + id + '&playlist_id=' + user_playlist + '&ajax=3&mod=' + mod, function(res) {
 	alert(res);
 	});
+	return;
+}
+
+function nv_show_user_playlist( mod_list ) {
+	var id =  $('#add_to_userlist').attr('value');
+	if (document.getElementById('add_to_userlist')) {
+		$('#add_to_userlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&mod_list=' + mod_list + '&id=' + id + '&nocache=' + new Date().getTime());
+	}
+	return;
+}
+
+function nv_favourite_video( mod, id ) {
 	return;
 }

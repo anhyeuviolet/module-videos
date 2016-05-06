@@ -42,16 +42,15 @@ function nv_show_playlist_cat_list()
 		foreach ( $_array_block_cat as $row)
 		{
 			$numnews = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist where playlist_id=' . $row['playlist_id'] )->fetchColumn();
-
 			$xtpl->assign( 'ROW', array(
 				'playlist_id' => $row['playlist_id'],
 				'title' => $row['title'],
 				'numnews' => $numnews,
-				'weight' => $row['weight'],
+				'check_session' => md5( $user_info['userid'] . $global_config['sitekey'] . session_id() ),
 				'link' => nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' .  NV_OP_VARIABLE . '=' .$module_info['alias']['user-playlist'] . '/' . $row['alias'] .'-'. $row['playlist_id'], true),
 				'linksite' => nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '/' . $row['alias'], true),
-				'url_edit' => nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;playlist_id=' . $row['playlist_id'] . '&mode=edit#edit', true),
-				'url_delete' => nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;playlist_id=' . $row['playlist_id'] . '&mode=delete', true)
+				'url_edit' => nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['user-playlist'] . '&amp;playlist_id=' . $row['playlist_id'] . '&mode=edit#edit', true),
+				'url_delete' => nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['user-playlist'] . '&amp;playlist_id=' . $row['playlist_id'] . '&mode=delete', true)
 			) );
 
 			for( $i = 1; $i <= $num; ++$i )
@@ -236,4 +235,42 @@ function nv_fix_playlist( $playlist_id, $repairtable = true )
 			$db->query( 'OPTIMIZE TABLE ' . NV_PREFIXLANG . '_' . $module_data . '_playlist' );
 		}
 	}
+}
+
+function nv_get_user_playlist( $id )
+{
+	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $module_file, $module_config, $global_config, $module_info, $user_info;
+	$xtpl = new XTemplate( 'playlist_cat.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'GLANG', $lang_global );
+	$xtpl->assign( 'NV_BASE_ADMINURL', NV_BASE_ADMINURL );
+	$xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
+	$xtpl->assign( 'NV_OP_VARIABLE', NV_OP_VARIABLE );
+	$xtpl->assign( 'MODULE_NAME', $module_name );
+	$xtpl->assign( 'OP', $op );
+	$xtpl->assign( 'USERLIST_OPS',  $module_info['alias']['user-playlist'] );
+
+	$array_user_playlist = array();
+	// call user playlist
+	if( defined( 'NV_IS_USER' ) AND isset($user_info['userid']) AND $user_info['userid'] > 0)
+	{
+		$sql = 'SELECT playlist_id, title, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE userid=' . $user_info['userid'] . ' AND status > 0 ORDER BY weight ASC';
+		$array_user_playlist = $db->query( $sql )->fetchAll();
+		if( !empty($array_user_playlist)){
+			foreach($array_user_playlist as $array_user_playlist_i)
+			{
+				$array_user_playlist_i['id'] = $id;
+				$array_user_playlist_i['numnews'] = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist where playlist_id=' . $array_user_playlist_i['playlist_id'] )->fetchColumn();
+				if( $array_user_playlist_i['status'] == 2 )
+				{
+					$array_user_playlist_i['disabled'] = 'disabled=disabled';
+				}
+				$xtpl->assign( 'USER_PLAYLIST', $array_user_playlist_i );
+				$xtpl->parse( 'get_user_playlist.loop' );
+			}
+		}
+	}
+	$xtpl->parse( 'get_user_playlist' );
+	$contents = $xtpl->text( 'get_user_playlist' );
+	return $contents;
 }

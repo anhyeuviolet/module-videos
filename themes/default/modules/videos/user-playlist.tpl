@@ -46,7 +46,7 @@
 							<td class="text-right"><strong>{LANG.alias}: </strong></td>
 							<td>
 								<input class="form-control form_80 pull-left" name="alias" id="idalias" type="text" value="{alias}" maxlength="255" /> 
-								&nbsp; <span class="text-middle"><em class="fa fa-refresh fa-lg fa-pointer" onclick="get_alias();">&nbsp;</em></span>
+								&nbsp; <span class="text-middle"><em class="fa fa-refresh fa-lg fa-pointer" onclick="get_alias('{OP_VIDEO}');">&nbsp;</em></span>
 							</td>
 						</tr>
 						<tr>
@@ -86,7 +86,7 @@
 <script type="text/javascript">
 <!-- BEGIN: getalias -->
 $("#idtitle").change(function() {
-	get_alias();
+	get_alias('{OP_VIDEO}');
 });
 <!-- END: getalias -->
 </script>

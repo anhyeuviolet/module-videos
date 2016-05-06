@@ -2,17 +2,16 @@
 <link href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.css" type="text/css" rel="stylesheet"/>
 <div class="row">
 	<div class="detail_container col-xs-24 col-md-24 col-lg-24">
-		<div class="page-header">
-			<h3 class="title">{DETAIL.title}</h3>
-			<ul class="uploadinfo list-inline">
-				<li><em class="fa fa-clock-o">&nbsp;</em>{DETAIL.publtime}</li>
-				<li><em class="fa fa-user">&nbsp;</em>{LANG.content_uploaded_by}&nbsp;<a href="{DETAIL.uploader_link}" title="{DETAIL.uploader_name}">{DETAIL.uploader_name}</a></li>
-				<!-- BEGIN: hitstotal -->
-				<li><em class="fa fa-search">&nbsp;</em>{LANG.hits_view}: {DETAIL.hitstotal}</li>
-				<!-- END: hitstotal -->
-			</ul>
-		</div>
 		<div class="detail_video">
+		<div class="detail_header">
+			<h3 class="title">{DETAIL.title}</h3>
+			<div class="clearfix"></div>
+			<!-- BEGIN: socialbutton -->
+			<div class="social-icon col-xs-12 col-md-12 col-lg-12 clearfix margin-bottom-lg margin-top-lg">
+				<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">&nbsp;</div>
+			</div>
+			<!-- END: socialbutton -->
+		</div>
 			<!-- BEGIN: no_jwp_lic_admin -->
 			<div class="alert alert-warning"><a href="{SETTING_LINKS}" title="{LANG.no_jwp_lic_admin}"><strong>{LANG.no_jwp_lic_admin}</strong>&nbsp;<em class="fa fa-external-link"></em></a> </div>
 			<!-- END: no_jwp_lic_admin -->
@@ -28,37 +27,32 @@
 				</div>
 				<!-- END: vid_jw_content -->
 			</div>
-			<div class="clearfix"></div>
-			<!-- BEGIN: socialbutton -->
-			<div class="social-icon col-xs-12 col-md-12 col-lg-12 clearfix margin-bottom-lg margin-top-lg">
-				<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">&nbsp;</div>
-			</div>
-			<!-- END: socialbutton -->
-			<div class="col-xs-12 col-md-12 col-lg-12 margin-top-lg">
-				<div class="user_function pull-right">
-					<label class="btn btn-primary" data-toggle="collapse" data-target="#add_to_userlist"><i data-toggle="tooltip" data-placement="top" title="{LANG.playlist_add_video}" class="fa fa-plus-square"></i></label>
+			<div class="video-headelist row">
+				<div class="uploader">
+					<a href="{DETAIL.uploader_link}" title="{DETAIL.uploader_name}"><img src="{DETAIL.uploader_gravatar}" style="width:50px;" alt="{DETAIL.uploader_name}" title="{DETAIL.uploader_name}" class="pull-left img-thumbnail bg-gainsboro m-bottom"></a>
+					<a href="{DETAIL.uploader_link}" title="{DETAIL.uploader_name}"><strong>{DETAIL.uploader_name}</strong></a>
 				</div>
-				<div class="clearfix"></div>
-				<div class="show_playlist collapse" id="add_to_userlist">
-					<!-- BEGIN: user_playlist -->
-					<label>{LANG.playlist_select}</label>
-					<form id="add_to_playlist" action="">
-						<select class="form-control form_60 pull-left" id="add_user_playlist">
-							<option class="text-center" value="">---------</option>
-							<!-- BEGIN: loop -->
-							<option value="{USER_PLAYLIST.playlist_id}" {USER_PLAYLIST.disabled}>{USER_PLAYLIST.title}</option>
-							<!-- END: loop -->
-						</select>&nbsp;<label class="btn btn-primary col-md-5 margin-left-lg" onclick="nv_add_user_playlist('{DETAIL.id}','add_user_playlist');">{LANG.save}</label>
-					</form>
-					<!-- END: user_playlist -->
-
-					<!-- BEGIN: user_create_newlist -->
-					<div class="alert alert-info margin-bottom-lg margin-top-lg">{LANG.user_create_newlist}<a href="{NV_BASE_SITEURL}{MODULE_NAME}/{USERLIST_OPS}/" target="_blank">&nbsp;<label>&nbsp;<i class="fa fa-external-link-square">&nbsp;</i></label></a></div>
-					<!-- END: user_create_newlist -->
-
-					<!-- BEGIN: user_required -->
-					<div class="alert alert-info margin-bottom-lg margin-top-lg">{LANG.user_required}<a href="#" onclick="return loginForm();">&nbsp;<label>&nbsp;<i class="fa fa-check-square">&nbsp;</i></label></a></div>
-					<!-- END: user_required -->
+				<div class="publtime row col-md-3 col-sm-3 col-lg-3">
+					{DETAIL.publtime}
+				</div>
+				<!-- BEGIN: hitstotal -->
+				<div class="hitstotal col-md-3 col-sm-3 col-lg-3 pull-right">
+					{DETAIL.hitstotal}&nbsp;{LANG.hits_view}
+				</div>
+				<!-- END: hitstotal -->
+			</div>
+			<div class="media-func group fn-tabgroup">
+				<a title="{LANG.playlist_add_video}"<!-- BEGIN: plist_not_user --> onclick="return loginForm();"<!-- END: plist_not_user --><!-- BEGIN: plist_is_user --> data-toggle="collapse" data-target="#add_to_userlist"<!-- END: plist_is_user --> href="#" class="button-style-1 pull-left fn-tab">
+				<i class="zicon zicon-add"></i>
+				<span>{LANG.playlist_add_video}</span>
+				</a>
+				
+				<a title="{LANG.video_favorite}"<!-- BEGIN: favorite_not_user --> onclick="return loginForm();"<!-- END: favorite_not_user --> href="#" class="button-style-1 pull-left fn-tab">
+				<i class="zicon zicon-favorite"></i>
+				<span>{LANG.video_favorite}</span>
+				</a>
+				
+				<div class="show_playlist clear collapse add-playlist-region" id="add_to_userlist" value="{DETAIL.id}">
 				</div>
 			</div>
 		</div>
@@ -102,7 +96,7 @@
 		<!-- END: copyright -->
     </div>
 </div>
-
+<hr class="clear"/>
 <div class="news_column row">
 	<div class="col-md-12">
 	<!-- BEGIN: keywords -->
@@ -112,8 +106,8 @@
 	<!-- END: keywords -->
     </div>
 
-<!-- BEGIN: allowed_rating -->
-	<div class="col-md-12">
+	<!-- BEGIN: allowed_rating -->
+	<div class="col-md-8 pull-right">
         <form id="form3B" action="">
             <div class="h5 clearfix">
                 <p>{STRINGRATING}</p>
@@ -124,7 +118,7 @@
                 </span>
                 <!-- END: data_rating -->
                 <div style="padding: 5px;">
-                    <input class="hover-star" type="radio" value="1" title="{LANGSTAR.verypoor}" /><input class="hover-star" type="radio" value="2" title="{LANGSTAR.poor}" /><input class="hover-star" type="radio" value="3" title="{LANGSTAR.ok}" /><input class="hover-star" type="radio" value="4" title="{LANGSTAR.good}" /><input class="hover-star" type="radio" value="5" title="{LANGSTAR.verygood}" /><span id="hover-test" style="margin: 0 0 0 20px;">{LANGSTAR.note}</span>
+                    <input class="hover-star" type="radio" value="1" title="{LANGSTAR.verypoor}" /><input class="hover-star" type="radio" value="2" title="{LANGSTAR.poor}" /><input class="hover-star" type="radio" value="3" title="{LANGSTAR.ok}" /><input class="hover-star" type="radio" value="4" title="{LANGSTAR.good}" /><input class="hover-star" type="radio" value="5" title="{LANGSTAR.verygood}" /><span id="hover-test" style="margin: 0 0 0 20px;"></span>
                 </div>
             </div>
         </form>
@@ -152,8 +146,8 @@
 	})
 	</script>
 	</div>
+	<!-- END: allowed_rating -->
 </div>
-<!-- END: allowed_rating -->
 
 <!-- BEGIN: adminlink -->
 <p class="text-center margin-bottom-lg">
@@ -258,6 +252,9 @@ playerInstance.setup({
 var load_more_text = "{LANG.video_more_text}";
 var load_less_text = "{LANG.video_less_text}";
 $(document).ready(function() {
+	if (document.getElementById('add_to_userlist')) {
+		$('#add_to_userlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&mod_list=user_playlist' + '&id={DETAIL.id}' + '&nocache=' + new Date().getTime());
+	}
 	$(".bodytext_shorten").shorten({showChars: 200});
     $('[data-toggle="tooltip"]').tooltip();
 });

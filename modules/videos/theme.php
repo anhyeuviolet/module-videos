@@ -81,7 +81,7 @@ function viewcat_grid_new( $array_catpage, $catid, $generate_page )
 	return $xtpl->text( 'main' );
 }
 
-function viewcat_page_new( $array_catpage, $array_cat_other, $generate_page )
+function viewcat_page_new( $array_catpage, $generate_page )
 {
 	global $global_array_cat, $module_name, $module_file, $module_upload, $lang_module, $module_config, $module_info, $global_array_cat, $catid, $page;
 
@@ -147,25 +147,6 @@ function viewcat_page_new( $array_catpage, $array_cat_other, $generate_page )
 		$xtpl->parse( 'main.viewcatloop.news' );
 	}
 	$xtpl->parse( 'main.viewcatloop' );
-
-	if( ! empty( $array_cat_other ) )
-	{
-		$xtpl->assign( 'ORTHERNEWS', $lang_module['other'] );
-
-		foreach( $array_cat_other as $array_row_i )
-		{
-			$newday = $array_row_i['publtime'] + ( 86400 * $array_row_i['newday'] );
-			$array_row_i['publtime'] = nv_date( "d/m/Y", $array_row_i['publtime'] );
-			$xtpl->assign( 'RELATED', $array_row_i );
-			if( $newday >= NV_CURRENTTIME )
-			{
-				$xtpl->parse( 'main.related.loop.newday' );
-			}
-			$xtpl->parse( 'main.related.loop' );
-		}
-
-		$xtpl->parse( 'main.related' );
-	}
 
 	if( ! empty( $generate_page ) )
 	{
@@ -275,7 +256,6 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	$xtpl->assign( 'NEWSCHECKSS', $news_contents['newscheckss'] );
 	$xtpl->assign( 'DETAIL', $news_contents );
 	$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
-	$xtpl->assign( 'USERLIST_OPS',  $module_info['alias']['user-playlist'] );
 	
 	if( defined( 'NV_IS_MODADMIN' ) AND (empty($module_config[$module_name]['jwplayer_license']) OR !isset($module_config[$module_name]['jwplayer_license']) ) ){
 		$xtpl->assign( 'SETTING_LINKS',  NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=setting#jwplayer_license' );
@@ -308,7 +288,6 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		{				
 			$xtpl->parse( 'main.jwplayer.player_logo' );
 		}
-
 		$xtpl->parse( 'main.jwplayer' );
 		$xtpl->parse( 'main.vid_jw_content' );
 	}
@@ -359,7 +338,6 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		{
 			$xtpl->parse( 'main.author.source' );
 		}
-
 		$xtpl->parse( 'main.author' );
 	}
 	
@@ -449,28 +427,6 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
        
         $xtpl->parse( 'main.others' );
 	}
-
-	if( ! empty( $array_user_playlist ) )
-	{
-		foreach($array_user_playlist as $array_user_playlist_i)
-		{
-			if( $array_user_playlist_i['status'] == 2 )
-			{
-				$array_user_playlist_i['disabled'] = 'disabled=disabled';
-			}
-			$xtpl->assign( 'USER_PLAYLIST', $array_user_playlist_i );
-			$xtpl->parse( 'main.user_playlist.loop' );
-		}
-		$xtpl->parse( 'main.user_playlist' );
-	}
-	elseif( isset($user_info['userid']) AND $user_info['userid'] > 0 )
-	{
-		$xtpl->parse( 'main.user_create_newlist' );
-	}
-	else
-	{
-		$xtpl->parse( 'main.user_required' );
-	}
 	
 	if( ! empty( $content_comment ) )
 	{
@@ -482,7 +438,13 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	{
 		$xtpl->parse( 'main.no_public' );
 	}
-
+	if( defined( 'NV_IS_USER' ) ){
+		$xtpl->parse( 'main.plist_is_user' );
+		$xtpl->parse( 'main.favorite_is_user' );
+	}else{
+		$xtpl->parse( 'main.plist_not_user' );
+		$xtpl->parse( 'main.favorite_not_user' );
+	}
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
 }
@@ -498,7 +460,7 @@ function no_permission()
 	return $xtpl->text( 'no_permission' );
 }
 
-function playlist_theme( $playlist_array, $playlist_other_array, $playlist_info, $playlist_id, $pl_ss )
+function playlist_theme( $playlist_array, $playlist_info, $playlist_id, $pl_ss )
 {
 	global $global_config, $lang_module, $module_info, $module_name, $module_file, $playlistalias, $module_config, $user_info;
 

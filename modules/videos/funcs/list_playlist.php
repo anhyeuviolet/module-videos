@@ -22,4 +22,10 @@ if( $mod == 'playlist'){
 	include NV_ROOTDIR . '/includes/header.php';
 	echo $contents;
 	include NV_ROOTDIR . '/includes/footer.php';
+}elseif($mod == 'user_playlist' ){
+	$id = $nv_Request->get_int( 'id', 'get', 0 );
+	$contents = nv_get_user_playlist( $id );
+	include NV_ROOTDIR . '/includes/header.php';
+	echo $contents;
+	include NV_ROOTDIR . '/includes/footer.php';
 }

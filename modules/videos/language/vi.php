@@ -53,7 +53,8 @@ $lang_module['savefile'] = 'Lưu Video này';
 $lang_module['rating'] = 'Đánh giá Video';
 $lang_module['rating_average'] = 'Xếp hạng';
 $lang_module['rating_count'] = 'phiếu bầu';
-$lang_module['stringrating'] = 'Tổng số sao của Video là: %1$s trong %2$s bình chọn';
+$lang_module['no_rating'] = 'Chưa có đánh giá nào';
+$lang_module['stringrating'] = 'Đánh giá: %1$s điểm/%2$s bình chọn';
 $lang_module['star_note'] = 'Bạn thấy Video này thế nào ?';
 $lang_module['star_verypoor'] = 'Dở tệ';
 $lang_module['star_poor'] = 'Chán';
@@ -189,10 +190,11 @@ $lang_module['playlist_is_private'] = 'Playlist này là Riêng tư';
 $lang_module['playlist_num_videos'] = 'Video trong Playlist';
 
 $lang_module['userpl_disable'] = 'Chức năng thêm/sửa Playlist đã bị tắt';
-$lang_module['user_create_newlist'] = 'Cần tạo mới Playlist';
+$lang_module['user_create_newlist'] = 'Tạo Playlist mới';
 $lang_module['user_required'] = 'Đăng ký hoặc đăng nhập để dùng chức năng này';
 
-$lang_module['video_favorite'] = 'Thích video này';
+$lang_module['video_favorite'] = 'Thích';
+$lang_module['video_unfavorite'] = 'Bỏ thích';
 $lang_module['video_more_text'] = 'Mở rộng';
 $lang_module['video_less_text'] = 'Thu gọn';
 
@@ -211,7 +213,7 @@ $lang_module['by'] = 'bởi';
 $lang_module['video'] = ' video';
 $lang_module['video_show_list'] = 'Danh sách Video';
 $lang_module['content_uploaded_by'] = 'Đăng bởi';
-$lang_module['hits_view'] = ' Lượt xem';
+$lang_module['hits_view'] = 'lượt xem';
 $lang_module['guest_post'] = 'Khách vãng lai';
 $lang_module['uploaded_by'] = 'Video upload bởi ';
 $lang_module['create_date'] = 'Ngày tạo';

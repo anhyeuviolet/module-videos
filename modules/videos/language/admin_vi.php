@@ -206,6 +206,8 @@ $lang_module['content_archive'] = 'Lưu trữ sau thời gian hết hạn';
 $lang_module['content_tags_empty'] = 'Chú ý: Videos chưa có từ khóa nào';
 $lang_module['content_tags_empty_auto'] = 'Hệ thống sẽ tạo tự động từ khóa lúc lưu Videos này, có thể tắt tính năng tự động tạo từ khóa ở phần quản lý module';
 
+$lang_module['content_no_video'] = 'Chưa có video nào trong mục này';
+
 $lang_module['showtooltip'] = 'Hiển thị tooltips';
 $lang_module['showtooltip_position'] = 'Vị trí hiển thị';
 $lang_module['showtooltip_position_top'] = 'Trên';

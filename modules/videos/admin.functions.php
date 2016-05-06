@@ -551,7 +551,8 @@ function nv_show_playlist_list( $playlist_id )
 	}
 	else
 	{
-		$contents = '&nbsp;';
+		$xtpl->parse( 'no_video' );
+		$contents = $xtpl->text( 'no_video' );
 	}
 	return $contents;
 }
@@ -882,7 +883,8 @@ function nv_show_block_list( $bid )
 	}
 	else
 	{
-		$contents = '&nbsp;';
+		$xtpl->parse( 'no_video' );
+		$contents = $xtpl->text( 'no_video' );
 	}
 	return $contents;
 }

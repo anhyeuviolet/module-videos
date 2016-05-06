@@ -40,3 +40,6 @@
 	</div>
 </form>
 <!-- END: main -->
+<!-- BEGIN: no_video -->
+<div class="alert alert-info">{LANG.content_no_video}</div>
+<!-- END: no_video -->

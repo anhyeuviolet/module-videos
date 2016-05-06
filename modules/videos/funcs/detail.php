@@ -176,7 +176,6 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	$news_contents['newscheckss'] = md5( $news_contents['id'] . session_id() . $global_config['sitekey'] );
 	$news_contents['fake_pl_id'] = 0;
 	
-	$news_contents['uploader_link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['uploader']. '/' . $news_contents['admin_name'];
 	if( $module_config[$module_name]['config_source'] == 0 ) $news_contents['source'] = $sourcetext;
 	elseif( $module_config[$module_name]['config_source'] == 1 ) $news_contents['source'] = $source_link;
 	elseif( $module_config[$module_name]['config_source'] == 2 && ! empty( $source_logo ) ) $news_contents['source'] = '<img width="100px" src="' . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/source/' . $source_logo . '">';
@@ -280,7 +279,11 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		{
 			$news_contents['disablerating'] = 0;
 		}
-		$news_contents['stringrating'] = sprintf( $lang_module['stringrating'], $news_contents['total_rating'], $news_contents['click_rating'] );
+		if($news_contents['click_rating'] > 0){
+			$news_contents['stringrating'] = sprintf( $lang_module['stringrating'], $news_contents['total_rating'], $news_contents['click_rating'] );
+		}else{
+			$news_contents['stringrating'] = $lang_module['no_rating'];
+		}
 		$news_contents['numberrating'] = ( $news_contents['click_rating'] > 0 ) ? round( $news_contents['total_rating'] / $news_contents['click_rating'], 1 ) : 0;
 		$news_contents['langstar'] = array(
 			'note' => $lang_module['star_note'],
@@ -293,6 +296,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	}
 	$news_contents['uploader_name'] = $global_array_uploader[$news_contents['admin_id']]['uploader_name'];
 	$news_contents['uploader_link'] = $global_array_uploader[$news_contents['admin_id']]['link'];
+	$news_contents['uploader_gravatar'] = $global_array_uploader[$news_contents['admin_id']]['uploader_gravatar'];
 	$array_keyword = array();
 	$key_words = array();
 	$_query = $db->query( 'SELECT a1.keyword, a2.alias FROM ' . NV_PREFIXLANG . '_' . $module_data . '_tags_id a1 INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_tags a2 ON a1.tid=a2.tid WHERE a1.id=' . $news_contents['id'] );
