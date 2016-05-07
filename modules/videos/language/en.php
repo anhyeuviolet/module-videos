@@ -3,13 +3,15 @@
 /**
 * @Project NUKEVIET 4.x
 * @Author VINADES.,JSC (contact@vinades.vn)
-* @Copyright (C) 2015 VINADES.,JSC. All rights reserved
+* @Copyright (C) 2016 VINADES.,JSC. All rights reserved
 * @Language English
 * @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
 * @Createdate Mar 04, 2010, 08:22:00 AM
 */
 
-if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
+if (! defined('NV_MAINFILE')) {
+	die( 'Stop!!!' );
+}
 
 $lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';
 $lang_translator['createdate'] = '04/03/2010, 15:22';
@@ -18,6 +20,7 @@ $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_module';
 
 $lang_module['no_jwp_lic_admin'] = 'JWplayer License Error';
+$lang_module['jw_video_source'] = 'Video available at';
 $lang_module['no_jwp_lic'] = 'Player error. Please contact to Webmaster for more infomation.';
 $lang_module['nocatpage'] = 'Error:No topic';
 $lang_module['other'] = 'Other';
@@ -52,6 +55,7 @@ $lang_module['savefile'] = 'Save';
 $lang_module['rating'] = 'Article reviews';
 $lang_module['rating_average'] = 'Ranking';
 $lang_module['rating_count'] = 'vote';
+$lang_module['no_rating'] = 'No Rating';
 $lang_module['stringrating'] = 'Total notes of this article: %1$s in %2$s rating';
 $lang_module['star_note'] = 'Click on stars to rate this article';
 $lang_module['star_verypoor'] = 'Very poor article';
@@ -132,11 +136,12 @@ $lang_module['error_cat'] = 'Error: Select Category for article, please.';
 $lang_module['error_title'] = 'Error: Type title for article, please.';
 $lang_module['error_bodytext'] = 'Error: Type content for this article in Body text';
 $lang_module['error_captcha'] = 'Lỗi: Captcha Wrong, Try again.';
-$lang_module['save_content_ok'] = 'Published article writing success. <br  /> browser will automatically go back.';
-$lang_module['save_content_view_page'] = 'Published article writing success. <br  /> browser will automatically go back.';
-$lang_module['save_content_waite'] = 'The article you sent was recording system, <br  /> site administrator will check the posts and sign posts in the shortest time, <br  /> browser will automatically go back.';
-$lang_module['save_content_waite_home'] = 'The article you sent was recording system, <br  /> site administrator will check the posts and sign posts in the shortest time, <br  /> browser will automatically go back homepage.';
+$lang_module['save_content_ok'] = 'Published article writing success. <br /> browser will automatically go back.';
+$lang_module['save_content_view_page'] = 'Published article writing success. <br /> browser will automatically go back.';
+$lang_module['save_content_waite'] = 'The article you sent was recording system, <br /> site administrator will check the posts and sign posts in the shortest time, <br /> browser will automatically go back.';
+$lang_module['save_content_waite_home'] = 'The article you sent was recording system, <br /> site administrator will check the posts and sign posts in the shortest time, <br /> browser will automatically go back homepage.';
 $lang_module['error_addcontent'] = 'Error: You have not been granted permission to submit article.';
+$lang_module['login_redirect'] = 'Redirecting to Login page';
 $lang_module['errorsave'] = 'System errors do not update the content, you check the article title may be identical. Change it and try again.';
 $lang_module['update_content'] = 'Edit Post';
 $lang_module['del_content'] = 'Delete Post';
@@ -165,6 +170,7 @@ $lang_module['your_playlist'] = 'Your playlist';
 $lang_module['add_playlist_cat'] = 'Add new Playlist';
 $lang_module['edit_playlist_cat'] = 'Edit Playlist';
 $lang_module['playlists'] = 'Playlist';
+$lang_module['playlist_num'] = 'Total Video';
 $lang_module['playlist_sort'] = 'Sort';
 $lang_module['description'] = 'Description';
 $lang_module['error_name'] = 'Title is missing';
@@ -185,10 +191,13 @@ $lang_module['playlist_num_videos'] = 'Video(s) in Playlist';
 $lang_module['userpl_disable'] = 'User playlist is disabled.';
 $lang_module['user_create_newlist'] = 'Create new playlist';
 $lang_module['user_required'] = 'Log in of sign up to use this function.';
+$lang_module['video_title'] = 'Video title';
 $lang_module['video_favorite'] = 'Favorite';
+$lang_module['video_unfavorite'] = 'Unlike';
 $lang_module['video_more_text'] = 'More';
 $lang_module['video_less_text'] = 'Less';
 $lang_module['error_vid_path'] = 'Video path is not valid.';
+$lang_module['videos_duration'] = 'Duration';
 $lang_module['year'] = 'years ago';
 $lang_module['month'] = 'months ago';
 $lang_module['week'] = 'weeks ago';
@@ -198,10 +207,25 @@ $lang_module['minute'] = 'minutes ago';
 $lang_module['second'] = 'seconds ago';
 $lang_module['by'] = 'by';
 $lang_module['video'] = 'video';
+$lang_module['video_show_list'] = 'Video list';
 $lang_module['content_uploaded_by'] = 'Video uploaded by';
 $lang_module['hits_view'] = 'views';
 $lang_module['guest_post'] = 'Guest';
 $lang_module['uploaded_by'] = 'Uploaded by';
 $lang_module['create_date'] = 'Created';
+$lang_module['groups_show'] = 'Genre';
+$lang_module['groups_show_list'] = 'List genre';
+$lang_module['latest_uploader'] = 'Lastest Video';
+$lang_module['basic_uploader'] = 'Basic info';
+$lang_module['about_uploader'] = 'About';
+$lang_module['uploader_editinfo'] = 'Update info';
+$lang_module['add_uploader_data'] = 'Add Uploader table';
+$lang_module['first_name'] = 'First name';
+$lang_module['last_name'] = 'Last name';
+$lang_module['uploader_description'] = 'About yourself';
+$lang_module['showmail'] = 'Display email';
+$lang_module['editinfo_confirm'] = 'Confirm';
+$lang_module['no'] = 'No.';
+$lang_module['stt'] = 'No.';
 $lang_module['print'] = 'Print';
 $lang_module['print_page'] = 'Print this article';

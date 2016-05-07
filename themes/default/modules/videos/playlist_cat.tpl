@@ -12,7 +12,7 @@
 		</thead>
 		<tbody>
 			<!-- BEGIN: loop -->
-			<tr <!-- BEGIN: pl_moderate -->class="warning"<!-- END: pl_moderate -->>
+			<tr<!-- BEGIN: pl_moderate --> class="warning"<!-- END: pl_moderate -->>
 				<td class="text-center">{ROW.no}</td>
 				<td>
 				<a href="{ROW.link}">{ROW.title}</a>
@@ -46,21 +46,19 @@ $(document).ready(function(){
 <!-- END: playlistcat_lists -->
 
 <!-- BEGIN: get_user_playlist -->
-<div class="add-playlist-region">
+<div class="add-playlist-region margin-top-lg">
 	<h4>
 	<span class="close fn-closetab" data-toggle="collapse" data-target="#add_to_userlist"></span>
-	<span>{LANG.playlist_select}</span>
-	<em title="Làm mới danh sách Playlist" id="renew_user_playlist" class="fa fa-refresh fa-lg fa-pointer" style="cursor: pointer; vertical-align: middle; margin: 0px 0 0 5px" onclick="nv_show_user_playlist('user_playlist', '{USER_PLAYLIST.check_session}');">&nbsp;</em>
+	<span class="margin-bottom-lg">{LANG.playlist_select}</span>
+	<em title="{LANG.playlist_refresh}" id="renew_user_playlist" class="fa fa-refresh fa-lg fa-pointer" style="cursor: pointer; vertical-align: middle; margin: 0px 0 0 5px" onclick="nv_show_user_playlist('user_playlist', '{USER_PLAYLIST.check_session}');">&nbsp;</em>
 	</h4>
 	<ul class="playlist-region fn-list changeme" id="list_playlist">
 		<!-- BEGIN: loop -->
 		<li>
-			<p>
-				{USER_PLAYLIST.title}
-			</p>
+			<p><strong>{USER_PLAYLIST.title}</strong></p>
 			<span>{USER_PLAYLIST.numnews}{LANG.video}</span>
 			<a class="btn btn-primary fix-button fn-add" onclick="nv_add_user_playlist('{USER_PLAYLIST.id}','{USER_PLAYLIST.playlist_id}','add_user_playlist', '{USER_PLAYLIST.check_session}');">
-			<span>{LANG.save}</span>
+			<span class="add-to-list">{LANG.save}</span>
 			</a>
 		</li>
 		<!-- END: loop -->

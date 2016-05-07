@@ -206,12 +206,13 @@ for( $i = 5; $i <= 30; ++$i )
 }
 
 // Bai viet chi hien thi link
-for( $i = 0; $i <= 20; ++$i )
+$_st = array(3,4,6,8);
+foreach( $_st as $_st_i )
 {
 	$xtpl->assign( 'ST_LINKS', array(
-		'key' => $i,
-		'title' => $i,
-		'selected' => $i == $module_config[$module_name]['st_links'] ? ' selected="selected"' : ''
+		'key' => $_st_i,
+		'title' => $_st_i,
+		'selected' => $_st_i == $module_config[$module_name]['st_links'] ? ' selected="selected"' : ''
 	) );
 	$xtpl->parse( 'main.st_links' );
 }

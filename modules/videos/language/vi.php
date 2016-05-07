@@ -190,6 +190,7 @@ $lang_module['playlist_pending'] = 'Playlist đang kiểm duyệt';
 $lang_module['playlist_is_private'] = 'Playlist này là Riêng tư';
 $lang_module['playlist_num_videos'] = 'Video trong Playlist';
 $lang_module['playlist_remove_videos'] = 'Xoá Video khỏi Playlist';
+$lang_module['playlist_refresh'] = 'Làm mới danh sách Playlist';
 
 $lang_module['userpl_disable'] = 'Chức năng thêm/sửa Playlist đã bị tắt';
 $lang_module['user_create_newlist'] = 'Tạo Playlist mới';

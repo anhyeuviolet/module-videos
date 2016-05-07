@@ -11,7 +11,7 @@
 </div>
 <!-- END: viewdescription -->
 <!-- BEGIN: viewcatloop -->
-<div class="col-md-8 col-lg-8 col-sm-12 col-xs-24 videos_list">
+<div class="col-md-{PER_LINE} col-lg-{PER_LINE} col-sm-12 col-xs-24 videos_list">
 	<div class="thumbnail">
 		<!-- BEGIN: image -->
 		<a title="{CONTENT.title}" href="{CONTENT.link}"><img alt="{HOMEIMGALT1}" src="{HOMEIMG1}" style="width:{IMGWIDTH}px;height:{IMGHEIGHT}px;"  class="img-responsive video_img"/></a>

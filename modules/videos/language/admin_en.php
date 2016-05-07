@@ -3,13 +3,15 @@
 /**
 * @Project NUKEVIET 4.x
 * @Author VINADES.,JSC (contact@vinades.vn)
-* @Copyright (C) 2015 VINADES.,JSC. All rights reserved
+* @Copyright (C) 2016 VINADES.,JSC. All rights reserved
 * @Language English
 * @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
 * @Createdate Mar 04, 2010, 08:22:00 AM
 */
 
-if( ! defined( 'NV_ADMIN' ) or ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
+if (! defined('NV_ADMIN') or ! defined('NV_MAINFILE')) {
+	die( 'Stop!!!' );
+}
 
 $lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';
 $lang_translator['createdate'] = '04/03/2010, 15:22';
@@ -27,6 +29,7 @@ $lang_module['additional_content'] = 'More info';
 $lang_module['sources'] = 'Sources';
 $lang_module['videos_sources'] = 'Video source';
 $lang_module['videos_info'] = 'Video info';
+$lang_module['videos_duration'] = 'Duration';
 $lang_module['videos_sources_placeholder'] = 'Youtube, Picasa, Facebook or Upload';
 $lang_module['save'] = 'Save';
 $lang_module['browse_server'] = 'Browse';
@@ -124,6 +127,7 @@ $lang_module['setting_jwplayer_controlbar'] = 'Show control bar';
 $lang_module['setting_jwplayer_mute'] = 'Default mute';
 $lang_module['setting_jwplayer_logo'] = 'Add logo to video';
 $lang_module['setting_jwplayer_logo_file'] = 'Logo path';
+$lang_module['setting_jwplayer_logo_position'] = 'Logo position';
 $lang_module['viewcat_page'] = 'Display method';
 $lang_module['viewcat_page_new'] = 'New categories, Up';
 $lang_module['viewcat_page_old'] = 'Old categories, Up';
@@ -192,6 +196,7 @@ $lang_module['content_checkcatmsg'] = 'You must choose the main category of the 
 $lang_module['content_archive'] = 'Save after expire date';
 $lang_module['content_tags_empty'] = 'Note: article do not have keywords';
 $lang_module['content_tags_empty_auto'] = 'The system will automatically generate keywords stored at this article, you can disable auto-generated keywords in the management module';
+$lang_module['content_no_video'] = 'There is no Video';
 $lang_module['showtooltip'] = 'Display tooltip';
 $lang_module['showtooltip_position'] = 'Tooltip postition';
 $lang_module['showtooltip_position_top'] = 'Top';
@@ -212,6 +217,7 @@ $lang_module['delete_from_playlist'] = 'Remove from Playlist';
 $lang_module['error_del_content'] = 'Error: System can\'t delete all block\'s article, please try agian';
 $lang_module['msgnocheck'] = 'No topic selected';
 $lang_module['facebookAppID'] = 'Facebook App ID';
+$lang_module['setting_youtube_api'] = 'Youtube API';
 $lang_module['facebookAppIDNote'] = '(Form: 1419186468293063, <a href="http://wiki.nukeviet.vn/nukeviet:admin:news:facebookapi" target="_blank">view detail</a>)';
 $lang_module['socialbutton'] = 'Display Like facebook, G+, Twitter tools when view aricle';
 $lang_module['block'] = 'Blocks';
@@ -220,7 +226,9 @@ $lang_module['source_logo'] = 'Source logo';
 $lang_module['playlist_del'] = 'Remove from Playlist';
 $lang_module['playlist_waiting_approve'] = 'Awaiting Moderate';
 $lang_module['playlist_nocheck'] = 'Check one or more Video to process';
+$lang_module['playlist_delete_confirm'] = 'Are you sure to remove ?';
 $lang_module['playlist_delete_success'] = 'Completed !';
+$lang_module['playlist_nonews'] = 'There is no Video from this playlist';
 $lang_module['addtoplaylists'] = 'Add to Playlist';
 $lang_module['playlist_update_success'] = 'Playlist updated !';
 $lang_module['playlist_num_news'] = 'video';
@@ -295,6 +303,8 @@ $lang_module['playlist_private_on'] = 'Private';
 $lang_module['playlist_public'] = 'Public';
 $lang_module['playlist_status'] = 'On';
 $lang_module['playlist'] = 'Off';
+$lang_module['about_uploader'] = 'About';
+$lang_module['add_uploader_data'] = 'Add Uploader table';
 $lang_module['year'] = 'years';
 $lang_module['month'] = 'months';
 $lang_module['week'] = 'weeks';
@@ -305,6 +315,10 @@ $lang_module['second'] = 'second';
 $lang_module['guest_post'] = 'Guest';
 $lang_module['setting_player'] = 'Player setting';
 $lang_module['wiki_get_free_jwlicense'] = 'Link to wiki';
+$lang_module['jwposition_top-right'] = 'Top-left (Default)';
+$lang_module['jwposition_top-left'] = 'Top-right';
+$lang_module['jwposition_bottom-right'] = 'Bottom-right';
+$lang_module['jwposition_bottom-left'] = 'Bottom-left';
 $lang_module['topics'] = 'Topics';
 $lang_module['topics_error_title'] = 'Error: You do not enter the event title';
 $lang_module['add_topic'] = 'Add topic';

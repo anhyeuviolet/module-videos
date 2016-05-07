@@ -1,53 +1,55 @@
 <!-- BEGIN: main -->
 <link href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.css" type="text/css" rel="stylesheet"/>
-<div class="row">
-	<div class="detail_container col-xs-24 col-md-24 col-lg-24">
-		<div class="detail_video">
-		<div class="detail_header">
+<div class="detail_container col-xs-24 col-md-24 col-lg-24">
+	<div class="detail_video">
+		<div class="detail_header cf">
 			<h3 class="title">{DETAIL.title}</h3>
-			<div class="clearfix"></div>
 			<!-- BEGIN: socialbutton -->
 			<div class="social-icon col-xs-12 col-md-12 col-lg-12 clearfix margin-bottom-lg margin-top-lg">
 				<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">&nbsp;</div>
 			</div>
+			<div class="clearfix"></div>
 			<!-- END: socialbutton -->
 		</div>
-			<!-- BEGIN: no_jwp_lic_admin -->
-			<div class="alert alert-warning"><a href="{SETTING_LINKS}" title="{LANG.no_jwp_lic_admin}"><strong>{LANG.no_jwp_lic_admin}</strong>&nbsp;<em class="fa fa-external-link"></em></a> </div>
-			<!-- END: no_jwp_lic_admin -->
+		<!-- BEGIN: no_jwp_lic_admin -->
+		<div class="alert alert-warning"><a href="{SETTING_LINKS}" title="{LANG.no_jwp_lic_admin}"><strong>{LANG.no_jwp_lic_admin}</strong>&nbsp;<em class="fa fa-external-link"></em></a> </div>
+		<!-- END: no_jwp_lic_admin -->
 
-			<!-- BEGIN: no_jwp_lic -->
-			<div class="alert alert-warning"><strong>{LANG.no_jwp_lic}</strong></div>
-			<!-- END: no_jwp_lic -->
+		<!-- BEGIN: no_jwp_lic -->
+		<div class="alert alert-warning"><strong>{LANG.no_jwp_lic}</strong></div>
+		<!-- END: no_jwp_lic -->
 
-			<div class="videoplayer">
-				<!-- BEGIN: vid_jw_content -->
-				<div id="videoCont">
-					<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_FILE}/loading.gif" class="center-block mar_rgt_auto img-responsive" alt="Loading player" />
-				</div>
-				<!-- END: vid_jw_content -->
+		<div class="videoplayer cf">
+			<!-- BEGIN: vid_jw_content -->
+			<div id="videoCont">
+				<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_FILE}/loading.gif" class="center-block mar_rgt_auto img-responsive" alt="Loading player" />
 			</div>
-			<div class="video-headelist row">
-				<div class="uploader">
-					<a href="{DETAIL.uploader_link}" title="{DETAIL.uploader_name}"><img src="{DETAIL.uploader_gravatar}" style="width:50px;" alt="{DETAIL.uploader_name}" title="{DETAIL.uploader_name}" class="pull-left img-thumbnail bg-gainsboro m-bottom"></a>
-					<a href="{DETAIL.uploader_link}" title="{DETAIL.uploader_name}"><strong>{DETAIL.uploader_name}</strong></a>
+			<!-- END: vid_jw_content -->
+		</div>
+		<div class="video-headerlist cf">
+			<div class="uploader cf">
+				<div class="col-md-2 col-sm-2 col-lg-2">
+					<a href="{DETAIL.uploader_link}" title="{DETAIL.uploader_name}">
+					<img src="{DETAIL.uploader_gravatar}" alt="{DETAIL.uploader_name}" title="{DETAIL.uploader_name}" class="img-thumbnail img-responsive">
+					</a>
 				</div>
-				<div class="publtime row col-md-3 col-sm-3 col-lg-3">
-					{DETAIL.publtime}
+				<div class="col-md-18 col-sm-18 col-lg-18">
+					<p><a href="{DETAIL.uploader_link}" title="{DETAIL.uploader_name}"><strong>{DETAIL.uploader_name}</strong></a></p>
+					<p>{DETAIL.publtime}</p>
 				</div>
 				<!-- BEGIN: hitstotal -->
-				<div class="hitstotal col-md-3 col-sm-3 col-lg-3 pull-right">
+				<div class="hitstotal col-md-4 col-sm-4 col-lg-4 pull-right">
 					{DETAIL.hitstotal}&nbsp;{LANG.hits_view}
 				</div>
 				<!-- END: hitstotal -->
 			</div>
-			<div class="media-func group fn-tabgroup">
-				<a title="{LANG.playlist_add_video}"<!-- BEGIN: plist_not_user --> onclick="return loginForm();"<!-- END: plist_not_user --><!-- BEGIN: plist_is_user --> data-toggle="collapse" data-target="#add_to_userlist"<!-- END: plist_is_user --> href="#" class="button-style-1 pull-left fn-tab">
+			<div class="media-func group fn-tabgroup cf">
+				<a title="{LANG.playlist_add_video}"<!-- BEGIN: plist_not_user --> onclick="return loginForm();"<!-- END: plist_not_user --><!-- BEGIN: plist_is_user --> data-toggle="collapse" data-target="#add_to_userlist"<!-- END: plist_is_user --> href="#" class="button-style-1 fn-tab">
 				<i class="zicon zicon-add"></i>
 				<span>{LANG.playlist_add_video}</span>
 				</a>
 				
-				<a title="{LANG.video_favorite}"<!-- BEGIN: favorite_not_user --> onclick="return loginForm();"<!-- END: favorite_not_user --> href="#" class="button-style-1 pull-left fn-tab">
+				<a title="{LANG.video_favorite}"<!-- BEGIN: favorite_not_user --> onclick="return loginForm();"<!-- END: favorite_not_user --> href="#" class="button-style-1 fn-tab">
 				<i class="zicon zicon-favorite"></i>
 				<span>{LANG.video_favorite}</span>
 				</a>
@@ -56,49 +58,47 @@
 				</div>
 			</div>
 		</div>
-		<div class="clear"></div>
-		<!-- BEGIN: no_public -->
-		<div class="clear">
-			<div class="alert alert-warning">
-				{LANG.no_public}
-			</div>
+	</div>
+	<!-- BEGIN: no_public -->
+	<div class="clear">
+		<div class="alert alert-warning">
+			{LANG.no_public}
 		</div>
-		<!-- END: no_public -->
+	</div>
+	<!-- END: no_public -->
 
-		<!-- BEGIN: bodytext -->
-		<div class="panel panel-default bodytext_shorten">
-			<div id="news-bodyhtml" class="bodytext panel-body margin-bottom-lg">
-				{DETAIL.bodytext}
-			</div>
+	<!-- BEGIN: bodytext -->
+	<div class="panel panel-default bodytext_shorten">
+		<div id="news-bodyhtml" class="bodytext panel-body margin-bottom-lg">
+			{DETAIL.bodytext}
 		</div>
-		<!-- END: bodytext -->
-		<!-- BEGIN: author -->
-        <div class="clear margin-bottom-lg">
-    		<!-- BEGIN: name -->
-    		<p class="h5 text-right">
-    			<strong>{LANG.author}: </strong>{DETAIL.author}
-    		</p>
-    		<!-- END: name -->
-    		<p class="h5 text-right">
-    			<strong>{LANG.artist}: </strong>{DETAIL.artist}
-    		</p>
-    		<!-- BEGIN: source -->
-    		<p class="h5 text-right">
-    			<strong>{LANG.source}: </strong>{DETAIL.source}
-    		</p>
-    		<!-- END: source -->
-        </div>
-		<!-- END: author -->
-		<!-- BEGIN: copyright -->
-		<div class="alert alert-info margin-bottom-lg">
-			{COPYRIGHT}
-		</div>
-		<!-- END: copyright -->
-    </div>
+	</div>
+	<!-- END: bodytext -->
+	<!-- BEGIN: author -->
+	<div class="clear margin-bottom-lg">
+		<!-- BEGIN: name -->
+		<p class="h5 text-right">
+			<strong>{LANG.author}: </strong>{DETAIL.author}
+		</p>
+		<!-- END: name -->
+		<p class="h5 text-right">
+			<strong>{LANG.artist}: </strong>{DETAIL.artist}
+		</p>
+		<!-- BEGIN: source -->
+		<p class="h5 text-right">
+			<strong>{LANG.source}: </strong>{DETAIL.source}
+		</p>
+		<!-- END: source -->
+	</div>
+	<!-- END: author -->
+	<!-- BEGIN: copyright -->
+	<div class="alert alert-info margin-bottom-lg">
+		{COPYRIGHT}
+	</div>
+	<!-- END: copyright -->
 </div>
-<hr class="clear"/>
-<div class="news_column row">
-	<div class="col-md-12">
+<div class="news_column margin-top-lg">
+	<div class="col-md-24">
 	<!-- BEGIN: keywords -->
         <div class="h5">
             <em class="fa fa-tags">&nbsp;</em><strong>{LANG.keywords}: </strong><!-- BEGIN: loop --><a title="{KEYWORD}" href="{LINK_KEYWORDS}"><em>{KEYWORD}</em></a>{SLASH}<!-- END: loop -->
@@ -107,7 +107,7 @@
     </div>
 
 	<!-- BEGIN: allowed_rating -->
-	<div class="col-md-8 pull-right">
+	<div class="col-md-24 pull-right">
         <form id="form3B" action="">
             <div class="h5 clearfix">
                 <p>{STRINGRATING}</p>
@@ -163,57 +163,12 @@
 </div>
 <!-- END: comment -->
 
-<!-- BEGIN: others -->
-<div class="other-news">
-	<!-- BEGIN: related_new -->
-	<p class="h3"><strong>{LANG.related_new}</strong></p>
-	<div class="clearfix">
-		<div class="related_new_videos">
-			<!-- BEGIN: loop -->
-			<div class="col-md-8">
-				<div class="thumbnail">
-					<!-- BEGIN: image -->
-					<a href="{RELATED_NEW.link}">
-						<img src="{RELATED_NEW.imghome}" style="width:{IMGWIDTH}px;height:{IMGHEIGHT}px;" class="related_video"/>
-					</a>
-					<!-- END: image -->
-					<h4>
-						<a href="{RELATED_NEW.link}">{RELATED_NEW.title}</a>
-					</h4>
-					<em>({RELATED_NEW.time})</em>
-				</div>
-			</div>
-			<!-- END: loop -->
-		</div>
-	</div>
-	<!-- END: related_new -->
-
-	<!-- BEGIN: related -->
-	<p class="h3"><strong>{LANG.related}</strong></p>
-		<div class="related_videos">
-			<!-- BEGIN: loop -->
-			<div class="col-md-8">
-				<div class="thumbnail">
-					<!-- BEGIN: image -->
-					<a href="{RELATED.link}">
-						<img src="{RELATED.imghome}" style="width:{IMGWIDTH}px;height:{IMGHEIGHT}px;" class="related_video"/>
-					</a>
-					<!-- END: image -->
-					<h4>
-						<a href="{RELATED.link}">{RELATED.title}</a>
-					</h4>
-					<em>({RELATED.time})</em>
-				</div>
-			</div>
-			<!-- END: loop -->
-		</div>
-	<!-- END: related -->
-</div>
-<!-- END: others -->
-
-<!-- BEGIN: jwplayer -->
+<!-- BEGIN: jwplayer_js -->
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/jwplayer.js"></script>
 <script type="text/javascript">jwplayer.key="{VIDEO_CONFIG.jwplayer_license}";</script>
+<!-- END: jwplayer_js -->
+
+<!-- BEGIN: jwplayer -->
 <script type="text/javascript">
 var playerInstance = jwplayer("videoCont");
 playerInstance.setup({

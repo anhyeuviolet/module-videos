@@ -24,6 +24,11 @@
 <div class="clear alert alert-warning"><strong>{LANG.no_jwp_lic}</strong></div>
 <!-- END: no_jwp_lic -->
 
+<!-- BEGIN: jwplayer_js -->
+<script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/jwplayer.js"></script>
+<script type="text/javascript">jwplayer.key="{VIDEO_CONFIG.jwplayer_license}";</script>
+<!-- END: jwplayer_js -->
+
 <!-- BEGIN: player -->
 <div class="detail_video margin-bottom-lg margin-top-lg col-xs-24 col-md-24 col-lg-24">
 	<div class="videoplayer">
@@ -35,8 +40,6 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/jwplayer.js"></script>
-<script type="text/javascript">jwplayer.key="{VIDEO_CONFIG.jwplayer_license}";</script>
 <script type="text/javascript">
 var playerInstance = jwplayer("videoCont");
 playerInstance.setup({

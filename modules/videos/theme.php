@@ -19,6 +19,8 @@ function viewcat_grid_new( $array_catpage, $catid, $generate_page )
 	$xtpl->assign( 'IMGWIDTH', $module_config[$module_name]['homewidth'] );
 	$xtpl->assign( 'IMGHEIGHT', $module_config[$module_name]['homeheight'] );
 	$xtpl->assign( 'MODULE_NAME', $module_file );
+	$per_line = 24 / $module_config[$module_name]['st_links'];
+	$xtpl->assign( 'PER_LINE', $per_line );
 
 	if( ( $global_array_cat[$catid]['viewdescription'] and $page == 1 ) or $global_array_cat[$catid]['viewdescription'] == 2 )
 	{
@@ -167,6 +169,8 @@ function viewsubcat_main( $viewcat, $array_cat )
 	$xtpl->assign( 'MODULE_NAME', $module_file );
 	$xtpl->assign( 'IMGWIDTH', $module_config[$module_name]['homewidth'] );
 	$xtpl->assign( 'IMGHEIGHT', $module_config[$module_name]['homeheight'] );
+	$per_line = 24 / $module_config[$module_name]['st_links'];
+	$xtpl->assign( 'PER_LINE', $per_line );
 	
 	// Hien thi cac chu de con
 	foreach( $array_cat as $key => $array_row_i )
@@ -287,6 +291,12 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		if(  $module_config[$module_name]['jwplayer_logo'] > 0 and !empty($module_config[$module_name]['jwplayer_logo_file']))
 		{				
 			$xtpl->parse( 'main.jwplayer.player_logo' );
+		}
+		
+		if( ! defined( 'JWPLAYER_JS' ) )
+		{
+			define( 'JWPLAYER_JS', true );
+			$xtpl->parse( 'main.jwplayer_js' );
 		}
 		$xtpl->parse( 'main.jwplayer' );
 		$xtpl->parse( 'main.vid_jw_content' );
@@ -524,6 +534,12 @@ function playlist_theme( $playlist_array, $playlist_info, $playlist_id, $pl_ss )
 					if(  $module_config[$module_name]['jwplayer_logo'] > 0 and !empty($module_config[$module_name]['jwplayer_logo_file']))
 					{				
 						$xtpl->parse( 'main.player.player_logo' );
+					}
+					
+					if( ! defined( 'JWPLAYER_JS' ) )
+					{
+						define( 'JWPLAYER_JS', true );
+						$xtpl->parse( 'main.jwplayer_js' );
 					}
 					$xtpl->parse( 'main.player' );
 				}

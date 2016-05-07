@@ -57,14 +57,14 @@
 				<tr>
 					<th>{LANG.setting_jwplayer_logo}</th>
 					<td>
-						<select class="form-control" name="jwplayer_logo">
+						<select class="form-control" name="jwplayer_logo" class="jwplayer_logo" id="jwplayer_logo">
 							<!-- BEGIN: jwplayer_logo -->
 							<option value="{JW_LOGO.key}"{JW_LOGO.selected}>{JW_LOGO.title}</option>
 							<!-- END: jwplayer_logo -->
 						</select>
 					</td>
 				</tr>
-				<tr>
+				<tr class="logo-jw">
 					<th>{LANG.setting_jwplayer_logo_position}</th>
 					<td>
 						<select class="form-control" name="jwplayer_logo_pos">
@@ -74,7 +74,7 @@
 						</select>
 					</td>
 				</tr>
-				<tr>
+				<tr class="logo-jw">
 					<th>{LANG.setting_jwplayer_logo_file}</th>
 					<td>
 						<input class="form-control" name="jwplayer_logo_file" id="jwplayer_logo_file" value="{JWPLAYER_LOGO_FILE}" style="width:340px;" type="text"/>
@@ -268,16 +268,6 @@
 		</table>
 	</div>
 </form>
-<script type="text/javascript">
-//<![CDATA[
-var CFG = [];
-CFG.path = '{PATH}';
-CFG.currentpath = '{CURRENTPATH}';
-$(document).ready(function() {
-	$("#structure_upload").select2();
-});
-//]]>
-</script>
 <!-- BEGIN: admin_config_post -->
 <form action="{FORM_ACTION}" method="post">
 	<div class="table-responsive">
@@ -312,4 +302,18 @@ $(document).ready(function() {
 	</div>
 </form>
 <!-- END: admin_config_post -->
+<script type="text/javascript">
+$(document).ready(function(){
+    $("select#jwplayer_logo").change(function(){
+        $(this).find("option:selected").each(function(){
+            if($(this).attr("value")=="1"){
+                $(".logo-jw").show();
+            }
+            else {
+                $(".logo-jw").hide();
+            }
+        });
+    }).change();
+});
+</script>
 <!-- END: main -->

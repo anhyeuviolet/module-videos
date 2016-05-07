@@ -16,7 +16,7 @@
 		<div class="panel-body">
 			<div class="row">
 				<!-- BEGIN: loop -->
-				<div class="col-md-8 col-lg-8 col-sm-12 col-xs-24 videos_list">
+				<div class="col-md-{PER_LINE} col-lg-{PER_LINE} col-sm-12 col-xs-24 videos_list">
 					<!-- BEGIN: image -->
 					<div class="videos-home-thumbnail pull-left col-md-24 col-lg-24 col-xs-24">
 						<a class="clearfix" title="{CONTENT.title}" href="{CONTENT.link}">
