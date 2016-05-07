@@ -307,7 +307,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	{
 		$array_keyword[] = $row;
 		$key_words[] = $row['keyword'];
-		$meta_property['article:tag'][] = $row['keyword'];
+		$meta_property['og:video:tag'][] = $row['keyword'];
 	}
 
 	// comment

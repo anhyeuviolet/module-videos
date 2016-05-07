@@ -48,6 +48,9 @@ margin-right: 10px
 .mg0_10_10 {
     margin: 0px 10px 10px;
 }
+.pd0{
+	padding: 0px
+}
 .pd10_0 {
     padding: 10px 0px;
 }
@@ -102,15 +105,11 @@ ul.uploadinfo{
 .page-header{
 	margin: 0
 }
-.uploader{
-	margin-bottom:5px;
-}
+
 .uploader_info h4{
 	padding:5px
 }
-.uploader img{
-	margin:5px
-}
+
 .hitstotal{
 	font-family: Roboto,arial,sans-serif;
 	font-size: 13px;
@@ -209,4 +208,7 @@ ul.uploadinfo{
 }
 .newme{
 	background: yellow
+}
+a.video-tags{
+	color: #000000
 }
