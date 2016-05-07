@@ -170,6 +170,7 @@ $lang_module['your_playlist'] = 'Playlist của bạn';
 $lang_module['add_playlist_cat'] = 'Thêm mới Playlist';
 $lang_module['edit_playlist_cat'] = 'Sửa Playlist';
 $lang_module['playlists'] = 'Playlist';
+$lang_module['playlist_num'] = 'Số lượng Video';
 $lang_module['playlist_sort'] = 'Thứ tự';
 $lang_module['description'] = 'Mô tả';
 $lang_module['error_name'] = 'Lỗi:Bạn cần nhập Tiêu đề';
@@ -188,11 +189,13 @@ $lang_module['playlist_select'] = 'Chọn playlist';
 $lang_module['playlist_pending'] = 'Playlist đang kiểm duyệt';
 $lang_module['playlist_is_private'] = 'Playlist này là Riêng tư';
 $lang_module['playlist_num_videos'] = 'Video trong Playlist';
+$lang_module['playlist_remove_videos'] = 'Xoá Video khỏi Playlist';
 
 $lang_module['userpl_disable'] = 'Chức năng thêm/sửa Playlist đã bị tắt';
 $lang_module['user_create_newlist'] = 'Tạo Playlist mới';
 $lang_module['user_required'] = 'Đăng ký hoặc đăng nhập để dùng chức năng này';
 
+$lang_module['video_title'] = 'Tiêu đề Video';
 $lang_module['video_favorite'] = 'Thích';
 $lang_module['video_unfavorite'] = 'Bỏ thích';
 $lang_module['video_more_text'] = 'Mở rộng';
@@ -229,3 +232,6 @@ $lang_module['last_name'] = 'Tên';
 $lang_module['uploader_description'] = 'Tự giới thiệu về bạn';
 $lang_module['showmail'] = 'Hiển thị Email';
 $lang_module['editinfo_confirm'] = 'Xác nhận';
+
+$lang_module['no'] = 'Thứ tự';
+$lang_module['stt'] = 'Thứ tự';

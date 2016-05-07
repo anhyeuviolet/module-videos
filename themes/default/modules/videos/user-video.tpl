@@ -14,9 +14,7 @@
 <!-- BEGIN: error -->
 <div class="alert alert-warning">{ERROR}</div>
 <!-- END: error -->
-
 <form action="{CONTENT_URL}" name="fsea" method="post" id="fsea" class="form-horizontal">
-
 	<div class="form-group">
 		<label class="col-sm-4 control-label">{LANG.name}<span class="txtrequired">(*)</span></label>
 		<div class="col-sm-20">

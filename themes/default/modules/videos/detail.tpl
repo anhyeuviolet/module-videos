@@ -253,7 +253,7 @@ var load_more_text = "{LANG.video_more_text}";
 var load_less_text = "{LANG.video_less_text}";
 $(document).ready(function() {
 	if (document.getElementById('add_to_userlist')) {
-		$('#add_to_userlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&mod_list=user_playlist' + '&id={DETAIL.id}' + '&nocache=' + new Date().getTime());
+		$('#add_to_userlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&mod_list=user_playlist' + '&id={DETAIL.id}' + '&fcheck={DETAIL.check_session}' + '&nocache=' + new Date().getTime());
 	}
 	$(".bodytext_shorten").shorten({showChars: 200});
     $('[data-toggle="tooltip"]').tooltip();

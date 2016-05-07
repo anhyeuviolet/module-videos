@@ -38,7 +38,8 @@ function nv_show_playlist_cat_list()
 		$xtpl = new XTemplate( 'playlist_cat.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 		$xtpl->assign( 'LANG', $lang_module );
 		$xtpl->assign( 'GLANG', $lang_global );
-
+		
+		$n = 1;
 		foreach ( $_array_block_cat as $row)
 		{
 			$numnews = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist where playlist_id=' . $row['playlist_id'] )->fetchColumn();
@@ -46,22 +47,13 @@ function nv_show_playlist_cat_list()
 				'playlist_id' => $row['playlist_id'],
 				'title' => $row['title'],
 				'numnews' => $numnews,
+				'no' => $n++,
 				'check_session' => md5( $user_info['userid'] . $global_config['sitekey'] . session_id() ),
 				'link' => nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' .  NV_OP_VARIABLE . '=' .$module_info['alias']['user-playlist'] . '/' . $row['alias'] .'-'. $row['playlist_id'], true),
 				'linksite' => nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '/' . $row['alias'], true),
 				'url_edit' => nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['user-playlist'] . '&amp;playlist_id=' . $row['playlist_id'] . '&mode=edit#edit', true),
 				'url_delete' => nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['user-playlist'] . '&amp;playlist_id=' . $row['playlist_id'] . '&mode=delete', true)
 			) );
-
-			for( $i = 1; $i <= $num; ++$i )
-			{
-				$xtpl->assign( 'WEIGHT', array(
-					'key' => $i,
-					'title' => $i,
-					'selected' => $i == $row['weight'] ? ' selected="selected"' : ''
-				) );
-				$xtpl->parse( 'playlistcat_lists.loop.weight' );
-			}
 
 			foreach( $array_share_mode as $key => $val )
 			{
@@ -133,7 +125,7 @@ function nv_show_playlist_cat_list()
 
 function nv_show_playlist_list( $playlist_id )
 {
-	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $global_array_cat, $module_file, $module_config, $global_config;
+	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $global_array_cat, $module_file, $module_config, $global_config, $user_info;
 
 	$xtpl = new XTemplate( 'playlist_list.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
@@ -144,7 +136,6 @@ function nv_show_playlist_list( $playlist_id )
 	$xtpl->assign( 'MODULE_NAME', $module_name );
 	$xtpl->assign( 'OP', $op );
 	$xtpl->assign( 'PLAYLIST_ID', $playlist_id );
-
 	$global_array_cat[0] = array( 'alias' => 'Other' );
 
 	$sql = 'SELECT t1.id, t1.catid, t1.title, t1.alias, t2.playlist_sort FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows t1 INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_playlist t2 ON t1.id = t2.id WHERE t2.playlist_id= ' . $playlist_id . ' AND t1.status=1 ORDER BY t2.playlist_sort ASC';
@@ -158,6 +149,7 @@ function nv_show_playlist_list( $playlist_id )
 			$xtpl->assign( 'ROW', array(
 				'id' => $row['id'],
 				'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$row['catid']]['alias'] . '/' . $row['alias'] . '-' . $row['id'] . $global_config['rewrite_exturl'],
+				'check_session' => md5( $user_info['userid'] . $global_config['sitekey'] . session_id() ),
 				'title' => $row['title']
 			) );
 
@@ -249,6 +241,7 @@ function nv_get_user_playlist( $id )
 	$xtpl->assign( 'MODULE_NAME', $module_name );
 	$xtpl->assign( 'OP', $op );
 	$xtpl->assign( 'USERLIST_OPS',  $module_info['alias']['user-playlist'] );
+	$check_session = md5( $user_info['userid'] . $global_config['sitekey'] . session_id() );
 
 	$array_user_playlist = array();
 	// call user playlist
@@ -265,6 +258,7 @@ function nv_get_user_playlist( $id )
 				{
 					$array_user_playlist_i['disabled'] = 'disabled=disabled';
 				}
+				$array_user_playlist_i['check_session'] = $check_session;
 				$xtpl->assign( 'USER_PLAYLIST', $array_user_playlist_i );
 				$xtpl->parse( 'get_user_playlist.loop' );
 			}

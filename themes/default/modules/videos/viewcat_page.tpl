@@ -46,20 +46,6 @@
 	<!-- END: news -->
 </div>
 <!-- END: viewcatloop -->
-<!-- BEGIN: related -->
-<hr/>
-<h4>{ORTHERNEWS}</h4>
-<ul class="related">
-	<!-- BEGIN: loop -->
-	<li>
-		<em class="fa fa-angle-right">&nbsp;</em><a href="{RELATED.link}" title="{RELATED.title}">{RELATED.title} <em>({RELATED.publtime}) </em></a>
-		<!-- BEGIN: newday -->
-		<span class="icon_new">&nbsp;</span>
-		<!-- END: newday -->
-	</li>
-	<!-- END: loop -->
-</ul>
-<!-- END: related -->
 <!-- BEGIN: generate_page -->
 <div class="clearfix"></div>
 <div class="text-center">

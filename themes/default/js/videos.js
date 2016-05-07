@@ -79,7 +79,7 @@ $(window).load(function(){
 });
 
 
-function nv_del_playlist_list(oForm, playlist_id) {
+function nv_del_playlist_list(oForm, playlist_id, fcheck) {
 	var del_list = '';
 	var fa = oForm['idcheck[]'];
 	if (fa.length) {
@@ -96,8 +96,8 @@ function nv_del_playlist_list(oForm, playlist_id) {
 
 	if (del_list != '') {
 		if (confirm(nv_is_del_confirm[0])) {
-			$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'del_list=' + del_list + '&ajax=1&playlist_id=' + playlist_id, function(res) {
-				nv_change_playlist_result(res);
+			$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'del_list=' + del_list + '&fcheck=' + fcheck + '&ajax=1&playlist_id=' + playlist_id, function(res) {
+				nv_change_playlist_result(res, fcheck);
 			});
 		}
 	}
@@ -112,7 +112,7 @@ function nv_change_playlist_cat(playlist_id, mod, fcheck) {
 			alert(nv_is_change_act_confirm[2]);
 		}
 		clearTimeout(nv_timer);
-		nv_show_list_playlist_cat('playlist_cat');
+		nv_show_list_playlist_cat('playlist_cat', fcheck);
 	});
 	return;
 }
@@ -122,7 +122,7 @@ function nv_del_playlist_cat(playlist_id, fcheck) {
 		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), '&ajax=4&playlist_id=' + playlist_id + '&fcheck=' + fcheck, function(res) {
 			var r_split = res.split('_');
 			if (r_split[0] == 'OK') {
-				nv_show_list_playlist_cat('playlist_cat');
+				nv_show_list_playlist_cat('playlist_cat', fcheck);
 			} else if (r_split[0] == 'ERR') {
 				alert(r_split[1]);
 			} else {
@@ -133,55 +133,55 @@ function nv_del_playlist_cat(playlist_id, fcheck) {
 	return false;
 }
 
-function nv_change_playlist(playlist_id, id, mod) {
+function nv_change_playlist(playlist_id, id, mod, fcheck) {
 	if (mod == 'delete' && !confirm(nv_is_del_confirm[0])) {
 		return false;
 	}
 	var new_vid = $('#id_playlist_sort_' + id).val();
-	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'id=' + id + '&playlist_id=' + playlist_id + '&ajax=1&mod=' + mod + '&new_vid=' + new_vid, function(res) {
-		nv_change_playlist_result(res);
+	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'id=' + id + '&playlist_id=' + playlist_id + '&ajax=1&mod=' + mod + '&fcheck=' + fcheck + '&new_vid=' + new_vid, function(res) {
+		nv_change_playlist_result(res, fcheck);
 	});
 	return;
 }
 
-function nv_change_playlist_result(res) {
+function nv_change_playlist_result(res, fcheck) {
 	var r_split = res.split('_');
 	if (r_split[0] != 'OK') {
 		alert(nv_is_change_act_confirm[2]);
 	}
 	var playlist_id = parseInt(r_split[1]);
-	nv_show_list_playlist(playlist_id, 'playlist');
+	nv_show_list_playlist(playlist_id, 'playlist', fcheck);
 	return;
 }
 
-function nv_show_list_playlist(playlist_id, mod_list) {
+function nv_show_list_playlist(playlist_id, mod_list, fcheck) {
 	if (document.getElementById('module_show_list')) {
-		$('#module_show_list').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&playlist_id=' + playlist_id + '&mod_list=' + mod_list + '&nocache=' + new Date().getTime());
+		$('#module_show_list').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&playlist_id=' + playlist_id + '&mod_list=' + mod_list + '&fcheck=' + fcheck + '&nocache=' + new Date().getTime());
 	}
 	return;
 }
 
-function nv_show_list_playlist_cat( mod_list ) {
+function nv_show_list_playlist_cat( mod_list, fcheck ) {
 	if (document.getElementById('module_show_playlist')) {
-		$('#module_show_playlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&mod_list=' + mod_list + '&nocache=' + new Date().getTime());
+		$('#module_show_playlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&mod_list=' + mod_list + '&fcheck=' + fcheck + '&nocache=' + new Date().getTime());
 	}
 	return;
 }
 
-function nv_add_user_playlist(id, user_playlist, mod) {
+function nv_add_user_playlist(id, user_playlist, mod, fcheck) {
 	if (mod != 'add_user_playlist') {
 		return false;
 	}
-	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'id=' + id + '&playlist_id=' + user_playlist + '&ajax=3&mod=' + mod, function(res) {
+	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'id=' + id + '&playlist_id=' + user_playlist + '&ajax=3&mod=' + mod + '&fcheck=' + fcheck, function(res) {
 	alert(res);
 	});
 	return;
 }
 
-function nv_show_user_playlist( mod_list ) {
+function nv_show_user_playlist( mod_list, fcheck ) {
 	var id =  $('#add_to_userlist').attr('value');
 	if (document.getElementById('add_to_userlist')) {
-		$('#add_to_userlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&mod_list=' + mod_list + '&id=' + id + '&nocache=' + new Date().getTime());
+		$('#add_to_userlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&mod_list=' + mod_list + '&id=' + id + '&fcheck=' + fcheck + '&nocache=' + new Date().getTime());
 	}
 	return;
 }

@@ -1,18 +1,11 @@
 <!-- BEGIN: playlistcat_lists -->
 <div class="table-responsive">
 	<table class="table table-striped table-bordered table-hover">
-		<colgroup>
-			<col class="w100">
-			<col class="w50">
-			<col class="w250">
-			<col class="w90">
-			<col class="w90">
-		</colgroup>
 		<thead>
 			<tr>
-				<th>{LANG.weight}</th>
-				<th>{LANG.name}</th>
-				<th class="text-center">{LANG.video_in_list} Video trong list</th>
+				<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">{LANG.stt}</th>
+				<th class="text-center">{LANG.name}</th>
+				<th class="text-center">{LANG.playlist_num}</th>
 				<th class="text-center">{LANG.playlist_public}</th>
 				<th>&nbsp;</th>
 			</tr>
@@ -20,8 +13,8 @@
 		<tbody>
 			<!-- BEGIN: loop -->
 			<tr <!-- BEGIN: pl_moderate -->class="warning"<!-- END: pl_moderate -->>
-				<td class="text-center">{ROW.weight}</td>
-				<td class="text-center">
+				<td class="text-center">{ROW.no}</td>
+				<td>
 				<a href="{ROW.link}">{ROW.title}</a>
 				</td>
 				<td class="text-center"><a href="{ROW.linksite}" title="{ROW.title}" target="_blank">{ROW.numnews}&nbsp;{LANG.playlist_num_news}&nbsp;<i class="fa fa-external-link"></i></a></td>
@@ -57,7 +50,7 @@ $(document).ready(function(){
 	<h4>
 	<span class="close fn-closetab" data-toggle="collapse" data-target="#add_to_userlist"></span>
 	<span>{LANG.playlist_select}</span>
-	<em title="Làm mới danh sách Playlist" id="renew_user_playlist" class="fa fa-refresh fa-lg fa-pointer" style="cursor: pointer; vertical-align: middle; margin: 0px 0 0 5px" onclick="nv_show_user_playlist('user_playlist');">&nbsp;</em>
+	<em title="Làm mới danh sách Playlist" id="renew_user_playlist" class="fa fa-refresh fa-lg fa-pointer" style="cursor: pointer; vertical-align: middle; margin: 0px 0 0 5px" onclick="nv_show_user_playlist('user_playlist', '{USER_PLAYLIST.check_session}');">&nbsp;</em>
 	</h4>
 	<ul class="playlist-region fn-list changeme" id="list_playlist">
 		<!-- BEGIN: loop -->
@@ -66,7 +59,7 @@ $(document).ready(function(){
 				{USER_PLAYLIST.title}
 			</p>
 			<span>{USER_PLAYLIST.numnews}{LANG.video}</span>
-			<a class="btn btn-primary fix-button fn-add" onclick="nv_add_user_playlist('{USER_PLAYLIST.id}','{USER_PLAYLIST.playlist_id}','add_user_playlist');">
+			<a class="btn btn-primary fix-button fn-add" onclick="nv_add_user_playlist('{USER_PLAYLIST.id}','{USER_PLAYLIST.playlist_id}','add_user_playlist', '{USER_PLAYLIST.check_session}');">
 			<span>{LANG.save}</span>
 			</a>
 		</li>

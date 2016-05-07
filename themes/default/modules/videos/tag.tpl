@@ -40,17 +40,6 @@
 	</div>
 </div>
 <!-- END: topic -->
-<!-- BEGIN: other -->
-<ul class="related">
-	<!-- BEGIN: loop -->
-	<li>
-		<a title="{TOPIC_OTHER.title}" href="{TOPIC_OTHER.link}">{TOPIC_OTHER.title}</a>
-		<em>({TOPIC_OTHER.publtime})</em>
-	</li>
-	<!-- END: loop -->
-</ul>
-<!-- END: other -->
-
 <!-- BEGIN: generate_page -->
 <div class="text-center">
 	{GENERATE_PAGE}
