@@ -181,7 +181,7 @@ function nv_add_user_playlist(id, user_playlist, mod, fcheck) {
 function nv_show_user_playlist( mod_list, fcheck ) {
 	var id =  $('#add_to_userlist').attr('value');
 	if (document.getElementById('add_to_userlist')) {
-		$('#add_to_userlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&mod_list=' + mod_list + '&id=' + id + '&fcheck=' + fcheck + '&nocache=' + new Date().getTime());
+		$('#add_to_userlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&mod_list=' + mod_list + '&id=' + id + '&fcheck=' + fcheck + '&nocache=' + new Date().getTime() );
 	}
 	return;
 }

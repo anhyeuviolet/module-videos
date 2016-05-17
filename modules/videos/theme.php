@@ -255,7 +255,6 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	$news_contents['publtime'] = humanTiming(  $news_contents['publtime'] );
 
 	$xtpl->assign( 'RAND_SS', rand(1000,9999) );
-	$xtpl->assign( 'EXT_URL', $global_config['rewrite_endurl'] );
 	$xtpl->assign( 'NEWSID', $news_contents['id'] );
 	$xtpl->assign( 'NEWSCHECKSS', $news_contents['newscheckss'] );
 	$xtpl->assign( 'DETAIL', $news_contents );
@@ -464,25 +463,22 @@ function no_permission()
 	global $module_info, $module_file, $lang_module;
 
 	$xtpl = new XTemplate( 'detail.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
-
 	$xtpl->assign( 'NO_PERMISSION', $lang_module['no_permission'] );
 	$xtpl->parse( 'no_permission' );
 	return $xtpl->text( 'no_permission' );
 }
 
-function playlist_theme( $playlist_array, $playlist_info, $playlist_id, $pl_ss )
+function playlist_theme( $playlist_array, $playlist_info, $playlist_id, $player )
 {
 	global $global_config, $lang_module, $module_info, $module_name, $module_file, $playlistalias, $module_config, $user_info;
 
 	$xtpl = new XTemplate( 'playlist.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
-	$xtpl->assign( 'RAND_SS', rand(1000,9999) );
 	$xtpl->assign( 'EXT_URL', $global_config['rewrite_endurl'] );
 	$xtpl->assign( 'MODULE_NAME', $module_name );
 	$xtpl->assign( 'MODULE_FILE', $module_file );
 	$xtpl->assign( 'PLAYLIST_ID', $playlist_id );
-	$xtpl->assign( 'FAKE_ID', 0 );
-	$xtpl->assign( 'PLIST_CHECKSS', $pl_ss);
+	$xtpl->assign( 'PLAYER', $player );
 	$xtpl->assign( 'IMGWIDTH1', $module_config[$module_name]['homewidth'] );
 	
 	if( !empty($module_config[$module_name]['jwplayer_logo_file']) and file_exists( NV_ROOTDIR .'/'. $module_config[$module_name]['jwplayer_logo_file'] ) )
@@ -513,7 +509,6 @@ function playlist_theme( $playlist_array, $playlist_info, $playlist_id, $pl_ss )
 		{
 			$xtpl->parse( 'main.playlist_info.viewed' );
 		}
-		
 		$xtpl->parse( 'main.playlist_info' );
 	}
 

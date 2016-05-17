@@ -26,7 +26,6 @@ $lang_module['playlists'] = 'Playlists';
 $lang_module['playlists_error_title'] = 'Playlist title is missing.';
 $lang_module['main_content'] = 'Main content';
 $lang_module['additional_content'] = 'More info';
-$lang_module['sources'] = 'Sources';
 $lang_module['videos_sources'] = 'Video source';
 $lang_module['videos_info'] = 'Video info';
 $lang_module['videos_duration'] = 'Duration';

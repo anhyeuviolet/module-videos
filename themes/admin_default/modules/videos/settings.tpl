@@ -12,7 +12,7 @@
 			<tbody>
 				<tr>
 					<th id="jwplayer_license">{LANG.setting_jwplayer_license}</th>
-					<td><input class="form-control" style="width:340px;" name="jwplayer_license" value="{DATA.jwplayer_license}" type="text"/><span class="text-middle"><br/>{LANG.wiki_get_free_jwlicense}</span></td>
+					<td><input class="form-control" style="width:50%;" name="jwplayer_license" value="{DATA.jwplayer_license}" type="text"/><span class="text-middle"><br/>{LANG.wiki_get_free_jwlicense}</span></td>
 				</tr>			
 				<tr>
 					<th>{LANG.setting_jwplayer_autoplay}</th>
@@ -77,7 +77,7 @@
 				<tr class="logo-jw">
 					<th>{LANG.setting_jwplayer_logo_file}</th>
 					<td>
-						<input class="form-control" name="jwplayer_logo_file" id="jwplayer_logo_file" value="{JWPLAYER_LOGO_FILE}" style="width:340px;" type="text"/>
+						<input class="form-control" name="jwplayer_logo_file" id="jwplayer_logo_file" value="{JWPLAYER_LOGO_FILE}" style="width:50%;" type="text"/>
 						<input id="select-jw-logo-setting" value="{GLANG.browse_image}" name="selectimg" type="button" class="btn btn-info"/>
 					</td>
 				</tr>
@@ -303,6 +303,14 @@
 </form>
 <!-- END: admin_config_post -->
 <script type="text/javascript">
+//<![CDATA[
+var CFG = [];
+CFG.path = '{PATH}';
+CFG.currentpath = '{CURRENTPATH}';
+$(document).ready(function() {
+	$("#structure_upload").select2();
+});
+//]]>
 $(document).ready(function(){
     $("select#jwplayer_logo").change(function(){
         $(this).find("option:selected").each(function(){

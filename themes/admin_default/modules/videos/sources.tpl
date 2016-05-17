@@ -20,6 +20,7 @@
 					<td class="text-center" colspan="2"><input class="btn btn-primary" name="submit1" type="submit" value="{LANG.save}" /></td>
 				</tr>
 			</tfoot>
+			
 			<tbody>
 				<tr>
 					<td class="text-right"><strong>{LANG.name}: </strong><sup class="required">(∗)</sup></td>
@@ -33,12 +34,13 @@
 					<td class="text-right"><strong>{LANG.source_logo}: </strong></td>
 					<td><input class="form-control w500 pull-left" style="margin-right: 5px" type="text" name="logo" id="logo" value="{logo}"/> <input id="select-img-source" type="button" value="{GLANG.browse_image}" name="selectimg" class="btn btn-info" />
 					<!-- BEGIN: logo -->
-					<br />
+					<br/>
 					<img src="{logo}"/></td>
 					<!-- END: logo -->
 					</td>
 				</tr>
 			</tbody>
+			
 		</table>
 	</div>
 	<br />

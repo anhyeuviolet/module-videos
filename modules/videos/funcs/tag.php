@@ -25,6 +25,8 @@ if( isset( $array_op[1] ) )
 		$alias = '';
 	}
 }
+$alias = strtolower(change_alias($alias));
+
 $page_title = trim( str_replace( '-', ' ', $alias ) );
 
 $show_no_image = $module_config[$module_name]['show_no_image'];
@@ -44,6 +46,13 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 	if( $tid > 0 )
 	{
 		$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=tag/' . $alias;
+		$base_url_rewrite = nv_url_rewrite( $base_url, true );
+		if( $_SERVER['REQUEST_URI'] != $base_url_rewrite and NV_MAIN_DOMAIN . $_SERVER['REQUEST_URI'] != $base_url_rewrite )
+		{
+			Header( 'Location: ' . $base_url_rewrite );
+			die();
+		}
+
 		if( $page > 1 )
 		{
 			$page_title .= ' ' . NV_TITLEBAR_DEFIS . ' ' . $lang_global['page'] . ' ' . $page;
@@ -120,6 +129,5 @@ if( ! empty( $page_title ) and $page_title == strip_punctuation( $page_title ) )
 		include NV_ROOTDIR . '/includes/footer.php';
 	}
 }
-
 $redirect = '<meta http-equiv="Refresh" content="3;URL=' . nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name, true ) . '" />';
-nv_info_die( $lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'] . $redirect );
+nv_info_die($lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'] . $redirect, 404);

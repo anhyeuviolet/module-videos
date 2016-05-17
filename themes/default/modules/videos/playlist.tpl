@@ -32,7 +32,7 @@
 <!-- BEGIN: player -->
 <div class="detail_video margin-bottom-lg margin-top-lg col-xs-24 col-md-24 col-lg-24">
 	<div class="videoplayer">
-		<div id="videoCont">
+		<div id="videoCont_{PLAYLIST_ID}">
 			<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_FILE}/loading.gif" class="center-block" alt="Loading player" />
 		</div>
 		<div class="PlaylistCont margin-top-lg">
@@ -41,12 +41,12 @@
 	</div>
 </div>
 <script type="text/javascript">
-var playerInstance = jwplayer("videoCont");
-playerInstance.setup({
+var playlistInstance_{PLAYLIST_ID} = jwplayer("videoCont_{PLAYLIST_ID}");
+playlistInstance_{PLAYLIST_ID}.setup({
 	image: "{PLAYLIST_IMAGE}",
 	autostart: {VIDEO_CONFIG.jwplayer_autoplay},
 	aspectratio: "16:9",
-	playlist : "{NV_BASE_SITEURL}{MODULE_NAME}/player/{RAND_SS}{PLAYLIST_ID}-{PLIST_CHECKSS}-{RAND_SS}{FAKE_ID}{EXT_URL}",
+	playlist : "{PLAYER}",
 	controls: {VIDEO_CONFIG.jwplayer_controlbar},
 	displaydescription: true,
 	displaytitle: true,
@@ -75,8 +75,8 @@ var lang_new_window = "{LANG.open_new_window}";
 var list = document.getElementById("show-list");
 var html = list.innerHTML;
 html +="<ul class='list-group'>"
-playerInstance.on('ready',function(){
-var playlist = playerInstance.getPlaylist();
+playlistInstance_{PLAYLIST_ID}.on('ready',function(){
+var playlist = playlistInstance_{PLAYLIST_ID}.getPlaylist();
 for (var index=0;index<playlist.length;index++){
 	var playindex = index +1;
 	html += "<li id='play-items-"+index+"' class='list-group-item'><span>"+playlist[index].title+"</span><span class='pull-right'><label onclick='javascript:playThis("+index+")' title='"+lang_play+" "+playlist[index].title+"' class='btn btn-primary btn-xs mgr_10'><i class='fa fa-play'></i></label><a href='"+playlist[index].link+"' title='"+lang_new_window+"' target='_blank'><label class='btn btn-default btn-xs'><i class='fa fa-external-link-square'></i></label></a></span></li>"
@@ -85,9 +85,9 @@ for (var index=0;index<playlist.length;index++){
 html +="</ul>"
 });
 
-playerInstance.on('playlistItem', function() {
-    var playlist = playerInstance.getPlaylist();
-    var index = playerInstance.getPlaylistIndex();
+playlistInstance_{PLAYLIST_ID}.on('playlistItem', function() {
+    var playlist = playlistInstance_{PLAYLIST_ID}.getPlaylist();
+    var index = playlistInstance_{PLAYLIST_ID}.getPlaylistIndex();
 	var current_li = document.getElementById("play-items-"+index);
     for(var i = 0; i < playlist.length; i++) {
             $('li[id^=play-items-]').removeClass( "active" )
@@ -96,7 +96,7 @@ playerInstance.on('playlistItem', function() {
 });
 
 function playThis(index) {
-	playerInstance.playlistItem(index);
+	playlistInstance_{PLAYLIST_ID}.playlistItem(index);
 }
 </script>
 <!-- END: player -->

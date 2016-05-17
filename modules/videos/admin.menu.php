@@ -87,7 +87,7 @@ if( $NV_IS_ADMIN_MODULE )
 	$submenu['tags'] = $lang_module['tags'];
 	$submenu['groups'] = $lang_module['block'];
 	$submenu['playlists'] = $lang_module['playlists'];
-	$submenu['sources'] = $lang_module['sources'];
+	$submenu['sources'] = $lang_module['videos_sources'];
 	$submenu['admins'] = $lang_module['admin'];
 	$submenu['setting'] = $lang_module['setting'];
 

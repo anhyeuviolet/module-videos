@@ -21,7 +21,7 @@
 
 		<div class="videoplayer cf">
 			<!-- BEGIN: vid_jw_content -->
-			<div id="videoCont">
+			<div id="videoCont_{DETAIL.id}">
 				<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_FILE}/loading.gif" class="center-block mar_rgt_auto img-responsive" alt="Loading player" />
 			</div>
 			<!-- END: vid_jw_content -->
@@ -55,7 +55,7 @@
 			<span>{LANG.video_favorite}</span>
 			</a>
 
-			<div class="show_playlist clear collapse add-playlist-region" id="add_to_userlist" value="{DETAIL.id}">
+			<div id="add_to_userlist" class="show_playlist clear collapse add-playlist-region" value="{DETAIL.id}">
 			</div>
 		</div>
 	</div>
@@ -92,7 +92,7 @@
 	</div>
 	<!-- END: author -->
 	<!-- BEGIN: copyright -->
-	<div class="alert alert-info margin-bottom-lg">
+	<div class="row alert alert-info margin-bottom-lg">
 		{COPYRIGHT}
 	</div>
 	<!-- END: copyright -->
@@ -179,14 +179,14 @@
 
 <!-- BEGIN: jwplayer -->
 <script type="text/javascript">
-var playerInstance = jwplayer("videoCont");
-playerInstance.setup({
+var playerInstance_{DETAIL.id} = jwplayer("videoCont_{DETAIL.id}");
+playerInstance_{DETAIL.id}.setup({
 	image: "{DETAIL.image.src}",
 	autostart: {VIDEO_CONFIG.jwplayer_autoplay},
 	aspectratio: "16:9",
 	controls: {VIDEO_CONFIG.jwplayer_controlbar},
 	displaydescription: true,
-	playlist: "{NV_BASE_SITEURL}{MODULE_NAME}/player/{RAND_SS}{DETAIL.fake_pl_id}-{DETAIL.newscheckss}-{RAND_SS}{DETAIL.id}{EXT_URL}",
+	playlist: "{DETAIL.player}",
 	displaytitle: true,
 	flashplayer: "{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/jwplayer.flash.swf",
 	primary: "html5",
@@ -195,13 +195,13 @@ playerInstance.setup({
 	<!-- BEGIN: player_logo -->
 	logo: {
 		file: '{VIDEO_CONFIG.jwplayer_logo_file}',
-		link: '{NV_MY_DOMAIN}',
+		link: '{NV_BASE_SITEURL}',
 		position: '{VIDEO_CONFIG.jwplayer_logo_pos}'
 	},
 	<!-- END: player_logo -->
 	skin: {"name": "stormtrooper"},
 	abouttext: "{LANG.jw_video_source}{VIDEO_CONFIG.site_name}",
-	aboutlink: "{NV_MY_DOMAIN}",
+	aboutlink: "{NV_BASE_SITEURL}",
 	stagevideo: false,
 	stretching: "uniform",
 	visualplaylist: true,

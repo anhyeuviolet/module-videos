@@ -660,3 +660,35 @@ function nv_videos_getuser_info( $user_id ){
 	}
 	$nv_Cache->delMod( $module_name );
 }
+function nv_get_video_href( $path, $type ){
+	global $module_upload;
+	// Export video link
+	$href_vid = array();
+	if( ! empty( $path ) )
+	{
+		if( $type == 1 )
+		{
+			$href_vid['link'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/vid/' . $path;
+			$href_vid['quality'] = '';
+		}
+		elseif( $type == 2 )
+		{
+			$href_vid['link'] = $path;
+			$href_vid['quality'] = '';
+		}
+		elseif( $type == 3 )
+		{
+			$href_vid = get_link_mp4_picasa($path);
+		}
+		elseif( $type == 4 )
+		{
+			$href_vid = get_facebook_mp4($path);
+		}
+		elseif( $type == 5 )
+		{
+			$href_vid['link'] = $path;
+			$href_vid['quality'] = '';
+		}
+	}
+	return $href_vid;
+}

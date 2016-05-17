@@ -947,8 +947,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				{
 					if( ! in_array( $keyword, $array_keywords_old ) )
 					{
-						$alias_i = ( $module_config[$module_name]['tags_alias'] ) ? change_alias( $keyword ) : str_replace( ' ', '-', $keyword );
-						$alias_i = nv_strtolower( $alias_i );
+						$alias_i = nv_strtolower(change_alias( $keyword ));
 						$sth = $db->prepare( 'SELECT tid, alias, description, keywords FROM ' . NV_PREFIXLANG . '_' . $module_data . '_tags where alias= :alias OR FIND_IN_SET(:keyword, keywords)>0' );
 						$sth->bindParam( ':alias', $alias_i, PDO::PARAM_STR );
 						$sth->bindParam( ':keyword', $keyword, PDO::PARAM_STR );
@@ -1096,7 +1095,9 @@ if( empty( $array_cat_check_content ) )
 {
 	$redirect = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=cat';
 
-	$contents = '<div class="alert alert-info"><p class="no_cat">' . $lang_module['note_cat'] . '</p></div>';
+	$contents = '<div class="alert alert-info"><p class="no_cat">' . $lang_module['note_cat'] . '</p><br/>
+	<img class="center-block" src="' . NV_BASE_SITEURL . NV_ASSETS_DIR . '/images/load_bar.gif"/>
+	</div>';
 	$contents .= "<meta http-equiv=\"refresh\" content=\"5;URL=" . $redirect . "\" />";
 	include NV_ROOTDIR . '/includes/header.php';
 	echo nv_admin_theme( $contents );

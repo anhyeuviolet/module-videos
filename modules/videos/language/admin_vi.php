@@ -24,7 +24,6 @@ $lang_module['playlists'] = 'Playlist';
 $lang_module['playlists_error_title'] = 'Lỗi: Bạn chưa nhập tiêu đề Playlist';
 $lang_module['main_content'] = 'Thông tin cơ bản';
 $lang_module['additional_content'] = 'Thông tin mở rộng';
-$lang_module['sources'] = 'Nguồn Videos';
 $lang_module['videos_sources'] = 'Nguồn Videos';
 $lang_module['videos_info'] = 'Đăng Videos';
 $lang_module['videos_duration'] = 'Thời lượng';

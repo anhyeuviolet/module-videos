@@ -125,7 +125,8 @@ if( ! empty( $savecat ) )
 	$keywords = array_unique( $keywords );
 	$keywords = implode( ',', $keywords );
 
-	$alias = str_replace( ' ', '-', strip_punctuation( $alias ) );
+	$alias = strtolower(change_alias($alias));
+	// $alias = str_replace( ' ', '-', strip_punctuation( $alias ) );
 
 	$image = $nv_Request->get_string( 'image', 'post', '' );
 	if( is_file( NV_DOCUMENT_ROOT . $image ) )

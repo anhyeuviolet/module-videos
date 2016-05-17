@@ -129,9 +129,9 @@ if( !empty( $alias ) )
 		}
 		$result->closeCursor();
 		unset( $result, $row );
-
-		$pl_ss = md5( $playlist_id . session_id() . $global_config['sitekey'] );
-		$contents = playlist_theme( $playlist_array, $playlist_info, $playlist_id, $pl_ss );
+		
+		$player = NV_MY_DOMAIN . NV_BASE_SITEURL . $module_file . '/player/' . rand(1000,9999) . $playlist_id .'-' . md5( $playlist_id . session_id() . $global_config['sitekey'] ) . '-'. rand(1000,9999) . 0 . $global_config['rewrite_endurl'];
+		$contents = playlist_theme( $playlist_array, $playlist_info, $playlist_id, $player );
 	}
 	else
 	{
@@ -168,7 +168,6 @@ else
 		$item['width'] = $module_config[$module_name]['blockwidth'];
 
 		$item['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '/' . $item['alias'];
-		$item['fake_id'] = 0;
 		
 		$db->sqlreset()
 			->select( 'COUNT(*)' )
@@ -178,13 +177,13 @@ else
 		$num_items = $db->query( $db->sql() )->fetchColumn();
 		$item['num_items'] = $num_items;
 		
-		if( $item['private_mode'] == 1 AND $user_info['userid'] != $item['userid'] AND !defined( 'NV_IS_MODADMIN' ) ) // Playlist rieng, chi cho phep MOD ADMIN va nguoi tao xem
+		if( $item['private_mode'] != 1 AND $user_info['userid'] == $item['userid'] AND defined( 'NV_IS_MODADMIN' ) ) // Playlist rieng, chi cho phep MOD ADMIN va nguoi tao xem
 		{
-			unset ($item);
+			$playlist_array[] = $item;
 		}
 		else
 		{
-			$playlist_array[] = $item;
+			unset ($item);
 		}
 	}
 	$result->closeCursor();

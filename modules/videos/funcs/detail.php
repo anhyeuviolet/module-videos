@@ -86,33 +86,10 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 			
 			// Export video link
 			$href_vid = array();
-			if( ! empty( $news_contents['vid_path'] ) )
-			{
-				if( $news_contents['vid_type'] == 1 )
-				{
-					$href_vid['link'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/vid/' . $news_contents['vid_path'];
-					$href_vid['quality'] = '';
-				}
-				elseif( $news_contents['vid_type'] == 2 )
-				{
-					$href_vid['link'] = $news_contents['vid_path'];
-					$href_vid['quality'] = '';
-				}
-				elseif( $news_contents['vid_type'] == 3 )
-				{
-					$href_vid = get_link_mp4_picasa($news_contents['vid_path']);
-				}
-				elseif( $news_contents['vid_type'] == 4 )
-				{
-					$href_vid = get_facebook_mp4($news_contents['vid_path']);
-				}
-				elseif( $news_contents['vid_type'] == 5 )
-				{
-					$href_vid['link'] = $news_contents['vid_path'];
-					$href_vid['quality'] = '';
-				}
-			}
-			$link_embed = NV_MY_DOMAIN . NV_BASE_SITEURL . $module_file . '/player/' . rand(1000,9999) . 0 .'-' . md5( $news_contents['id'] . session_id() . $global_config['sitekey'] ) . '-'. rand(1000,9999) . $news_contents['id'] . '-embed/';
+			$href_vid = nv_get_video_href( $news_contents['vid_path'], $news_contents['vid_type'] );
+
+			$news_contents['player'] = NV_MY_DOMAIN . NV_BASE_SITEURL . $module_file . '/player/' . rand(1000,9999) . 0 .'-' . md5( $news_contents['id'] . session_id() . $global_config['sitekey'] ) . '-'. rand(1000,9999) . $news_contents['id'] . $global_config['rewrite_endurl'];
+			$link_embed = $news_contents['player'] . '-embed' . $global_config['rewrite_endurl'];
 			$http_url = NV_MY_DOMAIN . NV_BASE_SITEURL . 'themes/default/modules/' . $module_file . '/jwplayer/jwplayer5.swf?config=' . $link_embed;
 			
 			$meta_property['og:type'] = 'video';
@@ -145,7 +122,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	if( $publtime == 0 )
 	{
 		$redirect = '<meta http-equiv="Refresh" content="3;URL=' . nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name, true ) . '" />';
-		nv_info_die( $lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'] . $redirect );
+		nv_info_die($lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'] . $redirect, 404);
 	}
 
 

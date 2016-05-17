@@ -111,7 +111,7 @@ $array_search = array(
 	'bodytext' => $lang_module['search_bodytext'],
 	'author' => $lang_module['search_author'],
 	'admin_id' => $lang_module['search_admin'],
-	'sourcetext' => $lang_module['sources']
+	'sourcetext' => $lang_module['videos_sources']
 );
 $array_in_rows = array(
 	'title',

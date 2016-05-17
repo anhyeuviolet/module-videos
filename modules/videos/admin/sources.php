@@ -10,7 +10,7 @@
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
 
-$page_title = $lang_module['sources'];
+$page_title = $lang_module['videos_sources'];
 
 list( $sourceid, $title, $link, $logo, $error ) = array( 0, '', 'http://', '', '' );
 
@@ -106,7 +106,7 @@ $sourceid = $nv_Request->get_int( 'sourceid', 'get', 0 );
 if( $sourceid > 0 )
 {
 	list( $sourceid, $title, $link, $logo ) = $db->query( 'SELECT sourceid, title, link, logo FROM ' . NV_PREFIXLANG . '_' . $module_data . '_sources where sourceid=' . $sourceid )->fetch( 3 );
-	$lang_module['add_topic'] = $lang_module['edit_topic'];
+	$lang_module['add_sources'] = $lang_module['edit_sources'];
 }
 
 if( ! empty( $logo ) )
