@@ -26,6 +26,7 @@ $array_table = array(
 	'rows_favourite',
 	'rows_report',
 	'sources',
+	'logs',
 	'tags',
 	'tags_id'
 );
