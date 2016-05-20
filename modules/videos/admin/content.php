@@ -14,7 +14,7 @@ if( defined( 'NV_EDITOR' ) )
 {
 	require_once NV_ROOTDIR . '/' . NV_EDITORSDIR . '/' . NV_EDITOR . '/nv.php';
 }
-
+$report = '';
 $username_alias = change_alias( $admin_info['username'] );
 $array_structure_image = array();
 $array_structure_image[''] = $module_upload;
