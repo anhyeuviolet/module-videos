@@ -66,6 +66,7 @@
 			<div id="report_videos" class="show_report clear collapse add-playlist-region">
 				<div class="add-playlist-region report">
 					<h4 class="margin-bottom-lg">
+						<span class="margin-bottom-lg">{LANG.report_select}</span>
 						<span title="Close" class="close fn-closetab" data-toggle="collapse" data-target="#report_videos"><i class="fa fa-times" aria-hidden="true"></i></span>
 					</h4>
 					<!-- BEGIN: report_videos -->
@@ -86,13 +87,13 @@
 	</div>
 	<!-- END: no_public -->
 
-	<!-- BEGIN: bodytext -->
-	<div class="panel panel-default bodytext_shorten">
+	<!-- BEGIN: bodyhtml -->
+	<div class="panel panel-default bodytext_shorten row">
 		<div id="news-bodyhtml" class="bodytext panel-body margin-bottom-lg">
-			{DETAIL.bodytext}
+			{DETAIL.bodyhtml}
 		</div>
 	</div>
-	<!-- END: bodytext -->
+	<!-- END: bodyhtml -->
 	<!-- BEGIN: author -->
 	<div class="clear margin-bottom-lg">
 		<!-- BEGIN: name -->

@@ -344,6 +344,7 @@ $lang_module['report_content'] = 'Nội dung không phù hợp';
 $lang_module['report_copyright'] = 'Nội dung vi phạm bản quyền';
 $lang_module['report_other'] = 'Lý do khác ( Kiểm duyệt lại Video)';
 $lang_module['report_del'] = 'Xoá thông báo lỗi';
+$lang_module['report_notice'] = 'Báo cáo Videos cần xử lý';
 
 $lang_module['guest_post'] = 'Khách vãng lai';
 $lang_module['setting_player'] = 'Cấu hình trình phát';

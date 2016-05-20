@@ -20,9 +20,9 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	$news_contents = $query->fetch();
 	if( $news_contents['id'] > 0 )
 	{
-		$body_contents = $db->query( 'SELECT bodyhtml as bodytext, sourcetext, copyright, allowed_send, allowed_save, gid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $news_contents['id'] / 2000 ) . ' where id=' . $news_contents['id'] )->fetch();
-		$news_contents = array_merge( $news_contents, $body_contents );
-		unset( $body_contents );
+        $body_contents = $db_slave->query('SELECT bodyhtml, sourcetext, copyright, allowed_send, allowed_save, gid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_detail where id=' . $news_contents['id'])->fetch();
+        $news_contents = array_merge($news_contents, $body_contents);
+        unset($body_contents);
 
 		$show_no_image = $module_config[$module_name]['show_no_image'];
 		if(empty($show_no_image))

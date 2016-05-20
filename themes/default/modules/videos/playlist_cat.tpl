@@ -45,9 +45,9 @@
 	<h4>
 	<span title="Close" class="close fn-closetab" data-toggle="collapse" data-target="#add_to_userlist"><i class="fa fa-times" aria-hidden="true"></i></span>
 	<span class="margin-bottom-lg">{LANG.playlist_select}</span>
-	<em title="{LANG.playlist_refresh}" id="renew_user_playlist" class="fa fa-refresh fa-lg fa-pointer" style="cursor: pointer; vertical-align: middle; margin: 0px 0 0 5px" onclick="nv_show_user_playlist('user_playlist', '{USER_PLAYLIST.check_session}');">&nbsp;</em>
+	<em title="{LANG.playlist_refresh}" id="renew_user_playlist" class="fa fa-refresh fa-lg fa-pointer" style="cursor: pointer; vertical-align: middle; margin: 0px 0 0 5px" onclick="nv_show_user_playlist('user_playlist', '{check_session}');">&nbsp;</em>
 	</h4>
-	<ul class="playlist-region fn-list changeme" id="v_funcs">
+	<ul class="playlist-region fn-list changeme" id="list_playlist">
 		<!-- BEGIN: loop -->
 		<li>
 			<p><strong>{USER_PLAYLIST.title}</strong></p>

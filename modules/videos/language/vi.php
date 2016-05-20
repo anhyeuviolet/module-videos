@@ -241,9 +241,12 @@ $lang_module['no'] = 'Thứ tự';
 $lang_module['stt'] = 'Thứ tự';
 
 $lang_module['report_send'] = 'Gửi báo cáo';
+$lang_module['report_select'] = 'Chọn nội dung báo cáo';
 $lang_module['report_notplay'] = 'Không phát được';
 $lang_module['report_content'] = 'Nội dung không phù hợp';
 $lang_module['report_copyright'] = 'Nội dung vi phạm bản quyền';
 $lang_module['report_other'] = 'Lý do khác ( Kiểm duyệt lại Video)';
 $lang_module['report_thanks'] = 'Cảm ơn bạn đã gửi báo cáo';
 $lang_module['report_non_check'] = 'Vui lòng chọn loại báo cáo';
+
+$lang_module['error_wrongid'] = 'ID không xác định';

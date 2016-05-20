@@ -224,6 +224,7 @@ $rowcontent = array(
 	'click_rating' => 0,
 	'keywords' => '',
 	'keywords_old' => '',
+	'is_del_report' => 1,
 	'mode' => 'add'
 );
 
@@ -289,9 +290,11 @@ if( $rowcontent['id'] > 0 )
 
 	$page_title = $lang_module['content_edit'];
 
-	$body_contents = $db->query( 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $rowcontent['id'] / 2000 ) . ' where id=' . $rowcontent['id'] )->fetch();
-	$rowcontent = array_merge( $rowcontent, $body_contents );
-	unset( $body_contents );
+    $body_contents = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_detail where id=' . $rowcontent['id'])->fetch();
+    $rowcontent = array_merge($rowcontent, $body_contents);
+    unset($body_contents);
+
+	$report = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows_report WHERE id=' . $rowcontent['id'] )->fetchColumn();
 
 	$_query = $db->query( 'SELECT tid, keyword FROM ' . NV_PREFIXLANG . '_' . $module_data . '_tags_id WHERE id=' . $rowcontent['id'] . ' ORDER BY keyword ASC' );
 	while( $row = $_query->fetch() )
@@ -383,7 +386,11 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 	$id_playlist_content_post = array_unique( $nv_Request->get_typed_array( 'playlists', 'post', 'int', array() ) );
 
 	$rowcontent['catid'] = $nv_Request->get_int( 'catid', 'post', 0 );
-
+	
+	$rowcontent['is_del_report'] = $nv_Request->get_int( 'is_del_report', 'post', 0 );
+	if ( $report and $rowcontent['is_del_report']) {
+		$db->query('DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows_report WHERE id=' . $rowcontent['id'] );
+	}
 	$rowcontent['listcatid'] = implode( ',', $catids );
 
 	if( $nv_Request->isset_request( 'status1', 'post' ) ) $rowcontent['status'] = 1; //dang tin
@@ -557,9 +564,9 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 
 	if( empty( $error ) )
 	{
-		$rowcontent['catid'] = in_array( $rowcontent['catid'], $catids ) ? $rowcontent['catid'] : $catids[0];
-		$rowcontent['bodytext'] = nv_news_get_bodytext( $rowcontent['bodyhtml'] );
-
+    	if(!empty($catids)) {
+    		$rowcontent['catid'] = in_array($rowcontent['catid'], $catids) ? $rowcontent['catid'] : $catids[0];
+    	}
 
 		$rowcontent['sourceid'] = 0;
 		if( ! empty( $rowcontent['sourcetext'] ) )
@@ -748,10 +755,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['content_add'], $rowcontent['title'], $admin_info['userid'] );
 				$ct_query = array();
 
-				$tbhtml = NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $rowcontent['id'] / 2000 );
-				$db->query( "CREATE TABLE IF NOT EXISTS " . $tbhtml . " (id int(11) unsigned NOT NULL, bodyhtml longtext NOT NULL, sourcetext varchar(255) NOT NULL default '', copyright tinyint(1) NOT NULL default '0', allowed_send tinyint(1) NOT NULL default '0', allowed_save tinyint(1) NOT NULL default '0', gid mediumint(9) NOT NULL DEFAULT '0', PRIMARY KEY (id)) ENGINE=MyISAM" );
-
-				$stmt = $db->prepare( 'INSERT INTO ' . $tbhtml . ' VALUES
+				$stmt = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_detail VALUES
 					(' . $rowcontent['id'] . ',
 					 :bodyhtml,
 					 :sourcetext,
@@ -764,20 +768,14 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				$stmt->bindParam( ':sourcetext', $rowcontent['sourcetext'], PDO::PARAM_STR, strlen( $rowcontent['sourcetext'] ) );
 				$ct_query[] = ( int )$stmt->execute();
 
-				foreach( $catids as $catid )
-				{
+				foreach( $catids as $catid ){
 					$ct_query[] = ( int )$db->exec( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE id=' . $rowcontent['id'] );
 				}
 
-				$stmt = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext VALUES (' . $rowcontent['id'] . ', :bodytext )' );
-				$stmt->bindParam( ':bodytext', $rowcontent['bodytext'], PDO::PARAM_STR, strlen( $rowcontent['bodytext'] ) );
-				$ct_query[] = ( int )$stmt->execute();
-
-				if( array_sum( $ct_query ) != sizeof( $ct_query ) )
-				{
-					$error[] = $lang_module['errorsave'];
-				}
-				unset( $ct_query );
+                if (array_sum($ct_query) != sizeof($ct_query)) {
+                    $error[] = $lang_module['errorsave'];
+                }
+                unset($ct_query);
 			}
 			else
 			{
@@ -844,7 +842,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['content_edit'], $rowcontent['title'], $admin_info['userid'] );
 
 				$ct_query = array();
-				$sth = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $rowcontent['id'] / 2000 ) . ' SET
+				$sth = $db->prepare('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_detail SET
 					bodyhtml=:bodyhtml,
 					sourcetext=:sourcetext,
 					copyright=' . intval( $rowcontent['copyright'] ) . ',
@@ -872,8 +870,6 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 					$ct_query[] = $db->exec( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE id=' . $rowcontent['id'] );
 				}
 
-				$sth = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext SET bodytext=:bodytext WHERE id =' . $rowcontent['id'] );
-				$sth->bindParam( ':bodytext', $rowcontent['bodytext'], PDO::PARAM_STR, strlen( $rowcontent['bodytext'] ) );
 				$ct_query[] = ( int )$sth->execute();
 
 				if( array_sum( $ct_query ) != sizeof( $ct_query ) )
@@ -1023,7 +1019,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				$url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name;
 				$msg1 = $lang_module['content_saveok'];
 				$msg2 = $lang_module['content_main'] . ' ' . $module_info['custom_title'];
-				redriect( $msg1, $msg2, $url, $module_data . '_bodyhtml' );
+				redriect( $msg1, $msg2, $url, $module_data . '_detail' );
 			}
 		}
 	}
@@ -1032,7 +1028,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 		$url = 'javascript: history.go(-1)';
 		$msg1 = implode( '<br />', $error );
 		$msg2 = $lang_module['content_back'];
-		redriect( $msg1, $msg2, $url, $module_data . '_bodyhtml', 'back' );
+		redriect( $msg1, $msg2, $url, $module_data . '_detail', 'back' );
 	}
 	$id_block_content = $id_block_content_post;
 }
@@ -1284,6 +1280,9 @@ if( defined( 'NV_IS_ADMIN_MODULE' ) || ! empty( $array_pub_content ) ) //toan qu
 	if( $rowcontent['status'] == 1 and $rowcontent['id'] > 0 )
 	{
 		$xtpl->parse( 'main.status' );
+		if ($report){
+			$xtpl->parse('main.is_del_report');
+		}
 	}
 	else
 	{

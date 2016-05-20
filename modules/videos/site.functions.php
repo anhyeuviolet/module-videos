@@ -242,6 +242,7 @@ function nv_get_user_playlist( $id )
 	$xtpl->assign( 'OP', $op );
 	$xtpl->assign( 'USERLIST_OPS',  $module_info['alias']['user-playlist'] );
 	$check_session = md5( $user_info['userid'] . $global_config['sitekey'] . session_id() );
+	$xtpl->assign( 'check_session', $check_session );
 
 	$array_user_playlist = array();
 	// call user playlist
@@ -258,7 +259,6 @@ function nv_get_user_playlist( $id )
 				{
 					$array_user_playlist_i['disabled'] = 'disabled=disabled';
 				}
-				$array_user_playlist_i['check_session'] = $check_session;
 				$xtpl->assign( 'USER_PLAYLIST', $array_user_playlist_i );
 				$xtpl->parse( 'get_user_playlist.loop' );
 			}
@@ -294,7 +294,6 @@ function nv_get_videos_favourite( $id )
 		}
 	}
 	$xtpl->assign( 'LANG', $lang_module );
-	
 	$xtpl->parse( 'videos_favourite_get' );
 	$contents = $xtpl->text( 'videos_favourite_get' );
 	return $contents;
@@ -328,7 +327,7 @@ function nv_favourite_videos( $id, $check_session )
 			}
 		}
 	}else{
-		return "Khong dung ID";
+		return 'OK_' . $lang_module['error_wrongid'];
 	}
 }
 
@@ -367,6 +366,6 @@ function nv_get_videos_report( $id, $rid, $check_session )
 			}
 		}
 	}else{
-		return "OK_Khong dung ID";
+		return 'OK_' . $lang_module['error_wrongid'];
 	}
 }

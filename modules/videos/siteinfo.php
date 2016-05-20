@@ -106,3 +106,14 @@ if( empty($check_lic) OR !isset($check_lic) )
 	'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $mod . '&amp;' . NV_OP_VARIABLE . '=setting#jwplayer_license'
 	);
 }
+
+// Bao loi Videos
+$report = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $mod_data . '_rows_report' )->fetchColumn();
+if( !empty($report) )
+{
+	$pendinginfo[] = array(
+	'key' => $lang_siteinfo['report_notice'],
+	'value' => $report,
+	'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $mod . '&amp;' . NV_OP_VARIABLE . '=report'
+	);
+}

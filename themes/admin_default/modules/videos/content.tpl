@@ -256,6 +256,9 @@
 		<!-- BEGIN:status -->
 		<input class="btn btn-primary submit-post" name="statussave" type="submit" value="{LANG.save}" />
 		<!-- END:status -->
+		<!-- BEGIN: is_del_report -->
+		<input name="is_del_report" value="1" type="checkbox"/> {LANG.report_del} &nbsp;&nbsp;
+		<!-- END: is_del_report -->
 		<!-- BEGIN:status0 -->
 		<input class="btn btn-primary submit-post" name="status4" type="submit" value="{LANG.save_temp}" />
 		<input class="btn btn-primary submit-post" name="status1" type="submit" value="{LANG.publtime}" />

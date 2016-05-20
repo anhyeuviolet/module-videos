@@ -19,6 +19,7 @@ $array_table = array(
 	'playlist',
 	'playlist_cat',
 	'bodytext',
+	'detail',
 	'cat',
 	'config_post',
 	'rows',
@@ -194,14 +195,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 id int(11) unsigned NOT NULL,
 	 UNIQUE KEY rid (rid,id)
 	) ENGINE=MyISAM";
-
-$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_bodytext (
-	 id int(11) unsigned NOT NULL,
-	 bodytext mediumtext NULL,
-	 PRIMARY KEY (id)
-	) ENGINE=MyISAM";
-
-$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_bodyhtml_1 (
+	
+$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_detail (
 	 id int(11) unsigned NOT NULL,
 	 bodyhtml longtext NOT NULL,
 	 sourcetext varchar(250) default '',

@@ -368,7 +368,6 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 			elseif( $nv_Request->isset_request( 'status0', 'post' ) ) $rowcontent['status'] = 0;
 			elseif( $nv_Request->isset_request( 'status4', 'post' ) ) $rowcontent['status'] = 4;
 			$rowcontent['catid'] = in_array( $rowcontent['catid'], $catids ) ? $rowcontent['catid'] : $catids[0];
-			$rowcontent['bodytext'] = nv_news_get_bodytext( $rowcontent['bodyhtml'] );
 
 			$rowcontent['sourceid'] = 0;
 			if( ! empty( $rowcontent['sourcetext'] ) )
@@ -435,8 +434,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 						$db->query( "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_" . $catid . " SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_rows WHERE id=" . $rowcontent['id'] );
 					}
 
-					$tbhtml = NV_PREFIXLANG . "_" . $module_data . "_bodyhtml_" . ceil( $rowcontent['id'] / 2000 );
-					$db->query( "CREATE TABLE IF NOT EXISTS " . $tbhtml . " (id int(11) unsigned NOT NULL, bodyhtml longtext NOT NULL, sourcetext varchar(255) NOT NULL default '', copyright tinyint(1) NOT NULL default '0', allowed_send tinyint(1) NOT NULL default '0', allowed_save tinyint(1) NOT NULL default '0', PRIMARY KEY (id)) ENGINE=MyISAM" );
+					$tbhtml = NV_PREFIXLANG . '_' . $module_data . '_detail';
 					$db->query( "INSERT INTO " . $tbhtml . " (id, bodyhtml, sourcetext, copyright, allowed_send, allowed_save, gid) VALUES (
 							" . $rowcontent['id'] . ",
 							" . $db->quote( $rowcontent['bodyhtml'] ) . ",
@@ -446,7 +444,6 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 			 				" . intval( $rowcontent['allowed_save'] ) . ", 0
 						)" );
 
-					$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext VALUES (' . $rowcontent['id'] . ', ' . $db->quote( $rowcontent['bodytext'] ) . ')' );
 					$user_content = defined( 'NV_IS_USER' ) ? ' | ' . $user_info['username'] : '';
 
 					nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['add_content'], $rowcontent['title'] . ' | ' . $client_info['ip'] . $user_content, 0 );
@@ -504,15 +501,13 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 						$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE id=' . $rowcontent['id'] );
 					}
 
-					$db->query( "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_bodyhtml_" . ceil( $rowcontent['id'] / 2000 ) . " SET
+                    $db->query("UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_detail SET
 							bodyhtml=" . $db->quote( $rowcontent['bodyhtml'] ) . ",
 							 sourcetext=" . $db->quote( $rowcontent['sourcetext'] ) . ",
 							 copyright=" . intval( $rowcontent['copyright'] ) . ",
 							 allowed_send=" . intval( $rowcontent['allowed_send'] ) . ",
 							 allowed_save=" . intval( $rowcontent['allowed_save'] ) . "
 							WHERE id =" . $rowcontent['id'] );
-
-					$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext SET bodytext=' . $db->quote( $rowcontent['bodytext'] ) . ' WHERE id =' . $rowcontent['id'] );
 
 					$user_content = defined( 'NV_IS_USER' ) ? ' | ' . $user_info['username'] : '';
 
@@ -585,9 +580,9 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 			die();
 		}
 
-		$body_contents = $db->query( 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $rowcontent['id'] / 2000 ) . ' where id=' . $rowcontent['id'] )->fetch();
-		$rowcontent = array_merge( $rowcontent, $body_contents );
-		unset( $body_contents );
+        $body_contents = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_detail where id=' . $rowcontent['id'])->fetch();
+        $rowcontent = array_merge($rowcontent, $body_contents);
+        unset($body_contents);
 	}
 
 	if( ! empty( $rowcontent['homeimgfile'] ) and file_exists( NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/' . $rowcontent['homeimgfile'] ) )

@@ -326,9 +326,9 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		$xtpl->parse( 'main.allowed_rating' );
 	}
 	
-	if( ! empty( $news_contents['bodytext'] ) )
+	if( ! empty( $news_contents['bodyhtml'] ) )
 	{
-		$xtpl->parse( 'main.bodytext' );
+		$xtpl->parse( 'main.bodyhtml' );
 	}
 	
 	if( ! empty( $news_contents['post_name'] ) )

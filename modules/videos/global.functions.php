@@ -120,14 +120,8 @@ function nv_del_content_module( $id )
 		{
 			++$number_no_del;
 		}
-
-		$_sql = 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $id / 2000 ) . ' WHERE id = ' . $id;
-		if( ! $db->exec( $_sql ) )
-		{
-			++$number_no_del;
-		}
 		
-		$_sql = 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext WHERE id = ' . $id;
+		$_sql = 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_detail WHERE id = ' . $id;
 		if( ! $db->exec( $_sql ) )
 		{
 			++$number_no_del;
@@ -216,12 +210,12 @@ function nv_link_edit_playlist( $id )
 
 
 /**
- * nv_news_get_bodytext()
+ * nv_news_get_detail()
  *
  * @param mixed $bodytext
  * @return
  */
-function nv_news_get_bodytext( $bodytext )
+function nv_news_get_detail( $bodytext )
 {
 	// Get image tags
 	if( preg_match_all( "/\<img[^\>]*src=\"([^\"]*)\"[^\>]*\>/is", $bodytext, $match ) )
