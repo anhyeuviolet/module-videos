@@ -88,6 +88,7 @@ if( $NV_IS_ADMIN_MODULE )
 	$submenu['groups'] = $lang_module['block'];
 	$submenu['playlists'] = $lang_module['playlists'];
 	$submenu['sources'] = $lang_module['videos_sources'];
+	$submenu['report'] = $lang_module['videos_reports'];
 	$submenu['admins'] = $lang_module['admin'];
 	$submenu['setting'] = $lang_module['setting'];
 
@@ -102,6 +103,7 @@ if( $NV_IS_ADMIN_MODULE )
 	$allow_func[] = 'change_source';
 	$allow_func[] = 'list_source';
 	$allow_func[] = 'del_source';
+	$allow_func[] = 'del_report';
 
 	$allow_func[] = 'block';
 	$allow_func[] = 'groups';
@@ -120,6 +122,7 @@ if( $NV_IS_ADMIN_MODULE )
 	$allow_func[] = 'list_playlist';
 
 	$allow_func[] = 'tags';
+	$allow_func[] = 'report';
 	$allow_func[] = 'setting';
 	$allow_func[] = 'move';
 }

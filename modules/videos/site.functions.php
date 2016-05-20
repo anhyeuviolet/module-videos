@@ -245,7 +245,7 @@ function nv_get_user_playlist( $id )
 
 	$array_user_playlist = array();
 	// call user playlist
-	if( defined( 'NV_IS_USER' ) AND isset($user_info['userid']) AND $user_info['userid'] > 0)
+	if( defined( 'NV_IS_USER' ) AND isset( $user_info['userid']) AND $user_info['userid'] > 0)
 	{
 		$sql = 'SELECT playlist_id, title, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist_cat WHERE userid=' . $user_info['userid'] . ' AND status > 0 ORDER BY weight ASC';
 		$array_user_playlist = $db->query( $sql )->fetchAll();
@@ -267,4 +267,106 @@ function nv_get_user_playlist( $id )
 	$xtpl->parse( 'get_user_playlist' );
 	$contents = $xtpl->text( 'get_user_playlist' );
 	return $contents;
+}
+
+function nv_get_videos_favourite( $id )
+{
+	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $module_file, $module_config, $global_config, $module_info, $user_info;
+	$xtpl = new XTemplate( 'fav_report.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+	$xtpl->assign( 'GLANG', $lang_global );
+	$xtpl->assign( 'NV_BASE_ADMINURL', NV_BASE_ADMINURL );
+	$xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
+	$xtpl->assign( 'NV_OP_VARIABLE', NV_OP_VARIABLE );
+	$xtpl->assign( 'MODULE_NAME', $module_name );
+	$xtpl->assign( 'OP', $op );
+
+	$sql = 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows_favourite WHERE id=' . $id;
+	$count_Fav = $db->query( $sql )->fetchColumn();
+	$xtpl->assign( 'FAVO', $count_Fav );
+	unset($sql);
+
+	if( defined( 'NV_IS_USER' ) )
+	{
+		$sql = 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows_favourite WHERE id=' . $id . ' AND fid=' . $user_info['userid'];
+		$count_FavUser = $db->query( $sql )->fetchColumn();
+		if( $count_FavUser > 0){
+			$lang_module['video_favorite'] = $lang_module['video_favorited'];
+		}
+	}
+	$xtpl->assign( 'LANG', $lang_module );
+	
+	$xtpl->parse( 'videos_favourite_get' );
+	$contents = $xtpl->text( 'videos_favourite_get' );
+	return $contents;
+}
+
+
+function nv_favourite_videos( $id, $check_session )
+{
+	global $db, $lang_module, $lang_global, $module_name, $module_data, $nv_Cache, $module_file, $module_config, $global_config, $module_info, $user_info;
+	if ( $id > 0 ){
+		if( defined( 'NV_IS_USER' ) )
+		{
+			$sql = 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows_favourite WHERE id=' . $id . ' AND fid=' . $user_info['userid'];
+			$count_FavUser = $db->query( $sql )->fetchColumn();
+			if( $count_FavUser > 0){
+				return 'OK_' . $lang_module['video_favorite_duplicate'];
+			}else{
+				if( $check_session == md5( $id . session_id() . $global_config['sitekey'] ) ){
+					$stmt = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows_favourite VALUES(
+					:fid,
+					:id)'
+					);
+					$stmt->bindParam(':id', intval( $id ), PDO::PARAM_STR);
+					$stmt->bindParam(':fid', intval( $user_info['userid'] ), PDO::PARAM_STR);
+					if( $stmt->execute() )
+					{
+						$nv_Cache->delMod( $module_name );
+						return 'OK_' . $lang_module['video_favorite_checked'] . '_' . $id . '_' . $check_session;
+					}
+				}
+			}
+		}
+	}else{
+		return "Khong dung ID";
+	}
+}
+
+function nv_get_videos_report( $id, $rid, $check_session )
+{
+	global $db, $lang_module, $lang_global, $module_name, $module_data, $nv_Cache, $module_file, $module_config, $global_config, $module_info, $user_info;
+	$array_rid = array(1,2,3,4);
+	if ( $id > 0 AND in_array( $rid, $array_rid) ){
+		$sql = 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows_report WHERE id=' . $id;
+		$count_FavUser = $db->query( $sql )->fetchColumn();
+		if( $count_FavUser > 0){
+			if( $check_session == md5( $id . session_id() . $global_config['sitekey'] ) ){
+				$sth = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows_report SET rid = :rid WHERE id = ' . $id );
+				$sth->bindValue( ':rid', intval( $rid ), PDO::PARAM_STR );
+				$sth->execute();
+				if( $sth->execute() )
+				{
+					$nv_Cache->delMod( $module_name );
+					return 'OK_' . $lang_module['report_thanks'] . '_' . $id . '_' . $check_session;
+				}
+			}
+			return 'OK_' . $lang_module['report_thanks'];
+		}else{
+			if( $check_session == md5( $id . session_id() . $global_config['sitekey'] ) ){
+				$stmt = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows_report VALUES(
+				:rid,
+				:id)'
+				);
+				$stmt->bindParam(':id', intval( $id ), PDO::PARAM_STR);
+				$stmt->bindParam(':rid', intval( $rid ), PDO::PARAM_STR);
+				if( $stmt->execute() )
+				{
+					$nv_Cache->delMod( $module_name );
+					return 'OK_' . $lang_module['report_thanks'] . '_' . $id . '_' . $check_session;
+				}
+			}
+		}
+	}else{
+		return "OK_Khong dung ID";
+	}
 }

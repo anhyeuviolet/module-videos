@@ -135,6 +135,8 @@ function nv_del_content_module( $id )
 		
 		$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_comment WHERE module=' . $db->quote( $module_name ) . ' AND id = ' . $id );
 		$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block WHERE id = ' . $id );
+		$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows_favourite WHERE id = ' . $id );
+		$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows_report WHERE id = ' . $id );
 		
 		$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_tags SET numnews = numnews-1 WHERE tid IN (SELECT tid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_tags_id WHERE id=' . $id . ')' );
 		$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_tags_id WHERE id = ' . $id );

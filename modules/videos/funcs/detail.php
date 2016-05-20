@@ -93,15 +93,15 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 			$http_url = NV_MY_DOMAIN . NV_BASE_SITEURL . 'themes/default/modules/' . $module_file . '/jwplayer/jwplayer5.swf?config=' . $link_embed;
 			
 			$meta_property['og:type'] = 'video';
-			if($news_contents['vid_type'] ==3 OR $news_contents['vid_type'] == 4)
-			{
-				$meta_property['og:video'] = $http_url;
-			}
-			else
-			{
-				$https_url = preg_replace('/^http:/i', 'https:', $http_url);
-				$meta_property['og:video'] = $https_url;
-			}
+			// if($news_contents['vid_type'] ==3 OR $news_contents['vid_type'] == 4)
+			// {
+				// $meta_property['og:video'] = $http_url;
+			// }
+			// else
+			// {
+				// $https_url = preg_replace('/^http:/i', 'https:', $http_url);
+				// $meta_property['og:video'] = $https_url;
+			// }
 			
 			$meta_property['og:url'] = $client_info['selfurl'];
 			$meta_property['og:title'] = $news_contents['title'];
@@ -286,7 +286,16 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		$key_words[] = $row['keyword'];
 		$meta_property['og:video:tag'][] = $row['keyword'];
 	}
-
+	
+	if( defined( 'NV_IS_USER' ) AND isset($user_info['userid']) AND $user_info['userid'] > 0)
+	{
+		$sql = 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows_favourite WHERE id=' . $news_contents['id'] . ' AND fid=' . $user_info['userid'];
+		$count_FavUser = $db->query( $sql )->fetchColumn();
+		if( $count_FavUser > 0){
+			$lang_module['video_favorite'] = $lang_module['video_favorite_checked'];
+		}
+	}
+	
 	// comment
 	if( isset( $site_mods['comment'] ) and isset( $module_config[$module_name]['activecomm'] ) )
 	{

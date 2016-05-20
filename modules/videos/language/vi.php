@@ -197,8 +197,11 @@ $lang_module['user_create_newlist'] = 'Tạo Playlist mới';
 $lang_module['user_required'] = 'Đăng ký hoặc đăng nhập để dùng chức năng này';
 
 $lang_module['video_title'] = 'Tiêu đề Video';
+$lang_module['video_report'] = 'Báo cáo';
 $lang_module['video_favorite'] = 'Thích';
-$lang_module['video_unfavorite'] = 'Bỏ thích';
+$lang_module['video_favorited'] = 'Đã thích';
+$lang_module['video_favorite_checked'] = 'Đã thích Video này';
+$lang_module['video_favorite_duplicate'] = 'Bạn đã thích Video này rồi';
 $lang_module['video_more_text'] = 'Mở rộng';
 $lang_module['video_less_text'] = 'Thu gọn';
 
@@ -236,3 +239,11 @@ $lang_module['editinfo_confirm'] = 'Xác nhận';
 
 $lang_module['no'] = 'Thứ tự';
 $lang_module['stt'] = 'Thứ tự';
+
+$lang_module['report_send'] = 'Gửi báo cáo';
+$lang_module['report_notplay'] = 'Không phát được';
+$lang_module['report_content'] = 'Nội dung không phù hợp';
+$lang_module['report_copyright'] = 'Nội dung vi phạm bản quyền';
+$lang_module['report_other'] = 'Lý do khác ( Kiểm duyệt lại Video)';
+$lang_module['report_thanks'] = 'Cảm ơn bạn đã gửi báo cáo';
+$lang_module['report_non_check'] = 'Vui lòng chọn loại báo cáo';

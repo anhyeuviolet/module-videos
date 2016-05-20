@@ -20,7 +20,6 @@ if( $number > 0 )
 
 }
 
-
 // Playlist chua duyet
 $number = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $mod_data . '_playlist_cat WHERE status= 2' )->fetchColumn();
 if( $number > 0 )
@@ -96,6 +95,7 @@ if( ! empty( $module_config[$mod]['tags_remind'] ) )
 		);
 	}
 }
+
 // Thieu License JWplayer
 $check_lic = $db->query( 'SELECT config_value FROM ' . NV_CONFIG_GLOBALTABLE . ' WHERE lang = "' . NV_LANG_DATA . '" AND module = "' . $mod . '" AND config_name = "jwplayer_license"' )->fetchColumn();
 if( empty($check_lic) OR !isset($check_lic) )

@@ -620,3 +620,19 @@ function nv_del_playlist_list(oForm, playlist_id) {
 		}
 	}
 }
+
+function nv_del_report(rid, id, checkss) {
+	if (confirm(nv_is_del_confirm[0])) {
+		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=del_report&nocache=' + new Date().getTime(), 'rid=' + rid + '&id=' + id + '&checkss=' + checkss , function(res) {
+			var r_split = res.split('_');
+			if (r_split[0] == 'OK') {
+				location.reload();   
+			} else if (r_split[0] == 'ERR') {
+				alert(r_split[1]);
+			} else {
+				alert(nv_is_del_confirm[2]);
+			}
+		});
+	}
+	return false;
+}

@@ -156,7 +156,7 @@ $lang_module['search_author'] = 'Tác giả Videos';
 $lang_module['search_admin'] = 'Người nhập liệu';
 $lang_module['search_per_page'] = 'Số Videos hiển thị';
 $lang_module['search_note'] = 'Từ khóa tìm kiếm không ít hơn 2 ký tự, không lớn hơn 64 ký tự, không dùng các mã html';
-$lang_module['content_edit'] = 'Sửa Videos';
+$lang_module['content_edit'] = 'Sửa Video';
 $lang_module['error_title'] = 'Lỗi: Videos chưa có tiêu đề';
 $lang_module['error_bodytext'] = 'Lỗi: Videos chưa có nội dung';
 $lang_module['error_cat'] = 'Lỗi: Videos chưa có chuyên mục';
@@ -337,6 +337,14 @@ $lang_module['hour'] = 'giờ trước';
 $lang_module['minute'] = 'phút trước';
 $lang_module['second'] = 'giây trước';
 
+$lang_module['videos_reports'] = 'Báo cáo';
+$lang_module['videos_noreport'] = 'Hiện tại chưa có báo cáo nào';
+$lang_module['report_notplay'] = 'Không phát được';
+$lang_module['report_content'] = 'Nội dung không phù hợp';
+$lang_module['report_copyright'] = 'Nội dung vi phạm bản quyền';
+$lang_module['report_other'] = 'Lý do khác ( Kiểm duyệt lại Video)';
+$lang_module['report_del'] = 'Xoá thông báo lỗi';
+
 $lang_module['guest_post'] = 'Khách vãng lai';
 $lang_module['setting_player'] = 'Cấu hình trình phát';
 $lang_module['wiki_get_free_jwlicense'] = '<a title="Hướng dẫn đăng ký JWplayer License" target="_blank" href="https://github.com/anhyeuviolet/module-videos/wiki/H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-%C4%91%C4%83ng-k%C3%BD-Free-License-JWPlayer-7">Hướng dẫn đăng ký JWplayer License</a>';
@@ -345,3 +353,4 @@ $lang_module['jwposition_top-right'] = 'Phía trên - bên phải (mặc định
 $lang_module['jwposition_top-left'] = 'Phía trên - bên trái';
 $lang_module['jwposition_bottom-right'] = 'Phía dưới - bên phải';
 $lang_module['jwposition_bottom-left'] = 'Phía dưới - bên trái';
+

@@ -1,5 +1,8 @@
 <!-- BEGIN: main -->
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.pack.js"></script>
+<script src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.MetaData.js" type="text/javascript"></script>
 <link href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.css" type="text/css" rel="stylesheet"/>
+
 <div class="detail_container col-xs-24 col-md-24 col-lg-24">
 	<div class="detail_video row">
 		<div class="detail_header cf">
@@ -22,7 +25,7 @@
 		<div class="videoplayer cf">
 			<!-- BEGIN: vid_jw_content -->
 			<div id="videoCont_{DETAIL.id}">
-				<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_FILE}/loading.gif" class="center-block mar_rgt_auto img-responsive" alt="Loading player" />
+				<i class="fa fa-spinner fa-pulse fa-3x fa-fw center-block"></i>
 			</div>
 			<!-- END: vid_jw_content -->
 		</div>
@@ -45,17 +48,33 @@
 			<!-- END: hitstotal -->
 		</div>
 		<div class="media-func group fn-tabgroup">
-			<a title="{LANG.playlist_add_video}"<!-- BEGIN: plist_not_user --> onclick="return loginForm();"<!-- END: plist_not_user --><!-- BEGIN: plist_is_user --> data-toggle="collapse" data-target="#add_to_userlist"<!-- END: plist_is_user --> href="#" class="button-style-1 fn-tab">
-			<i class="zicon zicon-add"></i>
-			<span>{LANG.playlist_add_video}</span>
+			<a title="{LANG.playlist_add_video}"<!-- BEGIN: not_user --> onclick="nv_colapse_report(); return loginForm();"<!-- END: not_user --><!-- BEGIN: plist_is_user --> onclick="nv_colapse_report( );" data-toggle="collapse" data-target="#add_to_userlist"<!-- END: plist_is_user --> href="#" class="button-style-1 fn-tab">
+			<span><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;{LANG.playlist_add_video}</span>
 			</a>
 			
-			<a title="{LANG.video_favorite}"<!-- BEGIN: favorite_not_user --> onclick="return loginForm();"<!-- END: favorite_not_user --> href="#" class="button-style-1 fn-tab">
-			<i class="zicon zicon-favorite"></i>
-			<span>{LANG.video_favorite}</span>
+			<a title="{LANG.video_favorite}"<!-- BEGIN: not_user --> onclick="return loginForm();"<!-- END: not_user --> <!-- BEGIN: favorite_is_user --> onclick="nv_favourite_videos('{DETAIL.id}','fav','{NEWSCHECKSS}','{DETAIL.check_session}');"<!-- END: favorite_is_user --> href="#" class="button-style-1 fn-tab">
+			<span id="favourite-{DETAIL.id}"></span>
 			</a>
-
+			
+			<a title="{LANG.video_report}" href="#" class="button-style-1 fn-tab" data-toggle="collapse" data-target="#report_videos" onclick="nv_colapse_favourites( );">
+			<span><i class="fa fa-flag" aria-hidden="true"></i>&nbsp;{LANG.video_report}</span>
+			</a>
+			
 			<div id="add_to_userlist" class="show_playlist clear collapse add-playlist-region" value="{DETAIL.id}">
+			</div>
+			
+			<div id="report_videos" class="show_report clear collapse add-playlist-region">
+				<div class="add-playlist-region report">
+					<h4 class="margin-bottom-lg">
+						<span title="Close" class="close fn-closetab" data-toggle="collapse" data-target="#report_videos"><i class="fa fa-times" aria-hidden="true"></i></span>
+					</h4>
+					<!-- BEGIN: report_videos -->
+					<input type="radio" title="{REPORT.title}" name="report_videos" value="{REPORT.value}">{REPORT.title}<br>
+					<!-- END: report_videos -->
+				<a class="btn btn-primary fix-button fn-add margin-top-lg" onclick="nv_report_videos('{DETAIL.id}', '{NEWSCHECKSS}');">
+					<span class="report-video">{LANG.report_send}</span>
+				</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -209,18 +228,19 @@ playerInstance_{DETAIL.id}.setup({
   });
 </script>
 <!-- END: jwplayer -->
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.pack.js"></script>
-<script src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.MetaData.js" type="text/javascript"></script>
 <script src="{NV_BASE_SITEURL}themes/default/js/videos_shorten.js" type="text/javascript"></script>
 <script language="javascript">
 var load_more_text = "{LANG.video_more_text}";
-var load_less_text = "{LANG.video_less_text}";
+var load_more_text = "{LANG.video_more_text}";
+var report_non_check = "{LANG.report_non_check}";
 $(document).ready(function() {
 	if (document.getElementById('add_to_userlist')) {
-		$('#add_to_userlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&mod_list=user_playlist' + '&id={DETAIL.id}' + '&fcheck={DETAIL.check_session}' + '&nocache=' + new Date().getTime());
+		$('#add_to_userlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&mod_list=user_playlist' + '&id={DETAIL.id}' + '&fcheck={DETAIL.check_session}' + '&nocache=' + new Date().getTime());
+	}
+	if (document.getElementById('favourite-{DETAIL.id}')) {
+		$('#favourite-{DETAIL.id}').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&mod_list=get_fav' + '&id={DETAIL.id}' + '&fcheck={DETAIL.check_session}' + '&nocache=' + new Date().getTime());
 	}
 	$(".bodytext_shorten").shorten({showChars: 200});
-    $('[data-toggle="tooltip"]').tooltip();
 });
 </script>
 <!-- END: main -->

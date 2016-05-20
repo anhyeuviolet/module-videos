@@ -13,7 +13,9 @@
 .cf {
     zoom:1;
 }
-
+.refresh{
+	cursor: pointer;
+}
 .videos_list{
 	margin-bottom: 7px;
 }
@@ -126,7 +128,7 @@ ul.uploadinfo{
     display: inline-block;
     *display: inline;
     *zoom: 1;
-    padding: 3px 10px 3px 5px;
+	padding: 10px;
     color: #808080;
     border: 1px solid #e5e5e5;
     background: #f7f7f7;
@@ -135,10 +137,7 @@ ul.uploadinfo{
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-}
-.close, .zicon-favorite,.zicon-add, .zicon-remove, .zicon-remove-1, .zicon-playlist-1, .zicon-play-1 {
-    background-image: url("../images/videos/icon.png");
-    background-repeat: no-repeat;
+	height:33px
 }
 .zicon-arrow-left-1, .zicon-arrow-right-1, .zicon-hand-like, .zicon-hand-unlike, .zicon-music-note, .zicon-arrow, .zicon-add, .zicon-favorite, .zicon-remove, .zicon-remove-1, .zicon-remove-2, .zicon-edit-1, .zicon-playlist-1, .zicon-play-1 {
     width: 25px;
@@ -150,14 +149,7 @@ ul.uploadinfo{
 }
 .button-style-1 span {
     position: relative;
-    top: -7px;
     font-size: 12px;
-}
-.button-style-1 .zicon-add {
-    background-position: -26px -1164px;
-}
-.button-style-1 .zicon-favorite {
-    background-position: 0px -2759px;
 }
 .add-playlist-region .playlist-region li {
     border-bottom: 1px solid #e6e6e6;
@@ -183,14 +175,14 @@ ul.uploadinfo{
     color: #428bca;
 }
 .add-playlist-region h4 {
-    padding-bottom: 15px;
+    padding-bottom: 20px;
     border-bottom: 1px solid #e6e6e6;
     position: relative;
 }
 .close {
     display: block;
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     position: absolute;
     right: 0;
     background-position: -25px -1139px;
@@ -203,12 +195,9 @@ ul.uploadinfo{
     filter: alpha(opacity=50);
     z-index: 9;
 }
-.changeme{
-	background: none
-}
-.newme{
-	background: yellow
-}
 a.video-tags{
-	color: #000000
+	color: #000000!important
+}
+.report{
+	padding: 20px
 }

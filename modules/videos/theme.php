@@ -447,12 +447,26 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	{
 		$xtpl->parse( 'main.no_public' );
 	}
+	
 	if( defined( 'NV_IS_USER' ) ){
 		$xtpl->parse( 'main.plist_is_user' );
 		$xtpl->parse( 'main.favorite_is_user' );
 	}else{
-		$xtpl->parse( 'main.plist_not_user' );
-		$xtpl->parse( 'main.favorite_not_user' );
+		$xtpl->parse( 'main.not_user' );
+	}
+	$array_reports = array(
+		1 => $lang_module['report_notplay'],
+		2 => $lang_module['report_content'],
+		3 => $lang_module['report_copyright'],
+		4 => $lang_module['report_other']
+	);
+	foreach ( $array_reports as $value => $report){
+
+		$xtpl->assign( 'REPORT', array(
+			'value' => $value,
+			'title' => $report
+		) );
+		$xtpl->parse( 'main.report_videos' );	
 	}
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );

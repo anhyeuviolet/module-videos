@@ -10,7 +10,7 @@
 	<div class="videoplayer cf margin-bottom-lg">
 		<!-- BEGIN: vid_jw_content -->
 		<div id="videoContBlock_{BLOCKID}">
-			<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_FILE}/loading.gif" class="center-block mar_rgt_auto img-responsive" alt="Loading player" />
+			<i class="fa fa-spinner fa-pulse fa-3x fa-fw center-block"></i>
 		</div>
 		<!-- END: vid_jw_content -->
 	</div>

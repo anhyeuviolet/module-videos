@@ -22,6 +22,8 @@ $array_table = array(
 	'cat',
 	'config_post',
 	'rows',
+	'rows_favourite',
+	'rows_report',
 	'sources',
 	'tags',
 	'tags_id'
@@ -131,7 +133,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 UNIQUE KEY title (title),
 	 UNIQUE KEY alias (alias)
 	) ENGINE=MyISAM";
-
+	
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_block (
 	 bid smallint(5) unsigned NOT NULL,
 	 id int(11) unsigned NOT NULL,
@@ -179,6 +181,18 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 KEY publtime (publtime),
 	 KEY exptime (exptime),
 	 KEY status (status)
+	) ENGINE=MyISAM";
+
+$sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows_favourite (
+	 fid smallint(5) unsigned NOT NULL,
+	 id int(11) unsigned NOT NULL,
+	 UNIQUE KEY fid (fid,id)
+	) ENGINE=MyISAM";
+	
+$sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows_report (
+	 rid smallint(5) unsigned NOT NULL,
+	 id int(11) unsigned NOT NULL,
+	 UNIQUE KEY rid (rid,id)
 	) ENGINE=MyISAM";
 
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_bodytext (

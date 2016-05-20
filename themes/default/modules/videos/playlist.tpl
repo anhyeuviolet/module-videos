@@ -33,7 +33,7 @@
 <div class="detail_video margin-bottom-lg margin-top-lg col-xs-24 col-md-24 col-lg-24">
 	<div class="videoplayer">
 		<div id="videoCont_{PLAYLIST_ID}">
-			<img src="{NV_BASE_SITEURL}themes/default/images/{MODULE_FILE}/loading.gif" class="center-block" alt="Loading player" />
+			<i class="fa fa-spinner fa-pulse fa-3x fa-fw center-block"></i>
 		</div>
 		<div class="PlaylistCont margin-top-lg">
 			<div id="show-list"></div>
