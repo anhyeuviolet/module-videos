@@ -47,7 +47,7 @@ if( ! empty( $savesetting ) )
 	$array_config['jwplayer_mute'] = $nv_Request->get_title( 'jwplayer_mute', 'post', 0 );
 	$array_config['jwplayer_logo'] = $nv_Request->get_int( 'jwplayer_logo', 'post', 0 );
 	$array_config['jwplayer_logo_file'] = $nv_Request->get_title( 'jwplayer_logo_file', 'post', '' );
-	$array_config['jwplayer_logo_pos'] = $nv_Request->get_title( 'jwplayer_logo_pos', 'post', 0 );
+	$array_config['jwplayer_position'] = $nv_Request->get_title( 'jwplayer_position', 'post', 0 );
 	
 	$array_config['facebookappid'] = $nv_Request->get_title( 'facebookappid', 'post', '' );
 	$array_config['socialbutton'] = $nv_Request->get_int( 'socialbutton', 'post', 0 );
@@ -189,9 +189,9 @@ foreach( $array_jw_position as $_jw_position => $_title)
 	$xtpl->assign( 'JW_POS', array(
 		'value' => $_jw_position,
 		'title' => $_title,
-		'selected' => $_jw_position == $module_config[$module_name]['jwplayer_logo_pos'] ? ' selected="selected"' : ''
+		'selected' => $_jw_position == $module_config[$module_name]['jwplayer_position'] ? ' selected="selected"' : ''
 	) );
-	$xtpl->parse( 'main.jwplayer_logo_pos' );
+	$xtpl->parse( 'main.jwplayer_position' );
 }
 
 // So bai viet tren mot trang

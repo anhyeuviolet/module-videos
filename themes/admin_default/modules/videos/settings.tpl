@@ -67,10 +67,10 @@
 				<tr class="logo-jw">
 					<th>{LANG.setting_jwplayer_logo_position}</th>
 					<td>
-						<select class="form-control" name="jwplayer_logo_pos">
-							<!-- BEGIN: jwplayer_logo_pos -->
+						<select class="form-control" name="jwplayer_position">
+							<!-- BEGIN: jwplayer_position -->
 							<option value="{JW_POS.value}"{JW_POS.selected}>{JW_POS.title}</option>
-							<!-- END: jwplayer_logo_pos -->
+							<!-- END: jwplayer_position -->
 						</select>
 					</td>
 				</tr>

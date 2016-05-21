@@ -216,7 +216,7 @@ playerInstance_{DETAIL.id}.setup({
 	logo: {
 		file: '{VIDEO_CONFIG.jwplayer_logo_file}',
 		link: '{NV_BASE_SITEURL}',
-		position: '{VIDEO_CONFIG.jwplayer_logo_pos}'
+		position: '{VIDEO_CONFIG.jwplayer_position}'
 	},
 	<!-- END: player_logo -->
 	skin: {"name": "stormtrooper"},
