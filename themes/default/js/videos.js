@@ -173,7 +173,12 @@ function nv_add_user_playlist(id, user_playlist, mod, fcheck) {
 		return false;
 	}
 	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'id=' + id + '&playlist_id=' + user_playlist + '&ajax=3&mod=' + mod + '&fcheck=' + fcheck, function(res) {
-		alert(res);
+		var r_split = res.split('_');
+		if (r_split[0] == 'OK') {
+			var mod_list = 'user_playlist';
+			nv_show_user_playlist( mod_list, fcheck );
+			alert(r_split[1]);
+		}
 	});
 	return;
 }

@@ -9,6 +9,17 @@
  */
 
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
+	
+if( $nv_Request->isset_request( 'get_alias', 'post' ) )
+{
+	$title = $nv_Request->get_title( 'get_alias', 'post', '' );
+	$alias = change_alias( $title );
+	$alias = strtolower( $alias );
+
+	include NV_ROOTDIR . '/includes/header.php';
+	echo $alias;
+	include NV_ROOTDIR . '/includes/footer.php';
+}
 
 if( defined( 'NV_EDITOR' ) )
 {
@@ -141,17 +152,6 @@ if( ! $array_post_user['addcontent'] )
 
 	include NV_ROOTDIR . '/includes/header.php';
 	echo nv_site_theme( $contents );
-	include NV_ROOTDIR . '/includes/footer.php';
-}
-	
-if( $nv_Request->isset_request( 'get_alias', 'post' ) )
-{
-	$title = $nv_Request->get_title( 'get_alias', 'post', '' );
-	$alias = change_alias( $title );
-	$alias = strtolower( $alias );
-
-	include NV_ROOTDIR . '/includes/header.php';
-	echo $alias;
 	include NV_ROOTDIR . '/includes/footer.php';
 }
 

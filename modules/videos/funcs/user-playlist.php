@@ -119,20 +119,20 @@ if( defined( 'NV_IS_USER' ) )
 				$check_video = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist WHERE id=' . $id . ' AND playlist_id=' . $playlist_id )->fetchColumn();
 				if($check_video > 0)
 				{
-					$content = $lang_module['playlist_added_video'];
+					$content = 'OK_' . $lang_module['playlist_added_video'];
 				}
 				else
 				{
 					if( $check_video_inlist >= $module_config[$module_name]['playlist_max_items'])
 					{
-						$content = $lang_module['playlist_full'];
+						$content = 'OK_' . $lang_module['playlist_full'];
 					}
 					else
 					{
 						$sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_playlist (playlist_id, id, playlist_sort) VALUES (' . $playlist_id . ', ' . $id . ', 0)';
 						$db->query( $sql );
 						nv_fix_playlist( $playlist_id );
-						$content = $lang_module['playlist_added_video'];
+						$content = 'OK_' . $lang_module['playlist_added_video'];
 					}
 				}
 				$nv_Cache->delMod( $module_name );

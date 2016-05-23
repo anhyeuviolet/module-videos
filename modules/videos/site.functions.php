@@ -254,6 +254,7 @@ function nv_get_user_playlist( $id )
 			foreach($array_user_playlist as $array_user_playlist_i)
 			{
 				$array_user_playlist_i['id'] = $id;
+				$array_user_playlist_i['check_session'] = $check_session;
 				$array_user_playlist_i['numnews'] = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist where playlist_id=' . $array_user_playlist_i['playlist_id'] )->fetchColumn();
 				if( $array_user_playlist_i['status'] == 2 )
 				{

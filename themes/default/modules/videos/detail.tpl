@@ -61,6 +61,7 @@
 			</a>
 			
 			<div id="add_to_userlist" class="show_playlist clear collapse add-playlist-region" value="{DETAIL.id}">
+				<i class="fa fa-spinner fa-pulse fa-2x fa-fw center-block"></i>
 			</div>
 			
 			<div id="report_videos" class="show_report clear collapse add-playlist-region">
@@ -231,7 +232,6 @@ playerInstance_{DETAIL.id}.setup({
 <!-- END: jwplayer -->
 <script src="{NV_BASE_SITEURL}themes/default/js/videos_shorten.js" type="text/javascript"></script>
 <script language="javascript">
-var load_more_text = "{LANG.video_more_text}";
 var load_more_text = "{LANG.video_more_text}";
 var report_non_check = "{LANG.report_non_check}";
 $(document).ready(function() {

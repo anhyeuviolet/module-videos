@@ -169,6 +169,7 @@ $lang_module['playlist_your_hotlink'] = 'Liên kết ảnh đại diện Playlis
 $lang_module['your_playlist'] = 'Playlist của bạn';
 $lang_module['add_playlist_cat'] = 'Thêm mới Playlist';
 $lang_module['edit_playlist_cat'] = 'Sửa Playlist';
+$lang_module['del_playlist_confirm'] = 'Bạn muốn xoá Playlist này ?';
 $lang_module['playlists'] = 'Playlist';
 $lang_module['playlist_num'] = 'Số lượng Video';
 $lang_module['playlist_sort'] = 'Thứ tự';

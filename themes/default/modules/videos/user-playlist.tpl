@@ -92,7 +92,7 @@ $("#idtitle").change(function() {
 </script>
 <script type="text/javascript">
 $("#del_playlist").click(function(event){
-    if(!confirm ('Are you sure ?'))
+    if(!confirm ('{LANG.del_playlist_confirm}'))
        event.preventDefault();
 });
 </script>
