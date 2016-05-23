@@ -13,7 +13,6 @@ if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
 $cache_file = '';
 $contents = '';
 $viewcat = $global_array_cat[$catid]['viewcat'];
-$per_page = $global_array_cat[$catid]['numlinks'];
 
 $base_url_rewrite = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$catid]['alias'];
 if( $page > 1 )
@@ -160,9 +159,12 @@ if( empty( $contents ) )
 
 		$array_cat_other = array();
 
-		if( $global_array_cat[$catid]['subcatid'] != '' )
+		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
+        $contents = viewcat_page_new($array_catcontent, $generate_page);
+		
+		if( $global_array_cat[$catid]['subcatid'] != '' AND $page <= 1 )
 		{
-			$key = 0;
+            $key = 0;
 			$array_catid = explode( ',', $global_array_cat[$catid]['subcatid'] );
 
 			foreach( $array_catid as $catid_i )
@@ -203,9 +205,8 @@ if( empty( $contents ) )
 			}
 
 			unset( $array_catid );
+			$contents .= call_user_func( 'viewsubcat_main', $viewcat, $array_cat_other );
 		}
-		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
-		$contents .= call_user_func( 'viewsubcat_main', $viewcat, $array_cat_other );
 	}
 	elseif( $viewcat == 'viewcat_grid_new' or $viewcat == 'viewcat_grid_old' )
 	{

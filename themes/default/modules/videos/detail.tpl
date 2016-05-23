@@ -30,7 +30,7 @@
 			<!-- END: vid_jw_content -->
 		</div>
 		<div class="uploader cf margin-bottom-lg margin-top-lg">
-			<div class="pd0 col-md-2 col-sm-2 col-lg-2">
+			<div class="pd0 col-xs-2 col-md-2 col-sm-2 col-lg-2">
 				<a href="{DETAIL.uploader_link}" title="{DETAIL.uploader_name}">
 				<img src="{DETAIL.uploader_gravatar}" alt="{DETAIL.uploader_name}" title="{DETAIL.uploader_name}" class="img-thumbnail img-responsive">
 				</a>
