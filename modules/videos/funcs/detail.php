@@ -27,7 +27,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		$show_no_image = $module_config[$module_name]['show_no_image'];
 		if(empty($show_no_image))
 		{
-			$show_no_image = 'themes/default/images/' . $module_name . '/' . 'video_placeholder.png';
+			$show_no_image = 'themes/default/images/' . $module_file . '/' . 'video_placeholder.png';
 		}
 
 		if( defined( 'NV_IS_MODADMIN' ) or ( $news_contents['status'] == 1 and $news_contents['publtime'] < NV_CURRENTTIME and ( $news_contents['exptime'] == 0 or $news_contents['exptime'] > NV_CURRENTTIME ) ) )
