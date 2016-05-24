@@ -258,7 +258,7 @@ if( defined( 'NV_IS_USER' ) )
 			'link' => nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' .  NV_OP_VARIABLE . '=' .$module_info['alias']['user-playlist'] . '/' . $array_playlist[$playlist_id]['alias'] .'-'. $playlist_id, true )
 		);
 
-		$xtpl = new XTemplate( 'user-playlist.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+		$xtpl = new XTemplate( 'user-playlist.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 		$xtpl->assign( 'LANG', $lang_module );
 		$xtpl->assign( 'GLANG', $lang_global );
 		$xtpl->assign( 'NV_BASE_SITEURL', NV_BASE_SITEURL );
@@ -402,7 +402,7 @@ if( defined( 'NV_IS_USER' ) )
 			$lang_module['add_playlist_cat'] = $lang_module['edit_playlist_cat'];
 		}
 
-		$xtpl = new XTemplate( 'user-playlist.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+		$xtpl = new XTemplate( 'user-playlist.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 		$xtpl->assign( 'LANG', $lang_module );
 		$xtpl->assign( 'GLANG', $lang_global );
 		$xtpl->assign( 'NV_BASE_SITEURL', NV_BASE_SITEURL );
@@ -417,17 +417,7 @@ if( defined( 'NV_IS_USER' ) )
 		$xtpl->assign( 'title', $title );
 		$xtpl->assign( 'alias', $alias );
 		$xtpl->assign( 'keywords', $keywords );
-		$xtpl->assign( 'image', $image );
-		
-		if( !empty($image) AND nv_is_url($image) )
-		{
-			$xtpl->assign( 'disabled', 'disabled="disabled"' );
-		}
-		else
-		{
-			$xtpl->assign( 'disabled', '' );
-		}
-		
+		$xtpl->assign( 'image', $image );	
 		$xtpl->assign( 'description', nv_htmlspecialchars( nv_br2nl( $description ) ) );
 
 		foreach( $array_share_mode as $key => $val )

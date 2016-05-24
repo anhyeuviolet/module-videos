@@ -124,8 +124,8 @@ else
 
 	if( $choose == 1 )
 	{
-		$tbl_src = ' LEFT JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext tb2 ON ( tb1.id = tb2.id ) ';
-		$where = "AND ( tb1.title LIKE '%" . $dbkeyhtml . "%' OR tb1.hometext LIKE '%" . $dbkey . "%' OR tb2.bodytext LIKE '%" . $dbkey . "%' ) ";
+		$tbl_src = ' LEFT JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_detail tb2 ON ( tb1.id = tb2.id ) ';
+		$where = "AND ( tb1.title LIKE '%" . $dbkeyhtml . "%' OR tb1.hometext LIKE '%" . $dbkey . "%' OR tb2.bodyhtml LIKE '%" . $dbkey . "%' ) ";
 	}
 	elseif( $choose == 2 )
 	{
@@ -157,9 +157,9 @@ else
 		{
 			$qurl = $url_info['scheme'] . '://' . $url_info['host'];
 		}
-		$tbl_src = ' LEFT JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext tb2 ON ( tb1.id = tb2.id )';
+		$tbl_src = ' LEFT JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_detail tb2 ON ( tb1.id = tb2.id )';
 		$where = " AND ( tb1.title LIKE '%" . $dbkeyhtml . "%' OR tb1.hometext LIKE '%" . $dbkey . "%' OR tb1.admin_name LIKE '%" . $dbkey . "%' OR tb1.artist LIKE '%" . $dbkey . "%' ";
-		$where .= " OR tb1.author LIKE '%" . $dbkeyhtml . "%' OR tb2.bodytext LIKE '%" . $dbkey . "%') OR (tb1.sourceid IN (SELECT sourceid FROM " . NV_PREFIXLANG . "_" . $module_data . "_sources WHERE title like '%" . $db->dblikeescape( $dbkey ) . "%' OR link like '%" . $db->dblikeescape( $qurl ) . "%'))";
+		$where .= " OR tb1.author LIKE '%" . $dbkeyhtml . "%' OR tb2.bodyhtml LIKE '%" . $dbkey . "%') OR (tb1.sourceid IN (SELECT sourceid FROM " . NV_PREFIXLANG . "_" . $module_data . "_sources WHERE title like '%" . $db->dblikeescape( $dbkey ) . "%' OR link like '%" . $db->dblikeescape( $qurl ) . "%'))";
 	}
 
 	if( preg_match( '/^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/', $to_date, $m ) )

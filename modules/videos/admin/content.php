@@ -853,29 +853,30 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 
 				$sth->bindParam( ':bodyhtml', $rowcontent['bodyhtml'], PDO::PARAM_STR, strlen( $rowcontent['bodyhtml'] ) );
 				$sth->bindParam( ':sourcetext', $rowcontent['sourcetext'], PDO::PARAM_STR, strlen( $rowcontent['sourcetext'] ) );
-
+                
 				$ct_query[] = ( int )$sth->execute();
 
-				$array_cat_old = explode( ',', $rowcontent_old['listcatid'] );
-				$array_cat_new = explode( ',', $rowcontent['listcatid'] );
-
-				$array_cat_diff = array_diff( $array_cat_old, $array_cat_new );
-				foreach( $array_cat_diff as $catid )
-				{
-					$ct_query[] = $db->exec( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' WHERE id = ' . $rowcontent['id'] );
-				}
-				foreach( $array_cat_new as $catid )
-				{
-					$db->exec( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' WHERE id = ' . $rowcontent['id'] );
-					$ct_query[] = $db->exec( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE id=' . $rowcontent['id'] );
+				if ($rowcontent_old['listcatid'] != $rowcontent['listcatid']) {
+                    $array_cat_old = explode(',', $rowcontent_old['listcatid']);
+                    $array_cat_new = explode(',', $rowcontent['listcatid']);
+				    $array_cat_diff = array_diff($array_cat_old, $array_cat_new);
+	                foreach ($array_cat_diff as $catid) {
+	                	if (!empty($catid)) {
+	                		$ct_query[] = $db->exec('DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' WHERE id = ' . intval($rowcontent['id']));
+	                	}
+	                }
 				}
 
-				$ct_query[] = ( int )$sth->execute();
-
-				if( array_sum( $ct_query ) != sizeof( $ct_query ) )
-				{
-					$error[] = $lang_module['errorsave'];
+				foreach ($catids as $catid) {
+				    if (!empty($catid)) {
+				        $db->exec('DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' WHERE id = ' . $rowcontent['id']);
+				        $ct_query[] = $db->exec('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE id=' . $rowcontent['id']);
+				    }
 				}
+
+                if (array_sum($ct_query) != sizeof($ct_query)) {
+                    $error[] = $lang_module['errorsave'];
+                }
 			}
 			else
 			{
@@ -1048,8 +1049,6 @@ if( ! empty( $rowcontent['vid_path'] ) and file_exists( NV_UPLOADS_REAL_DIR . '/
 
 $array_catid_in_row = explode( ',', $rowcontent['listcatid'] );
 
-
-
 $sql = 'SELECT sourceid, title FROM ' . NV_PREFIXLANG . '_' . $module_data . '_sources ORDER BY weight ASC';
 $result = $db->query( $sql );
 $array_source_module = array();
@@ -1117,44 +1116,27 @@ $xtpl->assign( 'OP', $op );
 
 $xtpl->assign( 'module_name', $module_name );
 
-foreach( $global_array_cat as $catid_i => $array_value )
-{
-	if( defined( 'NV_IS_ADMIN_MODULE' ) )
-	{
-		$check_show = 1;
-	}
-	else
-	{
-		$array_cat = GetCatidInParent( $catid_i );
-		$check_show = array_intersect( $array_cat, $array_cat_check_content );
-	}
-	if( ! empty( $check_show ) )
-	{
-		$space = intval( $array_value['lev'] ) * 30;
-		$xtitle_i = '';
-		$lev_i = $array_value['lev'];
-		if( $lev_i > 0 )
-		{
-			$xtitle_i .= '&nbsp;&nbsp;&nbsp;|';
-			for( $i = 1; $i <= $lev_i; ++$i )
-			{
-				$xtitle_i .= '---';
-			}
-			$xtitle_i .= '>&nbsp;';
-		}
-
-		$catiddisplay = ( sizeof( $array_catid_in_row ) > 1 and ( in_array( $catid_i, $array_catid_in_row ) ) ) ? '' : ' display: none;';
-		$temp = array(
-			'catid' => $catid_i,
-			'space' => $space,
-			'title' => $xtitle_i . $array_value['title'],
-			'disabled' => ( ! in_array( $catid_i, $array_cat_check_content ) ) ? ' disabled="disabled"' : '',
-			'selected' => ( in_array( $catid_i, $array_catid_in_row ) ) ? ' selected="selected"' : '',
-			'catidchecked' => ( $catid_i == $rowcontent['catid'] ) ? ' selected="selected"' : '',
-			'catiddisplay' => $catiddisplay );
-		$xtpl->assign( 'CATS', $temp );
-		$xtpl->parse( 'main.catid' );
-	}
+foreach ($global_array_cat as $catid_i => $array_value) {
+    if (defined('NV_IS_ADMIN_MODULE')) {
+        $check_show = 1;
+    } else {
+        $array_cat = GetCatidInParent($catid_i);
+        $check_show = array_intersect($array_cat, $array_cat_check_content);
+    }
+    if (! empty($check_show)) {
+        $space = intval($array_value['lev']) * 30;
+        $catiddisplay = (sizeof($array_catid_in_row) > 1 and (in_array($catid_i, $array_catid_in_row))) ? '' : ' display: none;';
+        $temp = array(
+            'catid' => $catid_i,
+            'space' => $space,
+            'title' => $array_value['title'],
+            'disabled' => (! in_array($catid_i, $array_cat_check_content)) ? ' disabled="disabled"' : '',
+            'checked' => (in_array($catid_i, $array_catid_in_row)) ? ' checked="checked"' : '',
+            'catidchecked' => ($catid_i == $rowcontent['catid']) ? ' checked="checked"' : '',
+            'catiddisplay' => $catiddisplay );
+        $xtpl->assign('CATS', $temp);
+        $xtpl->parse('main.catid');
+    }
 }
 
 // Copyright

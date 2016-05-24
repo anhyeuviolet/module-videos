@@ -630,8 +630,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 	$xtpl->assign( 'CONTENT_URL', $base_url . '&contentid=' . $rowcontent['id'] . '&checkss=' . $checkss );
 	$array_catid_in_row = explode( ',', $rowcontent['listcatid'] );
 
-	foreach( $array_catid_module as $value )
-	{
+	foreach( $array_catid_module as $value ){
 		$xtitle_i = '';
 
 		if( $value['lev'] > 0 )
@@ -641,11 +640,10 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 				$xtitle_i .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			}
 		}
-
 		$array_temp = array();
 		$array_temp['value'] = $value['catid'];
 		$array_temp['title'] = $xtitle_i . $value['title'];
-		$array_temp['selected'] = ( in_array( $value['catid'], $array_catid_in_row ) ) ? ' selected="selected"' : '';
+        $array_temp['checked'] = (in_array($value['catid'], $array_catid_in_row)) ? ' checked="checked"' : '';
 
 		$xtpl->assign( 'DATACATID', $array_temp );
 		$xtpl->parse( 'main.catid' );
@@ -719,7 +717,7 @@ elseif( defined( 'NV_IS_USER' ) )
 			}
 			else // no image
 			{
-				$item['imghome'] = NV_BASE_SITEURL .  'themes/default/images/' . $module_name . '/' . 'video_placeholder.png';
+				$item['imghome'] = NV_BASE_SITEURL .  'themes/default/images/' . $module_file . '/' . 'video_placeholder.png';
 			}
 
 			$item['is_edit_content'] = ( empty( $item['status'] ) or $array_post_user['editcontent'] ) ? 1 : 0;

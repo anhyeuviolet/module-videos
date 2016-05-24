@@ -66,7 +66,7 @@ $db->sqlreset()
 	
 if( empty($show_no_image) )
 {
-	$show_no_image = 'themes/default/images/' . $module_name . '/' . 'video_placeholder.png';
+	$show_no_image = 'themes/default/images/' . $module_file . '/' . 'video_placeholder.png';
 }
 
 if ( $mode == 'uploader'){

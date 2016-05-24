@@ -11,72 +11,80 @@
 	  <li><a data-toggle="tab" href="#additional_content">{LANG.additional_content}</a></li>
 	</ul>
 	<div class="row tab-content">
-		<div id="main_content" class="col-sm-24 col-md-24 tab-pane fade in active">
-			<table class="table table-striped table-bordered">
-				<col class="w200" />
-				<col />
-				<tbody>
-					<tr>
-						<td><strong>{LANG.name}</strong>: <sup class="required">(∗)</sup></td>
-						<td><input type="text" maxlength="255" value="{rowcontent.title}" id="idtitle" name="title" class="form-control"  style="width:350px"/><span class="text-middle"> {GLANG.length_characters}: <span id="titlelength" class="red">0</span>. {GLANG.title_suggest_max} </span></td>
-					</tr>
-					<tr>
-						<td><strong>{LANG.alias}: </strong></td>
-						<td><input class="form-control" name="alias" id="idalias" type="text" value="{rowcontent.alias}" maxlength="255"  style="width:350px"/>&nbsp; <em class="fa fa-refresh fa-lg fa-pointer" onclick="get_alias();">&nbsp;</em></td>
-					</tr>
-					<tr>
-						<td class="message_head">
-							<cite>{LANG.content_cat}:</cite> <sup class="required">(∗)</sup>
-						</td>
-						<td>
-							<select class="form-control w200" name="catids[]" id="catid">
-								<option value="">{LANG.select_category}</option>
-								<!-- BEGIN: catid -->
-								<option value="{CATS.catid}" {CATS.selected}>{CATS.title}</option>
-								<!-- END: catid -->
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<!-- BEGIN:playlist_cat -->
-						<td class="top"><strong>{LANG.content_playlist}</strong></td>
-						<td>
-							<select name="playlists[]" id="playlists" class="form-control" style="width: 100%" multiple="multiple">
-								<!-- BEGIN: loop -->
-								<option value="{PLAYLISTS.playlist_id}" {PLAYLISTS.selected}>{PLAYLISTS.title}</option>
-								<!-- END: loop -->
-							</select>
-						</td>
-						<!-- END:playlist_cat -->
-					</tr>
-					<tr>
-						<td class="message_head">
-							<cite>{LANG.content_tag}:</cite>
-						</td>
-						<td style="overflow: auto">
-							<div class="clearfix uiTokenizer uiInlineTokenizer">
-								<div id="keywords" class="tokenarea">
-									<!-- BEGIN: keywords -->
-									<span class="uiToken removable" title="{KEYWORDS}" ondblclick="$(this).remove();">
-										{KEYWORDS}
-										<input type="hidden" autocomplete="off" name="keywords[]" value="{KEYWORDS}" />
-										<a onclick="$(this).parent().remove();" class="remove uiCloseButton uiCloseButtonSmall" href="javascript:void(0);"></a>
-									</span>
-									<!-- END: keywords -->
-								</div>
-								<div class="uiTypeahead">
-									<div class="wrap">
-										<input type="hidden" class="hiddenInput" autocomplete="off" value="" />
-										<div class="innerWrap">
-											<input id="keywords-search" type="text" placeholder="{LANG.input_keyword_tags}" class="form-control textInput" style="width: 100%;" />
+		<div id="main_content" class="col-sm-24 col-md-24 tab-pane fade in active row">
+			<div class="col-xs-24 col-sm-18 col-md-18 col-lg-18">
+				<table class="table table-striped table-bordered">
+					<col class="w200" />
+					<col />
+					<tbody>
+						<tr>
+							<td><strong>{LANG.name}</strong>: <sup class="required">(∗)</sup></td>
+							<td><input type="text" maxlength="255" value="{rowcontent.title}" id="idtitle" name="title" class="form-control"  style="width:350px"/><span class="text-middle"> {GLANG.length_characters}: <span id="titlelength" class="red">0</span>. {GLANG.title_suggest_max} </span></td>
+						</tr>
+						<tr>
+							<td><strong>{LANG.alias}: </strong></td>
+							<td><input class="form-control" name="alias" id="idalias" type="text" value="{rowcontent.alias}" maxlength="255"  style="width:350px"/>&nbsp; <em class="fa fa-refresh fa-lg fa-pointer" onclick="get_alias();">&nbsp;</em></td>
+						</tr>
+						<tr>
+							<!-- BEGIN:playlist_cat -->
+							<td class="top"><strong>{LANG.content_playlist}</strong></td>
+							<td>
+								<select name="playlists[]" id="playlists" class="form-control" style="width: 100%" multiple="multiple">
+									<!-- BEGIN: loop -->
+									<option value="{PLAYLISTS.playlist_id}" {PLAYLISTS.selected}>{PLAYLISTS.title}</option>
+									<!-- END: loop -->
+								</select>
+							</td>
+							<!-- END:playlist_cat -->
+						</tr>
+						<tr>
+							<td class="message_head">
+								<cite>{LANG.content_tag}:</cite>
+							</td>
+							<td style="overflow: auto">
+								<div class="clearfix uiTokenizer uiInlineTokenizer">
+									<div id="keywords" class="tokenarea">
+										<!-- BEGIN: keywords -->
+										<span class="uiToken removable" title="{KEYWORDS}" ondblclick="$(this).remove();">
+											{KEYWORDS}
+											<input type="hidden" autocomplete="off" name="keywords[]" value="{KEYWORDS}" />
+											<a onclick="$(this).parent().remove();" class="remove uiCloseButton uiCloseButtonSmall" href="javascript:void(0);"></a>
+										</span>
+										<!-- END: keywords -->
+									</div>
+									<div class="uiTypeahead">
+										<div class="wrap">
+											<input type="hidden" class="hiddenInput" autocomplete="off" value="" />
+											<div class="innerWrap">
+												<input id="keywords-search" type="text" placeholder="{LANG.input_keyword_tags}" class="form-control textInput" style="width: 100%;" />
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-xs-24 col-sm-6 col-md-6 col-lg-6 row">
+				<div class="col-xs-24 col-sm-24 col-md-24 col-lg-24 row">
+					<p>
+						<strong>{LANG.select_category}:</strong> <sup class="required">(∗)</sup>
+					</p>
+				</div>
+				<div class="col-xs-24 col-sm-24 col-md-24 col-lg-24 row" style="position:relative; height:200px; overflow: auto;">
+					<table class="table table-striped table-bordered table-hover">
+						<tbody>
+							<!-- BEGIN: catid -->
+							<tr>
+								<td><input style="margin-left: {CATS.space}px;" type="checkbox" value="{CATS.catid}" name="catids[]" class="news_checkbox" {CATS.checked} {CATS.disabled}> {CATS.title} </td>
+								<td><input id="catright_{CATS.catid}" style="{CATS.catiddisplay}" type="radio" name="catid" title="{LANG.content_checkcat}" value="{CATS.catid}" {CATS.catidchecked}/></td>
+							</tr>
+							<!-- END: catid -->
+						</tbody>
+					</table>
+				</div>
+			</div>
 			<table class="table table-striped table-bordered table-hover">
 				<col class="w200" />
 				<col />

@@ -346,9 +346,14 @@ $lang_module['report_other'] = 'Lý do khác ( Kiểm duyệt lại Video)';
 $lang_module['report_del'] = 'Xoá thông báo lỗi';
 $lang_module['report_notice'] = 'Báo cáo Videos cần xử lý';
 
+$lang_module['report_no'] = 'Số thứ tự';
+$lang_module['report_title'] = 'Tên Video';
+$lang_module['report_type'] = 'Loại báo cáo';
+$lang_module['report_notice'] = 'Báo cáo Videos cần xử lý';
+
 $lang_module['guest_post'] = 'Khách vãng lai';
 $lang_module['setting_player'] = 'Cấu hình trình phát';
-$lang_module['wiki_get_free_jwlicense'] = '<a title="Hướng dẫn đăng ký JWplayer License" target="_blank" href="https://github.com/anhyeuviolet/module-videos/wiki/H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-%C4%91%C4%83ng-k%C3%BD-Free-License-JWPlayer-7">Hướng dẫn đăng ký JWplayer License</a>';
+$lang_module['wiki_get_free_jwlicense'] = '<a title="Hướng dẫn tạo JWplayer License" target="_blank" href="https://github.com/anhyeuviolet/module-videos/wiki/H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-%C4%91%C4%83ng-k%C3%BD-Free-License-JWPlayer-7">Hướng dẫn tạo JWplayer License</a>';
 
 $lang_module['jwposition_top-right'] = 'Phía trên - bên phải (mặc định)';
 $lang_module['jwposition_top-left'] = 'Phía trên - bên trái';

@@ -682,7 +682,6 @@ function news_print( $result )
 			{
 				$xtpl->parse( 'main.imagefull.note' );
 			}
-
 			$xtpl->parse( 'main.imagefull' );
 		}
 	}
@@ -703,7 +702,6 @@ function news_print( $result )
 		{
 			$xtpl->parse( 'main.author.source' );
 		}
-
 		$xtpl->parse( 'main.author' );
 	}
 

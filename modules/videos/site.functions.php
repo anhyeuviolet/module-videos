@@ -35,7 +35,7 @@ function nv_show_playlist_cat_list()
 			$lang_module['playlist_private_off'],
 			$lang_module['playlist_private_on']
 		);
-		$xtpl = new XTemplate( 'playlist_cat.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+		$xtpl = new XTemplate( 'playlist_cat.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 		$xtpl->assign( 'LANG', $lang_module );
 		$xtpl->assign( 'GLANG', $lang_global );
 		
@@ -125,9 +125,9 @@ function nv_show_playlist_cat_list()
 
 function nv_show_playlist_list( $playlist_id )
 {
-	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $global_array_cat, $module_file, $module_config, $global_config, $user_info;
+	global $db, $lang_module, $lang_global, $module_name, $module_info, $module_data, $op, $global_array_cat, $module_file, $module_config, $global_config, $user_info;
 
-	$xtpl = new XTemplate( 'playlist_list.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+	$xtpl = new XTemplate( 'playlist_list.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
 	$xtpl->assign( 'GLANG', $lang_global );
 	$xtpl->assign( 'NV_BASE_ADMINURL', NV_BASE_ADMINURL );
@@ -232,7 +232,7 @@ function nv_fix_playlist( $playlist_id, $repairtable = true )
 function nv_get_user_playlist( $id )
 {
 	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $module_file, $module_config, $global_config, $module_info, $user_info;
-	$xtpl = new XTemplate( 'playlist_cat.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+	$xtpl = new XTemplate( 'playlist_cat.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
 	$xtpl->assign( 'GLANG', $lang_global );
 	$xtpl->assign( 'NV_BASE_ADMINURL', NV_BASE_ADMINURL );
@@ -273,7 +273,7 @@ function nv_get_user_playlist( $id )
 function nv_get_videos_favourite( $id )
 {
 	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $module_file, $module_config, $global_config, $module_info, $user_info;
-	$xtpl = new XTemplate( 'fav_report.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+	$xtpl = new XTemplate( 'fav_report.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'GLANG', $lang_global );
 	$xtpl->assign( 'NV_BASE_ADMINURL', NV_BASE_ADMINURL );
 	$xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
@@ -299,7 +299,6 @@ function nv_get_videos_favourite( $id )
 	$contents = $xtpl->text( 'videos_favourite_get' );
 	return $contents;
 }
-
 
 function nv_favourite_videos( $id, $check_session )
 {

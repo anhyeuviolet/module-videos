@@ -13,7 +13,7 @@ if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
 $show_no_image = $module_config[$module_name]['show_no_image'];
 if(empty($show_no_image))
 {
-	$show_no_image = 'themes/default/images/' . $module_name . '/' . 'video_placeholder.png';
+	$show_no_image = 'themes/default/images/' . $module_file . '/' . 'video_placeholder.png';
 }
 $groups_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['groups'];
 if( isset( $array_op[1] ) )
