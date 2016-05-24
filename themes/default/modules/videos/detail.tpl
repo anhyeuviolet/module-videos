@@ -220,7 +220,7 @@ playerInstance_{DETAIL.id}.setup({
 		position: '{VIDEO_CONFIG.jwplayer_position}'
 	},
 	<!-- END: player_logo -->
-	skin: {"name": "stormtrooper"},
+	skin: {"name": "{VIDEO_CONFIG.jwplayer_skin}"},
 	abouttext: "{LANG.jw_video_source}{VIDEO_CONFIG.site_name}",
 	aboutlink: "{NV_BASE_SITEURL}",
 	stagevideo: false,

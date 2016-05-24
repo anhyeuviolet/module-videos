@@ -55,6 +55,16 @@
 					</td>
 				</tr>
 				<tr>
+					<th>{LANG.setting_jwplayer_skin}</th>
+					<td>
+						<select class="form-control" name="jwplayer_skin">
+							<!-- BEGIN: jwplayer_skin -->
+							<option value="{SKIN.key}"{SKIN.selected}>{SKIN.title}</option>
+							<!-- END: jwplayer_skin -->
+						</select>
+					</td>
+				</tr>
+				<tr>
 					<th>{LANG.setting_jwplayer_logo}</th>
 					<td>
 						<select class="form-control" name="jwplayer_logo" class="jwplayer_logo" id="jwplayer_logo">

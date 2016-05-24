@@ -130,6 +130,7 @@ $lang_module['setting_jwplayer_autoplay'] = 'Tự động phát';
 $lang_module['setting_jwplayer_loop'] = ' Phát lặp lại';
 $lang_module['setting_jwplayer_controlbar'] = ' Hiện thanh điều khiển';
 $lang_module['setting_jwplayer_mute'] = ' Mặc định tắt âm thanh';
+$lang_module['setting_jwplayer_skin'] = ' Skin JWplayer';
 $lang_module['setting_jwplayer_logo'] = 'Chèn Logo vào video';
 $lang_module['setting_jwplayer_logo_file'] = 'Đường dẫn Logo';
 $lang_module['setting_jwplayer_logo_position'] = 'Vị trí của Logo';

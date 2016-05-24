@@ -45,6 +45,7 @@ if( ! empty( $savesetting ) )
 	$array_config['jwplayer_loop'] = $nv_Request->get_title( 'jwplayer_loop', 'post', '', 0 );
 	$array_config['jwplayer_controlbar'] = $nv_Request->get_title( 'jwplayer_controlbar', 'post', '', 0 );
 	$array_config['jwplayer_mute'] = $nv_Request->get_title( 'jwplayer_mute', 'post', 0 );
+	$array_config['jwplayer_skin'] = $nv_Request->get_title( 'jwplayer_skin', 'post', 0 );
 	$array_config['jwplayer_logo'] = $nv_Request->get_int( 'jwplayer_logo', 'post', 0 );
 	$array_config['jwplayer_logo_file'] = $nv_Request->get_title( 'jwplayer_logo_file', 'post', '' );
 	$array_config['jwplayer_position'] = $nv_Request->get_title( 'jwplayer_position', 'post', 0 );
@@ -109,6 +110,17 @@ $array_jw_js = array(
 	'false' => $lang_global['no']
 	);
 	
+//Set skins
+$temp = ( ! empty( $site_mods[$module_name]['theme'] ) ) ? $site_mods[$module_name]['theme'] : $global_config['site_theme'];
+$_css = '/([a-zA-Z0-9\-\_]+)\.css$/';
+$skins = nv_scandir( NV_ROOTDIR . '/themes/' . $temp . '/modules/' . $module_file . '/jwplayer/skins/', $_css );
+foreach( $skins as $skin ){
+	$skin = preg_replace( $_css, '\\1', $skin );
+	$title = ucwords( $skin );
+	$xtpl->assign( 'SKIN', array( 'title' => $title, 'key' => $skin, 'selected' => ( $module_config[$module_name]['jwplayer_skin'] == $skin ) ? ' selected="selected"' : '' ) );
+	$xtpl->parse( 'main.jwplayer_skin' );
+}
+
 $array_jw_logo = array(
 	$lang_global['no'],
 	$lang_global['yes']

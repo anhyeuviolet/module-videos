@@ -570,8 +570,8 @@ function sec2hms ($sec, $padHours = false) {
 }
 
 /**
+* function addhttp
 * Add http to URL
-* 
 * @param $url
 * @return $url
 *
@@ -608,6 +608,13 @@ function get_gravatar( $email, $s = 256, $d = 'identicon', $r = 'g', $img = fals
     return $url;
 }
 
+/**
+* function nv_videos_check_uploader
+* Check if Uploader info is already inserted
+* @param $url
+* @return $url
+*
+*/
 function nv_videos_check_uploader( $user_id ){
 	global $db, $global_config, $module_data, $module_name;
 	$db->sqlreset()
@@ -623,6 +630,12 @@ function nv_videos_check_uploader( $user_id ){
 	}
 }
 
+/**
+* function nv_videos_getuser_info
+* Update Uploader info
+* @param $user_id
+*
+*/
 function nv_videos_getuser_info( $user_id ){
 	global $db, $nv_Cache, $global_config, $module_data, $module_name, $lang_module;
 	$db->sqlreset()
@@ -656,6 +669,14 @@ function nv_videos_getuser_info( $user_id ){
 	}
 	$nv_Cache->delMod( $module_name );
 }
+
+/**
+* function nv_get_video_href
+* 
+* @param $path
+* @param $type
+*
+*/
 function nv_get_video_href( $path, $type ){
 	global $module_upload;
 	// Export video link

@@ -4,7 +4,7 @@
 	<div class="alert alert-info clearfix">
 		<h1>{CONTENT.title}</h1>
 		<!-- BEGIN: image -->
-		<img alt="{CONTENT.title}" src="{HOMEIMG1}" width="{IMGWIDTH1}" class="img-responsive pull-left imghome" />
+		<img alt="{CONTENT.title}" src="{HOMEIMG1}" class="img-responsive pull-left imghome" />
 		<!-- END: image -->
 		<p>{CONTENT.description}</p>
 	</div>

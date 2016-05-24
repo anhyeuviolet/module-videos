@@ -27,7 +27,7 @@ function viewcat_grid_new( $array_catpage, $catid, $generate_page )
 		$xtpl->assign( 'CONTENT', $global_array_cat[$catid] );
 		if( $global_array_cat[$catid]['image'] )
 		{
-			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $global_array_cat[$catid]['image'] );
+			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $global_array_cat[$catid]['image'] );
 			$xtpl->parse( 'main.viewdescription.image' );
 		}
 		$xtpl->parse( 'main.viewdescription' );
@@ -96,7 +96,7 @@ function viewcat_page_new( $array_catpage, $generate_page )
 		$xtpl->assign( 'CONTENT', $global_array_cat[$catid] );
 		if( $global_array_cat[$catid]['image'] )
 		{
-			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/img/' . $global_array_cat[$catid]['image'] );
+			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $global_array_cat[$catid]['image'] );
 			$xtpl->parse( 'main.viewdescription.image' );
 		}
 		$xtpl->parse( 'main.viewdescription' );

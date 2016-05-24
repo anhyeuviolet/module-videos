@@ -63,7 +63,7 @@ playlistInstance_{PLAYLIST_ID}.setup({
 	<!-- END: player_logo -->
 	abouttext: "{LANG.jw_video_source}{VIDEO_CONFIG.site_name}",
 	aboutlink: "{NV_MY_DOMAIN}",
-	skin: {"name": "stormtrooper"},
+	skin: {"name": "{VIDEO_CONFIG.jwplayer_skin}"},
 	stagevideo: false,
 	stretching: "uniform",
 	visualplaylist: true,
