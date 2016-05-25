@@ -46,6 +46,8 @@ if( ! empty( $savesetting ) )
 	$array_config['jwplayer_controlbar'] = $nv_Request->get_title( 'jwplayer_controlbar', 'post', '', 0 );
 	$array_config['jwplayer_mute'] = $nv_Request->get_title( 'jwplayer_mute', 'post', 0 );
 	$array_config['jwplayer_skin'] = $nv_Request->get_title( 'jwplayer_skin', 'post', 0 );
+	$array_config['jwplayer_sharing'] = $nv_Request->get_title( 'jwplayer_sharing', 'post', 0 );
+	$array_config['jwplayer_sharingsite'] = $nv_Request->get_array( 'jwplayer_sharingsite', 'post', array() );
 	$array_config['jwplayer_logo'] = $nv_Request->get_int( 'jwplayer_logo', 'post', 0 );
 	$array_config['jwplayer_logo_file'] = $nv_Request->get_title( 'jwplayer_logo_file', 'post', '' );
 	$array_config['jwplayer_position'] = $nv_Request->get_title( 'jwplayer_position', 'post', 0 );
@@ -70,6 +72,8 @@ if( ! empty( $savesetting ) )
 		$array_config['show_no_image'] = '';
 	}
 	
+	$array_config['jwplayer_sharingsite'] = implode(',', $array_config['jwplayer_sharingsite']);
+
 	if( ! nv_is_url( $array_config['jwplayer_logo_file'] ) and file_exists( NV_DOCUMENT_ROOT . $array_config['jwplayer_logo_file'] ) )
 	{
 		$lu = strlen( NV_BASE_SITEURL );
@@ -125,7 +129,19 @@ $array_jw_logo = array(
 	$lang_global['no'],
 	$lang_global['yes']
 	);
-	
+
+$array_sharingsites = array(
+	'facebook' => $lang_module['facebook'],
+	'twitter' => $lang_module['twitter'],
+	'googleplus' => $lang_module['googleplus'],
+	'interest' => $lang_module['interest'],
+	'tumblr' => $lang_module['tumblr'],
+	'reddit' => $lang_module['reddit'],
+	'linkedin' => $lang_module['linkedin'],
+	'email' => $lang_module['email']
+	);
+
+
 $array_jw_position = array(
 	'top-right' => $lang_module['jwposition_top-right'],
 	'top-left' => $lang_module['jwposition_top-left'],
@@ -133,6 +149,16 @@ $array_jw_position = array(
 	'bottom-left' => $lang_module['jwposition_bottom-left']
 	);
 
+$module_config[$module_name]['jwplayer_sharingsite'] = explode(',', $module_config[$module_name]['jwplayer_sharingsite']);
+foreach( $array_sharingsites as $key => $val )
+{
+	$xtpl->assign( 'JW_SSITES', array(
+		'key' => $key,
+		'title' => $val,
+		'checked' => in_array($key, $module_config[$module_name]['jwplayer_sharingsite']) ? ' checked="checked"' : ''
+	) );
+	$xtpl->parse( 'main.jwplayer_sharingsite' );
+}
 
 // Cach hien thi tren trang chu
 foreach( $array_viewcat_full as $key => $val )
@@ -184,6 +210,16 @@ foreach( $array_jw_js as $key => $val )
 		'selected' => $key == $module_config[$module_name]['jwplayer_mute'] ? ' selected="selected"' : ''
 	) );
 	$xtpl->parse( 'main.jwplayer_mute' );
+}
+
+foreach( $array_jw_logo as $key => $val )
+{
+	$xtpl->assign( 'JW_SHARE', array(
+		'key' => $key,
+		'title' => $val,
+		'selected' => $key == $module_config[$module_name]['jwplayer_sharing'] ? ' selected="selected"' : ''
+	) );
+	$xtpl->parse( 'main.jwplayer_sharing' );
 }
 
 foreach( $array_jw_logo as $key => $val )

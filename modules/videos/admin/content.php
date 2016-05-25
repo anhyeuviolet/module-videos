@@ -905,7 +905,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 			$array_block_fix = array_unique( $array_block_fix );
 			foreach( $array_block_fix as $bid_i )
 			{
-				nv_news_fix_block( $bid_i, false );
+				nv_videos_fix_block( $bid_i, false );
 			}
 			
 			//Playlist
@@ -928,7 +928,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 			$array_playlist_fix = array_unique( $array_playlist_fix );
 			foreach( $array_playlist_fix as $playlist_id_i )
 			{
-				nv_news_fix_playlist( $playlist_id_i, false );
+				nv_videos_fix_playlist( $playlist_id_i, false );
 			}
 			
 

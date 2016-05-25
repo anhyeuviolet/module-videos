@@ -10,14 +10,14 @@
 
 if( ! defined( 'NV_ADMIN' ) ) die( 'Stop!!!' );
 
-if( ! function_exists('nv_news_array_cat_admin') )
+if( ! function_exists('nv_videos_array_cat_admin') )
 {
 	/**
-	 * nv_news_array_cat_admin()
+	 * nv_videos_array_cat_admin()
 	 *
 	 * @return
 	 */
-	function nv_news_array_cat_admin( $module_data )
+	function nv_videos_array_cat_admin( $module_data )
 	{
 		global $db;
 
@@ -35,7 +35,7 @@ if( ! function_exists('nv_news_array_cat_admin') )
 }
 
 $is_refresh = false;
-$array_cat_admin = nv_news_array_cat_admin( $module_data );
+$array_cat_admin = nv_videos_array_cat_admin( $module_data );
 
 if( ! empty( $module_info['admins'] ) )
 {
@@ -51,7 +51,7 @@ if( ! empty( $module_info['admins'] ) )
 }
 if( $is_refresh )
 {
-	$array_cat_admin = nv_news_array_cat_admin( $module_data );
+	$array_cat_admin = nv_videos_array_cat_admin( $module_data );
 }
 
 $admin_id = $admin_info['admin_id'];

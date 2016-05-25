@@ -67,6 +67,15 @@ playlistInstance_{PLAYLIST_ID}.setup({
 	stagevideo: false,
 	stretching: "uniform",
 	visualplaylist: true,
+	<!-- BEGIN: player_sharing -->
+	sharing: {
+		"sites": [
+		<!-- BEGIN: loop -->
+		"{SSITE.jwplayer_sharingsite}",
+		<!-- END: loop -->
+		]
+	},
+	<!-- END: player_sharing -->
 	width: "100%"
   });
   

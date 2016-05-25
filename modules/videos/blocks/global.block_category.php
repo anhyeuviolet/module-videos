@@ -105,7 +105,7 @@ if( !nv_function_exists( 'nv_videos_category' ) )
 					if( !empty( $cat['subcatid'] ) )
 					{
 						$html .= "<span class=\"fa arrow expand\"></span>";
-						$html .= nv_news_sub_category( $cat['subcatid'], $title_length );
+						$html .= nv_videos_sub_category( $cat['subcatid'], $title_length );
 					}
 					$html .= "</li>\n";
 				}
@@ -117,7 +117,7 @@ if( !nv_function_exists( 'nv_videos_category' ) )
 		}
 	}
 
-	function nv_news_sub_category( $list_sub, $title_length )
+	function nv_videos_sub_category( $list_sub, $title_length )
 	{
 		global $module_array_cat;
 		if( empty( $list_sub ) )
@@ -133,7 +133,7 @@ if( !nv_function_exists( 'nv_videos_category' ) )
 				$html .= "<li>\n";
 				$html .= "<a title=\"" . $module_array_cat[$catid]['title'] . "\" href=\"" . $module_array_cat[$catid]['link'] . "\">" . nv_clean60( $module_array_cat[$catid]['title'], $title_length ) . "</a>\n";
 				if( !empty( $module_array_cat[$catid]['subcatid'] ) )
-					$html .= nv_news_sub_category( $module_array_cat[$catid]['subcatid'], $title_length );
+					$html .= nv_videos_sub_category( $module_array_cat[$catid]['subcatid'], $title_length );
 				$html .= "</li>\n";
 			}
 			$html .= "</ul>\n";

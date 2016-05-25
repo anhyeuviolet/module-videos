@@ -273,9 +273,7 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		$module_config[$module_name]['jwplayer_logo_file'] = NV_BASE_SITEURL . $module_config[$module_name]['jwplayer_logo_file'];
 	}
 	$module_config[$module_name]['site_name'] = $global_config['site_name'];
-
 	$xtpl->assign( 'VIDEO_CONFIG', $module_config[$module_name] );
-
 	if( $news_contents['allowed_send'] == 1 )
 	{
 		$xtpl->assign( 'URL_SENDMAIL', $news_contents['url_sendmail'] );
@@ -287,11 +285,19 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 	}
 	if( !empty($href_vid) )
 	{
-		if(  $module_config[$module_name]['jwplayer_logo'] > 0 and !empty($module_config[$module_name]['jwplayer_logo_file']))
+		if(  $module_config[$module_name]['jwplayer_logo'] > 0 AND !empty($module_config[$module_name]['jwplayer_logo_file']))
 		{				
 			$xtpl->parse( 'main.jwplayer.player_logo' );
 		}
-		
+		if( $module_config[$module_name]['jwplayer_sharing'] > 0 AND !empty( $module_config[$module_name]['jwplayer_sharingsite'] ) ){
+			$module_config[$module_name]['jwplayer_sharingsite'] = explode(',', $module_config[$module_name]['jwplayer_sharingsite']);
+			foreach ( $module_config[$module_name]['jwplayer_sharingsite'] as $_site ){
+				
+				$xtpl->assign( 'SSITE', $_site );
+				$xtpl->parse( 'main.jwplayer.player_sharing.loop' );
+			}
+			$xtpl->parse( 'main.jwplayer.player_sharing' );
+		}
 		if( ! defined( 'JWPLAYER_JS' ) )
 		{
 			define( 'JWPLAYER_JS', true );
@@ -544,7 +550,15 @@ function playlist_theme( $playlist_array, $playlist_info, $playlist_id, $player 
 					{				
 						$xtpl->parse( 'main.player.player_logo' );
 					}
-					
+					if( $module_config[$module_name]['jwplayer_sharing'] > 0 AND !empty( $module_config[$module_name]['jwplayer_sharingsite'] ) ){
+						$module_config[$module_name]['jwplayer_sharingsite'] = explode(',', $module_config[$module_name]['jwplayer_sharingsite']);
+						foreach ( $module_config[$module_name]['jwplayer_sharingsite'] as $_site ){
+							
+							$xtpl->assign( 'SSITE', $_site );
+							$xtpl->parse( 'main.player.player_sharing.loop' );
+						}
+						$xtpl->parse( 'main.player.player_sharing' );
+					}
 					if( ! defined( 'JWPLAYER_JS' ) )
 					{
 						define( 'JWPLAYER_JS', true );

@@ -29,7 +29,7 @@ if( $playlist_id > 0 )
 				$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_playlist WHERE playlist_id=" . $playlist_id . " AND id=" . $id );
 			}
 		}
-		nv_news_fix_playlist( $playlist_id );
+		nv_videos_fix_playlist( $playlist_id );
 		$content = "OK_" . $playlist_id;
 	}
 	elseif( $id > 0 )
@@ -65,7 +65,7 @@ if( $playlist_id > 0 )
 		}
 	}
 
-	nv_news_fix_playlist( $playlist_id );
+	nv_videos_fix_playlist( $playlist_id );
 	$nv_Cache->delMod( $module_name );
 }
 

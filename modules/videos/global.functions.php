@@ -210,12 +210,12 @@ function nv_link_edit_playlist( $id )
 
 
 /**
- * nv_news_get_detail()
+ * nv_videos_get_detail()
  *
  * @param mixed $bodytext
  * @return
  */
-function nv_news_get_detail( $bodytext )
+function nv_videos_get_detail( $bodytext )
 {
 	// Get image tags
 	if( preg_match_all( "/\<img[^\>]*src=\"([^\"]*)\"[^\>]*\>/is", $bodytext, $match ) )

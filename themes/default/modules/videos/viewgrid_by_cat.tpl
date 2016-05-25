@@ -20,7 +20,7 @@
 					<!-- BEGIN: image -->
 					<div class="videos-home-thumbnail pull-left col-md-24 col-lg-24 col-xs-24">
 						<a class="clearfix" title="{CONTENT.title}" href="{CONTENT.link}">
-							<img src="{HOMEIMG}" alt="{HOMEIMGALT}" class="imghome img-responsive" />
+							<img src="{HOMEIMG}" alt="{HOMEIMGALT}" class="imghome img-responsive" width="{IMGWIDTH}" height="{IMGHEIGHT}"/>
 						</a>
 					</div>
 					<!-- END: image -->

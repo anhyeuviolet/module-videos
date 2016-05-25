@@ -225,6 +225,15 @@ playerInstance_{DETAIL.id}.setup({
 	aboutlink: "{NV_BASE_SITEURL}",
 	stagevideo: false,
 	stretching: "uniform",
+	<!-- BEGIN: player_sharing -->
+	sharing: {
+		"sites": [
+		<!-- BEGIN: loop -->
+		"{SSITE.jwplayer_sharingsite}",
+		<!-- END: loop -->
+		]
+	},
+	<!-- END: player_sharing -->
 	visualplaylist: true,
 	width: "100%"
   });

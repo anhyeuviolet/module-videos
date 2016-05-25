@@ -206,13 +206,13 @@ function nv_fix_source()
 }
 
 /**
- * nv_news_fix_playlist()
+ * nv_videos_fix_playlist()
  *
  * @param mixed $playlist_id
  * @param bool $repairtable
  * @return
  */
-function nv_news_fix_playlist( $playlist_id, $repairtable = true )
+function nv_videos_fix_playlist( $playlist_id, $repairtable = true )
 {
 	global $db, $module_data;
 	$playlist_id = intval( $playlist_id );
@@ -242,13 +242,13 @@ function nv_news_fix_playlist( $playlist_id, $repairtable = true )
 	}
 }
 /**
- * nv_news_fix_block()
+ * nv_videos_fix_block()
  *
  * @param mixed $bid
  * @param bool $repairtable
  * @return
  */
-function nv_news_fix_block( $bid, $repairtable = true )
+function nv_videos_fix_block( $bid, $repairtable = true )
 {
 	global $db, $module_data;
 	$bid = intval( $bid );
@@ -606,7 +606,7 @@ function nv_show_playlist_cat_list($page)
 				'numnews' => $numnews,
 				'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=playlist&amp;playlist_id=' . $row['playlist_id'],
 				'linksite' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '/' . $row['alias'],
-				'url_edit' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;playlist_id=' . $row['playlist_id'] . '#edit'
+				'url_edit' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'] . '&amp;playlist_id=' . $row['playlist_id'] . '#edit'
 			) );
 
 			for( $i = 1 ; $i <= $num; ++$i )

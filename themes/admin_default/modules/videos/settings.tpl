@@ -65,6 +65,26 @@
 					</td>
 				</tr>
 				<tr>
+					<th>{LANG.setting_jwplayer_sharing}</th>
+					<td>
+						<select class="form-control" name="jwplayer_sharing" class="jwplayer_sharing" id="jwplayer_sharing">
+							<!-- BEGIN: jwplayer_sharing -->
+							<option value="{JW_SHARE.key}"{JW_SHARE.selected}>{JW_SHARE.title}</option>
+							<!-- END: jwplayer_sharing -->
+						</select>
+					</td>
+				</tr>
+				<tr class="sharing-jw">
+					<th>{LANG.setting_jwplayer_sharingsite}</th>
+					<td>
+						<ul style="padding: 0px;">
+							<!-- BEGIN: jwplayer_sharingsite -->
+							<li style="display: inline-block;"><input type="checkbox" value="{JW_SSITES.key}" name="jwplayer_sharingsite[]" {JW_SSITES.checked}/>{JW_SSITES.title}</li>
+							<!-- END: jwplayer_sharingsite -->
+						</ul>
+					</td>
+				</tr>
+				<tr>
 					<th>{LANG.setting_jwplayer_logo}</th>
 					<td>
 						<select class="form-control" name="jwplayer_logo" class="jwplayer_logo" id="jwplayer_logo">
@@ -329,6 +349,17 @@ $(document).ready(function(){
             }
             else {
                 $(".logo-jw").hide();
+            }
+        });
+    }).change();
+	
+    $("select#jwplayer_sharing").change(function(){
+        $(this).find("option:selected").each(function(){
+            if($(this).attr("value")=="1"){
+                $(".sharing-jw").show();
+            }
+            else {
+                $(".sharing-jw").hide();
             }
         });
     }).change();

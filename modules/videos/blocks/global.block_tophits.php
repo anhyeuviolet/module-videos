@@ -71,9 +71,9 @@ if( ! nv_function_exists( 'videos_thumbs' ) )
 	}
 }
 
-if( ! nv_function_exists( 'nv_news_block_tophits' ) )
+if( ! nv_function_exists( 'nv_videos_block_tophits' ) )
 {
-	function nv_block_config_tophits_blocks( $module, $data_block, $lang_block )
+	function nv_block_config_videos_tophits_blocks( $module, $data_block, $lang_block )
 	{
 		global $site_mods, $nv_Cache;
 		$html = '';
@@ -126,7 +126,7 @@ if( ! nv_function_exists( 'nv_news_block_tophits' ) )
 		return $html;
 	}
 
-	function nv_block_config_tophits_blocks_submit( $module, $lang_block )
+	function nv_block_config_videos_tophits_blocks_submit( $module, $lang_block )
 	{
 		global $nv_Request;
 		$return = array();
@@ -141,7 +141,7 @@ if( ! nv_function_exists( 'nv_news_block_tophits' ) )
 		return $return;
 	}
 
-	function nv_news_block_tophits( $block_config, $mod_data )
+	function nv_videos_block_tophits( $block_config, $mod_data )
 	{
 		global $module_array_cat, $site_mods, $module_info, $db, $module_config, $global_config;
 
@@ -265,6 +265,6 @@ if( defined( 'NV_SYSTEM' ) )
 				$module_array_cat[$l['catid']]['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $l['alias'];
 			}
 		}
-		$content = nv_news_block_tophits( $block_config, $mod_data );
+		$content = nv_videos_block_tophits( $block_config, $mod_data );
 	}
 }

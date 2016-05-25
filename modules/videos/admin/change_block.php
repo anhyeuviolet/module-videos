@@ -29,7 +29,7 @@ if( $bid > 0 )
 				$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_block WHERE bid=" . $bid . " AND id=" . $id );
 			}
 		}
-		nv_news_fix_block( $bid );
+		nv_videos_fix_block( $bid );
 		$content = "OK_" . $bid;
 	}
 	elseif( $id > 0 )
@@ -65,7 +65,7 @@ if( $bid > 0 )
 		}
 	}
 
-	nv_news_fix_block( $bid );
+	nv_videos_fix_block( $bid );
 	$nv_Cache->delMod( $module_name );
 }
 
