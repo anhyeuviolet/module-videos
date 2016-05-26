@@ -129,6 +129,7 @@ function nv_del_content_module( $id )
 		
 		$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_comment WHERE module=' . $db->quote( $module_name ) . ' AND id = ' . $id );
 		$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block WHERE id = ' . $id );
+		$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_playlist WHERE id = ' . $id );
 		$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows_favourite WHERE id = ' . $id );
 		$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows_report WHERE id = ' . $id );
 		
