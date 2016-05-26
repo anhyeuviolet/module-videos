@@ -1,15 +1,17 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
- * @Language Tiếng Việt
- * @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
- * @Createdate Mar 04, 2010, 03:22:00 PM
- */
+* @Project NUKEVIET 4.x
+* @Author VINADES.,JSC (contact@vinades.vn)
+* @Copyright (C) 2016 VINADES.,JSC. All rights reserved
+* @Language Tiếng Việt
+* @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
+* @Createdate Mar 04, 2010, 08:22:00 AM
+*/
 
-if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
+if (! defined('NV_MAINFILE')) {
+    die( 'Stop!!!' );
+}
 
 $lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';
 $lang_translator['createdate'] = '04/03/2010, 15:22';
@@ -144,7 +146,6 @@ $lang_module['errorsave'] = 'Lỗi hệ thống không cập nhật được n�
 $lang_module['update_content'] = 'Sửa Video';
 $lang_module['del_content'] = 'Xóa Video';
 $lang_module['no_public'] = 'Chú ý: Video này chưa được xuất bản, chỉ có những người có quyền thao tác mới có thể xem được nội dung.';
-
 $lang_module['status_alert'] = 'Video đang ở trạng thái: %1$s';
 $lang_module['status_0'] = 'Ngưng hiệu lực';
 $lang_module['status_1'] = 'Xuất bản';
@@ -157,10 +158,9 @@ $lang_module['status_7'] = 'Đang duyệt bài';
 $lang_module['status_8'] = 'Chuyển đăng bài';
 $lang_module['status_9'] = 'Từ chối đăng bài';
 $lang_module['status_10'] = 'Đang kiểm tra để đăng';
-
 $lang_module['playlist_private_off'] = 'Công khai';
 $lang_module['playlist_private_on'] = 'Riêng tư';
-$lang_module['playlist_remove_videos'] = 'Bạn muốn xoá video này khỏi playlist ?';
+$lang_module['playlist_remove_videos'] = 'Xoá Video khỏi Playlist';
 $lang_module['playlist_public'] = 'Hiển thị';
 $lang_module['playlist_status'] = 'Hoạt động';
 $lang_module['playlist'] = 'Danh mục phát';
@@ -169,13 +169,11 @@ $lang_module['playlist_your_hotlink'] = 'Liên kết ảnh đại diện Playlis
 $lang_module['your_playlist'] = 'Playlist của bạn';
 $lang_module['add_playlist_cat'] = 'Thêm mới Playlist';
 $lang_module['edit_playlist_cat'] = 'Sửa Playlist';
-$lang_module['del_playlist_confirm'] = 'Bạn muốn xoá Playlist này ?';
 $lang_module['playlists'] = 'Playlist';
 $lang_module['playlist_num'] = 'Số lượng Video';
 $lang_module['playlist_sort'] = 'Thứ tự';
 $lang_module['description'] = 'Mô tả';
 $lang_module['error_name'] = 'Lỗi:Bạn cần nhập Tiêu đề';
-
 $lang_module['save'] = 'Lưu';
 $lang_module['play'] = 'Phát';
 $lang_module['open_new_window'] = 'Xem ở cửa sổ mới';
@@ -190,27 +188,16 @@ $lang_module['playlist_select'] = 'Chọn playlist';
 $lang_module['playlist_pending'] = 'Playlist đang kiểm duyệt';
 $lang_module['playlist_is_private'] = 'Playlist này là Riêng tư';
 $lang_module['playlist_num_videos'] = 'Video trong Playlist';
-$lang_module['playlist_remove_videos'] = 'Xoá Video khỏi Playlist';
-$lang_module['playlist_refresh'] = 'Làm mới danh sách Playlist';
-$lang_module['playlist_share'] = 'Chia sẻ Playlist';
-
 $lang_module['userpl_disable'] = 'Chức năng thêm/sửa Playlist đã bị tắt';
 $lang_module['user_create_newlist'] = 'Tạo Playlist mới';
 $lang_module['user_required'] = 'Đăng ký hoặc đăng nhập để dùng chức năng này';
-
 $lang_module['video_title'] = 'Tiêu đề Video';
-$lang_module['video_report'] = 'Báo cáo';
 $lang_module['video_favorite'] = 'Thích';
-$lang_module['video_favorited'] = 'Đã thích';
-$lang_module['video_favorite_checked'] = 'Đã thích Video này';
-$lang_module['video_favorite_duplicate'] = 'Bạn đã thích Video này rồi';
+$lang_module['video_unfavorite'] = 'Bỏ thích';
 $lang_module['video_more_text'] = 'Mở rộng';
 $lang_module['video_less_text'] = 'Thu gọn';
-$lang_module['video_share'] = 'Chia sẻ Video';
-
 $lang_module['error_vid_path'] = 'Liên kết Video thiếu hoặc sai quy định';
 $lang_module['videos_duration'] = 'Thời lượng';
-
 $lang_module['year'] = 'năm trước';
 $lang_module['month'] = 'tháng trước';
 $lang_module['week'] = 'tuần trước';
@@ -218,7 +205,6 @@ $lang_module['day'] = 'ngày trước';
 $lang_module['hour'] = 'giờ trước';
 $lang_module['minute'] = 'phút trước';
 $lang_module['second'] = 'giây trước';
-
 $lang_module['by'] = 'bởi';
 $lang_module['video'] = ' video';
 $lang_module['video_show_list'] = 'Danh sách Video';
@@ -239,10 +225,15 @@ $lang_module['last_name'] = 'Tên';
 $lang_module['uploader_description'] = 'Tự giới thiệu về bạn';
 $lang_module['showmail'] = 'Hiển thị Email';
 $lang_module['editinfo_confirm'] = 'Xác nhận';
-
 $lang_module['no'] = 'Thứ tự';
 $lang_module['stt'] = 'Thứ tự';
-
+$lang_module['print'] = 'In';
+$lang_module['print_page'] = 'In nội dung này';
+$lang_module['playlist_refresh'] = 'Làm mới danh sách Playlist';
+$lang_module['video_report'] = 'Báo cáo';
+$lang_module['video_favorited'] = 'Đã thích';
+$lang_module['video_favorite_checked'] = 'Đã thích Video này';
+$lang_module['video_favorite_duplicate'] = 'Bạn đã thích Video này rồi';
 $lang_module['report_send'] = 'Gửi báo cáo';
 $lang_module['report_select'] = 'Chọn nội dung báo cáo';
 $lang_module['report_notplay'] = 'Không phát được';
@@ -252,3 +243,6 @@ $lang_module['report_other'] = 'Lý do khác ( Kiểm duyệt lại Video)';
 $lang_module['report_thanks'] = 'Cảm ơn bạn đã gửi báo cáo';
 $lang_module['report_non_check'] = 'Vui lòng chọn loại báo cáo';
 $lang_module['error_wrongid'] = 'ID không xác định';
+$lang_module['del_playlist_confirm'] = 'Bạn muốn xoá Playlist này ?';
+$lang_module['playlist_share'] = 'Chia sẻ Playlist';
+$lang_module['video_share'] = 'Chia sẻ Video';

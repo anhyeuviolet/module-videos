@@ -1,15 +1,17 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
- * @Language Tiếng Việt
- * @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
- * @Createdate Mar 04, 2010, 03:22:00 PM
- */
+* @Project NUKEVIET 4.x
+* @Author VINADES.,JSC (contact@vinades.vn)
+* @Copyright (C) 2016 VINADES.,JSC. All rights reserved
+* @Language Tiếng Việt
+* @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
+* @Createdate Mar 04, 2010, 08:22:00 AM
+*/
 
-if( ! defined( 'NV_ADMIN' ) or ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
+if (! defined('NV_ADMIN') or ! defined('NV_MAINFILE')) {
+    die( 'Stop!!!' );
+}
 
 $lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';
 $lang_translator['createdate'] = '04/03/2010, 15:22';
@@ -24,6 +26,7 @@ $lang_module['playlists'] = 'Playlist';
 $lang_module['playlists_error_title'] = 'Lỗi: Bạn chưa nhập tiêu đề Playlist';
 $lang_module['main_content'] = 'Thông tin cơ bản';
 $lang_module['additional_content'] = 'Thông tin mở rộng';
+$lang_module['sources'] = 'Nguồn Videos';
 $lang_module['videos_sources'] = 'Nguồn Videos';
 $lang_module['videos_info'] = 'Đăng Videos';
 $lang_module['videos_duration'] = 'Thời lượng';
@@ -69,13 +72,11 @@ $lang_module['newday'] = 'Icon tin mới (ngày)';
 $lang_module['hitstotal'] = 'Số lượt xem';
 $lang_module['checkall'] = 'Chọn tất cả';
 $lang_module['uncheckall'] = 'Bỏ chọn tất cả';
-
 $lang_module['description'] = 'Miêu tả';
 $lang_module['viewdescription'] = 'Hiển thị nội dung chi tiết khi xem chủ đề';
 $lang_module['viewdescription_0'] = 'Không hiển thị ';
 $lang_module['viewdescription_1'] = 'Hiển thị tại trang số 1 của chủ đề';
 $lang_module['viewdescription_2'] = 'Hiển thị ở tất cả các trang của chủ đề';
-
 $lang_module['keywords'] = 'Từ khóa';
 $lang_module['content_list'] = 'Danh sách Videos';
 $lang_module['content_add'] = 'Thêm Videos';
@@ -84,17 +85,14 @@ $lang_module['add_sources'] = 'Thêm nguồn Videos';
 $lang_module['edit_cat'] = 'Sửa chuyên mục';
 $lang_module['add_playlist'] = 'Thêm Playlist';
 $lang_module['edit_playlist'] = 'Sửa Playlist';
-
 $lang_module['edit_sources'] = 'Sửa nguồn Videos';
 $lang_module['add_block_cat'] = 'Thêm thể loại';
 $lang_module['edit_block_cat'] = 'Sửa thể loại';
-
 $lang_module['link'] = 'Website nguồn Videos';
 $lang_module['cat_sub'] = 'Thuộc chuyên mục';
 $lang_module['cat_sub_sl'] = 'Là chuyên mục chính';
-$lang_module['note_cat'] = 'Chưa có chuyên mục cho Video.<br/>Bạn sẽ được chuyển tới khu vực khởi tạo Chuyên mục.';
+$lang_module['note_cat'] = 'Chưa có chuyên mục cho Video.<br />Bạn sẽ được chuyển tới khu vực khởi tạo Chuyên mục.';
 $lang_module['playlist_sl'] = 'Chọn thể loại liên quan hoặc tự điền';
-
 $lang_module['delcat_msg_cat'] = 'Chuyên mục này có %s Chuyên mục thành phần, bạn cần xóa hoặc di chuyển các Chuyên mục thành phần trước';
 $lang_module['delcat_msg_rows'] = 'Chuyên mục có %s Videos, bạn có chắc chắn xóa hoặc di chuyển sang Chuyên mục khác';
 $lang_module['delcat_msg_rows_select'] = 'Chú ý: Chuyên mục %s có %s Videos. <br />Bạn xóa Chuyên mục này tức là xóa tất cả Videos bên trong nó.';
@@ -103,7 +101,6 @@ $lang_module['delcat_msg_cat_permissions'] = 'Bạn không có quyền thực hi
 $lang_module['delcatandrows'] = 'Xóa Chuyên mục và các Videos';
 $lang_module['delcat_msg_rows_noselect'] = 'Bạn cần chọn Chuyên mục để di chuyển Videos tới';
 $lang_module['delplaylist_msg_rows'] = 'thể loại liên quan có %s Videos, bạn có chắc chắn xóa, khi đó thể loại liên quan sẽ bị xóa khỏi các Videos.';
-
 $lang_module['setting'] = 'Cấu hình module';
 $lang_module['setting_indexfile'] = 'Phương án thể hiện trang chủ';
 $lang_module['setting_homesite'] = 'Kích thước của hình tại trang chủ';
@@ -118,25 +115,19 @@ $lang_module['setting_post'] = 'Cấu hình đăng bài';
 $lang_module['setting_auto_tags'] = 'Tự động tạo từ khóa cho Videos nếu không nhập từ khóa lúc đăng bài';
 $lang_module['setting_tags_remind'] = 'Nhắc nhở các từ khóa không có mô tả';
 $lang_module['setting_alias_lower'] = 'Chuyển Liên kết tĩnh về chữ thường khi tạo mới';
-
 $lang_module['setting_playlist'] = 'Cấu hình Playlist ngoài trang chủ';
 $lang_module['setting_allow_user_plist'] = 'Cho phép người dùng tạo Playlist';
 $lang_module['setting_playlist_moderate'] = 'Không cần kiểm duyệt Playlist';
 $lang_module['setting_playlist_allow_detele'] = 'Cho phép người dùng xoá Playlist';
 $lang_module['setting_playlist_max_items'] = 'Số video tối đa trong playlist';
-
 $lang_module['setting_jwplayer_license'] = 'License JWplayer';
 $lang_module['setting_jwplayer_autoplay'] = 'Tự động phát';
 $lang_module['setting_jwplayer_loop'] = ' Phát lặp lại';
 $lang_module['setting_jwplayer_controlbar'] = ' Hiện thanh điều khiển';
 $lang_module['setting_jwplayer_mute'] = ' Mặc định tắt âm thanh';
-$lang_module['setting_jwplayer_skin'] = ' Skin JWplayer';
-$lang_module['setting_jwplayer_sharing'] = 'Bật chia sẻ Video';
-$lang_module['setting_jwplayer_sharingsite'] = 'Chọn các công cụ MXH';
 $lang_module['setting_jwplayer_logo'] = 'Chèn Logo vào video';
 $lang_module['setting_jwplayer_logo_file'] = 'Đường dẫn Logo';
 $lang_module['setting_jwplayer_logo_position'] = 'Vị trí của Logo';
-
 $lang_module['viewcat_page'] = 'Cách thể hiện Chuyên mục';
 $lang_module['viewcat_page_new'] = 'danh sách, mới lên trên';
 $lang_module['viewcat_page_old'] = 'danh sách, cũ lên trên';
@@ -145,7 +136,6 @@ $lang_module['viewcat_grid_new'] = 'theo lưới, mới lên trên';
 $lang_module['viewcat_grid_old'] = 'theo lưới, cũ lên trên';
 $lang_module['viewcat_none'] = 'không hiển thị';
 $lang_module['viewcat_detail'] = 'Các nhóm được xem chi tiết Videos';
-
 $lang_module['search'] = 'Tìm kiếm';
 $lang_module['search_type'] = 'Tìm kiếm theo';
 $lang_module['search_status'] = 'Trạng thái';
@@ -164,7 +154,6 @@ $lang_module['error_title'] = 'Lỗi: Videos chưa có tiêu đề';
 $lang_module['error_bodytext'] = 'Lỗi: Videos chưa có nội dung';
 $lang_module['error_cat'] = 'Lỗi: Videos chưa có chuyên mục';
 $lang_module['sources_sl'] = 'Hãy chọn hoặc tự điền';
-
 $lang_module['content_cat'] = 'Chuyên mục của Videos';
 $lang_module['content_block'] = 'Videos thuộc các thể loại';
 $lang_module['content_playlist'] = 'Thuộc Playlist';
@@ -207,9 +196,7 @@ $lang_module['content_checkcatmsg'] = 'Bạn cần chọn chủ đề chính cho
 $lang_module['content_archive'] = 'Lưu trữ sau thời gian hết hạn';
 $lang_module['content_tags_empty'] = 'Chú ý: Videos chưa có từ khóa nào';
 $lang_module['content_tags_empty_auto'] = 'Hệ thống sẽ tạo tự động từ khóa lúc lưu Videos này, có thể tắt tính năng tự động tạo từ khóa ở phần quản lý module';
-
 $lang_module['content_no_video'] = 'Chưa có video nào trong mục này';
-
 $lang_module['showtooltip'] = 'Hiển thị tooltips';
 $lang_module['showtooltip_position'] = 'Vị trí hiển thị';
 $lang_module['showtooltip_position_top'] = 'Trên';
@@ -246,7 +233,6 @@ $lang_module['playlist_nonews'] = 'Hiện tại không có Videos nào thuộc t
 $lang_module['addtoplaylists'] = 'Thêm vào Playlist';
 $lang_module['playlist_update_success'] = 'Cập nhật thành công!';
 $lang_module['playlist_num_news'] = ' video';
-
 $lang_module['siteinfo_publtime'] = 'Tổng số Videos hiệu lực';
 $lang_module['siteinfo_users_send'] = 'Số Videos thành viên gửi tới';
 $lang_module['siteinfo_pending'] = 'Số Videos chờ đăng';
@@ -257,13 +243,11 @@ $lang_module['siteinfo_comment_pending'] = 'Số bình luận chờ duyệt';
 $lang_module['siteinfo_video_pending'] = 'Số video chờ duyệt';
 $lang_module['siteinfo_playlist_pending'] = 'Số playlist chờ duyệt';
 $lang_module['siteinfo_tags_incomplete'] = 'Số tags chưa có mô tả';
-
 $lang_module['group_content'] = 'Cấu hình đăng Videos tại trang người dùng';
 $lang_module['group_addcontent'] = 'Được đăng Videos';
 $lang_module['group_postcontent'] = 'Đăng Videos không cần kiểm duyệt';
 $lang_module['group_editcontent'] = 'Được sửa Videos đã đăng';
 $lang_module['group_delcontent'] = 'Được xóa Videos đã đăng';
-
 $lang_module['admin'] = 'Phân quyền quản lý';
 $lang_module['admin_permissions'] = 'Quyền hạn';
 $lang_module['admin_edit'] = 'Sửa quyền hạn';
@@ -282,7 +266,6 @@ $lang_module['admin_last_name'] = 'Họ';
 $lang_module['admin_email'] = 'Email';
 $lang_module['firstname_lastname'] = 'Tên và Họ';
 $lang_module['lastname_firstname'] = 'Họ và Tên';
-
 $lang_module['permissions_admin'] = 'Quản lý Chuyên mục';
 $lang_module['permissions_add_content'] = 'Thêm mới Video';
 $lang_module['permissions_pub_content'] = 'Đăng Video';
@@ -292,15 +275,12 @@ $lang_module['permissions_del_content'] = 'Xóa Video';
 $lang_module['permissions_pub_error'] = 'Lỗi: Bạn không được đăng Video tại Chuyên mục: %1$s';
 $lang_module['permissions_sendspadmin_error'] = 'Lỗi: Bạn không được phép chuyển Video cho tổng biên tập tại Chuyên mục: %1$s';
 $lang_module['permissions_pub_show_error'] = 'Lỗi: Bạn không được cho hiển thị Video tại Chuyên mục: %1$s';
-
 $lang_module['error_no_del_content_id'] = 'Lỗi: Hệ thống không xóa được các Videos có id:';
 $lang_module['structure_image_upload'] = 'Ảnh upload của module được lưu trữ mặc định theo cấu trúc thư mục';
-
 $lang_module['config_source'] = 'Cấu hình hiển thị nguồn Videos tại chi tiết tin';
 $lang_module['config_source_title'] = 'Hiển thị tiêu đề nguồn Videos';
 $lang_module['config_source_link'] = 'Hiển thị link của nguồn Videos';
 $lang_module['config_source_logo'] = 'Hiển thị logo của nguồn Videos';
-
 $lang_module['tags'] = 'Quản lý Tags';
 $lang_module['add_tags'] = 'Thêm Tags';
 $lang_module['edit_tags'] = 'Sửa Tags';
@@ -308,30 +288,24 @@ $lang_module['tags_alias'] = 'Lọc bỏ dấu tiếng việt, các ký tự kh�
 $lang_module['alias_search'] = 'Để hiển thị các tags khác, bạn dùng chức năng tìm kiếm để hiển thị nhiều kết quả hơn';
 $lang_module['tags_all_link'] = 'Chế độ xem các tags chưa có mô tả đang được kích hoạt, nhấp vào đây để xem tất cả các tags';
 $lang_module['tags_no_description'] = 'Chưa có mô tả';
-
-$lang_module['googleplus'] = 'Xác thực Google+ (quyền tác giả)';
+$lang_module['googleplus'] = 'Google +';
 $lang_module['googleplus_1'] = 'Không sử dụng';
 $lang_module['googleplus_0'] = 'Theo quyền tác giả của module';
 $lang_module['input_title_blocks'] = 'Nhập tiêu đề thể loại...';
 $lang_module['input_keyword_tags'] = 'Nhập từ khóa...';
-
 $lang_module['alias_empty_notice'] = 'Liên kết tĩnh còn trống, hệ thống sẽ tự động tạo liên kết tĩnh phù hợp';
 $lang_module['functional'] = 'Chức năng';
 $lang_module['featured'] = 'Tin nổi bật';
 $lang_module['addtocat'] = 'Thêm Videos nổi bật vào chuyên mục';
 $lang_module['delete_from_cat'] = 'Xóa Videos khỏi chuyên mục';
 $lang_module['not_featured'] = 'Không có Video nào';
-
 $lang_module['playlist_private_off'] = 'Công khai';
 $lang_module['playlist_private_on'] = 'Riêng tư';
-
 $lang_module['playlist_public'] = 'Hiển thị';
 $lang_module['playlist_status'] = 'Hoạt động';
 $lang_module['playlist'] = 'Danh mục phát';
-
 $lang_module['about_uploader'] = 'Giới thiệu về ';
 $lang_module['add_uploader_data'] = 'Thêm bảng Uploader';
-
 $lang_module['year'] = 'năm trước';
 $lang_module['month'] = 'tháng trước';
 $lang_module['week'] = 'tuần trước';
@@ -339,7 +313,13 @@ $lang_module['day'] = 'ngày trước';
 $lang_module['hour'] = 'giờ trước';
 $lang_module['minute'] = 'phút trước';
 $lang_module['second'] = 'giây trước';
-
+$lang_module['guest_post'] = 'Khách vãng lai';
+$lang_module['setting_player'] = 'Cấu hình trình phát';
+$lang_module['wiki_get_free_jwlicense'] = '<a title="Hướng dẫn tạo JWplayer License" target="_blank" href="https://github.com/anhyeuviolet/module-videos/wiki/H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-%C4%91%C4%83ng-k%C3%BD-Free-License-JWPlayer-7">Hướng dẫn tạo JWplayer License</a>';
+$lang_module['jwposition_top-right'] = 'Phía trên - bên phải (mặc định)';
+$lang_module['jwposition_top-left'] = 'Phía trên - bên trái';
+$lang_module['jwposition_bottom-right'] = 'Phía dưới - bên phải';
+$lang_module['jwposition_bottom-left'] = 'Phía dưới - bên trái';
 $lang_module['videos_reports'] = 'Báo cáo';
 $lang_module['videos_noreport'] = 'Hiện tại chưa có báo cáo nào';
 $lang_module['report_notplay'] = 'Không phát được';
@@ -348,24 +328,14 @@ $lang_module['report_copyright'] = 'Nội dung vi phạm bản quyền';
 $lang_module['report_other'] = 'Lý do khác ( Kiểm duyệt lại Video)';
 $lang_module['report_del'] = 'Xoá thông báo lỗi';
 $lang_module['report_notice'] = 'Báo cáo Videos cần xử lý';
-
+$lang_module['setting_jwplayer_skin'] = ' Skin JWplayer';
+$lang_module['setting_jwplayer_sharing'] = 'Bật chia sẻ Video';
+$lang_module['setting_jwplayer_sharingsite'] = 'Chọn các công cụ MXH';
 $lang_module['report_no'] = 'Số thứ tự';
 $lang_module['report_title'] = 'Tên Video';
 $lang_module['report_type'] = 'Loại báo cáo';
-$lang_module['report_notice'] = 'Báo cáo Videos cần xử lý';
-
-$lang_module['guest_post'] = 'Khách vãng lai';
-$lang_module['setting_player'] = 'Cấu hình trình phát';
-$lang_module['wiki_get_free_jwlicense'] = '<a title="Hướng dẫn tạo JWplayer License" target="_blank" href="https://github.com/anhyeuviolet/module-videos/wiki/H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-%C4%91%C4%83ng-k%C3%BD-Free-License-JWPlayer-7">Hướng dẫn tạo JWplayer License</a>';
-
-$lang_module['jwposition_top-right'] = 'Phía trên - bên phải (mặc định)';
-$lang_module['jwposition_top-left'] = 'Phía trên - bên trái';
-$lang_module['jwposition_bottom-right'] = 'Phía dưới - bên phải';
-$lang_module['jwposition_bottom-left'] = 'Phía dưới - bên trái';
-
 $lang_module['facebook'] = 'Facebook';
 $lang_module['twitter'] = 'Twitter';
-$lang_module['googleplus'] = 'Google +';
 $lang_module['interest'] = 'Pinterest';
 $lang_module['tumblr'] = 'Tumblr';
 $lang_module['reddit'] = 'Reddit';

@@ -10,7 +10,7 @@
 */
 
 if (! defined('NV_MAINFILE')) {
-	die( 'Stop!!!' );
+    die( 'Stop!!!' );
 }
 
 $lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';
@@ -229,3 +229,20 @@ $lang_module['no'] = 'No.';
 $lang_module['stt'] = 'No.';
 $lang_module['print'] = 'Print';
 $lang_module['print_page'] = 'Print this article';
+$lang_module['playlist_refresh'] = 'Refresh playlist';
+$lang_module['video_report'] = 'Report Video';
+$lang_module['video_favorited'] = 'Done';
+$lang_module['video_favorite_checked'] = 'Done';
+$lang_module['video_favorite_duplicate'] = 'Done';
+$lang_module['report_send'] = 'Send report';
+$lang_module['report_select'] = 'Choose a report';
+$lang_module['report_notplay'] = 'Video is not play';
+$lang_module['report_content'] = 'Bad content';
+$lang_module['report_copyright'] = 'Copyright';
+$lang_module['report_other'] = 'Re-moderate';
+$lang_module['report_thanks'] = 'Thanks for your report !';
+$lang_module['report_non_check'] = 'Please choose a report';
+$lang_module['error_wrongid'] = 'ID is not valid';
+$lang_module['del_playlist_confirm'] = 'Are you sure to Delete this Playlist ?';
+$lang_module['playlist_share'] = 'Share this';
+$lang_module['video_share'] = 'Share Video';
