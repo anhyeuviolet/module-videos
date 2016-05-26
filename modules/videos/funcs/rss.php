@@ -10,6 +10,12 @@
 
 if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
 
+$show_no_image = $module_config[$module_name]['show_no_image'];
+if(empty($show_no_image))
+{
+	$show_no_image = 'themes/default/images/' . $module_file . '/' . 'video_placeholder.png';
+}
+
 $channel = array();
 $items = array();
 
@@ -58,22 +64,24 @@ if( $module_info['rss'] )
 	{
 		$catalias = $global_array_cat[$catid_i]['alias'];
 
-		if( $homeimgthumb == 1 ) // image thumb
+		
+		if( $homeimgthumb == 1 OR $homeimgthumb == 2 ) //image file
 		{
-			$rimages = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload . '/' . $homeimgfile;
+			$rimages = videos_thumbs($id, $homeimgfile, $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
 		}
-		elseif( $homeimgthumb == 2 ) // image file
-		{
-			$rimages = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $homeimgfile;
-		}
-		elseif( $homeimgthumb == 3 ) // image url
+		elseif( $homeimgthumb == 3 ) //image url
 		{
 			$rimages = $homeimgfile;
 		}
-		else // no image
+		elseif( ! empty( $show_no_image ) ) //no image
+		{
+			$rimages = NV_BASE_SITEURL . $show_no_image;
+		}
+		else
 		{
 			$rimages = '';
 		}
+
 		$rimages = ( ! empty( $rimages ) ) ? '<img src="' . $rimages . '" width="100" align="left" border="0">' : '';
 
 		$items[] = array(

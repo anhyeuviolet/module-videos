@@ -192,6 +192,7 @@ $lang_module['playlist_is_private'] = 'Playlist này là Riêng tư';
 $lang_module['playlist_num_videos'] = 'Video trong Playlist';
 $lang_module['playlist_remove_videos'] = 'Xoá Video khỏi Playlist';
 $lang_module['playlist_refresh'] = 'Làm mới danh sách Playlist';
+$lang_module['playlist_share'] = 'Chia sẻ Playlist';
 
 $lang_module['userpl_disable'] = 'Chức năng thêm/sửa Playlist đã bị tắt';
 $lang_module['user_create_newlist'] = 'Tạo Playlist mới';
@@ -205,6 +206,7 @@ $lang_module['video_favorite_checked'] = 'Đã thích Video này';
 $lang_module['video_favorite_duplicate'] = 'Bạn đã thích Video này rồi';
 $lang_module['video_more_text'] = 'Mở rộng';
 $lang_module['video_less_text'] = 'Thu gọn';
+$lang_module['video_share'] = 'Chia sẻ Video';
 
 $lang_module['error_vid_path'] = 'Liên kết Video thiếu hoặc sai quy định';
 $lang_module['videos_duration'] = 'Thời lượng';
@@ -249,5 +251,4 @@ $lang_module['report_copyright'] = 'Nội dung vi phạm bản quyền';
 $lang_module['report_other'] = 'Lý do khác ( Kiểm duyệt lại Video)';
 $lang_module['report_thanks'] = 'Cảm ơn bạn đã gửi báo cáo';
 $lang_module['report_non_check'] = 'Vui lòng chọn loại báo cáo';
-
 $lang_module['error_wrongid'] = 'ID không xác định';

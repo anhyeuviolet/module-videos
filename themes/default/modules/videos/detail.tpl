@@ -53,7 +53,7 @@
 			</a>
 			
 			<a title="{LANG.video_favorite}"<!-- BEGIN: not_user --> onclick="return loginForm();"<!-- END: not_user --> <!-- BEGIN: favorite_is_user --> onclick="nv_favourite_videos('{DETAIL.id}','fav','{NEWSCHECKSS}','{DETAIL.check_session}');"<!-- END: favorite_is_user --> href="#" class="button-style-1 fn-tab">
-			<span id="favourite-{DETAIL.id}"></span>
+			<span id="favourite-{DETAIL.id}"><i class="fa fa-spinner fa-pulse fa-fw center-block"></i></span>
 			</a>
 			
 			<a title="{LANG.video_report}" href="#" class="button-style-1 fn-tab" data-toggle="collapse" data-target="#report_videos" onclick="nv_colapse_favourites( );">
@@ -90,7 +90,7 @@
 
 	<!-- BEGIN: bodyhtml -->
 	<div class="panel panel-default bodytext_shorten row">
-		<div id="news-bodyhtml" class="bodytext panel-body margin-bottom-lg">
+		<div id="news-bodyhtml" class="bodytext panel-body">
 			{DETAIL.bodyhtml}
 		</div>
 	</div>
@@ -227,6 +227,7 @@ playerInstance_{DETAIL.id}.setup({
 	stretching: "uniform",
 	<!-- BEGIN: player_sharing -->
 	sharing: {
+		"heading":"{LANG.video_share}",
 		"sites": [
 		<!-- BEGIN: loop -->
 		"{SSITE.jwplayer_sharingsite}",
@@ -241,7 +242,8 @@ playerInstance_{DETAIL.id}.setup({
 <!-- END: jwplayer -->
 <script src="{NV_BASE_SITEURL}themes/default/js/videos_shorten.js" type="text/javascript"></script>
 <script language="javascript">
-var load_more_text = "{LANG.video_more_text}";
+var expand_text = "{LANG.video_more_text}";
+var hide_text = "{LANG.video_less_text}";
 var report_non_check = "{LANG.report_non_check}";
 $(document).ready(function() {
 	if (document.getElementById('add_to_userlist')) {

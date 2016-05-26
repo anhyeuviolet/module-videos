@@ -69,6 +69,7 @@ playlistInstance_{PLAYLIST_ID}.setup({
 	visualplaylist: true,
 	<!-- BEGIN: player_sharing -->
 	sharing: {
+		"heading":"{LANG.playlist_share}",
 		"sites": [
 		<!-- BEGIN: loop -->
 		"{SSITE.jwplayer_sharingsite}",
