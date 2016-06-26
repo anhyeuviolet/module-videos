@@ -195,8 +195,8 @@ if( $checkss == md5( session_id() ) )
 {
 	if( $stype == 'bodytext' )
 	{
-		$from .= ' INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext c ON (r.id=c.id)';
-		$where = " c.bodytext LIKE '%" . $db->dblikeescape( $q ) . "%'";
+		$from .= ' INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_detail c ON (r.id=c.id)';
+		$where = " c.bodyhtml LIKE '%" . $db->dblikeescape( $q ) . "%'";
 	}
 	elseif( $stype == "author" or $stype == "title" )
 	{
@@ -218,7 +218,7 @@ if( $checkss == md5( session_id() ) )
 	}
 	elseif( ! empty( $q ) )
 	{
-		$from .= ' INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext c ON (r.id=c.id)';
+		$from .= ' INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_detail c ON (r.id=c.id)';
 		$arr_from = array();
 		foreach( $array_in_rows as $key => $val )
 		{
@@ -226,7 +226,7 @@ if( $checkss == md5( session_id() ) )
 		}
 		$where = " (r.author LIKE '%" . $db->dblikeescape( $qhtml ) . "%'
 			OR r.title LIKE '%" . $db->dblikeescape( $qhtml ) . "%'
-			OR c.bodytext LIKE '%" . $db->dblikeescape( $q ) . "%'
+			OR c.bodyhtml LIKE '%" . $db->dblikeescape( $q ) . "%'
 			OR u.username LIKE '%" . $db->dblikeescape( $qhtml ) . "%'
 			OR u.first_name LIKE '%" . $db->dblikeescape( $qhtml ) . "%')";
 	}

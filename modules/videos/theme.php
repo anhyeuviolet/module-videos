@@ -312,6 +312,15 @@ function detail_theme( $news_contents, $href_vid, $array_keyword, $related_new_a
 		$xtpl->assign( 'URL_SAVEFILE', $news_contents['url_savefile'] );
 		$xtpl->parse( 'main.allowed_save' );
 	}
+	if( $module_config[$module_name]['fb_comm'] == 1 )
+	{
+		if( empty($meta_property['fb:admins']) AND $module_config[$module_name]['fb_admin'] )
+		{
+			global $meta_property;
+			$meta_property['fb:admins'] = $module_config[$module_name]['fb_admin'];
+		}
+		$xtpl->parse( 'main.fb_comment' );
+	}
 
 	if( $news_contents['allowed_rating'] == 1 )
 	{

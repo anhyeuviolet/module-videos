@@ -53,6 +53,8 @@ if( ! empty( $savesetting ) )
 	$array_config['jwplayer_position'] = $nv_Request->get_title( 'jwplayer_position', 'post', 0 );
 	
 	$array_config['facebookappid'] = $nv_Request->get_title( 'facebookappid', 'post', '' );
+	$array_config['fb_comm'] = $nv_Request->get_int( 'fb_comm', 'post', '' );
+	$array_config['fb_admin'] = $nv_Request->get_title( 'fb_admin', 'post', '' );
 	$array_config['socialbutton'] = $nv_Request->get_int( 'socialbutton', 'post', 0 );
 	$array_config['show_no_image'] = $nv_Request->get_title( 'show_no_image', 'post', '', 0 );
 	$array_config['structure_upload'] = $nv_Request->get_title( 'structure_upload', 'post', '', 0 );
@@ -293,6 +295,7 @@ $xtpl->assign( 'ALLOW_USER_PLIST', $module_config[$module_name]['allow_user_plis
 $xtpl->assign( 'PLAYLIST_MODERATE', $module_config[$module_name]['playlist_moderate'] ? ' checked="checked"' : '' );
 $xtpl->assign( 'PLAYLIST_ALLOW_DETELE', $module_config[$module_name]['playlist_allow_detele'] ? ' checked="checked"' : '' );
 
+$xtpl->assign( 'FB_COMM', $module_config[$module_name]['fb_comm'] ? ' checked="checked"' : '' );
 $xtpl->assign( 'TAGS_ALIAS', $module_config[$module_name]['tags_alias'] ? ' checked="checked"' : '' );
 $xtpl->assign( 'ALIAS_LOWER', $module_config[$module_name]['alias_lower'] ? ' checked="checked"' : '' );
 $xtpl->assign( 'AUTO_TAGS', $module_config[$module_name]['auto_tags'] ? ' checked="checked"' : '' );

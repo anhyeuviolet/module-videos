@@ -88,7 +88,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 			$href_vid = array();
 			$href_vid = nv_get_video_href( $news_contents['vid_path'], $news_contents['vid_type'] );
 
-			$news_contents['player'] = NV_MY_DOMAIN . NV_BASE_SITEURL . $module_name . '/player/' . rand(1000,9999) . 0 .'-' . md5( $news_contents['id'] . session_id() . $global_config['sitekey'] ) . '-'. rand(1000,9999) . $news_contents['id'] . $global_config['rewrite_endurl'];
+			$news_contents['player'] = NV_BASE_SITEURL . $module_name . '/player/' . rand(1000,9999) . 0 .'-' . md5( $news_contents['id'] . session_id() . $global_config['sitekey'] ) . '-'. rand(1000,9999) . $news_contents['id'] . $global_config['rewrite_endurl'];
 			$link_embed = $news_contents['player'] . '-embed' . $global_config['rewrite_endurl'];
 			$http_url = NV_MY_DOMAIN . NV_BASE_SITEURL . 'themes/default/modules/' . $module_file . '/jwplayer/jwplayer5.swf?config=' . $link_embed;
 			

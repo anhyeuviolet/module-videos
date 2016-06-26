@@ -193,6 +193,13 @@
 </div>
 <!-- END: comment -->
 
+<!-- BEGIN: fb_comment -->
+<div class="panel panel-default">
+	<div class="panel-body">
+<div class="fb-comments" data-href="{SELFURL}" data-numposts="5"></div>	</div>
+</div>
+<!-- END: fb_comment -->
+
 <!-- BEGIN: jwplayer_js -->
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/jwplayer.js"></script>
 <script type="text/javascript">jwplayer.key="{VIDEO_CONFIG.jwplayer_license}";</script>
@@ -240,7 +247,6 @@ playerInstance_{DETAIL.id}.setup({
   });
 </script>
 <!-- END: jwplayer -->
-<script src="{NV_BASE_SITEURL}themes/default/js/videos_shorten.js" type="text/javascript"></script>
 <script language="javascript">
 var expand_text = "{LANG.video_more_text}";
 var hide_text = "{LANG.video_less_text}";

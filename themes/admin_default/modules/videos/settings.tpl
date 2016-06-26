@@ -258,6 +258,14 @@
 					<td><input class="form-control w150" name="facebookappid" value="{DATA.facebookappid}" type="text"/><span class="text-middle">{LANG.facebookAppIDNote}</span></td>
 				</tr>
 				<tr>
+					<th>{LANG.facebookAdminID}&nbsp;<i style="cursor: pointer;" class="fa fa-question-circle" aria-hidden="true" title="{LANG.facebookAdminID_tips}" data-toggle="tooltip" data-placement="bottom"></i></th>
+					<td><input class="form-control w150" name="fb_admin" value="{DATA.fb_admin}" type="text"/><span class="text-middle">{LANG.facebookAdminIDNote}</span></td>
+				</tr>
+				<tr>
+					<th>{LANG.facebookComment}</th>
+					<td><input type="checkbox" value="1" name="fb_comm"{FB_COMM}/></td>
+				</tr>
+				<tr>
 					<th>{LANG.setting_youtube_api}</th>
 					<td><input class="form-control" style="width:340px;" name="youtube_api" value="{DATA.youtube_api}" type="text"/><span class="text-middle"><br/>{LANG.wiki_get_free_youtube_api}</span></td>
 				</tr>
@@ -364,5 +372,8 @@ $(document).ready(function(){
         });
     }).change();
 });
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 </script>
 <!-- END: main -->

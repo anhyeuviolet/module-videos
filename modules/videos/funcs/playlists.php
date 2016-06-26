@@ -130,7 +130,7 @@ if( !empty( $alias ) )
 		$result->closeCursor();
 		unset( $result, $row );
 		
-		$player = NV_MY_DOMAIN . NV_BASE_SITEURL . $module_name . '/player/' . rand(1000,9999) . $playlist_id .'-' . md5( $playlist_id . session_id() . $global_config['sitekey'] ) . '-'. rand(1000,9999) . 0 . $global_config['rewrite_endurl'];
+		$player = NV_BASE_SITEURL . $module_name . '/player/' . rand(1000,9999) . $playlist_id .'-' . md5( $playlist_id . session_id() . $global_config['sitekey'] ) . '-'. rand(1000,9999) . 0 . $global_config['rewrite_endurl'];
 		$contents = playlist_theme( $playlist_array, $playlist_info, $playlist_id, $player );
 	}
 	else
