@@ -253,10 +253,10 @@ var hide_text = "{LANG.video_less_text}";
 var report_non_check = "{LANG.report_non_check}";
 $(document).ready(function() {
 	if (document.getElementById('add_to_userlist')) {
-		$('#add_to_userlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&mod_list=user_playlist' + '&id={DETAIL.id}' + '&fcheck={DETAIL.check_session}' + '&nocache=' + new Date().getTime());
+		$('#add_to_userlist').load(nv_base_siteurl + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&mod_list=user_playlist' + '&id={DETAIL.id}' + '&fcheck={DETAIL.check_session}' + '&nocache=' + new Date().getTime());
 	}
 	if (document.getElementById('favourite-{DETAIL.id}')) {
-		$('#favourite-{DETAIL.id}').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&mod_list=get_fav' + '&id={DETAIL.id}' + '&fcheck={DETAIL.check_session}' + '&nocache=' + new Date().getTime());
+		$('#favourite-{DETAIL.id}').load(nv_base_siteurl + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&mod_list=get_fav' + '&id={DETAIL.id}' + '&fcheck={DETAIL.check_session}' + '&nocache=' + new Date().getTime());
 	}
 	$(".bodytext_shorten").shorten({showChars: 200});
 });

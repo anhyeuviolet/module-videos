@@ -31,7 +31,7 @@
 			<!-- BEGIN: emailcomm -->
 			<a class="cm_item" title="mailto {COMMENT.post_email}" href="mailto:{COMMENT.post_email}">{COMMENT.post_email}</a>
 			<!-- END: emailcomm -->
-		<div class="al-j break-word text-justify">{COMMENT.content}</div>
+		<div class="text-justify">{COMMENT.content}</div>
 		<p class="link ellipsis">
 			{COMMENT.post_time} - <a href="{COMMENT.url_comment}#idcomment" title="{COMMENT.post_title}">{COMMENT.post_title}</a>
 		</p>

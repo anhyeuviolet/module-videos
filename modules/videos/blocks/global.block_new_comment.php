@@ -55,7 +55,7 @@ if (! nv_function_exists('nv_videos_videos_new_comment')) {
         $module = $block_config['module'];
         $mod_data = $site_mods[$module]['module_data'];
 
-        $sql = "SELECT * FROM " . NV_PREFIXLANG . "_comment WHERE module = " . $db->quote($module) . " AND status=1 ORDER BY post_time DESC LIMIT " . $block_config['numrow'];
+        $sql = "SELECT * FROM " . NV_PREFIXLANG . "_comment WHERE module = " . $db->quote($module) . " AND status=1 GROUP BY id ORDER BY post_time DESC LIMIT " . $block_config['numrow'];
         $result = $db_slave->query($sql);
         $array_comment = array();
         $array_news_id = array();

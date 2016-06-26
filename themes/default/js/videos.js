@@ -46,7 +46,7 @@ function nv_del_content(id, checkss, base_adminurl, detail) {
 function get_alias( op ) {
 	var title = strip_tags(document.getElementById('idtitle').value);
 	if (title != '') {
-		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=' + op + '&nocache=' + new Date().getTime(), 'get_alias=' + encodeURIComponent(title), function(res) {
+		$.post(nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=' + op + '&nocache=' + new Date().getTime(), 'get_alias=' + encodeURIComponent(title), function(res) {
 			if (res != "") {
 				document.getElementById('idalias').value = res;
 			} else {
@@ -60,7 +60,7 @@ function get_alias( op ) {
 function get_duration( op ) {
 	var path = strip_tags(document.getElementById('vid_path').value);
 	if (path != '') {
-		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=' + op + '&nocache=' + new Date().getTime(), 'get_duration=' + path, function(res) {
+		$.post(nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=' + op + '&nocache=' + new Date().getTime(), 'get_duration=' + path, function(res) {
 			if (res != "") {
 				document.getElementById('vid_duration').value = res;
 			} else {
@@ -103,7 +103,7 @@ function nv_del_playlist_list(oForm, playlist_id, fcheck) {
 
 	if (del_list != '') {
 		if (confirm(nv_is_del_confirm[0])) {
-			$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'del_list=' + del_list + '&fcheck=' + fcheck + '&ajax=1&playlist_id=' + playlist_id, function(res) {
+			$.post(nv_base_siteurl + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'del_list=' + del_list + '&fcheck=' + fcheck + '&ajax=1&playlist_id=' + playlist_id, function(res) {
 				nv_change_playlist_result(res, fcheck);
 			});
 		}
@@ -113,7 +113,7 @@ function nv_del_playlist_list(oForm, playlist_id, fcheck) {
 function nv_change_playlist_cat(playlist_id, mod, fcheck) {
 	var nv_timer = nv_settimeout_disable('id_' + mod + '_' + playlist_id, 1500);
 	var new_vid = $('#id_' + mod + '_' + playlist_id).val();
-	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'playlist_id=' + playlist_id + '&fcheck=' + fcheck + '&ajax=2&mod=' + mod + '&new_vid=' + new_vid, function(res) {
+	$.post(nv_base_siteurl + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'playlist_id=' + playlist_id + '&fcheck=' + fcheck + '&ajax=2&mod=' + mod + '&new_vid=' + new_vid, function(res) {
 		var r_split = res.split('_');
 		if (r_split[0] != 'OK') {
 			alert(nv_is_change_act_confirm[2]);
@@ -126,7 +126,7 @@ function nv_change_playlist_cat(playlist_id, mod, fcheck) {
 
 function nv_del_playlist_cat(playlist_id, fcheck) {
 	if (confirm(nv_is_del_confirm[0])) {
-		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), '&ajax=4&playlist_id=' + playlist_id + '&fcheck=' + fcheck, function(res) {
+		$.post(nv_base_siteurl + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), '&ajax=4&playlist_id=' + playlist_id + '&fcheck=' + fcheck, function(res) {
 			var r_split = res.split('_');
 			if (r_split[0] == 'OK') {
 				nv_show_list_playlist_cat('playlist_cat', fcheck);
@@ -145,7 +145,7 @@ function nv_change_playlist(playlist_id, id, mod, fcheck) {
 		return false;
 	}
 	var new_vid = $('#id_playlist_sort_' + id).val();
-	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'id=' + id + '&playlist_id=' + playlist_id + '&ajax=1&mod=' + mod + '&fcheck=' + fcheck + '&new_vid=' + new_vid, function(res) {
+	$.post(nv_base_siteurl + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'id=' + id + '&playlist_id=' + playlist_id + '&ajax=1&mod=' + mod + '&fcheck=' + fcheck + '&new_vid=' + new_vid, function(res) {
 		nv_change_playlist_result(res, fcheck);
 	});
 	return;
@@ -163,14 +163,14 @@ function nv_change_playlist_result(res, fcheck) {
 
 function nv_show_list_playlist(playlist_id, mod_list, fcheck) {
 	if (document.getElementById('module_show_list')) {
-		$('#module_show_list').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&playlist_id=' + playlist_id + '&mod_list=' + mod_list + '&fcheck=' + fcheck + '&nocache=' + new Date().getTime());
+		$('#module_show_list').load(nv_base_siteurl + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&playlist_id=' + playlist_id + '&mod_list=' + mod_list + '&fcheck=' + fcheck + '&nocache=' + new Date().getTime());
 	}
 	return;
 }
 
 function nv_show_list_playlist_cat( mod_list, fcheck ) {
 	if (document.getElementById('module_show_playlist')) {
-		$('#module_show_playlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&mod_list=' + mod_list + '&fcheck=' + fcheck + '&nocache=' + new Date().getTime());
+		$('#module_show_playlist').load(nv_base_siteurl + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&mod_list=' + mod_list + '&fcheck=' + fcheck + '&nocache=' + new Date().getTime());
 	}
 	return;
 }
@@ -179,7 +179,7 @@ function nv_add_user_playlist(id, user_playlist, mod, fcheck) {
 	if (mod != 'add_user_playlist') {
 		return false;
 	}
-	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'id=' + id + '&playlist_id=' + user_playlist + '&ajax=3&mod=' + mod + '&fcheck=' + fcheck, function(res) {
+	$.post(nv_base_siteurl + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=user-playlist&nocache=' + new Date().getTime(), 'id=' + id + '&playlist_id=' + user_playlist + '&ajax=3&mod=' + mod + '&fcheck=' + fcheck, function(res) {
 		var r_split = res.split('_');
 		if (r_split[0] == 'OK') {
 			var mod_list = 'user_playlist';
@@ -193,7 +193,7 @@ function nv_add_user_playlist(id, user_playlist, mod, fcheck) {
 function nv_show_user_playlist( mod_list, fcheck ) {
 	var id =  $('#add_to_userlist').attr('value');
 	if (document.getElementById('add_to_userlist')) {
-		$('#add_to_userlist').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&mod_list=' + mod_list + '&id=' + id + '&fcheck=' + fcheck + '&nocache=' + new Date().getTime() );
+		$('#add_to_userlist').load(nv_base_siteurl + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&mod_list=' + mod_list + '&id=' + id + '&fcheck=' + fcheck + '&nocache=' + new Date().getTime() );
 	}
 	return;
 }
@@ -202,14 +202,14 @@ function nv_favourite_videos( id, type, newscheckss, fcheck ) {
 	if (type != 'fav') {
 		return false;
 	}
-	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&nocache=' + new Date().getTime(), 'id=' + id + '&mod_list=' + type + '&newscheckss=' + newscheckss + '&fcheck=' + fcheck, function(res) {
+	$.post(nv_base_siteurl + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&nocache=' + new Date().getTime(), 'id=' + id + '&mod_list=' + type + '&newscheckss=' + newscheckss + '&fcheck=' + fcheck, function(res) {
 		var r_split = res.split('_');
 		if (r_split[0] == 'OK') {
 			var vid = r_split[2];
 			var check_session = r_split[3];
 			alert(r_split[1]);
 			if (document.getElementById('favourite-' + vid)) {
-				$('#favourite-' + vid).load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&mod_list=get_fav' + '&id=' + vid + '&fcheck=' + check_session + '&nocache=' + new Date().getTime());
+				$('#favourite-' + vid).load(nv_base_siteurl + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&mod_list=get_fav' + '&id=' + vid + '&fcheck=' + check_session + '&nocache=' + new Date().getTime());
 			}
 		}
 	});
@@ -223,7 +223,7 @@ function nv_colapse_favourites( ){
 function nv_report_videos( id, newscheckss ) {
 	var rid = $("#report_videos input:radio[name ='report_videos']:checked").val();
 	if ( rid > 0){
-		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&nocache=' + new Date().getTime(), 'id=' + id + '&rid=' + rid + '&mod_list=report' + '&newscheckss=' + newscheckss, function(res) {
+		$.post(nv_base_siteurl + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=v_funcs&nocache=' + new Date().getTime(), 'id=' + id + '&rid=' + rid + '&mod_list=report' + '&newscheckss=' + newscheckss, function(res) {
 			var r_split = res.split('_');
 			if (r_split[0] == 'OK') {
 				var vid = r_split[2];
