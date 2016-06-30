@@ -171,6 +171,8 @@ if (empty($contents)) {
                     
                     $item['newday'] = $global_array_cat[$catid_i]['newday'];
                     $item['link'] = $global_array_cat[$catid_i]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
+					$item['uploader_name'] = $global_array_uploader[$item['admin_id']]['uploader_name'];
+					$item['uploader_link'] = $global_array_uploader[$item['admin_id']]['link'];
                     $array_cat_other[$key]['content'][] = $item;
                 }
                 

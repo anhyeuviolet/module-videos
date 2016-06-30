@@ -207,6 +207,15 @@
 					</select></td>
 				</tr>
 				<tr>
+					<th>{LANG.setting_per_line}</th>
+					<td>
+					<select class="form-control" name="per_line">
+						<!-- BEGIN: per_line -->
+						<option value="{PER_LINE.key}"{PER_LINE.selected}>{PER_LINE.title}</option>
+						<!-- END: per_line -->
+					</select></td>
+				</tr>
+				<tr>
 					<th>{LANG.socialbutton}</th>
 					<td><input type="checkbox" value="1" name="socialbutton"{SOCIALBUTTON}/></td>
 				</tr>

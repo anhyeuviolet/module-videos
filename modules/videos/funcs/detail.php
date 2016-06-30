@@ -156,7 +156,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	if ( $st_links > 0)
 	{
 		$db->sqlreset()
-			->select( 'id, title, alias, publtime, homeimgfile, homeimgthumb, hometext' )
+			->select( '*' )
 			->from( NV_PREFIXLANG . '_' . $module_data . '_' . $catid )
 			->where( 'status=1 AND publtime > ' . $publtime )
 			->order( 'id ASC' )
@@ -181,14 +181,21 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 			{
 				$row['imghome'] = '';
 			}
+			$row['uploader_name'] = $global_array_uploader[$row['admin_id']]['uploader_name'];
+			$row['uploader_link'] = $global_array_uploader[$row['admin_id']]['link'];
+			$row['uploader_gravatar'] = $global_array_uploader[$row['admin_id']]['uploader_gravatar'];
 
 			$link = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$catid]['alias'] . '/' . $row['alias'] . '-' . $row['id'] . $global_config['rewrite_exturl'];
 			$related_new_array[] = array(
 				'title' => $row['title'],
 				'time' => $row['publtime'],
 				'link' => $link,
+				'uploader_name' => $row['uploader_name'],
+				'uploader_link' => $row['uploader_link'],
+				'uploader_gravatar' => $row['uploader_gravatar'],
 				'newday' => $global_array_cat[$catid]['newday'],
 				'hometext' => $row['hometext'],
+				'homeimgthumb' => $row['homeimgthumb'],
 				'imghome' => $row['imghome']
 			);
 		}
@@ -197,7 +204,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		sort( $related_new_array, SORT_NUMERIC );
 
 		$db->sqlreset()
-			->select( 'id, title, alias, publtime, homeimgfile, homeimgthumb, hometext' )
+			->select( '*' )
 			->from( NV_PREFIXLANG . '_' . $module_data . '_' . $catid )
 			->where( 'status=1 AND publtime < ' . $publtime )
 			->order( 'id DESC' )
@@ -222,12 +229,18 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 			{
 				$row['imghome'] = '';
 			}
-
+			$row['uploader_name'] = $global_array_uploader[$row['admin_id']]['uploader_name'];
+			$row['uploader_link'] = $global_array_uploader[$row['admin_id']]['link'];
+			$row['uploader_gravatar'] = $global_array_uploader[$row['admin_id']]['uploader_gravatar'];
+			
 			$link = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$catid]['alias'] . '/' . $row['alias'] . '-' . $row['id'] . $global_config['rewrite_exturl'];
 			$related_array[] = array(
 				'title' => $row['title'],
 				'time' => $row['publtime'],
 				'link' => $link,
+				'uploader_name' => $row['uploader_name'],
+				'uploader_link' => $row['uploader_link'],
+				'uploader_gravatar' => $row['uploader_gravatar'],
 				'newday' => $global_array_cat[$catid]['newday'],
 				'hometext' => $row['hometext'],
 				'homeimgthumb' => $row['homeimgthumb'],

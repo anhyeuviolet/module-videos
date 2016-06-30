@@ -193,6 +193,76 @@
 </div>
 <!-- END: comment -->
 
+<!-- BEGIN: others -->
+<div class="news_column panel panel-default">
+	<div class="panel-body other-news">
+    	<!-- BEGIN: related_new -->
+    	<p class="h3"><strong>{LANG.related_new}</strong></p>
+    	<div class="row clearfix related_new">
+				<!-- BEGIN: loop -->
+				<div class="col-md-{PER_LINE} col-lg-{PER_LINE} col-sm-12 col-xs-24 videos_list">
+					<!-- BEGIN: image -->
+					<div class="videos-home-thumbnail pull-left col-md-24 col-lg-24 col-xs-24">
+						<a class="clearfix" title="{RELATED_NEW.title}" href="{RELATED_NEW.link}">
+							<img src="{RELATED_NEW.imghome}" alt="{HOMEIMGALT}" class="imghome img-responsive" width="{IMGWIDTH}" height="{IMGHEIGHT}"/>
+						</a>
+					</div>
+					<!-- END: image -->
+					<div class="videos-home-info pull-left col-md-24 col-lg-24 col-xs-24">
+						<h3 class="clearfix">
+							<a title="{RELATED_NEW.title}" href="{RELATED_NEW.link}">{RELATED_NEW.title_cut}</a>
+						</h3>
+						<div class="text-muted">
+							<ul class="list-unstyled">
+								<li>{LANG.by}&nbsp;<a href="{RELATED_NEW.uploader_link}" title="{RELATED_NEW.uploader_name}">{RELATED_NEW.uploader_name}</a></li>
+								<li class="pull-left">{RELATED_NEW.time}</li>
+								<!-- BEGIN: hitstotal -->
+								<li class="spacer pull-left"></li>
+								<li>{RELATED_NEW.hitstotal}&nbsp;{LANG.hits_view}</li>
+								<!-- END: hitstotal -->
+							</ul>
+						</div>
+					</div>
+				</div>
+			<!-- END: loop -->
+        </div>
+    	<!-- END: related_new -->
+
+    	<!-- BEGIN: related -->
+    	<p class="h3"><strong>{LANG.related}</strong></p>
+    	<div class="row clearfix related">
+				<!-- BEGIN: loop -->
+				<div class="col-md-{PER_LINE} col-lg-{PER_LINE} col-sm-12 col-xs-24 videos_list">
+					<!-- BEGIN: image -->
+					<div class="videos-home-thumbnail pull-left col-md-24 col-lg-24 col-xs-24">
+						<a class="clearfix" title="{RELATED.title}" href="{RELATED.link}">
+							<img src="{RELATED.imghome}" alt="{HOMEIMGALT}" class="imghome img-responsive" width="{IMGWIDTH}" height="{IMGHEIGHT}"/>
+						</a>
+					</div>
+					<!-- END: image -->
+					<div class="videos-home-info pull-left col-md-24 col-lg-24 col-xs-24">
+						<h3 class="clearfix">
+							<a title="{RELATED.title}" href="{RELATED.link}">{RELATED.title_cut}</a>
+						</h3>
+						<div class="text-muted">
+							<ul class="list-unstyled">
+								<li>{LANG.by}&nbsp;<a href="{RELATED.uploader_link}" title="{RELATED.uploader_name}">{RELATED.uploader_name}</a></li>
+								<li class="pull-left">{RELATED.time}</li>
+								<!-- BEGIN: hitstotal -->
+								<li class="spacer pull-left"></li>
+								<li>{RELATED.hitstotal}&nbsp;{LANG.hits_view}</li>
+								<!-- END: hitstotal -->
+							</ul>
+						</div>
+					</div>
+				</div>
+			<!-- END: loop -->
+        </div>
+    	<!-- END: related -->
+    </div>
+</div>
+<!-- END: others -->
+
 <!-- BEGIN: fb_comment -->
 <div class="panel panel-default">
 	<div class="panel-body">

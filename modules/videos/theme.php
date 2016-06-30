@@ -19,7 +19,7 @@ function viewcat_grid_new($array_catpage, $catid, $generate_page)
     $xtpl->assign('IMGWIDTH', $module_config[$module_name]['homewidth']);
     $xtpl->assign('IMGHEIGHT', $module_config[$module_name]['homeheight']);
     $xtpl->assign('MODULE_NAME', $module_file);
-    $per_line = 24 / $module_config[$module_name]['st_links'];
+    $per_line = 24 / $module_config[$module_name]['per_line'];
     $xtpl->assign('PER_LINE', $per_line);
     
     if (($global_array_cat[$catid]['viewdescription'] and $page == 1) or $global_array_cat[$catid]['viewdescription'] == 2) {
@@ -154,7 +154,7 @@ function viewsubcat_main($viewcat, $array_cat)
     $xtpl->assign('MODULE_NAME', $module_file);
     $xtpl->assign('IMGWIDTH', $module_config[$module_name]['homewidth']);
     $xtpl->assign('IMGHEIGHT', $module_config[$module_name]['homeheight']);
-    $per_line = 24 / $module_config[$module_name]['st_links'];
+    $per_line = 24 / $module_config[$module_name]['per_line'];
     $xtpl->assign('PER_LINE', $per_line);
     
     // Hien thi cac chu de con
@@ -223,6 +223,8 @@ function detail_theme($news_contents, $href_vid, $array_keyword, $related_new_ar
 	} else {
 		$template = 'default';
 	}
+    $per_line = 24 / $module_config[$module_name]['per_line'];
+    $xtpl->assign('PER_LINE', $per_line);
 
     $xtpl->assign('TEMPLATE', $template);
     $xtpl->assign('MODULE_NAME', $module_name);
@@ -365,13 +367,10 @@ function detail_theme($news_contents, $href_vid, $array_keyword, $related_new_ar
     if (! empty($related_new_array) or ! empty($related_array)) {
         if (! empty($related_new_array)) {
             foreach ($related_new_array as $key => $related_new_array_i) {
-                $newday = $related_new_array_i['time'] + (86400 * $related_new_array_i['newday']);
-                if ($newday >= NV_CURRENTTIME) {
-                    $xtpl->parse('main.others.related_new.loop.newday');
-                }
                 $related_new_array_i['time'] = humanTiming($related_new_array_i['time']);
+				$related_new_array_i['title_cut'] = nv_clean60($related_new_array_i['title'], $module_config[$module_name]['titlecut'], true);
                 $xtpl->assign('RELATED_NEW', $related_new_array_i);
-                if ($related_new_array_i['imghome'] != '') {
+                if ($related_new_array_i['imghome'] != ''){
                     $xtpl->parse('main.others.related_new.loop.image');
                 }
                 $xtpl->parse('main.others.related_new.loop');
@@ -386,6 +385,7 @@ function detail_theme($news_contents, $href_vid, $array_keyword, $related_new_ar
                 if ($newday >= NV_CURRENTTIME) {
                     $xtpl->parse('main.others.related.loop.newday');
                 }
+				$related_array_i['title_cut'] = nv_clean60($related_array_i['title'], $module_config[$module_name]['titlecut'], true);
                 $related_array_i['time'] = humanTiming($related_array_i['time']);
                 $xtpl->assign('RELATED', $related_array_i);
                 
@@ -396,7 +396,6 @@ function detail_theme($news_contents, $href_vid, $array_keyword, $related_new_ar
             }
             $xtpl->parse('main.others.related');
         }
-        
         $xtpl->parse('main.others');
     }
     

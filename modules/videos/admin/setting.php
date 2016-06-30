@@ -22,6 +22,7 @@ if (! empty($savesetting)) {
     $array_config['indexfile'] = $nv_Request->get_title('indexfile', 'post', '', 1);
     $array_config['per_page'] = $nv_Request->get_int('per_page', 'post', 0);
     $array_config['st_links'] = $nv_Request->get_int('st_links', 'post', 0);
+    $array_config['per_line'] = $nv_Request->get_int('per_line', 'post', 0);
     $array_config['homewidth'] = $nv_Request->get_int('homewidth', 'post', 0);
     $array_config['homeheight'] = $nv_Request->get_int('homeheight', 'post', 0);
     $array_config['blockwidth'] = $nv_Request->get_int('blockwidth', 'post', 0);
@@ -239,20 +240,29 @@ for ($i = 5; $i <= 30; ++ $i) {
     $xtpl->parse('main.per_page');
 }
 
-// Bai viet chi hien thi link
-$_st = array(
+
+for ($i = 0; $i <= 30; ++ $i) {
+    $xtpl->assign('ST_LINKS', array(
+        'key' => $i,
+        'title' => $i,
+        'selected' => $i == $module_config[$module_name]['st_links'] ? ' selected="selected"' : ''
+    ));
+    $xtpl->parse('main.st_links');
+}
+
+$per_line = array(
     3,
     4,
     6,
     8
 );
-foreach ($_st as $_st_i) {
-    $xtpl->assign('ST_LINKS', array(
-        'key' => $_st_i,
-        'title' => $_st_i,
-        'selected' => $_st_i == $module_config[$module_name]['st_links'] ? ' selected="selected"' : ''
+foreach ($per_line as $per_line_i) {
+    $xtpl->assign('PER_LINE', array(
+        'key' => $per_line_i,
+        'title' => $per_line_i,
+        'selected' => $per_line_i == $module_config[$module_name]['per_line'] ? ' selected="selected"' : ''
     ));
-    $xtpl->parse('main.st_links');
+    $xtpl->parse('main.per_line');
 }
 
 // Show points rating article on google
