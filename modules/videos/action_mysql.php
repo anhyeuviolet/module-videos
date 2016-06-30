@@ -7,45 +7,42 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate Oct 08, 2015 10:47:41 AM
  */
-
-if( ! defined( 'NV_IS_FILE_MODULES' ) ) die( 'Stop!!!' );
+if (! defined('NV_IS_FILE_MODULES'))
+    die('Stop!!!');
 
 $sql_drop_module = array();
 $array_table = array(
-	'admins',
-	'uploaders',
-	'block',
-	'block_cat',
-	'playlist',
-	'playlist_cat',
-	'bodytext',
-	'detail',
-	'cat',
-	'config_post',
-	'rows',
-	'rows_favourite',
-	'rows_report',
-	'sources',
-	'logs',
-	'tags',
-	'tags_id'
+    'admins',
+    'uploaders',
+    'block',
+    'block_cat',
+    'playlist',
+    'playlist_cat',
+    'bodytext',
+    'detail',
+    'cat',
+    'config_post',
+    'rows',
+    'rows_favourite',
+    'rows_report',
+    'sources',
+    'logs',
+    'tags',
+    'tags_id'
 );
 $table = $db_config['prefix'] . '_' . $lang . '_' . $module_data;
-$result = $db->query( 'SHOW TABLE STATUS LIKE ' . $db->quote( $table . '_%' ) );
-while( $item = $result->fetch( ) )
-{
-	$name = substr( $item['name'], strlen( $table ) + 1 );
-	if( preg_match( '/^' . $db_config['prefix'] . '\_' . $lang . '\_' . $module_data . '\_/', $item['name'] ) and ( preg_match( '/^([0-9]+)$/', $name ) or in_array( $name, $array_table ) or preg_match( '/^bodyhtml\_([0-9]+)$/', $name ) ) )
-	{
-		$sql_drop_module[] = 'DROP TABLE IF EXISTS ' . $item['name'];
-	}
+$result = $db->query('SHOW TABLE STATUS LIKE ' . $db->quote($table . '_%'));
+while ($item = $result->fetch()) {
+    $name = substr($item['name'], strlen($table) + 1);
+    if (preg_match('/^' . $db_config['prefix'] . '\_' . $lang . '\_' . $module_data . '\_/', $item['name']) and (preg_match('/^([0-9]+)$/', $name) or in_array($name, $array_table) or preg_match('/^bodyhtml\_([0-9]+)$/', $name))) {
+        $sql_drop_module[] = 'DROP TABLE IF EXISTS ' . $item['name'];
+    }
 }
 
-$result = $db->query( "SHOW TABLE STATUS LIKE '" . $db_config['prefix'] . "\_" . $lang . "\_comment'" );
+$result = $db->query("SHOW TABLE STATUS LIKE '" . $db_config['prefix'] . "\_" . $lang . "\_comment'");
 $rows = $result->fetchAll();
-if( sizeof( $rows ) )
-{
-	$sql_drop_module[] = "DELETE FROM " . $db_config['prefix'] . "_" . $lang . "_comment WHERE module='" . $module_name . "'";
+if (sizeof($rows)) {
+    $sql_drop_module[] = "DELETE FROM " . $db_config['prefix'] . "_" . $lang . "_comment WHERE module='" . $module_name . "'";
 }
 $sql_create_module = $sql_drop_module;
 
@@ -118,7 +115,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 playlist_sort int(11) unsigned NOT NULL,
 	 UNIQUE KEY playlist_id (playlist_id,id)
 	) ENGINE=MyISAM";
-	
+
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_block_cat (
 	 bid smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 	 adddefault tinyint(4) NOT NULL DEFAULT '0',
@@ -135,7 +132,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 UNIQUE KEY title (title),
 	 UNIQUE KEY alias (alias)
 	) ENGINE=MyISAM";
-	
+
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_block (
 	 bid smallint(5) unsigned NOT NULL,
 	 id int(11) unsigned NOT NULL,
@@ -190,13 +187,13 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 id int(11) unsigned NOT NULL,
 	 UNIQUE KEY fid (fid,id)
 	) ENGINE=MyISAM";
-	
+
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows_report (
 	 rid smallint(5) unsigned NOT NULL,
 	 id int(11) unsigned NOT NULL,
 	 UNIQUE KEY rid (rid,id)
 	) ENGINE=MyISAM";
-	
+
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_detail (
 	 id int(11) unsigned NOT NULL,
 	 bodyhtml longtext NOT NULL,
@@ -240,7 +237,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 app_content tinyint(4) NOT NULL default '0',
 	 UNIQUE KEY userid (userid,catid)
 	) ENGINE=MyISAM";
-	
+
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_uploaders (
 	userid mediumint(8) NOT NULL,
 	group_id smallint(5) unsigned NOT NULL DEFAULT '0',

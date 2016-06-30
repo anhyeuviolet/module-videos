@@ -196,12 +196,13 @@
 <!-- BEGIN: fb_comment -->
 <div class="panel panel-default">
 	<div class="panel-body">
-<div class="fb-comments" data-href="{SELFURL}" data-numposts="5"></div>	</div>
+		<div class="fb-comments" data-href="{SELFURL}" data-order-by="time" data-numposts="5" data-width="100%"></div>	
+	</div>
 </div>
 <!-- END: fb_comment -->
 
 <!-- BEGIN: jwplayer_js -->
-<script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/jwplayer.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/jwplayer/jwplayer.js"></script>
 <script type="text/javascript">jwplayer.key="{VIDEO_CONFIG.jwplayer_license}";</script>
 <!-- END: jwplayer_js -->
 
@@ -216,7 +217,7 @@ playerInstance_{DETAIL.id}.setup({
 	displaydescription: true,
 	playlist: "{DETAIL.player}",
 	displaytitle: true,
-	flashplayer: "{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/jwplayer.flash.swf",
+	flashplayer: "{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/jwplayer/jwplayer.flash.swf",
 	primary: "html5",
 	repeat: {VIDEO_CONFIG.jwplayer_loop},
 	mute: {VIDEO_CONFIG.jwplayer_mute},
@@ -273,7 +274,6 @@ $.ajax({
 		$('#favourite-{DETAIL.id}').html(data);
 	}
 });
-
 </script>
 <!-- END: main -->
 

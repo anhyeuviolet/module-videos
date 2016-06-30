@@ -156,9 +156,11 @@ ul.uploadinfo{
     position: relative;
     padding: 12px 0 12px 40px;
 }
+
 .add-playlist-region .playlist-region li:last-child{
 	border-bottom: 1px solid transparent;
 }
+
 .add-playlist-region .playlist-region li .fix-button {
     display: block;
     width: 66px;
@@ -174,11 +176,13 @@ ul.uploadinfo{
     margin-right: 15px;
     color: #428bca;
 }
+
 .add-playlist-region h4 {
     padding-bottom: 20px;
     border-bottom: 1px solid #e6e6e6;
     position: relative;
 }
+
 .close {
     display: block;
     width: 20px;
@@ -201,3 +205,5 @@ a.video-tags{
 .report{
 	padding: 20px
 }
+.fb-comments, .fb-comments iframe[style], .fb-like-box, .fb-like-box iframe[style] {width: 100% !important;}
+.fb-comments span, .fb-comments iframe span[style], .fb-like-box span, .fb-like-box iframe span[style] {width: 100% !important;}

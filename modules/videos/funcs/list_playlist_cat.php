@@ -7,9 +7,10 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate Oct 08, 2015 10:47:41 AM
  */
-
-if( ! defined( 'NV_IS_MOD_VIDEOS' ) ) die( 'Stop!!!' );
-if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
+if (! defined('NV_IS_MOD_VIDEOS'))
+    die('Stop!!!');
+if (! defined('NV_IS_AJAX'))
+    die('Wrong URL');
 require NV_ROOTDIR . '/modules/' . $module_file . '/site.functions.php';
 
 $contents = nv_show_playlist_cat_list();
