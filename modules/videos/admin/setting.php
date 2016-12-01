@@ -110,8 +110,12 @@ $array_jw_js = array(
 
 // Set skins
 $temp = (! empty($site_mods[$module_name]['theme'])) ? $site_mods[$module_name]['theme'] : $global_config['site_theme'];
+if( !file_exists( NV_ROOTDIR . '/themes/' . $temp . '/modules/' . $module_file . '/jwplayer/skins/') ){
+	$temp = 'default';
+}
 $_css = '/([a-zA-Z0-9\-\_]+)\.css$/';
 $skins = nv_scandir(NV_ROOTDIR . '/themes/' . $temp . '/modules/' . $module_file . '/jwplayer/skins/', $_css);
+
 foreach ($skins as $skin) {
     $skin = preg_replace($_css, '\\1', $skin);
     $title = ucwords($skin);
