@@ -179,17 +179,18 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
             $module_config[$module]['site_name'] = $global_config['site_name'];
             
             $xtpl->assign('VIDEO_CONFIG', $module_config[$module]);
-            
+            $main_id = '';
             foreach ($list as $l) {
+				$main_id = $l['id'];
                 $l['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $module_array_cat[$l['catid']]['alias'] . '/' . $l['alias'] . '-' . $l['id'] . $global_config['rewrite_exturl'];
                 if ($l['homeimgthumb'] == 1 or $l['homeimgthumb'] == 2) // image file
-{
+				{
                     $l['thumb'] = videos_thumbs($l['id'], $l['homeimgfile'], $module, $module_config[$module]['homewidth'], $module_config[$module]['homeheight'], 90);
                 } elseif ($l['homeimgthumb'] == 3) // image url
-{
+				{
                     $l['thumb'] = $l['homeimgfile'];
                 } elseif (! empty($show_no_image)) // no image
-{
+				{
                     $l['thumb'] = NV_BASE_SITEURL . $show_no_image;
                 } else {
                     $l['thumb'] = '';
@@ -222,7 +223,7 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
         $db->sqlreset()
             ->select('*')
             ->from(NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_' . $catid)
-            ->where('status= 1')
+            ->where('status= 1 AND id <>' . $main_id)
             ->order('publtime DESC')
             ->limit($block_config['numrow']);
         $_sql = $nv_Cache->db($db->sql(), '', $module);
