@@ -291,72 +291,66 @@ function is_facebook($url)
         return false;
     }
 }
+
 // Get Facebook video id
-function get_facebook_id($fb_url)
+function get_facebook_id($link)
 {
-    preg_match("~/videos/(?:(t|vb)\.\d+/)?(\d+)~i", $fb_url, $fb_vid);
-    return $fb_vid[2];
+    if(substr($link, -1) != '/' && is_numeric(substr($link, -1))){
+        $link = $link.'/';
+    }
+    preg_match('/https:\/\/www.facebook.com\/(.*)\/videos\/(.*)\/(.*)\/(.*)/U', $link, $id); // link dang https://www.facebook.com/userName/videos/vb.IDuser/IDvideo/?type=2&theater
+    if(isset($id[4])){
+        $idVideo = $id[3];
+    }else{
+        preg_match('/https:\/\/www.facebook.com\/(.*)\/videos\/(.*)\/(.*)/U', $link, $id); // link dang https://www.facebook.com/userName/videos/IDvideo
+        if(isset($id[3])){
+            $idVideo = $id[2];
+        }else{
+            preg_match('/https:\/\/www.facebook.com\/video\.php\?v\=(.*)/', $link, $id); // link dang https://www.facebook.com/video.php?v=IDvideo
+            $idVideo = $id[1];
+            $idVideo = substr($idVideo, 0, -1);
+        }
+    }
+	return $idVideo;
 }
 
-// Get direct link MP$ Facebook
-function get_facebook_mp4($fb_url)
+// Get direct link MP4 Facebook
+function get_facebook_mp4($link)
 {
-    $id = get_facebook_id($fb_url);
-    $embed = 'https://www.facebook.com/video/embed?video_id=' . $id;
-    $get = curl($embed);
-    $data = explode('[["params","', $get);
-    $data = explode('"],["', $data[1]);
-    $data = str_replace(array(
-        '\u00257B',
-        '\u002522',
-        '\u00253A',
-        '\u00252C',
-        '\u00255B',
-        '\u00255C\u00252F',
-        '\u00252F',
-        '\u00253F',
-        '\u00253D',
-        '\u002526'
-    ), array(
-        '{',
-        '"',
-        ':',
-        ',',
-        '[',
-        '\/',
-        '/',
-        '?',
-        '=',
-        '&'
-    ), $data[0]);
-    $fbvid_mp4 = array();
-    $mp4 = array(
-        'link_mp4' => '',
-        'quality' => ''
-    );
-    // Link HD
-    $HD = explode('[{"hd_src":"', $data);
-    if (! empty($HD[1])) {
-        $HD = explode('","', $HD[1]);
-        $HD = str_replace('\/', '/', $HD[0]);
-        $mp4 = array(
-            'link_mp4' => $HD,
-            'quality' => '720p HD'
-        );
-        $fbvid_mp4[] = $mp4;
+	$id = get_facebook_id($link);
+	$embed = 'https://www.facebook.com/video/embed?video_id='.$id;
+	$get = curl($embed);
+    $data = explode('"videoData":[', $get); // tach chuoi "videoData":[ thanh mang
+    $data = explode('],"minQuality"', $data[1]); // tach chuoi ],"minQuality" thanh mang
+    $data = str_replace(
+        array('\/'),
+        array('/'),
+        $data[0]
+    ); // thay the cac ky tu ma hoa thanh ky tu dac biet
+	$fbvid_mp4 = array();
+	$mp4 = array(
+		'link_mp4'=>'',
+		'quality'=>''
+	 );
+	//Link HD
+	
+    $data = json_decode($data); // decode chuoi
+    if(isset($data->hd_src)){
+		$mp4 = array(
+			'link_mp4' => $data->hd_src,
+			'quality' => 'HD'
+		);  
+		$fbvid_mp4[] = $mp4;
     }
-    
-    // Link SD
-    $SD = explode('"sd_src":"', $data);
-    $SD = explode('","', $SD[1]);
-    $SD = str_replace('\/', '/', $SD[0]);
-    $mp4 = array(
-        'link_mp4' => $SD,
-        'quality' => '360p'
-    );
-    $fbvid_mp4[] = $mp4;
-    
-    return $fbvid_mp4;
+    if(isset($data->sd_src)){
+		$mp4 = array(
+			'link_mp4' => $data->sd_src,
+			'quality' => 'SD'
+		 );  
+		$fbvid_mp4[] = $mp4;
+    }
+
+	return $fbvid_mp4;  
 }
 
 // Check URL is Picasa
