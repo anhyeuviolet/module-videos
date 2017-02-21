@@ -10,6 +10,101 @@
 if (! defined('NV_MAINFILE'))
     die('Stop!!!');
 
+
+if (! nv_function_exists('curl')) {
+	/**
+	 * curl()
+	 */
+	function curl($url)
+	{
+		$ch = @curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		$head[] = "Connection: keep-alive";
+		$head[] = "Keep-Alive: 300";
+		$head[] = "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7";
+		$head[] = "Accept-Language: en-us,en;q=0.5";
+		curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36');
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $head);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'Expect:'
+		));
+		$page = curl_exec($ch);
+		curl_close($ch);
+		return $page;
+	}
+}
+
+if (! nv_function_exists('get_facebook_id')) {
+	// Get Facebook video id
+	function get_facebook_id($link)
+	{
+		if(substr($link, -1) != '/' && is_numeric(substr($link, -1))){
+			$link = $link.'/';
+		}
+		preg_match('/https:\/\/www.facebook.com\/(.*)\/videos\/(.*)\/(.*)\/(.*)/U', $link, $id); // link dang https://www.facebook.com/userName/videos/vb.IDuser/IDvideo/?type=2&theater
+		if(isset($id[4])){
+			$idVideo = $id[3];
+		}else{
+			preg_match('/https:\/\/www.facebook.com\/(.*)\/videos\/(.*)\/(.*)/U', $link, $id); // link dang https://www.facebook.com/userName/videos/IDvideo
+			if(isset($id[3])){
+				$idVideo = $id[2];
+			}else{
+				preg_match('/https:\/\/www.facebook.com\/video\.php\?v\=(.*)/', $link, $id); // link dang https://www.facebook.com/video.php?v=IDvideo
+				$idVideo = $id[1];
+				$idVideo = substr($idVideo, 0, -1);
+			}
+		}
+		return $idVideo;
+	}
+}
+
+if (! nv_function_exists('get_facebook_mp4')) {
+	// Get direct link MP4 Facebook
+	function get_facebook_mp4($link)
+	{
+		$id = get_facebook_id($link);
+		$embed = 'https://www.facebook.com/video/embed?video_id='.$id;
+		$get = curl($embed);
+		$data = explode('"videoData":[', $get); // tach chuoi "videoData":[ thanh mang
+		$data = explode('],"minQuality"', $data[1]); // tach chuoi ],"minQuality" thanh mang
+		$data = str_replace(
+			array('\/'),
+			array('/'),
+			$data[0]
+		); // thay the cac ky tu ma hoa thanh ky tu dac biet
+		$fbvid_mp4 = array();
+		$mp4 = array(
+			'link_mp4'=>'',
+			'quality'=>''
+		 );
+		//Link HD
+		
+		$data = json_decode($data); // decode chuoi
+		if(isset($data->hd_src)){
+			$mp4 = array(
+				'link_mp4' => $data->hd_src,
+				'quality' => 'HD'
+			);  
+			$fbvid_mp4[] = $mp4;
+		}
+		if(isset($data->sd_src)){
+			$mp4 = array(
+				'link_mp4' => $data->sd_src,
+				'quality' => 'SD'
+			 );  
+			$fbvid_mp4[] = $mp4;
+		}
+
+		return $fbvid_mp4;  
+	}
+}
+
 if (! nv_function_exists('nv_get_video_href')) {
 
     function nv_get_video_href($path, $type)
@@ -202,7 +297,7 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
                 $href_vid = nv_get_video_href($l['vid_path'], $l['vid_type']);
                 
                 $xtpl->assign('ROW', $l);
-                $link_player = NV_MY_DOMAIN . NV_BASE_SITEURL . $site_mods[$module]['module_file'] . '/player/' . rand(1000, 9999) . 0 . '-' . md5($l['id'] . session_id() . $global_config['sitekey']) . '-' . rand(1000, 9999) . $l['id'] . $global_config['rewrite_endurl'];
+                $link_player = NV_MY_DOMAIN . NV_BASE_SITEURL . $site_mods[$module]['module_data'] . '/player/' . rand(1000, 9999) . 0 . '-' . md5($l['id'] . session_id() . $global_config['sitekey']) . '-' . rand(1000, 9999) . $l['id'] . $global_config['rewrite_endurl'];
                 $xtpl->assign('PLAYER', $link_player);
             }
             
@@ -211,8 +306,8 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
                     $xtpl->parse('main.jwplayer.player_logo');
                 }
                 
-                if (! defined('JWPLAYER_JS')) {
-                    define('JWPLAYER_JS', true);
+                if (! defined('JWPLAYER_JS' . $site_mods[$module]['module_data'])) {
+                    define('JWPLAYER_JS' . $site_mods[$module]['module_data'], true);
                     $xtpl->parse('main.jwplayer_js');
                 }
                 $xtpl->parse('main.jwplayer');
