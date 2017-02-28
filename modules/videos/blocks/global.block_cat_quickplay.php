@@ -297,7 +297,7 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
                 $href_vid = nv_get_video_href($l['vid_path'], $l['vid_type']);
                 
                 $xtpl->assign('ROW', $l);
-                $link_player = NV_MY_DOMAIN . NV_BASE_SITEURL . $site_mods[$module]['module_name'] . '/player/' . rand(1000, 9999) . 0 . '-' . md5($l['id'] . session_id() . $global_config['sitekey']) . '-' . rand(1000, 9999) . $l['id'] . $global_config['rewrite_endurl'];
+                $link_player = NV_MY_DOMAIN . NV_BASE_SITEURL . $module . '/player/' . rand(1000, 9999) . 0 . '-' . md5($l['id'] . session_id() . $global_config['sitekey']) . '-' . rand(1000, 9999) . $l['id'] . $global_config['rewrite_endurl'];
                 $xtpl->assign('PLAYER', $link_player);
             }
             
