@@ -68,19 +68,10 @@
 			<thead>
 				<tr>
 					<th class="text-center"><input name="check_all[]" type="checkbox" value="yes" onclick="nv_checkAll(this.form, 'idcheck[]', 'check_all[]',this.checked);" /></th>
+					<th class="text-center">Hình minh hoạ</a></th>
 					<th class="text-center"><a href="{base_url_name}">{LANG.name}</a></th>
-					<th class="text-center"><a href="{base_url_publtime}">{LANG.content_publ_date}</a></th>
-					<th>{LANG.content_admin}</th>
 					<th>{LANG.status}</th>
-                    <th class="text-center">
-					   <a href="{base_url_hitstotal}"><em title="{LANG.hitstotal}" class="fa fa-eye">&nbsp;</em></a>
-                    </th>
-                    <th class="text-center">
-					   <a href="{base_url_hitscm}"><em title="{LANG.numcomments}" class="fa fa-comment-o">&nbsp;</em></a>
-                    </th>
-                    <th class="text-center">
-					   <em title="{LANG.keywords}" class="fa fa-tags">&nbsp;</em>
-                    </th>
+					<th>{LANG.videos_infomations}</th>
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
@@ -88,15 +79,35 @@
 				<!-- BEGIN: loop -->
 				<tr class="{ROW.class}">
 					<td class="text-center"><input type="checkbox" onclick="nv_UncheckAll(this.form, 'idcheck[]', 'check_all[]', this.checked);" value="{ROW.id}" name="idcheck[]" /></td>
-					<td class="text-left">
-						<p><a target="_blank" href="{ROW.link}">{ROW.title}</a></p>
+					<td title="{ROW.title}">
+						<a target="_blank" href="{ROW.link}">
+							<img class="thumbnail center-block" width="100" src="{ROW.imghome}" alt="{ROW.title}" title="{ROW.title}"/>
+						</a>
 					</td>
-					<td>{ROW.publtime}</td>
-					<td>{ROW.username}</td>
-					<td title="{ROW.status}">{ROW.status}</td>
-                    <td class="text-center">{ROW.hitstotal}</td>
-                    <td class="text-center">{ROW.hitscm}</td>
-                    <td class="text-center">{ROW.numtags}</td>
+					<td class="text-left">
+						<p><a target="_blank" href="{ROW.link}"><strong>{ROW.title}</strong></a></p>
+						<p><span class="other"><em>{ROW.publtime}</em></span></p>
+						<div class="video-info">
+							<strong>{LANG.content_admin}:</strong> <span class="other">{ROW.username}</span> |
+							<strong>{LANG.hitstotal}:</strong> <span class="other">{ROW.hitstotal}</span>
+						</div>
+					</td>
+					<td title="{ROW.status}" class="text-center">{ROW.status}</td>
+                    <td class="text-center">
+						<div class="video-info">
+							<span class="text-center" style="cursor: pointer;" title="{LANG.keywords}" data-toggle="tooltip" data-placement="top">
+								<i class="fa fa-comment-o" title="{LANG.numcomments}"></i>
+								{ROW.hitscm}</span> |
+							<span class="text-center" style="cursor: pointer;" title="{LANG.keywords}" data-toggle="tooltip" data-placement="top">
+								<i class="fa fa-tags" title="{LANG.keywords}"></i>
+								{ROW.numtags}
+							</span> |
+							<span class="text-center" style="cursor: pointer;" title="{LANG.videos_count_Fav}" data-toggle="tooltip" data-placement="top">
+								<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+								{ROW.count_Fav}
+							</span>
+						</div>
+					</td>
 					<td class="text-center">{ROW.feature}</td>
 				</tr>
 				<!-- END: loop -->

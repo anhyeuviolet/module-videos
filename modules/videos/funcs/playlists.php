@@ -48,6 +48,7 @@ if (! empty($alias)) {
     );
     
     if ($playlist_id > 0 and $status > 0) {
+		$url_info = @parse_url($client_info['selfurl']);
         if (defined('NV_IS_MODADMIN') or ($status == 1)) {
             $time_set = $nv_Request->get_int($module_data . '_' . $op . '_' . $playlist_id, 'session');
             if (empty($time_set)) {
@@ -96,13 +97,13 @@ if (! empty($alias)) {
         $result = $db->query($db->sql());
         while ($item = $result->fetch()) {
             if ($item['homeimgthumb'] == 1 or $item['homeimgthumb'] == 2) // image file
-{
+			{
                 $item['imghome'] = videos_thumbs($item['id'], $item['homeimgfile'], $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90);
             } elseif ($item['homeimgthumb'] == 3) // image url
-{
+			{
                 $item['src'] = $item['homeimgfile'];
             } elseif (! empty($show_no_image)) // no image
-{
+			{
                 $item['src'] = NV_BASE_SITEURL . $show_no_image;
             } else {
                 $item['imghome'] = '';
@@ -119,7 +120,9 @@ if (! empty($alias)) {
         $result->closeCursor();
         unset($result, $row);
         
-        $player = NV_BASE_SITEURL . $module_name . '/player/' . rand(1000, 9999) . $playlist_id . '-' . md5($playlist_id . session_id() . $global_config['sitekey']) . '-' . rand(1000, 9999) . 0 . $global_config['rewrite_endurl'];
+        $player = NV_MY_DOMAIN . NV_BASE_SITEURL . $module_name . '/player/' . rand(1000, 9999) . $playlist_id . '-' . md5($playlist_id . session_id() . $global_config['sitekey']) . '-' . rand(1000, 9999) . 0 . $global_config['rewrite_endurl'];
+		$player = preg_replace('/' . $url_info['scheme'] . ':' . '/', '', $player);
+		
         $contents = playlist_theme($playlist_array, $playlist_info, $playlist_id, $player);
     } else {
         Header('Location: ' . nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['playlists'], true));

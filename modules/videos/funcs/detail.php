@@ -15,7 +15,7 @@ $publtime = 0;
 
 if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 {
-
+	$url_info = @parse_url($client_info['selfurl']);
 	$query = $db->query( 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' WHERE id = ' . $id );
 	$news_contents = $query->fetch();
 	if( $news_contents['id'] > 0 )
@@ -86,20 +86,27 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 			
 			// Export video link
 			$href_vid = array();
+			
 			$href_vid = nv_get_video_href( $news_contents['vid_path'], $news_contents['vid_type'] );
 
-			$news_contents['player'] = NV_BASE_SITEURL . $module_name . '/player/' . rand(1000,9999) . 0 .'-' . md5( $news_contents['id'] . session_id() . $global_config['sitekey'] ) . '-'. rand(1000,9999) . $news_contents['id'] . $global_config['rewrite_endurl'];
-			$link_embed = $news_contents['player'] . '-embed' . $global_config['rewrite_endurl'];
-			$http_url = NV_MY_DOMAIN . NV_BASE_SITEURL . 'themes/default/modules/' . $module_file . '/jwplayer/jwplayer5.swf?config=' . $link_embed;
+			$news_contents['player'] = NV_MY_DOMAIN . NV_BASE_SITEURL . $module_name . '/player/' . rand(1000,9999) . 0 .'-' . md5( $news_contents['id'] . session_id() . $global_config['sitekey'] ) . '-'. rand(1000,9999) . $news_contents['id'] . $global_config['rewrite_endurl'];
+			$news_contents['player'] = preg_replace('/' . $url_info['scheme'] . ':' . '/', '', $news_contents['player']);
 			
+			$link_embed = NV_MY_DOMAIN . NV_BASE_SITEURL . $module_name . '/player/' . rand(1000,9999) . 0 .'-' . md5( $news_contents['id'] . session_id() . $global_config['sitekey'] ) . '-'. rand(1000,9999) . $news_contents['id'] . '-embed' . $global_config['rewrite_endurl'];	
+			$link_embed = preg_replace('/' . $url_info['scheme'] . ':' . '/', '', $link_embed);
+			
+			$http_url = NV_MY_DOMAIN . NV_BASE_SITEURL . 'themes/default/modules/' . $module_file . '/jwplayer/jwplayer.flash.swf?config=' . $link_embed;
+			$http_url = preg_replace('/' . $url_info['scheme'] . ':' . '/', '', $http_url);
+					
 			$meta_property['og:type'] = 'video';
 			
-			$meta_property['og:url'] = $client_info['selfurl'];
+			// Tam thoi chua ho tro trinh phat Video nhung tren Facebook
+			$meta_property['og:url'] = $http_url;
+			$meta_property['og:video:url'] = $client_info['selfurl'];
 			$meta_property['og:title'] = $news_contents['title'];
 			$meta_property['og:video:type'] = 'video/mp4';
 			$meta_property['og:video:width'] = '480';
 			$meta_property['og:video:height'] = '360';
-			$meta_property['og:published_time'] = date( 'Y-m-dTH:i:s', $news_contents['publtime'] );
 			$meta_property['og:updated_time'] = date( 'Y-m-dTH:i:s', $news_contents['edittime'] );
 		}
 

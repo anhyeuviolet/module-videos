@@ -44,7 +44,7 @@ if (isset($embed) and $embed == 'embed') // embed to FB
         $db->select('t1.id, t1.catid, t1.admin_id, t1.author, t1.vid_path, t1.vid_type, t1.addtime, t1.edittime, t1.publtime, t1.title, t1.alias, t1.hometext, t1.homeimgfile, t1.homeimgalt, t1.homeimgthumb, t2.playlist_id, t2.playlist_sort')->order('t2.playlist_sort ASC');
     } elseif ($vid_id > 0) {
         if (defined('NV_IS_MODADMIN')) // Allow ADMINMOD preview video
-{
+		{
             $where = '';
         } else {
             $where = 'status=1 AND ';

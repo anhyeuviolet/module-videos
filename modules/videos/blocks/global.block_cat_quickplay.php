@@ -228,6 +228,8 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
     function nv_block_videos_cat_quickplay($block_config)
     {
         global $lang_global, $lang_module, $blockID, $module_array_cat, $module_info, $site_mods, $module_config, $global_config, $db, $nv_Cache;
+		$url_info = @parse_url(NV_MY_DOMAIN);
+
         $module = $block_config['module'];
         $show_no_image = $module_config[$module]['show_no_image'];
         if (empty($show_no_image)) {
@@ -298,6 +300,8 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
                 
                 $xtpl->assign('ROW', $l);
                 $link_player = NV_MY_DOMAIN . NV_BASE_SITEURL . $module . '/player/' . rand(1000, 9999) . 0 . '-' . md5($l['id'] . session_id() . $global_config['sitekey']) . '-' . rand(1000, 9999) . $l['id'] . $global_config['rewrite_endurl'];
+				$link_player = preg_replace('/' . $url_info['scheme'] . ':' . '/', '', $link_player);
+
                 $xtpl->assign('PLAYER', $link_player);
             }
             

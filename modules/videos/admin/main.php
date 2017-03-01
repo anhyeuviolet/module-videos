@@ -259,14 +259,14 @@ $db->sqlreset()
 $num_items = $db->query($db->sql())
     ->fetchColumn();
 
-$db->select('r.id, r.catid, r.listcatid, r.admin_id, r.title, r.alias, r.status , r.publtime, r.exptime, r.hitstotal, r.hitscm, u.username')
+$db->select('r.id, r.catid, r.listcatid, r.admin_id, r.title, r.alias, r.status , r.publtime, r.exptime, r.hitstotal, r.hitscm, u.username, r.homeimgfile, r.homeimgthumb')
     ->order('r.' . $ordername . ' ' . $order)
     ->limit($per_page)
     ->offset(($page - 1) * $per_page);
 $result = $db->query($db->sql());
 
 $data = $array_ids = array();
-while (list ($id, $catid_i, $listcatid, $post_id, $title, $alias, $status, $publtime, $exptime, $hitstotal, $hitscm, $username) = $result->fetch(3)) {
+while (list ($id, $catid_i, $listcatid, $post_id, $title, $alias, $status, $publtime, $exptime, $hitstotal, $hitscm, $username, $homeimgfile, $homeimgthumb) = $result->fetch(3)) {
     $publtime = nv_date('H:i d/m/y', $publtime);
     $title = nv_clean60($title);
     
@@ -333,7 +333,37 @@ while (list ($id, $catid_i, $listcatid, $post_id, $title, $alias, $status, $publ
         $admin_funcs[] = nv_link_delete_page($id);
         $_permission_action['delete'] = true;
     }
-    
+	
+	// Dem so luot thich cua Video
+	$sql = 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows_favourite WHERE id=' . $id;
+	$count_Fav = $db->query( $sql )->fetchColumn();
+	
+	// Xu ly anh minh hoa
+	
+	$show_no_image = $module_config[$module_name]['show_no_image'];
+	if(empty($show_no_image))
+	{
+		$show_no_image = 'themes/default/images/' . $module_file . '/' . 'video_placeholder.png';
+	}
+
+		if( $homeimgthumb == 1 OR $homeimgthumb == 2 ) //image file
+	{
+		$imghome = videos_thumbs($row['id'], $homeimgfile, $module_upload, $module_config[$module_name]['homewidth'], $module_config[$module_name]['homeheight'], 90 );
+	}
+	elseif( $homeimgthumb == 3 ) //image url
+	{
+		$imghome = $homeimgfile;
+	}
+	elseif( ! empty( $show_no_image ) ) //no image
+	{
+		$imghome = NV_BASE_SITEURL . $show_no_image;
+	}
+	else // nothing
+	{
+		$imghome = '';
+	}
+
+	
     $data[$id] = array(
         'id' => $id,
         'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$catid_i]['alias'] . '/' . $alias . '-' . $id . $global_config['rewrite_exturl'],
@@ -345,7 +375,9 @@ while (list ($id, $catid_i, $listcatid, $post_id, $title, $alias, $status, $publ
         'hitstotal' => number_format($hitstotal, 0, ',', '.'),
         'hitscm' => number_format($hitscm, 0, ',', '.'),
         'numtags' => 0,
-        'feature' => implode(' ', $admin_funcs)
+        'feature' => implode(' ', $admin_funcs),
+        'count_Fav' => $count_Fav,
+        'imghome' => $imghome
     );
     
     $array_ids[] = $id;
