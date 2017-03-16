@@ -286,11 +286,10 @@ function nv_favourite_videos($id, $check_session)
             } else {
                 if ($check_session == md5($id . session_id() . $global_config['sitekey'])) {
                     $stmt = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows_favourite VALUES(
-					:fid,
-					:id)');
-                    $stmt->bindParam(':id', intval($id), PDO::PARAM_STR);
-                    $stmt->bindParam(':fid', intval($user_info['userid']), PDO::PARAM_STR);
-                    if ($stmt->execute()) {
+					' . intval($user_info['userid']) . ',
+					' . intval($id) . ')');
+
+					if ($stmt->execute()) {
                         $nv_Cache->delMod($module_name);
                         return 'OK_' . $lang_module['video_favorite_checked'] . '_' . $id . '_' . $check_session;
                     }
@@ -316,9 +315,9 @@ function nv_get_videos_report($id, $rid, $check_session)
         $count_FavUser = $db->query($sql)->fetchColumn();
         if ($count_FavUser > 0) {
             if ($check_session == md5($id . session_id() . $global_config['sitekey'])) {
-                $sth = $db->prepare('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows_report SET rid = :rid WHERE id = ' . $id);
-                $sth->bindValue(':rid', intval($rid), PDO::PARAM_STR);
-                $sth->execute();
+                $sth = $db->prepare('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows_report SET rid = ' . intval($rid) . ' WHERE id = ' . $id);
+
+				$sth->execute();
                 if ($sth->execute()) {
                     $nv_Cache->delMod($module_name);
                     return 'OK_' . $lang_module['report_thanks'] . '_' . $id . '_' . $check_session;
@@ -328,11 +327,10 @@ function nv_get_videos_report($id, $rid, $check_session)
         } else {
             if ($check_session == md5($id . session_id() . $global_config['sitekey'])) {
                 $stmt = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows_report VALUES(
-				:rid,
-				:id)');
-                $stmt->bindParam(':id', intval($id), PDO::PARAM_STR);
-                $stmt->bindParam(':rid', intval($rid), PDO::PARAM_STR);
-                if ($stmt->execute()) {
+				' . intval($rid) . ',
+				' . intval($id) . ')');
+
+				if ($stmt->execute()) {
                     $nv_Cache->delMod($module_name);
                     return 'OK_' . $lang_module['report_thanks'] . '_' . $id . '_' . $check_session;
                 }
