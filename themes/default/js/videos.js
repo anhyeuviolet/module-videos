@@ -1,10 +1,8 @@
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @Project VIDEOS 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
  * @License GNU/GPL version 2 or any later version
- * @Createdate 1 - 31 - 2010 5 : 12
- */
+*/
 
 /**
  * Function
