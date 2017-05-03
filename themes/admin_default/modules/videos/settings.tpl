@@ -274,10 +274,12 @@
 					<th>{LANG.facebookComment}</th>
 					<td><input type="checkbox" value="1" name="fb_comm"{FB_COMM}/></td>
 				</tr>
+				<!-- BEGIN: youtube_api -->
 				<tr>
 					<th>{LANG.setting_youtube_api}</th>
 					<td><input class="form-control" style="width:340px;" name="youtube_api" value="{DATA.youtube_api}" type="text"/><span class="text-middle"><br/>{LANG.wiki_get_free_youtube_api}</span></td>
 				</tr>
+				<!-- END: youtube_api -->
 				<tr>
 					<th>{LANG.setting_alias_lower}</th>
 					<td><input type="checkbox" value="1" name="alias_lower"{ALIAS_LOWER}/></td>

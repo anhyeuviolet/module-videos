@@ -351,3 +351,6 @@ $lang_module['email'] = 'Email';
 
 $lang_module['get_from_youtube'] = 'Lấy Video từ Youtube';
 $lang_module['get'] = 'Get';
+$lang_module['search'] = 'Tìm kiếm';
+$lang_module['search_youtube'] = 'Tìm từ Youtube';
+$lang_module['missing_lib'] = 'Thiếu thư viện cần thiết';

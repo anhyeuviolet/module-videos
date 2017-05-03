@@ -289,6 +289,11 @@ for ($i = 0; $i <= 30; ++ $i) {
     $xtpl->parse('main.playlist_max_items');
 }
 
+// So bai viet tren mot trang
+if (file_exists(NV_ROOTDIR . '/modules/' . $module_file . '/vendor/autoload.php')) {
+    $xtpl->parse('main.youtube_api');
+}
+
 $xtpl->assign('SOCIALBUTTON', $module_config[$module_name]['socialbutton'] ? ' checked="checked"' : '');
 
 $xtpl->assign('ALLOW_USER_PLIST', $module_config[$module_name]['allow_user_plist'] ? ' checked="checked"' : '');

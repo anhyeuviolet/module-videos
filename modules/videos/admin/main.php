@@ -363,8 +363,11 @@ while (list ($id, $catid_i, $listcatid, $post_id, $title, $alias, $status, $publ
 		$imghome = '';
 	}
 
-	
-    $data[$id] = array(
+	if( !isset($username) OR empty($username)){
+		$username = $global_array_uploader[$post_id]['uploader_name'];
+
+	}
+	$data[$id] = array(
         'id' => $id,
         'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$catid_i]['alias'] . '/' . $alias . '-' . $id . $global_config['rewrite_exturl'],
         'title' => $title,

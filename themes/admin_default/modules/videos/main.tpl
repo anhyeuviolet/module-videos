@@ -95,7 +95,7 @@
 					<td title="{ROW.status}" class="text-center">{ROW.status}</td>
                     <td class="text-center">
 						<div class="video-info">
-							<span class="text-center" style="cursor: pointer;" title="{LANG.keywords}" data-toggle="tooltip" data-placement="top">
+							<span class="text-center" style="cursor: pointer;" title="{LANG.numcomments}" data-toggle="tooltip" data-placement="top">
 								<i class="fa fa-comment-o" title="{LANG.numcomments}"></i>
 								{ROW.hitscm}</span> |
 							<span class="text-center" style="cursor: pointer;" title="{LANG.keywords}" data-toggle="tooltip" data-placement="top">

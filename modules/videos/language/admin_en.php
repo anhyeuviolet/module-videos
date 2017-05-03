@@ -363,3 +363,5 @@ $lang_module['tumblr'] = 'Tumblr';
 $lang_module['reddit'] = 'Reddit';
 $lang_module['linkedin'] = 'Linkedin';
 $lang_module['email'] = 'Email';
+
+$lang_module['missing_lib'] = 'Required library is missing';

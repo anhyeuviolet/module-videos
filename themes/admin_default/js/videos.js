@@ -563,7 +563,9 @@ function nv_change_playlist_cat(playlist_id, mod) {
 
 function nv_show_list_playlist_cat() {
 	if (document.getElementById('module_show_list')) {
-		$('#module_show_list').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist_cat&nocache=' + new Date().getTime(), 'page=' +curr_page);
+		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist_cat&nocache=' + new Date().getTime(), 'page=' +curr_page, function(res) {
+			$('#module_show_list').html(res);
+		});
 	}
 	return;
 }
@@ -592,7 +594,9 @@ function nv_change_playlist_result(res) {
 
 function nv_show_list_playlist(playlist_id) {
 	if (document.getElementById('module_show_list')) {
-		$('#module_show_list').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&playlist_id=' + playlist_id + '&nocache=' + new Date().getTime());
+		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_playlist&playlist_id=' + playlist_id + '&nocache=' + new Date().getTime(), function(res) {
+			$('#module_show_list').html(res);
+		});
 	}
 	return;
 }
@@ -635,4 +639,21 @@ function nv_del_report(rid, id, checkss) {
 		});
 	}
 	return false;
+}
+
+function nv_get_from_youtube( ) {
+	if(document.getElementById('get_from_youtube')){
+		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=get&loading=loading' + '&nocache=' + new Date().getTime(), function(res) {
+			$('#get_from_youtube').html(res);
+			
+			var query_key =  document.getElementById("query_key").value;
+			var maxResults =  document.getElementById("maxResults").value;
+			if(document.getElementById('get_from_youtube')){
+				$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=get&action=1&q=' + encodeURIComponent(query_key) + '&maxResults=' + maxResults  + '&nocache=' + new Date().getTime() , function(res) {
+					$('#get_from_youtube').html(res);
+				});
+			}
+			return;
+		});
+	}
 }

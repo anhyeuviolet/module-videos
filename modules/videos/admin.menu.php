@@ -86,7 +86,6 @@ $allow_func = array(
 if (! isset($site_mods['cms'])) {
     $submenu['content'] = $lang_module['content_add'];
 }
-
 if ($NV_IS_ADMIN_MODULE) {
     $submenu['cat'] = $lang_module['categories'];
     $submenu['tags'] = $lang_module['tags'];
@@ -94,6 +93,11 @@ if ($NV_IS_ADMIN_MODULE) {
     $submenu['playlists'] = $lang_module['playlists'];
     $submenu['sources'] = $lang_module['videos_sources'];
     $submenu['report'] = $lang_module['videos_reports'];
+	
+	if(!empty($module_config[$module_name]['youtube_api']) AND file_exists(NV_ROOTDIR . '/modules/' . $module_file . '/vendor/autoload.php') AND in_array('search', $allow_func)  ){
+		$submenu['search'] = $lang_module['get_from_youtube'];
+	}
+	
     $submenu['admins'] = $lang_module['admin'];
     $submenu['setting'] = $lang_module['setting'];
     
