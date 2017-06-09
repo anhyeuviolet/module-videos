@@ -518,7 +518,7 @@ function nv_show_playlist_list($playlist_id)
  */
 function nv_show_playlist_cat_list($page)
 {
-    global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $module_file, $global_config, $module_info, $nv_Request;
+    global $db, $lang_module, $lang_global, $module_name, $module_data, $module_file, $global_config, $module_info, $nv_Request;
     
     $base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=playlists';
     $page = $nv_Request->get_int('page', 'get', 1);

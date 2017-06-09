@@ -186,7 +186,6 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
     {
         global $site_mods, $nv_Cache;
         
-        $html_input = '';
         $html = '<tr>';
         $html .= '<td>' . $lang_block['catid'] . '</td>';
         
@@ -227,7 +226,7 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
 
     function nv_block_videos_cat_quickplay($block_config)
     {
-        global $lang_global, $lang_module, $blockID, $module_array_cat, $module_info, $site_mods, $module_config, $global_config, $db, $nv_Cache;
+        global $lang_global, $lang_module, $blockID, $module_array_cat, $site_mods, $module_config, $global_config, $db, $nv_Cache;
 		$url_info = @parse_url(NV_MY_DOMAIN);
 
         $module = $block_config['module'];
@@ -270,7 +269,6 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
             }
             
             if (! empty($module_config[$module]['jwplayer_logo_file']) and file_exists(NV_ROOTDIR . '/' . $module_config[$module]['jwplayer_logo_file'])) {
-                $lu = strlen(NV_BASE_SITEURL);
                 $module_config[$module]['jwplayer_logo_file'] = NV_BASE_SITEURL . $module_config[$module]['jwplayer_logo_file'];
             }
             $module_config[$module]['site_name'] = $global_config['site_name'];
