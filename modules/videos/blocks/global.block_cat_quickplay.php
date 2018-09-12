@@ -186,6 +186,7 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
     {
         global $site_mods, $nv_Cache;
         
+        $html_input = '';
         $html = '<tr>';
         $html .= '<td>' . $lang_block['catid'] . '</td>';
         
@@ -226,7 +227,7 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
 
     function nv_block_videos_cat_quickplay($block_config)
     {
-        global $lang_global, $lang_module, $blockID, $module_array_cat, $site_mods, $module_config, $global_config, $db, $nv_Cache;
+        global $lang_global, $lang_module, $blockID, $module_array_cat, $module_info, $site_mods, $module_config, $global_config, $db, $nv_Cache;
 		$url_info = @parse_url(NV_MY_DOMAIN);
 
         $module = $block_config['module'];
@@ -260,6 +261,7 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
             ->limit(1);
         $list = $nv_Cache->db($db->sql(), '', $module);
         
+        $main_id = 0;
         if (! empty($list)) {
             if (defined('NV_IS_MODADMIN') and (empty($module_config[$module]['jwplayer_license']) or ! isset($module_config[$module]['jwplayer_license']))) {
                 $xtpl->assign('SETTING_LINKS', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=setting#jwplayer_license');
@@ -269,12 +271,12 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
             }
             
             if (! empty($module_config[$module]['jwplayer_logo_file']) and file_exists(NV_ROOTDIR . '/' . $module_config[$module]['jwplayer_logo_file'])) {
+                $lu = strlen(NV_BASE_SITEURL);
                 $module_config[$module]['jwplayer_logo_file'] = NV_BASE_SITEURL . $module_config[$module]['jwplayer_logo_file'];
             }
             $module_config[$module]['site_name'] = $global_config['site_name'];
             
             $xtpl->assign('VIDEO_CONFIG', $module_config[$module]);
-            $main_id = '';
             foreach ($list as $l) {
 				$main_id = $l['id'];
                 $l['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $module_array_cat[$l['catid']]['alias'] . '/' . $l['alias'] . '-' . $l['id'] . $global_config['rewrite_exturl'];
@@ -316,27 +318,28 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
                 $xtpl->parse('main.vid_jw_content');
             }
         }
-        
-        $db->sqlreset()
-            ->select('*')
-            ->from(NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_' . $catid)
-            ->where('status= 1 AND id <>' . $main_id)
-            ->order('publtime DESC')
-            ->limit($block_config['numrow']);
-        $_sql = $nv_Cache->db($db->sql(), '', $module);
+        if ( $main_id > 0 ){
+            $db->sqlreset()
+                ->select('*')
+                ->from(NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_' . $catid)
+                ->where('status= 1 AND id <>' . $main_id)
+                ->order('publtime DESC')
+                ->limit($block_config['numrow']);
+            $_sql = $nv_Cache->db($db->sql(), '', $module);
+        }
         
         if (! empty($_sql)) {
             foreach ($_sql as $l) {
                 $l['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $module_array_cat[$l['catid']]['alias'] . '/' . $l['alias'] . '-' . $l['id'] . $global_config['rewrite_exturl'];
                 
                 if ($l['homeimgthumb'] == 1 or $l['homeimgthumb'] == 2) // image file
-{
+                {
                     $l['thumb'] = videos_thumbs($l['id'], $l['homeimgfile'], $module, $module_config[$module]['homewidth'], $module_config[$module]['homeheight'], 90);
                 } elseif ($l['homeimgthumb'] == 3) // image url
-{
+                {
                     $l['thumb'] = $l['homeimgfile'];
                 } elseif (! empty($show_no_image)) // no image
-{
+                {
                     $l['thumb'] = NV_BASE_SITEURL . $show_no_image;
                 } else {
                     $l['thumb'] = '';
@@ -349,9 +352,9 @@ if (! nv_function_exists('nv_block_videos_cat_quickplay')) {
                 
                 $xtpl->parse('main.loop');
             }
-            $xtpl->parse('main');
-            return $xtpl->text('main');
         }
+    $xtpl->parse('main');
+    return $xtpl->text('main');
     }
 }
 

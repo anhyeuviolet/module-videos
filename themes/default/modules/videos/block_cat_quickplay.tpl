@@ -25,6 +25,9 @@
 		<!-- END: loop -->
 	</ul>
 	<!-- BEGIN: jwplayer_js -->
+	<script type="text/javascript">
+        var jw_lib_location = "{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/";
+    </script>
 	<script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/jwplayer.js"></script>
 	<script type="text/javascript">jwplayer.key="{VIDEO_CONFIG.jwplayer_license}";</script>
 	<!-- END: jwplayer_js -->

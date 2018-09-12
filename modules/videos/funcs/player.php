@@ -89,6 +89,9 @@ if (isset($embed) and $embed == 'embed') // embed to FB
             } elseif ($data['vid_type'] == 4) {
                 $data['href'] = array();
                 $data['href'] = get_facebook_mp4($data['vid_path']);
+            } elseif ($data['vid_type'] == 6) {
+                $data['href'] = array();
+                $data['href'] = get_gdrive_mp4($data['vid_path']);
             } elseif ($data['vid_type'] == 5) {
                 $data['href'] = $data['vid_path'];
                 $data['quality'] = '';
@@ -192,7 +195,10 @@ if (isset($embed) and $embed == 'embed') // embed to FB
                 } elseif ($data['vid_type'] == 5) {
                     $data['href'] = $data['vid_path'];
                     $data['quality'] = '';
-                }
+                } elseif ($data['vid_type'] == 6) {
+					$data['href'] = array();
+					$data['href'] = get_gdrive_mp4($data['vid_path']);
+				}
             }
             $array_item[] = $data;
         }
@@ -211,7 +217,7 @@ if (isset($embed) and $embed == 'embed') // embed to FB
             $contents .= '			<description><![CDATA[' . $items['hometext'] . ']]></description>' . "\n";
             $contents .= '			<guid>' . $items['playlist_id'] . $items['playlist_sort'] . '</guid>' . "\n";
             $contents .= '			<jwplayer:image><![CDATA[' . $items['rss_img'] . ']]></jwplayer:image>' . "\n";
-            if ($items['vid_type'] == 3 || $items['vid_type'] == 4) {
+            if ($items['vid_type'] == 3 || $items['vid_type'] == 4 || $items['vid_type'] == 6) {
                 foreach ($items['href'] as $source_file_i) {
                     $contents .= '			<jwplayer:source file="' . htmlentities($source_file_i['link_mp4']) . '" label="' . $source_file_i['quality'] . '" type="mp4" />' . "\n";
                 }

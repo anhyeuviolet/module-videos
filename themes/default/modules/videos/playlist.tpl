@@ -25,6 +25,9 @@
 <!-- END: no_jwp_lic -->
 
 <!-- BEGIN: jwplayer_js -->
+<script type="text/javascript">
+    var jw_lib_location = "{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/";
+</script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/jwplayer/jwplayer.js"></script>
 <script type="text/javascript">jwplayer.key="{VIDEO_CONFIG.jwplayer_license}";</script>
 <!-- END: jwplayer_js -->
@@ -80,27 +83,27 @@ playlistInstance_{PLAYLIST_ID}.setup({
 	width: "100%"
   });
   
-var lang_play = "{LANG.play}";
-var lang_new_window = "{LANG.open_new_window}";
-var list = document.getElementById("show-list");
-var html = list.innerHTML;
-html +="<ul class='list-group'>"
-playlistInstance_{PLAYLIST_ID}.on('ready',function(){
-var playlist = playlistInstance_{PLAYLIST_ID}.getPlaylist();
-for (var index=0;index<playlist.length;index++){
-	var playindex = index +1;
-	html += "<li id='play-items-"+index+"' class='list-group-item'><span>"+playlist[index].title+"</span><span class='pull-right'><label onclick='javascript:playThis("+index+")' title='"+lang_play+" "+playlist[index].title+"' class='btn btn-primary btn-xs mgr_10'><i class='fa fa-play'></i></label><a href='"+playlist[index].link+"' title='"+lang_new_window+"' target='_blank'><label class='btn btn-default btn-xs'><i class='fa fa-external-link-square'></i></label></a></span></li>"
-	list.innerHTML = html;
-}
-html +="</ul>"
-});
+    var lang_play = "{LANG.play}";
+    var lang_new_window = "{LANG.open_new_window}";
+    var list = document.getElementById("show-list");
+    var html = list.innerHTML;
+    html +="<div class='list-group'>"
+    playlistInstance_{PLAYLIST_ID}.on('ready',function(){
+        var playlist = playlistInstance_{PLAYLIST_ID}.getPlaylist();
+        for (var index=0;index<playlist.length;index++){
+            var playindex = index +1;
+            html += "<div id='play-items-"+index+"' class='list-group-item col-xs-24'><span>"+playlist[index].title+"</span><span class='pull-right'><label onclick='javascript:playThis("+index+")' title='"+lang_play+" "+playlist[index].title+"' class='btn btn-primary btn-xs mgr_10'><i class='fa fa-play'></i></label><a href='"+playlist[index].link+"' title='"+lang_new_window+"' target='_blank'><label class='btn btn-default btn-xs'><i class='fa fa-external-link-square'></i></label></a></span></div>"
+            list.innerHTML = html;
+        }
+        html +="</div>"
+    });
 
 playlistInstance_{PLAYLIST_ID}.on('playlistItem', function() {
     var playlist = playlistInstance_{PLAYLIST_ID}.getPlaylist();
     var index = playlistInstance_{PLAYLIST_ID}.getPlaylistIndex();
 	var current_li = document.getElementById("play-items-"+index);
     for(var i = 0; i < playlist.length; i++) {
-            $('li[id^=play-items-]').removeClass( "active" )
+            $('div[id^=play-items-]').removeClass( "active" )
     }
 	current_li.classList.add('active');
 });

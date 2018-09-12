@@ -444,7 +444,7 @@ function no_permission()
 
 function playlist_theme($playlist_array, $playlist_info, $playlist_id, $player)
 {
-    global $global_config, $lang_module, $module_info, $module_name, $module_file, $playlistalias, $module_config, $user_info;
+    global $global_config, $lang_module, $module_info, $module_name, $module_file, $module_config, $user_info;
     
     $xtpl = new XTemplate('playlist.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
     $xtpl->assign('LANG', $lang_module);

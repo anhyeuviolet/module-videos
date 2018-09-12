@@ -44,9 +44,9 @@ if( $nv_Request->isset_request( 'action', 'post,get' ) ){
 		die($lang_module['missing_lib']);
 	}
 		
-		function videosListById($youtube, $part, $video_id) {
+		function videosListById($youtube, $part, $id) {
 			$response = $youtube->videos->listVideos ( $part, array (
-					'id' => $video_id 
+					'id' => $id 
 			) );
 			
 			printResults ( $response );

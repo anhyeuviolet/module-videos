@@ -2,19 +2,6 @@
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.pack.js"></script>
 <script src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.MetaData.js" type="text/javascript"></script>
 <link href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.css" type="text/css" rel="stylesheet"/>
-<style>
-	.player-minimize .player-position {
-	background-color: white;
-	border-radius: 2px;
-	bottom: 20px;
-	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.25);
-	left: 20px;
-	padding: 7px;
-	position: fixed;
-	width: 300px;
-	z-index: 1;
-	}
-</style>
 <div class="detail_container col-xs-24 col-md-24 col-lg-24">
 	<div class="detail_video row">
 		<div class="detail_header cf">
@@ -286,6 +273,8 @@
 <!-- END: fb_comment -->
 
 <!-- BEGIN: jwplayer_js -->
+<script type="text/javascript">var jw_lib_location = "{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/jwplayer/";</script>
+
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/jwplayer/jwplayer.js"></script>
 <script type="text/javascript">jwplayer.key="{VIDEO_CONFIG.jwplayer_license}";</script>
 <!-- END: jwplayer_js -->

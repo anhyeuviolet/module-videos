@@ -80,7 +80,7 @@ $allow_func = array(
     'vid_info',
     'playlistajax',
     'sourceajax',
-    'tagsajax'
+    'tagsajax',
 );
 
 if (! isset($site_mods['cms'])) {

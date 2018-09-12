@@ -2,15 +2,15 @@
 
 /**
 * @Project NUKEVIET 4.x
-* @Author VINADES.,JSC (contact@vinades.vn)
-* @Copyright (C) 2016 VINADES.,JSC. All rights reserved
+* @Author VINADES.,JSC <contact@vinades.vn>
+* @Copyright (C) 2017 VINADES.,JSC. All rights reserved
 * @Language English
 * @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
 * @Createdate Mar 04, 2010, 08:22:00 AM
 */
 
-if (! defined('NV_ADMIN') or ! defined('NV_MAINFILE')) {
-    die( 'Stop!!!' );
+if (!defined('NV_ADMIN') or !defined('NV_MAINFILE')) {
+    die('Stop!!!');
 }
 
 $lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';
@@ -319,6 +319,28 @@ $lang_module['jwposition_top-right'] = 'Top-left (Default)';
 $lang_module['jwposition_top-left'] = 'Top-right';
 $lang_module['jwposition_bottom-right'] = 'Bottom-right';
 $lang_module['jwposition_bottom-left'] = 'Bottom-left';
+$lang_module['videos_reports'] = 'Report video';
+$lang_module['videos_noreport'] = 'There is no report.';
+$lang_module['report_notplay'] = 'Video is not playable.';
+$lang_module['report_content'] = 'Content report.';
+$lang_module['report_copyright'] = 'Copyright report.';
+$lang_module['report_other'] = 'Re-moderate Video.';
+$lang_module['report_del'] = 'Delete report';
+$lang_module['report_notice'] = 'Pending reports';
+$lang_module['setting_jwplayer_skin'] = 'JWplayer skin';
+$lang_module['setting_jwplayer_sharing'] = 'Allow sharing Video';
+$lang_module['setting_jwplayer_sharingsite'] = 'Check site(s) to share';
+$lang_module['report_no'] = 'No.';
+$lang_module['report_title'] = 'Title';
+$lang_module['report_type'] = 'Type';
+$lang_module['facebook'] = 'Facebook';
+$lang_module['twitter'] = 'Twitter';
+$lang_module['interest'] = 'Pinterest';
+$lang_module['tumblr'] = 'Tumblr';
+$lang_module['reddit'] = 'Reddit';
+$lang_module['linkedin'] = 'Linkedin';
+$lang_module['email'] = 'Email';
+$lang_module['missing_lib'] = 'Required library is missing';
 $lang_module['topics'] = 'Topics';
 $lang_module['topics_error_title'] = 'Error: You do not enter the event title';
 $lang_module['add_topic'] = 'Add topic';
@@ -342,26 +364,3 @@ $lang_module['topic_nonews'] = 'There are currently no news articles related to 
 $lang_module['addtotopics'] = 'Add topic';
 $lang_module['topic_update_success'] = 'Update successful';
 $lang_module['topic_num_news'] = 'Topic';
-$lang_module['videos_reports'] = 'Report video';
-$lang_module['videos_noreport'] = 'There is no report.';
-$lang_module['report_notplay'] = 'Video is not playable.';
-$lang_module['report_content'] = 'Content report.';
-$lang_module['report_copyright'] = 'Copyright report.';
-$lang_module['report_other'] = 'Re-moderate Video.';
-$lang_module['report_del'] = 'Delete report';
-$lang_module['report_notice'] = 'Pending reports';
-$lang_module['setting_jwplayer_skin'] = 'JWplayer skin';
-$lang_module['setting_jwplayer_sharing'] = 'Allow sharing Video';
-$lang_module['setting_jwplayer_sharingsite'] = 'Check site(s) to share';
-$lang_module['report_no'] = 'No.';
-$lang_module['report_title'] = 'Title';
-$lang_module['report_type'] = 'Type';
-$lang_module['facebook'] = 'Facebook';
-$lang_module['twitter'] = 'Twitter';
-$lang_module['interest'] = 'Pinterest';
-$lang_module['tumblr'] = 'Tumblr';
-$lang_module['reddit'] = 'Reddit';
-$lang_module['linkedin'] = 'Linkedin';
-$lang_module['email'] = 'Email';
-
-$lang_module['missing_lib'] = 'Required library is missing';

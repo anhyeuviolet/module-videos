@@ -542,6 +542,8 @@ if ($nv_Request->get_int('save', 'post') == 1) {
                 $rowcontent['vid_type'] = 3; // is Picasa
             } elseif (is_facebook($rowcontent['vid_path'])) {
                 $rowcontent['vid_type'] = 4; // is Facebook
+            } elseif (is_gdrive($rowcontent['vid_path'])) {
+                $rowcontent['vid_type'] = 6; // is Google Drive
             } else {
                 $rowcontent['vid_type'] = 5; // hotlink from other site
             }
