@@ -15,7 +15,7 @@ $page_title = $lang_module['videos_sources'];
 list ($sourceid, $title, $link, $logo, $error) = array(
     0,
     '',
-    'http://',
+    'https://',
     '',
     ''
 );

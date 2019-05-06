@@ -453,16 +453,17 @@ foreach ($data as $row) {
     $xtpl->parse('main.loop');
 }
 
-while (list ($action_i, $title_i) = each($array_list_action)) {
-    if (defined('NV_IS_ADMIN_MODULE') || isset($_permission_action[$action_i])) {
+foreach ($array_list_action as $key => $val) {
+    if (defined('NV_IS_ADMIN_MODULE') || isset($_permission_action[$key])) {
         $action_assign = array(
-            'value' => $action_i,
-            'title' => $title_i
+            'value' => $key,
+            'title' => $val
         );
         $xtpl->assign('ACTION', $action_assign);
         $xtpl->parse('main.action');
     }
 }
+
 
 if (! empty($generate_page)) {
     $xtpl->assign('GENERATE_PAGE', $generate_page);

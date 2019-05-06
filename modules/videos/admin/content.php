@@ -1009,7 +1009,7 @@ if ($module_config[$module_name]['allowed_comm'] != '-1') {
 
 // source
 $select = '';
-while (list ($sourceid_i, $source_title_i) = each($array_source_module)) {
+foreach ($array_source_module as $sourceid_i => $source_title_i) {
     $source_sl = ($sourceid_i == $rowcontent['sourceid']) ? ' selected="selected"' : '';
     $select .= "<option value=\"" . $sourceid_i . "\" " . $source_sl . ">" . $source_title_i . "</option>\n";
 }
@@ -1106,29 +1106,6 @@ $xtpl->assign('UPLOADS_DIR_USER', $uploads_dir_user);
 $xtpl->assign('UPLOADS_DIR_FILE_USER', $uploads_dir_file_user);
 $xtpl->assign('UPLOAD_CURRENT', $currentpath);
 $xtpl->assign('UPLOAD_FILE_PATH', $file_path);
-
-$sql = 'SELECT * FROM ' . $db_config['prefix'] . '_googleplus ORDER BY weight ASC';
-$_array = $db->query($sql)->fetchAll();
-if (sizeof($_array)) {
-    $array_googleplus = array();
-    $array_googleplus[] = array(
-        'gid' => - 1,
-        'title' => $lang_module['googleplus_1']
-    );
-    $array_googleplus[] = array(
-        'gid' => 0,
-        'title' => $lang_module['googleplus_0']
-    );
-    foreach ($_array as $row) {
-        $array_googleplus[] = $row;
-    }
-    foreach ($array_googleplus as $grow) {
-        $grow['selected'] = ($rowcontent['gid'] == $grow['gid']) ? ' selected="selected"' : '';
-        $xtpl->assign('GOOGLEPLUS', $grow);
-        $xtpl->parse('main.googleplus.gid');
-    }
-    $xtpl->parse('main.googleplus');
-}
 
 if ($module_config[$module_name]['auto_tags']) {
     $xtpl->parse('main.auto_tags');

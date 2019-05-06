@@ -15,6 +15,10 @@
 					<td><input class="form-control" style="width:50%;" name="jwplayer_license" value="{DATA.jwplayer_license}" type="text"/><span class="text-middle"><br/>{LANG.wiki_get_free_jwlicense}</span></td>
 				</tr>			
 				<tr>
+					<th id="jwplayer_license">{LANG.preview_jwp_lic}</th>
+					<td><pre>NqPyv5C3s2LTybLMlqx3nfOJTvmRqu9cuQPTrQ==</pre></td>
+				</tr>			
+				<tr>
 					<th>{LANG.setting_jwplayer_autoplay}</th>
 					<td>
 						<select class="form-control" name="jwplayer_autoplay">

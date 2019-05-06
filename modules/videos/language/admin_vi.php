@@ -5,7 +5,7 @@
 * @Author VINADES.,JSC (contact@vinades.vn)
 * @Copyright (C) 2016 VINADES.,JSC. All rights reserved
 * @Language Tiếng Việt
-* @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
+* @License CC BY-SA (https://creativecommons.org/licenses/by-sa/4.0/)
 * @Createdate Mar 04, 2010, 08:22:00 AM
 */
 
@@ -20,6 +20,7 @@ $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_module';
 
 $lang_module['no_jwp_lic'] = 'Chưa cấu hình License JWplayer';
+$lang_module['preview_jwp_lic'] = 'Có thể bạn sẽ cần';
 $lang_module['categories'] = 'Quản lý chuyên mục';
 $lang_module['select_category'] = 'Chọn chuyên mục';
 $lang_module['playlists'] = 'Playlist';
@@ -32,7 +33,7 @@ $lang_module['videos_info'] = 'Đăng Videos';
 $lang_module['videos_infomations'] = 'Thông tin Videos';
 $lang_module['videos_count_Fav'] = 'Lượt thích Videos';
 $lang_module['videos_duration'] = 'Thời lượng';
-$lang_module['videos_sources_placeholder'] = 'http://... hoặc Upload';
+$lang_module['videos_sources_placeholder'] = 'https://... hoặc Upload';
 $lang_module['save'] = 'Lưu thay đổi';
 $lang_module['browse_server'] = 'Tải lên';
 $lang_module['action'] = 'Thực hiện';
@@ -224,7 +225,7 @@ $lang_module['facebookAdminID'] = 'ID quản lý bình luận bằng Facebook';
 $lang_module['facebookAdminID_tips'] = 'Quản lý bình luận không thông qua FB AppID';
 $lang_module['facebookComment'] = 'Bình luận bằng Facebook';
 $lang_module['setting_youtube_api'] = 'Youtube API';
-$lang_module['facebookAppIDNote'] = ' (Có dạng 1419186468293063, <a href="http://wiki.nukeviet.vn/nukeviet:admin:news:facebookapi" target="_blank">xem chi tiết</a>)';
+$lang_module['facebookAppIDNote'] = ' (Có dạng 1419186468293063, <a href="https://wiki.nukeviet.vn/nukeviet:admin:news:facebookapi" target="_blank">xem chi tiết</a>)';
 $lang_module['facebookAdminIDNote'] = ' (Có dạng 141918646829303)';
 $lang_module['socialbutton'] = 'Hiển thị các công cụ Like facebook, G+, Twitter khi xem Videos';
 $lang_module['block'] = 'Danh sách thể loại';

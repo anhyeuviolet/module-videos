@@ -5,7 +5,7 @@
 * @Author VINADES.,JSC <contact@vinades.vn>
 * @Copyright (C) 2017 VINADES.,JSC. All rights reserved
 * @Language English
-* @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
+* @License CC BY-SA (https://creativecommons.org/licenses/by-sa/4.0/)
 * @Createdate Mar 04, 2010, 08:22:00 AM
 */
 
@@ -20,6 +20,7 @@ $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_module';
 
 $lang_module['no_jwp_lic'] = 'JWplayer License Error';
+$lang_module['preview_jwp_lic'] = 'Demo License';
 $lang_module['categories'] = 'Categories';
 $lang_module['select_category'] = 'Select Category';
 $lang_module['playlists'] = 'Playlists';
@@ -218,7 +219,7 @@ $lang_module['error_del_content'] = 'Error: System can\'t delete all block\'s ar
 $lang_module['msgnocheck'] = 'No topic selected';
 $lang_module['facebookAppID'] = 'Facebook App ID';
 $lang_module['setting_youtube_api'] = 'Youtube API';
-$lang_module['facebookAppIDNote'] = '(Form: 1419186468293063, <a href="http://wiki.nukeviet.vn/nukeviet:admin:news:facebookapi" target="_blank">view detail</a>)';
+$lang_module['facebookAppIDNote'] = '(Form: 1419186468293063, <a href="https://wiki.nukeviet.vn/nukeviet:admin:news:facebookapi" target="_blank">view detail</a>)';
 $lang_module['socialbutton'] = 'Display Like facebook, G+, Twitter tools when view aricle';
 $lang_module['block'] = 'Blocks';
 $lang_module['adddefaultblock'] = 'Select the default when creating article';
